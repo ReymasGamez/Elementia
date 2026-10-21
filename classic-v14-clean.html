@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elementia — Clean v14</title>
+<style>
+:root{color-scheme:dark;--line:#796744;--gold:#dec686;--cream:#eee0be}
+*{box-sizing:border-box}body{background:radial-gradient(ellipse at 50% 5%,#303a37,#151b1c 75%);color:var(--cream);font:16px/1.45 Georgia,serif;margin:0;min-height:100dvh;display:grid;place-items:center;padding:20px}
+.panel{background:linear-gradient(135deg,#28312f,#151c1e);border:1px solid var(--line);box-shadow:0 15px 50px #0009;padding:25px;width:min(580px,100%)}
+h1{color:var(--gold);font-weight:400;letter-spacing:.08em;margin:0 0 8px;font-size:clamp(28px,7vw,38px)}p{margin:10px 0 20px;color:#c6c0af}h2{font-size:18px;font-weight:normal;color:var(--gold)}.controls{display:flex;gap:9px;flex-wrap:wrap}.btn{color:var(--cream);background:linear-gradient(#4a4731,#242b26);border:1px solid #9b8757;border-radius:2px;min-height:47px;padding:10px 14px;font:15px Georgia,serif;cursor:pointer}.btn:hover,.btn:focus-visible{border-color:#e3ce92}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.alt{background:#1d2526}
+#status{min-height:2em;color:#b9c4b5;font:13px/1.5 Arial,sans-serif;margin-top:18px}#fileInput{font:14px Arial,sans-serif;max-width:100%;margin:8px 0 20px}.hidden{display:none}code{font:13px monospace;color:#e6cf8e}.loading{display:block;width:30px;height:30px;border:2px solid #666;border-top-color:var(--gold);border-radius:50%;animation:roll .8s linear infinite;margin:20px auto}@keyframes roll{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<section class="panel" id="builder" aria-label="Elementia clean version builder">
+  <h1>ELEMENTIA</h1>
+  <p>The Return — clean v14 interface</p>
+  <div id="busy" class="loading" aria-label="Loading"></div>
+  <div id="readySection" class="hidden">
+    <div class="controls">
+      <button class="btn" id="previewBtn" type="button" disabled>Enter Cleaned Game</button>
+      <button class="btn alt" id="downloadBtn" type="button" disabled>Download Complete HTML</button>
+      <button class="btn alt" id="homeBtn" type="button" disabled>Download as index.html</button>
+    </div>
+    <p style="margin:22px 0 5px">Or choose your current v14 HTML file:</p>
+    <input type="file" id="fileInput" accept=".html,.htm,text/html" aria-label="Choose Elementia v14 HTML file">
+  </div>
+  <div id="status" role="status">Loading your current Elementia v14…</div>
+</section>
+<script>
+(function(){
+  'use strict';
+  let readyHtml=null;
+  const $=id=>document.getElementById(id);
+  const originalName='index.html';
+  const downloadMode=new URLSearchParams(location.search).get('build')==='1';
+  function cleanV14(input){
+    if(!input.includes('const IMPORTED_CARDS=')||!input.includes('The Great Hall'))throw new Error('This is not the integrated Elementia v14 program. Select the v14 index.html file.');
+    let h=input;const applied=[];
+    const changes=[
+      ['site description',/classic Elements-inspired iPhone interface and battlefield preview\./,'classic elemental card dueling.'],
+      ['footer',/function footer\(\)\{return `<footer class="footer">[\s\S]*?<\/footer>`;\}/,'function footer(){return `<footer class="footer">ELEMENTIA · THE RETURN</footer>`;}'],
+      ['inactive login field',/\n    <label class="field"><span>Password <small class="muted">[\s\S]*?<\/label>/,''],
+      ['login prototype note',/\n    <div class="rule"><\/div><p class="notice">Experience[\s\S]*?<\/p>/,''],
+      ['login prototype warning',/\n    <div class="notice-box">UI PROTOTYPE[\s\S]*?<\/div>/,''],
+      ['Interface Preview',/,`<span class="sandbox-label">Interface preview<\/span>`\)/,')'],
+      ['menu currency',/Electrum \(demo\)/,'Electrum'],
+      ['menu footnote',/<div class="menu-foot">Choose an element from the central panel to change your profile mark\.<\/div>/,''],
+      ['menu technical note',/<p class="tip">Your chosen element is saved to your profile; Pendulum production[\s\S]*?<\/p>/,''],
+      ['duel navigation subtitle',/Duel the Elements<small>Try quanta and end-turn combat<\/small>/,'Duel the Elements'],
+      ['deck navigation subtitle',/Manage Your Deck<small>Build from your local collection<\/small>/,'Manage Your Deck'],
+      ['bazaar navigation subtitle',/The Bazaar<small>Browse and purchase demo cards<\/small>/,'The Bazaar'],
+      ['Great Hall training button',/\n    <button class="button secondary" data-action="reset-duel">New Training Duel[\s\S]*?<\/button>/,''],
+      ['Great Hall archive button',/\n    <a class="button secondary" style="display:block;text-decoration:none" href="https:\/\/github\.com\/ReymasGamez\/Elementia\/blob\/[^\"]+">Aether \+ Air Archive[\s\S]*?<\/a>/,''],
+      ['Great Hall technical status',/<div class="menu-foot">Approved Aether\/Air combat effects now run on this v13 battlefield;[\s\S]*?<\/div>/,''],
+      ['demo mode',/<span>MODE <strong>LOCAL DEMO<\/strong><\/span>/,''],
+      ['card internal identifiers',/<p class="tip">\$\{card\.legacyCode\?[\s\S]*?Elementia ID: \$\{esc\(card\.canonicalId\|\|card\.id\)\}<\/p>/,''],
+      ['card development warning',/<p class="tip" style="margin-bottom:0">Combat values and activated ability costs shown here[\s\S]*?<\/p>/,''],
+      ['deck dev note',/<p class="tip">Adding or removing cards updates this browser's demo inventory\.[\s\S]*?<\/p>/,''],
+      ['deck subtitle',/Classic collection browsing with iPhone-friendly card selection\./,'Build your deck.'],
+      ['deck button',/Preview This Deck/,'Try This Deck'],
+      ['shop subtitle',/Browse the old-world card shop\. All purchases use local demo electrum\./,'Browse cards and expand your collection.'],
+      ['shop currency',/YOUR ELECTRUM · DEMO/,'ELECTRUM'],
+      ['shop dev note',/<p class="tip">Listed prices and initial currency are placeholders for testing the interface[\s\S]*?<\/p>/,''],
+      ['shop price',/<span>Demo price<\/span>/,'<span>Price</span>'],
+      ['duel version badge',/,`<span class="sandbox-label">Rules v14 · v13 board preserved<\/span>`\)/,')'],
+      ['duel technical tutorial',/<p class="etg-rotate-hint">23 creature positions \(middle 7[\s\S]*?<\/p>/,''],
+      ['resource rail footnote',/<div class="etg-side-note">Live resources<\/div>/,''],
+      ['hand tiny description',/<small>\$\{esc\(ruleText\(c\)\)\}<\/small>/,''],
+      ['hand developer legend',/White hand bands = affordable, implemented cards\./,'Tap a card in your hand.'],
+      ['Shard technical note',/<small>This Shard is passive in the lower shared Permanent row: its bonuses apply as soon as it is played\.<\/small>/,''],
+      ['Ability Lab header',/Ability &amp; Shard Lab · practice cards and quanta \(debug\)/,'Ability Lab'],
+      ['Ability Lab dev note',/<p class="etg-fineprint">Debug controls only\.[\s\S]*?<\/p>/,''],
+      ['duel patch notes',/<div class="etg-selection"><small>Training mode: 23 square prioritized creature positions per side;[\s\S]*?<\/small><\/div>/,''],
+      ['duel restart button',/>New training duel<\/button>/,'>New Duel</button>'],
+      ['duel title description',/Quanta, turn combat and activated abilities/,'Battle the Elements'],
+      ['unimplemented card status',/'Archived; rules awaiting implementation'/,"'Not yet playable'"]
+    ];
+    for(const [label,regex,value] of changes){
+      if(!regex.test(h))throw new Error('The v14 source differs at: '+label+'. No changes were made.');
+      h=h.replace(regex,value);applied.push(label);
+    }
+    // Remove the redundant bottom-of-menu status strip, not the actual player statistics.
+    const util='<div class="utility-strip"><span>PLAYER <strong>${esc(state.player)}</strong></span><span>MARK <strong>${esc(state.element)}</strong></span></div>';
+    h=h.replace(util,'');
+    const css='<style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style>';
+    h=h.replace('</head>',css+'</head>');
+    h=h.replace('</body>','<scr'+'ipt>if(new URLSearchParams(location.search).get("dev")==="1")document.body.setAttribute("data-elementia-dev","1");</scr'+'ipt></body>');
+    // The content and rule registries must remain byte-for-byte identical.
+    const originalCards=input.split('\n').find(line=>line.includes('const IMPORTED_CARDS='));
+    const updatedCards=h.split('\n').find(line=>line.includes('const IMPORTED_CARDS='));
+    const originalRules=input.split('\n').find(line=>line.includes('const IMPORTED_RULES='));
+    const updatedRules=h.split('\n').find(line=>line.includes('const IMPORTED_RULES='));
+    if(!originalCards||originalCards!==updatedCards||originalRules!==updatedRules)throw new Error('Catalog integrity check failed.');
+    if(['New Training Duel','Aether + Air Archive','Interface preview','Training mode: 23 square','Rules v14 · v13 board preserved'].some(x=>h.includes(x)))throw new Error('An outdated UI label remains.');
+    if(h.length<140000||!h.includes('function renderDuel()'))throw new Error('The generated game appears incomplete.');
+    return {html:h,editCount:applied.length};
+  }
+  function notify(message){$('status').textContent=message;}
+  function markReady(text,source){
+    try{
+      const result=cleanV14(text);readyHtml=result.html;
+      $('previewBtn').disabled=false;$('downloadBtn').disabled=false;$('homeBtn').disabled=false;
+      notify('Ready: '+source+'. '+result.editCount+' interface changes applied. All v14 card data and gameplay rules are retained.');
+      if(!downloadMode){document.open();document.write(readyHtml);document.close();}
+    }catch(err){readyHtml=null;notify(err.message||String(err));}
+  }
+  function download(filename){
+    if(!readyHtml)return;
+    const blob=new Blob([readyHtml],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),30000);
+  }
+  $('previewBtn').onclick=()=>{if(readyHtml){document.open();document.write(readyHtml);document.close();}};
+  $('downloadBtn').onclick=()=>download('classic-v14-clean-standalone.html');
+  $('homeBtn').onclick=()=>download(originalName);
+  $('fileInput').addEventListener('change',async ev=>{
+    const file=ev.target.files&&ev.target.files[0];if(!file)return;
+    try{markReady(await file.text(),file.name);}catch(err){notify(err.message||String(err));}
+  });
+  (async function boot(){
+    $('readySection').classList.remove('hidden');
+    if(location.protocol==='file:'){$('busy').classList.add('hidden');notify('Choose your current v14 index.html using the file selector above.');return;}
+    try{
+      const url=new URL('index.html',location.href);const response=await fetch(url,{cache:'no-store'});
+      if(!response.ok)throw new Error('Unable to load index.html ('+response.status+').');
+      markReady(await response.text(),'live GitHub Pages v14');
+    }catch(e){notify('Cannot automatically load v14. Choose the v14 index.html file above. '+e.message);}
+    finally{$('busy').classList.add('hidden');}
+  })();
+})();
+</script>
+</body>
+</html>

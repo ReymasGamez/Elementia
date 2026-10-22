@@ -1681,9 +1681,85 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty::before,
 body[data-elementia-display="desktop"] .etg-og-hand-card.empty::after{display:none}
 </style>
 
+
+<style id="elementia-v20-9-verified-hand-tracks">
+/* v20.9 desktop hand fix — explicit HTML strips replace the old pseudo-elements,
+   which v20.8 accidentally kept hidden through an earlier display:none rule. */
+body[data-elementia-display="desktop"] .etg-og-tophand-wrap,
+body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{
+  --etg-hand-column-width:240px;
+}
+body[data-elementia-display="desktop"] .etg-og-tophand-wrap{
+  --etg-hand-column-width:178px;
+}
+body[data-elementia-display="desktop"] .etg-og-player-hand,
+body[data-elementia-display="desktop"] .etg-og-opponent-hand{
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+  margin-left:0;
+  margin-right:0;
+  overflow:visible;
+}
+/* Player cards stick to the inside/LEFT edge of the right panel.
+   Opponent backs stick to the inside/RIGHT edge of the left panel. */
+body[data-elementia-display="desktop"] .etg-og-player-hand>.etg-og-hand-card{
+  left:0;right:auto;
+}
+body[data-elementia-display="desktop"] .etg-og-opponent-hand>.etg-og-op-card{
+  left:auto;right:0;
+}
+/* The numbering is absent in the HTML too, not just visually hidden. */
+body[data-elementia-display="desktop"] .etg-og-slot-num{display:none!important}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-row-name{padding-left:5px}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-hand-art{
+  margin-left:2px;margin-right:1px;
+}
+/* Turn off old indicators outright. They were too narrow and inherited a
+   higher-specificity display:none from the stacked-hand release. */
+body[data-elementia-display="desktop"] .etg-og-hand-card::before,
+body[data-elementia-display="desktop"] .etg-og-hand-card::after,
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready::before,
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready::after{
+  content:none!important;display:none!important;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card>.etg-og-action-strip{
+  box-sizing:border-box;
+  display:block!important;
+  position:absolute;
+  left:calc(100% + 1px);
+  top:0;
+  width:max(12px,calc(var(--etg-hand-column-width) - var(--etg-stack-card-side) - 1px));
+  height:var(--etg-stack-step);
+  border:1px solid rgba(144,152,155,.68);
+  border-radius:1px;
+  background:linear-gradient(180deg,rgba(105,114,119,.43),rgba(57,66,69,.52));
+  box-shadow:inset 0 0 0 1px #ffffff0f;
+  z-index:20;
+  pointer-events:none;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card>.etg-og-action-strip.is-ready{
+  border-color:rgba(255,255,255,.88);
+  background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(229,240,247,.52));
+  box-shadow:0 0 8px #ffffff70,inset 0 0 0 1px #ffffff65;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.empty>.etg-og-action-strip{
+  opacity:.3;
+  background:rgba(65,72,75,.25);
+}
+@media(max-width:1100px){
+  body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{
+    --etg-hand-column-width:210px;
+  }
+  body[data-elementia-display="desktop"] .etg-og-tophand-wrap{
+    --etg-hand-column-width:155px;
+  }
+}
+</style>
 </head>
 <body>
-  <div id="app" aria-live="polite"></div>
+  <!-- Elementia v20.9: verified right-side playable hand tracks -->
+<div id="app" aria-live="polite"></div>
   <script>
 /*
  * Elementia: The Return — v14 integrated classic card prototype.
@@ -3366,7 +3442,7 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty::after{display:no
       // Occupied cards overlap by one header. Empty slots follow *after* the
       // last full card, so their boxes never hide its card-back artwork.
       const offset=filled||!visible?`calc(${i} * var(--etg-stack-step))`:`calc(${visible-1} * var(--etg-stack-step) + var(--etg-stack-card-h) + ${i-visible} * var(--etg-stack-step))`;
-      return `<div class="etg-og-op-card ${filled?'filled':''}" style="--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-label="Opponent hand slot ${i+1}: ${filled?'face-down card':'empty'}"><span class="etg-og-slot-num">${i+1}</span>${filled?'<span class="etg-og-card-back" aria-hidden="true">✧</span>':'<span class="etg-og-card-back" aria-hidden="true"></span>'}<span class="etg-og-back-label">${filled?'FACE DOWN':'EMPTY'}</span><span class="etg-og-card-back-field" aria-hidden="true">${filled?'✧':''}</span></div>`;
+      return `<div class="etg-og-op-card ${filled?'filled':''}" style="--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-label="Opponent hand slot ${i+1}: ${filled?'face-down card':'empty'}">${filled?'<span class="etg-og-card-back" aria-hidden="true">✧</span>':'<span class="etg-og-card-back" aria-hidden="true"></span>'}<span class="etg-og-back-label">${filled?'FACE DOWN':'EMPTY'}</span><span class="etg-og-card-back-field" aria-hidden="true">${filled?'✧':''}</span></div>`;
     }).join('');
   }
   function desktopHandCardPlayable(b,c){
@@ -3387,14 +3463,14 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty::after{display:no
       const visible=Math.min(8,b.hand.length);
       const offset=i<visible||!visible?`calc(${i} * var(--etg-stack-step))`:`calc(${visible-1} * var(--etg-stack-step) + var(--etg-stack-card-h) + ${i-visible} * var(--etg-stack-step))`;
       const c=i<b.hand.length?BY_ID[b.hand[i]]:null;
-      if(!c)return `<div class="etg-og-hand-card empty" style="--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-label="Your hand slot ${i+1}: empty"><span class="etg-og-slot-num">${i+1}</span><span class="etg-og-empty-caption">EMPTY</span></div>`;
+      if(!c)return `<div class="etg-og-hand-card empty" style="--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-label="Your hand slot ${i+1}: empty"><span class="etg-og-empty-caption">EMPTY</span><span class="etg-og-action-strip is-empty" aria-hidden="true"></span></div>`;
       const r=cardRule(c);
       const allowed=desktopHandCardPlayable(b,c);
       const payment=paymentElement(c);
       const costLabel=r&&Number.isFinite(r.cost)&&r.cost>0?`${r.cost} ${ELEMENT[payment]?.symbol||payment}`:'';
       const artStyle=c.artworkUrl?`background-image:url('${String(c.artworkUrl).replace(/'/g,'%27')}');`:'';
       const artGlyph=c.artworkUrl?'':esc(c.symbol);
-      return `<button type="button" class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" data-hover-card="${esc(c.id)}" style="${theme(c)};--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-pressed="${i===b.selectedHand}" aria-label="Hand slot ${i+1}: ${esc(c.name)}${costLabel?', cost '+esc(costLabel):''}${allowed?', playable':''}"><span class="etg-og-slot-num">${i+1}</span><span class="etg-og-hand-art" style="${artStyle}">${artGlyph}</span><span class="etg-og-row-name">${esc(c.name)}</span>${costLabel?`<span class="etg-og-row-cost">${esc(costLabel)}</span>`:''}<span class="etg-og-full-art" style="${artStyle}">${artGlyph?`<span class="full-glyph">${artGlyph}</span>`:''}</span></button>`;
+      return `<button type="button" class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" data-hover-card="${esc(c.id)}" style="${theme(c)};--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-pressed="${i===b.selectedHand}" aria-label="Hand slot ${i+1}: ${esc(c.name)}${costLabel?', cost '+esc(costLabel):''}${allowed?', playable':''}"><span class="etg-og-hand-art" style="${artStyle}">${artGlyph}</span><span class="etg-og-row-name">${esc(c.name)}</span>${costLabel?`<span class="etg-og-row-cost">${esc(costLabel)}</span>`:''}<span class="etg-og-full-art" style="${artStyle}">${artGlyph?`<span class="full-glyph">${artGlyph}</span>`:''}</span><span class="etg-og-action-strip ${allowed?'is-ready':''}" aria-hidden="true"></span></button>`;
     }).join('');
   }
   function renderDesktopBattlefield(b){

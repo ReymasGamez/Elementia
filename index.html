@@ -95,21 +95,28 @@ button:active:not(:disabled){ transform:translateY(1px) }
 .toolbar .search-input{flex:1 1 190px;min-width:0;}
 .filter-select{background:#111718;border:1px solid #777052;color:#e4d8b9;font-size:13px;min-height:43px;max-width:150px;padding:0 8px;}
 .card-collection{display:grid;grid-template-columns:repeat(auto-fill,minmax(116px,1fr));gap:10px;}
-.card-tile{position:relative;min-width:0;background:linear-gradient(150deg,#3b3a2e,#131c1f 60%);border:1px solid #84714b;padding:4px;min-height:183px;color:var(--cream);text-align:left;box-shadow:0 3px 7px #0008;}
+.card-tile{position:relative;min-width:0;background:linear-gradient(180deg,#2c2418,#151312 72%);border:2px solid #a88a56;padding:4px;min-height:205px;color:var(--cream);text-align:left;border-radius:4px;box-shadow:0 4px 10px #0009,inset 0 0 0 1px #2d2417;overflow:hidden}
 .card-tile:disabled{opacity:.55}
-.card-tile:hover,.card-tile:focus-visible{border-color:#dfcc89;}
-.card-tile.selected{outline:2px solid #e3c575;outline-offset:1px;}
-.card-tile .card-in{display:flex;flex-direction:column;border:1px solid #67593d;height:100%;background:#1a2427;}
-.card-name{min-height:31px;font:12px/1.12 Georgia,serif;text-align:center;display:grid;place-items:center;padding:3px 4px;background:#242b2d;border-bottom:1px solid #5e553f;}
-.card-art{height:96px;background:radial-gradient(circle at 40% 38%,var(--accent),transparent 66%),linear-gradient(125deg,#2f3d3d,#111b20 70%);display:grid;place-items:center;position:relative;overflow:hidden;}
-.card-art::before {content:"";width:65px;height:65px;position:absolute;border:1px solid #ffffff55;transform:rotate(45deg);box-shadow:0 0 0 8px #0002,0 0 0 11px #ffffff13;}
-.card-art span{position:relative;color:#f9f6e5;text-shadow:0 2px 7px #000,0 0 15px var(--accent);font-size:43px;}
-.card-art .card-up {position:absolute;right:3px;top:3px;background:#c1a767;color:#161a1a;padding:2px 3px;font:8px Arial,sans-serif;}
-.card-bottom{display:flex;justify-content:space-between;gap:2px;align-items:center;border-top:1px solid #6d644c;padding:5px;color:#c6ba94;font:10px Arial,sans-serif;min-height:31px;}
-.card-count{position:absolute;top:-7px;right:-7px;background:#111719;border:1px solid #d2bd81;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font:12px Arial,sans-serif;color:#f3dfaa;}
+.card-tile:hover,.card-tile:focus-visible{border-color:#ead39a;transform:translateY(-1px)}
+.card-tile.selected{outline:2px solid #f0da93;outline-offset:1px}
+.card-tile .card-in{display:grid;grid-template-rows:auto 1fr auto;border:1px solid #6e5b39;height:100%;background:linear-gradient(180deg,#282119,#161412);box-shadow:inset 0 0 0 1px #0008}
+.card-header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px;align-items:start;padding:4px 5px;background:linear-gradient(180deg,var(--accent-lite),var(--accent));border-bottom:2px solid #d2b370;color:var(--title-ink)}
+.card-name{min-height:30px;font:700 12px/1.1 Georgia,serif;display:flex;align-items:center;overflow-wrap:anywhere;text-shadow:0 1px 0 #ffffff3b}
+.card-cost{display:inline-flex;align-items:center;gap:2px;justify-self:end;min-width:24px;min-height:24px;padding:1px 5px;border:1px solid #46351b;background:linear-gradient(180deg,#fff9df,#dcc58c);border-radius:3px;color:#251707;font:700 11px/1 Georgia,serif;box-shadow:inset 0 0 0 1px #fff7d25e}
+.card-cost em{font-style:normal;font-size:11px;opacity:.9}
+.card-art{margin:5px;border:2px solid #927246;background:radial-gradient(circle at 50% 30%,color-mix(in srgb,var(--accent) 30%,#1d1a17),#100f0e 77%);display:grid;place-items:center;position:relative;overflow:hidden;min-height:106px;box-shadow:inset 0 0 0 1px #fff1c423}
+.card-art::before{content:"";position:absolute;inset:6px;border:1px solid #d3b77a55;pointer-events:none}
+.card-art img{width:100%;height:100%;object-fit:contain;position:relative;z-index:2;background:#161411}
+.card-art .card-glyph{position:relative;color:#f8efd7;text-shadow:0 2px 9px #000,0 0 18px var(--accent);font-size:44px;z-index:1}
+.card-art .card-art-label{position:absolute;left:0;right:0;bottom:6px;text-align:center;color:#e6d8b2;font:10px Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;z-index:1}
+.card-art .card-up{position:absolute;right:4px;top:4px;background:#c9ae68;color:#17130f;padding:2px 4px;border:1px solid #5f4926;font:700 8px/1 Arial,sans-serif;z-index:3}
+.card-bottom{display:block;border-top:2px solid #8d7248;padding:5px 6px 6px;background:linear-gradient(180deg,#2a2623,#191816);color:#e4d7b4;font:10px/1.25 Arial,sans-serif;min-height:48px}
+.card-type{display:block;color:#f3e5bc;font:700 9px/1.2 Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.card-rules{display:block;color:#d5cab0}
+.card-count{position:absolute;top:-7px;right:-7px;background:#111719;border:1px solid #d2bd81;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font:12px Arial,sans-serif;color:#f3dfaa;z-index:5}
 .selected-detail{background:#101718a6;border:1px solid #5e5138;padding:10px;margin-top:13px;}
 .detail-row{display:grid;grid-template-columns:82px 1fr;gap:13px;align-items:start;}
-.detail-row .card-tile{min-height:148px}.detail-row .card-art{height:79px}.detail-row .card-name{min-height:25px}
+.detail-row .card-tile{min-height:188px}.detail-row .card-art{min-height:116px}.detail-row .card-name{min-height:25px}.detail-row .card-bottom{min-height:60px}
 .detail-row h3{margin:0 0 6px;color:var(--gold);font-size:20px;font-weight:normal;}
 .detail-row p{margin:4px 0 9px;color:#bbc1b5;line-height:1.4;font:12px Arial,sans-serif;}
 .deck-list{display:grid;gap:7px;max-height:420px;overflow:auto;margin:10px 0 13px;}
@@ -125,8 +132,8 @@ button:active:not(:disabled){ transform:translateY(1px) }
 .shop-credit small{display:block;font:10px Arial,sans-serif;color:#b3b5a4;letter-spacing:.15em;}
 .shop-card-text{font:12px/1.5 Arial,sans-serif;color:#c0c1b3;}
 .shop-summary{position:sticky;top:12px;}
-.shop-summary .card-tile{max-width:200px;margin:8px auto 16px;width:100%;height:245px;}
-.shop-summary .card-tile .card-art{height:150px}
+.shop-summary .card-tile{max-width:200px;margin:8px auto 16px;width:100%;height:282px;}
+.shop-summary .card-tile .card-art{min-height:164px}
 .battle-page{max-width:1360px;}
 .battle-layout{display:grid;grid-template-columns:minmax(0,1fr) 182px;gap:12px;align-items:start;}
 .battle-arena{padding:12px;}
@@ -147,8 +154,8 @@ button:active:not(:disabled){ transform:translateY(1px) }
 .mid-separator::before,.mid-separator::after{content:"";height:1px;background:#7e6c48;flex:1;}
 .hand-area{margin-top:10px;border-top:1px solid #5b503a;padding-top:12px;}
 .hand-row{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:4px 3px 12px;scrollbar-color:#9a8249 #161b1c;}
-.hand-row .card-tile{flex:0 0 112px;scroll-snap-align:start;min-height:160px;}
-.hand-row .card-art{height:75px}
+.hand-row .card-tile{flex:0 0 112px;scroll-snap-align:start;min-height:174px;}
+.hand-row .card-art{min-height:92px}
 .hand-row .card-name{font-size:11px;min-height:30px;}
 .battle-side{display:grid;gap:12px;}
 .battle-side .panel{padding:11px;}
@@ -1228,16 +1235,18 @@ body[data-elementia-display="desktop"] .etg-slot.occupied[data-hover-card]:hover
   background:linear-gradient(160deg,#353f3b,#101719 77%);color:#f7edcc;
   pointer-events:none;overflow:hidden;contain:layout style;animation:etg-hover-appear .13s ease-out;
 }
-#elementia-hover-inspect .preview-heading{padding:8px 10px 5px;background:var(--accent,#465954);color:var(--title-ink,#f7edcc);border-bottom:2px solid #c4a269;font:700 18px/1.2 Georgia,serif}
-#elementia-hover-inspect .preview-sub{font:11px/1.4 Arial,sans-serif;letter-spacing:.09em;padding:5px 10px;background:#121b1b;color:#ebd69d}
-#elementia-hover-inspect .preview-art{position:relative;height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(circle at 45% 38%,var(--accent,#527a6c),#101919 76%)}
-#elementia-hover-inspect .preview-art img{width:100%;height:100%;object-fit:contain;background:#151b1a;position:relative;z-index:2}
-#elementia-hover-inspect .preview-glyph{font:100px/1 Georgia,serif;color:#f7eed2;text-shadow:0 0 22px #000b;z-index:1}
-#elementia-hover-inspect .preview-fallback-label{position:absolute;bottom:8px;left:0;right:0;text-align:center;font:11px Arial,sans-serif;color:#ddd1b8;z-index:1}
-#elementia-hover-inspect .preview-rules{padding:10px;font:12px/1.45 Georgia,serif;max-height:105px;overflow:hidden}
-#elementia-hover-inspect .preview-stats{font:700 15px Georgia,serif;color:#ffe7a1;margin-bottom:4px}
-@keyframes etg-hover-appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-@media(max-height:650px){#elementia-hover-inspect .preview-art{height:170px}#elementia-hover-inspect .preview-rules{max-height:74px}}
+#elementia-hover-inspect{position:fixed;z-index:9999;width:min(320px,82vw);pointer-events:none;filter:drop-shadow(0 14px 26px #000c)}
+#elementia-hover-inspect .card-tile{min-height:470px;padding:6px;border-radius:6px}
+#elementia-hover-inspect .card-in{grid-template-rows:auto 1fr auto}
+#elementia-hover-inspect .card-name{font-size:18px;min-height:42px}
+#elementia-hover-inspect .card-cost{font-size:17px;min-height:34px;padding:2px 8px}
+#elementia-hover-inspect .card-art{min-height:282px;margin:7px}
+#elementia-hover-inspect .card-art .card-glyph{font-size:110px}
+#elementia-hover-inspect .card-art .card-art-label{font-size:11px;bottom:10px}
+#elementia-hover-inspect .card-bottom{min-height:108px;padding:10px;font-size:14px;line-height:1.4}
+#elementia-hover-inspect .card-type{font-size:11px;margin-bottom:6px}
+#elementia-hover-inspect .card-rules{font-size:14px;line-height:1.42}
+@media(max-height:650px){#elementia-hover-inspect .card-tile{min-height:360px}#elementia-hover-inspect .card-art{min-height:180px}#elementia-hover-inspect .card-bottom{min-height:92px;padding:8px;font-size:12px}}
 @media(prefers-reduced-motion:reduce){#elementia-hover-inspect{animation:none}}
 </style>
 <style id="elementia-v17-9-tall-field-safe-permanents">
@@ -1667,14 +1676,26 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-slot.occupied .bone-sh
     const color=ELEMENT[card.element]?.color||'#99866d';
     const rgb=[1,3,5].map(i=>parseInt(color.slice(i,i+2),16));
     const brightness=(rgb[0]*299+rgb[1]*587+rgb[2]*114)/1000;
+    const lite=hexMix(color,'#f7edd1',0.42);
     // Pale element headers get dark ink; dark element headers get ivory ink.
-    return `--accent:${color};--title-ink:${brightness<128?'#fff9e9':'#101a1a'}`;
+    return `--accent:${color};--accent-lite:${lite};--title-ink:${brightness<128?'#fff9e9':'#101a1a'}`;
   }
   function orb(name){const x=ELEMENT[name]||ELEMENT.Aether;return `<span class="orb" style="background:${x.color}">${esc(x.symbol)}</span>`;}
+  function hexMix(base,target='#000000',ratio=.5){
+    const norm=v=>Math.max(0,Math.min(255,Math.round(v)));
+    const a=[1,3,5].map(i=>parseInt(base.slice(i,i+2),16));
+    const b=[1,3,5].map(i=>parseInt(target.slice(i,i+2),16));
+    const out=a.map((v,i)=>norm(v*(1-ratio)+b[i]*ratio));
+    return '#'+out.map(v=>v.toString(16).padStart(2,'0')).join('');
+  }
+  function cardCostLabel(card){const cost=cardCost(card);if(cost==null||cost<=0)return '';const pay=paymentElement(card);const sym=ELEMENT[pay]?.symbol||(pay==='Random'?'✶':pay);return `${cost}${sym?` <em>${esc(sym)}</em>`:''}`;}
+  function cardTypeLine(card){const rule=cardRule(card),bits=[card.element,card.type];if(Number.isFinite(rule?.atk))bits.push(`${rule.atk}|${rule.hp||0}`);if(card.tier==='Upgraded')bits.push('Upgraded');return bits.join(' · ');}
+  function cardFace(card){
+    const art=card.artworkUrl?`<img src="${esc(card.artworkUrl)}" alt="${esc(card.name)} artwork" onerror="this.remove()">`:'';
+    return `<span class="card-in"><span class="card-header"><span class="card-name">${esc(card.name)}</span>${cardCostLabel(card)?`<span class="card-cost">${cardCostLabel(card)}</span>`:''}</span><span class="card-art">${art}${!card.artworkUrl?`<span class="card-glyph">${esc(card.symbol)}</span><span class="card-art-label">Card Art</span>`:''}${card.tier==='Upgraded'?'<em class="card-up">UP</em>':''}</span><span class="card-bottom"><span class="card-type">${esc(cardTypeLine(card))}</span><span class="card-rules">${esc(ruleText(card))}</span></span></span>`;
+  }
   function cardTile(card,quantity='',mode='detail',selected=false){
-    return `<button type="button" class="card-tile ${selected?'selected':''}" style="${theme(card)}" data-action="${mode}" data-id="${esc(card.id)}" aria-label="${esc(card.name)} ${esc(card.tier)}, ${esc(card.element)}${quantity!==''?', quantity '+quantity:''}">
-      <span class="card-in"><span class="card-name">${esc(card.name)}</span><span class="card-art"><span>${esc(card.symbol)}</span>${card.tier==='Upgraded'?'<em class="card-up">UP</em>':''}</span>
-      <span class="card-bottom"><span>${esc(card.element)}</span><span>${esc(ruleText(card))}</span></span></span>
+    return `<button type="button" class="card-tile ${selected?'selected':''}" style="${theme(card)}" data-action="${mode}" data-id="${esc(card.id)}" aria-label="${esc(card.name)} ${esc(card.tier)}, ${esc(card.element)}${quantity!==''?', quantity '+quantity:''}">${cardFace(card)}
       ${quantity!==''?`<span class="card-count">${Number(quantity)}</span>`:''}</button>`;
   }
   // v17.3 immersive view. Never persists this temporary browser state.
@@ -3075,17 +3096,11 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-slot.occupied .bone-sh
   function showHoverCard(anchor){
     if(hoverCardElement!==anchor||state.scene!=='duel'||state.displayMode!=='desktop'||!anchor.isConnected)return;
     const card=BY_ID[anchor.dataset.hoverCard];if(!card)return;
-    const rule=cardRule(card),cost=rule?.cost||0,element=paymentElement(card);
-    const price=cost?`${cost} ${element}`:'Free';
-    const stats=Number.isFinite(rule?.atk)?`${rule.atk} ATK / ${rule.hp||0} HP`:'';
-    const art=card.artworkUrl?`<img src="${esc(card.artworkUrl)}" alt="Full ${esc(card.name)} card artwork" onerror="this.style.display='none'">`:'';
     const preview=document.createElement('div');
     preview.id='elementia-hover-inspect';preview.setAttribute('role','tooltip');
     preview.setAttribute('aria-label',`${card.name} enlarged card preview`);
     preview.style.cssText=theme(card);
-    preview.innerHTML=`<div class="preview-heading">${esc(card.name)}</div><div class="preview-sub">${esc(card.tier)} ${esc(card.element)} · ${esc(card.type)} · ${esc(price)}</div>
-      <div class="preview-art"><span class="preview-glyph">${esc(card.symbol)}</span>${art}${!card.artworkUrl?'<span class="preview-fallback-label">Card artwork not yet archived</span>':''}</div>
-      <div class="preview-rules">${stats?`<div class="preview-stats">${esc(stats)}</div>`:''}${esc(ruleText(card))}</div>`;
+    preview.innerHTML=`<div class="card-tile">${cardFace(card)}</div>`;
     document.body.appendChild(preview);hoverPreview=preview;positionHoverPreview();
   }
   root.addEventListener('pointerover',event=>{

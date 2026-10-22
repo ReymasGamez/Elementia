@@ -1313,7 +1313,26 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
  .og-menu-viewport .og-menu-main,.og-menu-viewport .og-menu-lower{gap:12px}
  .og-menu-viewport .og-menu-info{gap:10px 16px}
 }
-</style></head>
+</style>
+<style id="elementia-v20-2-poison-light-switch">
+/* Keep the skull in a dedicated fixed-size socket; toggling poison cannot move HP bars. */
+.etg-poison-slot{display:inline-grid;place-items:center;box-sizing:border-box;width:30px;height:30px;min-width:30px;min-height:30px;flex:0 0 30px;overflow:visible;vertical-align:middle;pointer-events:none}
+.etg-poison-slot .etg-poison-marker{width:24px;height:24px;flex:0 0 24px;box-sizing:border-box}
+.etg-poison-slot .etg-poison-marker.is-off{visibility:hidden}
+.etg-hp-with-poison,.etg-og-hp-with-poison{display:inline-flex;align-items:center;justify-content:flex-end;gap:3px;min-width:0;white-space:nowrap}
+.etg-player-status .etg-mini-hp{min-width:12px}
+.etg-player-status .etg-hp-with-poison{flex:0 0 auto;min-height:30px}
+.etg-og-vitals-poison-row{min-height:30px;height:30px;flex:0 0 30px}
+.etg-og-vitals-poison-row .etg-og-hp-with-poison{height:30px;min-height:30px;flex:0 0 auto}
+.etg-og-vitals-poison-row>.etg-og-hp-with-poison>span:first-child{flex:0 0 auto}
+body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:22px;height:22px;flex-basis:22px}
+@media(max-width:760px){
+  .etg-poison-slot{width:27px;height:27px;min-width:27px;min-height:27px;flex-basis:27px}
+  .etg-player-status .etg-hp-with-poison{min-height:27px}
+  .etg-poison-slot .etg-poison-marker{width:21px;height:21px;flex-basis:21px}
+}
+</style>
+</head>
 <body>
   <div id="app" aria-live="polite"></div>
   <script>
@@ -2947,11 +2966,11 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     </section>`;
   }
   function heroPoisonMarker(b,side){
-    // Poison is cumulative damage per opposing turn, not a diminishing timer.
-    // Omit the marker entirely if cleansed or never poisoned.
+    // The slot ALWAYS occupies the same space. Applying/cleansing poison changes only
+    // its visibility, never the HP bar's dimensions or the layout of adjacent text.
     const poison=Math.max(0,Math.trunc(Number(b?.[side+'Poison'])||0));
-    if(!poison)return '';
-    return `<span class="etg-poison-marker" data-digits="${String(poison).length}" title="Poison ${poison}: ${poison} damage during the opponent's turn" role="img" aria-label="${poison} poison damage on each opposing turn"><span class="etg-poison-skull" aria-hidden="true">☠</span><span class="etg-poison-count" aria-hidden="true">${poison}</span></span>`;
+    const active=poison>0;
+    return `<span class="etg-poison-slot" aria-hidden="${active?'false':'true'}"><span class="etg-poison-marker ${active?'':'is-off'}" data-digits="${String(poison).length}" ${active?`title="Poison ${poison}: ${poison} damage during the opponent's turn" role="img" aria-label="${poison} poison damage on each opposing turn"`:''}><span class="etg-poison-skull" aria-hidden="true">☠</span><span class="etg-poison-count" aria-hidden="true">${poison}</span></span></span>`;
   }
   function boardPlayer(side){
     const b=state.duel,own=side==='player';
@@ -2969,7 +2988,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const deck=own?b.library.length:(b.enemyLibrary||[]).length;
     const handCount=own?b.hand.length:(b.enemyHand||[]).length;
     const quanta=ELEMENTS.map(([name,symbol,color])=>`<div class="etg-og-quantum" title="${esc(name)} quanta"><span class="etg-resource-icon" style="background:${color}">${esc(symbol)}</span><span class="etg-resource-num">${pool[name]||0}</span></div>`).join('');
-    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-top"><span>Deck: ${deck}</span><span>Hand: ${handCount}</span></div><div class="etg-og-vitals-top"><span class="etg-og-hp-with-poison"><span>HP: ${hp} / ${maxHp}</span>${heroPoisonMarker(b,side)}</span><span>${own?'You':'Enemy'}</span></div><span class="etg-og-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span></div>`;
+    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-top"><span>Deck: ${deck}</span><span>Hand: ${handCount}</span></div><div class="etg-og-vitals-top etg-og-vitals-poison-row"><span class="etg-og-hp-with-poison"><span>HP: ${hp} / ${maxHp}</span>${heroPoisonMarker(b,side)}</span><span>${own?'You':'Enemy'}</span></div><span class="etg-og-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span></div>`;
     return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and vitals">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
   }
   function renderDesktopOpponentHand(b){
@@ -3329,7 +3348,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.1-poison-counters',isDemo:demo,
+    version:'20.2-poison-light-switch',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

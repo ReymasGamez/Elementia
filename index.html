@@ -1533,6 +1533,106 @@ body[data-elementia-display="desktop"] .etg-og-op-card.filled .etg-og-card-back{
   border:2px solid #dec996;box-shadow:0 0 0 1px #0b0d0a;
 }
 </style>
+
+<style id="elementia-v20-7-square-hands">
+/* Desktop-only classic square cards. This overrides the older wide hand
+   rectangles while preserving the exposed header and one-click interaction. */
+body[data-elementia-display="desktop"] .etg-og-tophand-wrap,
+body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{
+  --etg-stack-step:clamp(19px,2.8dvh,24px);
+  --etg-stack-card-h:clamp(148px,min(12.4vw,21.5dvh),172px);
+  --etg-stack-card-side:var(--etg-stack-card-h);
+  overflow:visible;
+}
+body[data-elementia-display="desktop"] .etg-og-opponent-hand,
+body[data-elementia-display="desktop"] .etg-og-player-hand{
+  width:var(--etg-stack-card-side);
+  max-width:100%;
+  height:calc(7 * var(--etg-stack-step) + var(--etg-stack-card-h));
+  overflow:visible;
+}
+body[data-elementia-display="desktop"] .etg-og-opponent-hand{margin-right:auto;margin-left:0}
+body[data-elementia-display="desktop"] .etg-og-player-hand{margin-left:auto;margin-right:4px}
+body[data-elementia-display="desktop"] .etg-og-op-card,
+body[data-elementia-display="desktop"] .etg-og-hand-card{
+  width:var(--etg-stack-card-side);
+  max-width:100%;
+  height:var(--etg-stack-card-side);
+  min-height:var(--etg-stack-card-side);
+  max-height:var(--etg-stack-card-side);
+  aspect-ratio:1 / 1;
+  left:0;right:auto;
+  overflow:visible; /* needed to show the readiness bar BESIDE the square */
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card{
+  grid-template-columns:var(--etg-stack-step) minmax(0,1fr) auto;
+  grid-template-rows:var(--etg-stack-step) minmax(0,1fr);
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-hand-art{
+  box-sizing:border-box;width:calc(var(--etg-stack-step) - 2px);
+  height:calc(var(--etg-stack-step) - 2px);
+  font-size:12px;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-row-name{
+  padding:4px 3px 2px 6px;
+  font-size:clamp(9px,.84vw,11px);
+  line-height:1.1;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-row-cost{
+  box-sizing:border-box;min-width:22px;max-width:45px;
+  margin:2px 3px 2px 0;padding:1px 2px;font-size:9px;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card:not(.empty) .etg-og-full-art{
+  margin:0 3px 3px;
+  border:1px solid #c3ab7f;border-top:0;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center center;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready::after{
+  content:'';position:absolute;
+  left:-11px;right:auto;top:1px;width:7px;
+  height:calc(var(--etg-stack-step) - 2px);
+  border:1px solid rgba(255,255,255,.65);
+  border-radius:2px;
+  background:rgba(255,255,255,.57);
+  box-shadow:0 0 7px rgba(255,255,255,.42);
+  z-index:10;pointer-events:none;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready::before{display:none}
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready{
+  border-color:#bdb59f;
+  box-shadow:0 2px 4px #000b,inset 0 0 0 1px #ffffff18;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.empty,
+body[data-elementia-display="desktop"] .etg-og-op-card:not(.filled){
+  height:var(--etg-stack-step);
+  min-height:var(--etg-stack-step);
+  max-height:var(--etg-stack-step);
+  overflow:hidden;
+}
+body[data-elementia-display="desktop"] .etg-og-op-card{
+  grid-template-columns:var(--etg-stack-step) minmax(0,1fr);
+  grid-template-rows:var(--etg-stack-step) minmax(0,1fr);
+}
+body[data-elementia-display="desktop"] .etg-og-op-card .etg-og-card-back{
+  box-sizing:border-box;
+  width:calc(var(--etg-stack-step) - 2px);
+  height:calc(var(--etg-stack-step) - 2px);
+  font-size:12px;
+}
+body[data-elementia-display="desktop"] .etg-og-op-card .etg-og-back-label{
+  padding:4px 4px 2px;
+  font-size:clamp(9px,.78vw,11px);
+}
+body[data-elementia-display="desktop"] .etg-og-op-card.filled .etg-og-card-back-field{
+  overflow:hidden;
+  margin:0 3px 3px;
+  border:2px solid #92704b;
+  background-size:cover;
+  font-size:55px;
+}
+</style>
 </head>
 <body>
   <div id="app" aria-live="polite"></div>

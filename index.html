@@ -1270,7 +1270,39 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.o
 body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.equipment-blank .equip-icon{font-size:clamp(17px,2.1vh,24px)}
 body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.equipment-blank small{font-size:clamp(7px,.88vh,10px)}
 </style>
-</head>
+<style id="elementia-v195-menu-fit">
+/* Keep the classic six-button header, all twelve marks, and level table geometry
+   on desktop-sized windows.  Layout-only, does not affect the duel engine. */
+.og-menu-viewport{display:block;min-width:0;width:100%;overflow:visible}
+.og-menu-viewport .og-main-menu{box-sizing:border-box;transform-origin:top left}
+@media(min-width:1000px) and (max-width:1199px){
+ .og-menu-viewport .og-menu-top{grid-template-columns:1fr 1fr minmax(230px,1.25fr) 1fr 1fr 1fr}
+ .og-menu-viewport .og-main-title{grid-column:auto;grid-row:auto}
+ .og-menu-viewport .og-menu-main{grid-template-columns:clamp(220px,20.5%,290px) minmax(0,1fr)}
+ .og-menu-viewport .og-menu-lower{grid-template-columns:clamp(220px,20.5%,290px) minmax(350px,1fr) minmax(180px,29%)}
+ .og-menu-viewport .og-menu-mark-grid{grid-template-columns:repeat(12,minmax(0,1fr))}
+ .og-menu-viewport .og-level-table{min-width:0}
+}
+/* At tablet widths use a spaced vertical layout, not cramped partial desktop columns. */
+@media(min-width:761px) and (max-width:999px){
+ .og-menu-viewport .og-menu-main{grid-template-columns:minmax(0,1fr);gap:8px}
+ .og-menu-viewport .og-menu-intro{padding:12px 10px 2px}
+ .og-menu-viewport .og-menu-lower{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;min-height:0}
+ .og-menu-viewport .og-menu-deckintro{grid-column:1/-1;padding:10px 10px 0}
+ .og-menu-viewport .og-menu-deckpanel{min-height:146px}
+ .og-menu-viewport .og-menu-reserved{min-height:146px}
+ .og-menu-viewport .og-menu-mark-section{grid-template-columns:1fr;gap:11px}
+ .og-menu-viewport .og-menu-mark-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+ .og-menu-viewport .og-level-panel{padding:13px}
+ .og-menu-viewport .og-level-scroll{overflow-x:auto}
+ .og-menu-viewport .og-menu-starter{gap:12px}
+}
+@media(max-width:760px){
+ .og-menu-viewport .og-menu-top{column-gap:10px;row-gap:9px}
+ .og-menu-viewport .og-menu-main,.og-menu-viewport .og-menu-lower{gap:12px}
+ .og-menu-viewport .og-menu-info{gap:10px 16px}
+}
+</style></head>
 <body>
   <div id="app" aria-live="polite"></div>
   <script>
@@ -1652,7 +1684,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       <button type="button" class="button secondary" data-action="navigate" data-to="shop">Bazaar</button><span>Buy or sell cards</span>
       <button type="button" class="button secondary" data-action="redeem-code">Redeem Code</button><span>Insert a reward code</span>
     </div>`;
-    return wrap(`<section class="og-main-menu" aria-label="Elementia main menu">
+    return wrap(`<div class="og-menu-viewport"><section class="og-main-menu" aria-label="Elementia main menu">
       <div class="og-menu-top" role="toolbar" aria-label="Main menu actions">
         <button type="button" class="button secondary" data-action="save-game">Save Game</button>
         <button type="button" class="button secondary" data-action="logout">Logout</button>
@@ -1677,7 +1709,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
         <div class="og-menu-mark-grid">${ELEMENTS.map(([name])=>`<button type="button" class="og-menu-mark" data-action="element" data-id="${name}" aria-pressed="${name===state.element}" title="${esc(name)}">${orb(name)}<small>${esc(name)}</small></button>`).join('')}</div>
       </section>
       <div class="og-menu-starter">${originalStarterDisplay(state.element)}${displaySwitch()}</div>
-    </section>`);
+    </section></div>`);
   }
   function options(current){return `<option value="All" ${current==='All'?'selected':''}>All elements</option>${ELEMENTS.map(([name])=>`<option value="${name}" ${current===name?'selected':''}>${name}</option>`).join('')}<option value="Other" ${current==='Other'?'selected':''}>Other · Quanta/Prisma</option>`;}
   function renderDetail(card,from='collection'){
@@ -3035,6 +3067,23 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     if(state.modal==='reset-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Reset Account"><h2 class="section-title">Reset Account</h2><p class="notice">This will clear your saved deck, collection, mark, and credits from this browser.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Cancel</button><button class="button" data-action="do-reset">Reset Account</button></div></section></div>`;
     const c=BY_ID[state.modal];if(!c)return '';return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Card details"><h2 class="section-title">Card Details</h2>${renderDetail(c)}
     <div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="add-deck" data-id="${esc(c.id)}" ${(state.deck[c.id]||0)>=(state.inventory[c.id]||0)?'disabled':''}>Add to Deck</button></div></section></div>`;}
+  function fitClassicMainMenu(){
+    const viewport=root.querySelector('.og-menu-viewport');
+    if(!viewport)return;
+    const menu=viewport.querySelector('.og-main-menu');
+    if(!menu)return;
+    // Reset first so zoom never accumulates on re-render or resize.
+    menu.style.zoom='1';menu.style.width='';
+    if(window.innerWidth>=1000){
+      const available=viewport.clientWidth;
+      // 1336px is the verified screenshot design width. Scale the ENTIRE
+      // main menu, not its separate columns, when the window is narrower.
+      if(available<1336){
+        menu.style.width='1336px';
+        menu.style.zoom=String(available/1336);
+      }
+    }
+  }
   function fitDesktopDuel(){
     if(state.scene!=='duel'||state.displayMode!=='desktop')return;
     const stage=root.querySelector('.elementia-display-stage'),frame=stage?.querySelector('.etg-og-frame');
@@ -3056,7 +3105,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const ratio=Math.max(.42,Math.min(1,widthRatio,available/minimumContents));
     if(ratio<.999){stage.style.zoom=String(ratio);stage.style.width=`${100/ratio}%`;}
   }
-  window.addEventListener('resize',()=>requestAnimationFrame(fitDesktopDuel));
+  window.addEventListener('resize',()=>requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();}));
   function render(){
     clearHoverCard();
     document.body.dataset.elementiaDisplay=state.displayMode;
@@ -3064,7 +3113,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     document.title=`${state.scene==='login'?'Welcome':state.scene.charAt(0).toUpperCase()+state.scene.slice(1)} — Elementia: The Return`;
     if(state.duel)state.duel.lastPlacedKey=null; // Animate only newly dealt cards, never the whole board on every update.
     syncFullscreenUI();
-    requestAnimationFrame(fitDesktopDuel);
+    requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();});
   }
   function enter(name){state.player=(name||'Guest').trim().slice(0,24)||'Guest';state.scene='menu';save();render();}
   function navigate(to){if(!['menu','deck','shop','duel','login'].includes(to))return;if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}

@@ -751,6 +751,17 @@ button:active:not(:disabled){ transform:translateY(1px) }
   .etg-creature-row.middle{width:min(87.1%,298px)}
 }
 
+
+/* v20.1: Persistent player-poison counter, beside HP in both view modes. */
+.etg-hp-with-poison,.etg-og-hp-with-poison{display:inline-flex;align-items:center;justify-content:flex-end;gap:5px;min-width:0;white-space:nowrap}
+.etg-poison-marker{position:relative;display:inline-grid;place-items:center;width:26px;height:25px;flex:0 0 26px;vertical-align:middle;color:#f1d8bd;border:1px solid #987153;border-radius:5px;background:radial-gradient(circle at 40% 32%,#5a412c,#241e1d 78%);box-shadow:inset 0 1px 2px #ffffff3a,0 1px 3px #0008}
+.etg-poison-skull{font:20px/1 Georgia,'Times New Roman',serif;transform:translateY(-2px);text-shadow:0 1px #120e0e,0 0 4px #000}
+.etg-poison-count{position:absolute;right:-3px;bottom:-4px;min-width:15px;height:15px;border:1px solid #f8e4b6;border-radius:9px;background:#461c18;color:#fff5e1;padding:0 2px;text-align:center;font:700 10px/13px Arial,sans-serif;font-variant-numeric:tabular-nums;box-shadow:0 1px 2px #000c}
+.etg-poison-marker[data-digits="3"] .etg-poison-count{font-size:9px}
+@media (max-width:760px){.etg-hp-with-poison{gap:3px}.etg-poison-marker{width:22px;height:22px;flex-basis:22px}.etg-poison-skull{font-size:17px}.etg-poison-count{min-width:13px;height:13px;font-size:9px;line-height:11px}}
+body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
+body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
+body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
   <title>Elementia — The Return · Darkness</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
@@ -2935,12 +2946,19 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       ${pages>1?`<span class="etg-desktop-resource-pager" aria-label="Permanent page navigation">${pager}</span>`:''}
     </section>`;
   }
+  function heroPoisonMarker(b,side){
+    // Poison is cumulative damage per opposing turn, not a diminishing timer.
+    // Omit the marker entirely if cleansed or never poisoned.
+    const poison=Math.max(0,Math.trunc(Number(b?.[side+'Poison'])||0));
+    if(!poison)return '';
+    return `<span class="etg-poison-marker" data-digits="${String(poison).length}" title="Poison ${poison}: ${poison} damage during the opponent's turn" role="img" aria-label="${poison} poison damage on each opposing turn"><span class="etg-poison-skull" aria-hidden="true">☠</span><span class="etg-poison-count" aria-hidden="true">${poison}</span></span>`;
+  }
   function boardPlayer(side){
     const b=state.duel,own=side==='player';
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const creatures=creatureRows(b,side),permanents=permanentRow(b,side);
     return `<section class="etg-player ${own?'self':'enemy'}" aria-label="${own?'Your':'Opponent'} battlefield">
-      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span><span class="etg-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span><span class="hp">${hp} / ${maxHp} HP</span></div>
+      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span><span class="etg-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span><span class="etg-hp-with-poison"><span class="hp">${hp} / ${maxHp} HP</span>${heroPoisonMarker(b,side)}</span></div>
       ${own?`${creatures}${permanents}`:`${permanents}${creatures}`}
     </section>`;
   }
@@ -2951,7 +2969,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const deck=own?b.library.length:(b.enemyLibrary||[]).length;
     const handCount=own?b.hand.length:(b.enemyHand||[]).length;
     const quanta=ELEMENTS.map(([name,symbol,color])=>`<div class="etg-og-quantum" title="${esc(name)} quanta"><span class="etg-resource-icon" style="background:${color}">${esc(symbol)}</span><span class="etg-resource-num">${pool[name]||0}</span></div>`).join('');
-    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-top"><span>Deck: ${deck}</span><span>Hand: ${handCount}</span></div><div class="etg-og-vitals-top"><span>HP: ${hp} / ${maxHp}</span><span>${own?'You':'Enemy'}</span></div><span class="etg-og-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span></div>`;
+    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-top"><span>Deck: ${deck}</span><span>Hand: ${handCount}</span></div><div class="etg-og-vitals-top"><span class="etg-og-hp-with-poison"><span>HP: ${hp} / ${maxHp}</span>${heroPoisonMarker(b,side)}</span><span>${own?'You':'Enemy'}</span></div><span class="etg-og-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span></div>`;
     return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and vitals">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
   }
   function renderDesktopOpponentHand(b){
@@ -3311,7 +3329,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.0-death-expansion',isDemo:demo,
+    version:'20.1-poison-counters',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

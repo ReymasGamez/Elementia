@@ -1332,6 +1332,39 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker
   .etg-poison-slot .etg-poison-marker{width:21px;height:21px;flex-basis:21px}
 }
 </style>
+<style id="elementia-bone-wall-charge-badge">
+/* v20.3: Bone Wall charges are a single-card counter, never a stack count.
+   All four layouts share the same bottom-right anchor. */
+.etg-slot.occupied .bone-shield-count{
+  position:absolute;
+  right:2px;
+  bottom:2px;
+  z-index:7;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-width:19px;
+  min-height:15px;
+  padding:1px 3px;
+  border:1px solid #e0c78b;
+  border-radius:3px;
+  background:#111916f2;
+  color:#fff0c3;
+  font:700 11px/1 Arial,sans-serif;
+  text-shadow:0 1px 2px #000;
+  pointer-events:none;
+  box-shadow:0 1px 4px #000b;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot.occupied .bone-shield-count{
+  right:2px;
+  bottom:2px;
+  min-width:19px;
+  font-size:11px;
+}
+@media(max-width:600px){
+  .etg-slot.occupied .bone-shield-count{right:1px;bottom:1px;min-width:14px;min-height:12px;padding:0 2px;font-size:9px}
+}
+</style>
 </head>
 <body>
   <div id="app" aria-live="polite"></div>
@@ -2931,9 +2964,15 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker
     const action=targetable?'select-crosshair':b.pendingTarget?'blocked-target':active?'tap-ability':creature?'choose-target':'detail';
     const styles=card?theme(card):'--accent:#99866d';
     const countText=stackCount>1?`<span class="stack-count" aria-label="${stackCount} copies">x${stackCount}</span>`:'';
+    // Both basic Bone Wall and its upgraded version carry their own live bone count.
+    // Unlike stack-count, this reflects shield charges that combat consumes and deaths restore.
+    const boneRule=cardRule(card);
+    const remainingBones=boneRule?.effect==='boneWall'&&!concealed
+      ? Math.max(0,Number.isFinite(entry.bones)?entry.bones:(boneRule.boneCharges??7)) : null;
+    const boneBadge=remainingBones===null?'':`<span class="bone-shield-count" aria-label="${remainingBones} bone shields remaining">x${remainingBones}</span>`;
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}/${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.abilities?.includes('immaterial')?' ◇':''}${entry.burrowed?' ⌄':''}${entry.poison?' ☣'+entry.poison:''}</span>`:'';
-    return `<button type="button" class="etg-slot occupied ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
-      <span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span><span class="rune">${concealed?'?':boardSymbol(entry)}</span>${statsText}${countText}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
+    return `<button type="button" class="etg-slot occupied ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
+      <span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span><span class="rune">${concealed?'?':boardSymbol(entry)}</span>${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
     const units=b[side+'Creatures']||[];
@@ -3348,7 +3387,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.2-poison-light-switch',isDemo:demo,
+    version:'20.3-bone-wall-charge-counter',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

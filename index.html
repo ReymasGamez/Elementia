@@ -1633,6 +1633,54 @@ body[data-elementia-display="desktop"] .etg-og-op-card.filled .etg-og-card-back-
   font-size:55px;
 }
 </style>
+
+<style id="elementia-v20-8-hand-side-flip">
+/* v20.8 — move square cards back to their OG edge and use the spare hand-column
+   width for the translucent readiness strip. Slot numbers are no longer shown. */
+body[data-elementia-display="desktop"] .etg-og-tophand-wrap,
+body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{
+  --etg-hand-strip-w:clamp(42px,3.8vw,58px);
+}
+body[data-elementia-display="desktop"] .etg-og-opponent-hand,
+body[data-elementia-display="desktop"] .etg-og-player-hand{
+  width:calc(var(--etg-stack-card-side) + var(--etg-hand-strip-w));
+  max-width:100%;
+}
+/* Opponent stays on the outer-left panel but its cards sit on the inner/right edge;
+   player cards sit on the inner/left edge, matching the original board layout. */
+body[data-elementia-display="desktop"] .etg-og-opponent-hand{margin-left:auto;margin-right:0}
+body[data-elementia-display="desktop"] .etg-og-player-hand{margin-left:0;margin-right:auto}
+body[data-elementia-display="desktop"] .etg-og-opponent-hand .etg-og-op-card{left:auto;right:0}
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card{left:0;right:auto}
+/* remove slot numbering in both hands */
+body[data-elementia-display="desktop"] .etg-og-slot-num{display:none!important}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-row-name{padding-left:4px}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-hand-art,
+body[data-elementia-display="desktop"] .etg-og-op-card .etg-og-card-back{margin-left:2px;margin-right:2px}
+/* gray availability box to the right of the player's exposed lip */
+body[data-elementia-display="desktop"] .etg-og-hand-card::before{
+  content:'';position:absolute;z-index:5;pointer-events:none;
+  left:calc(100% + 4px);top:1px;
+  width:calc(var(--etg-hand-strip-w) - 6px);
+  height:calc(var(--etg-stack-step) - 2px);
+  border:1px solid #8d8f90;border-radius:2px;
+  background:linear-gradient(180deg,rgba(82,87,89,.8),rgba(45,48,49,.78));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready::after{
+  content:'';position:absolute;z-index:6;pointer-events:none;
+  left:calc(100% + 4px);top:1px;
+  width:calc(var(--etg-hand-strip-w) - 6px);
+  height:calc(var(--etg-stack-step) - 2px);
+  border:1px solid rgba(255,255,255,.72);border-radius:2px;
+  background:rgba(255,255,255,.46);
+  box-shadow:0 0 8px rgba(255,255,255,.34),inset 0 0 0 1px rgba(255,255,255,.18);
+}
+/* keep empty placeholder lips simple, with no readiness box */
+body[data-elementia-display="desktop"] .etg-og-hand-card.empty::before,
+body[data-elementia-display="desktop"] .etg-og-hand-card.empty::after{display:none}
+</style>
+
 </head>
 <body>
   <div id="app" aria-live="polite"></div>

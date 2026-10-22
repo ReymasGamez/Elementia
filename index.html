@@ -1546,6 +1546,22 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     if(OG_BY_CODE[code])OG_UNFINISHED.delete(code);
   }
 
+
+  // v20 original Elements Death roster (1.327). Existing starter codes retain IDs and saves.
+  const DEATH_CODE_RULES={"52h":{"cardName":"Bone Dragon","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":10,"costElement":"Death","atk":10,"hp":5,"abilities":["airborne"],"rarity":"Common"}},"711":{"cardName":"Ivory Dragon","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":10,"costElement":"Death","atk":11,"hp":5,"abilities":["airborne"],"rarity":"Common"}},"52i":{"cardName":"Virus","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":1,"costElement":"Death","atk":1,"hp":1,"abilities":["airborne","infect"],"activate":"infect","activateCost":0,"activateElement":"Death","sacrifice":true,"rarity":"Common"}},"712":{"cardName":"Retrovirus","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":2,"costElement":"Death","atk":1,"hp":1,"abilities":["airborne","viralPlague"],"activate":"viralPlague","activateCost":0,"activateElement":"Death","sacrifice":true,"rarity":"Common"}},"52j":{"cardName":"Flesh Spider","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":3,"costElement":"Death","atk":3,"hp":3,"abilities":["web"],"activate":"web","activateCost":1,"activateElement":"Death","rarity":"Common"}},"713":{"cardName":"Flesh Recluse","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":3,"costElement":"Death","atk":6,"hp":3,"abilities":["web"],"activate":"web","activateCost":1,"activateElement":"Death","rarity":"Common"}},"52k":{"cardName":"Vulture","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":3,"costElement":"Death","atk":0,"hp":1,"abilities":["airborne","scavenger"],"rarity":"Common"}},"714":{"cardName":"Condor","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":3,"costElement":"Death","atk":1,"hp":2,"abilities":["airborne","scavenger"],"rarity":"Common"}},"52l":{"cardName":"Skull Shield","type":"Shield","upgraded":false,"rule":{"family":"shield","cost":3,"costElement":"Death","effect":"skullShield","rarity":"Common"}},"715":{"cardName":"Skull Buckler","type":"Shield","upgraded":true,"rule":{"family":"shield","cost":2,"costElement":"Death","effect":"skullShield","rarity":"Common"}},"52m":{"cardName":"Skeleton","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":1,"costElement":"Death","atk":1,"hp":1,"abilities":["undead"],"rarity":"Common"}},"716":{"cardName":"Elite Skeleton","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":1,"costElement":"Death","atk":2,"hp":2,"abilities":["undead"],"rarity":"Common"}},"52n":{"cardName":"Boneyard","type":"Permanent","upgraded":false,"rule":{"family":"permanent","cost":3,"costElement":"Death","effect":"boneyard","summonId":"og-52m","rarity":"Common"}},"717":{"cardName":"Graveyard","type":"Permanent","upgraded":true,"rule":{"family":"permanent","cost":5,"costElement":"Death","effect":"graveyard","summonId":"death-716","rarity":"Common"}},"52o":{"cardName":"Poison","type":"Spell","upgraded":false,"rule":{"family":"spell","cost":1,"costElement":"Death","effect":"deathPoison","poisonAmount":2,"rarity":"Common"}},"718":{"cardName":"Deadly Poison","type":"Spell","upgraded":true,"rule":{"family":"spell","cost":2,"costElement":"Death","effect":"deathPoison","poisonAmount":3,"rarity":"Common"}},"52p":{"cardName":"Plague","type":"Spell","upgraded":false,"rule":{"family":"spell","cost":4,"costElement":"Death","effect":"deathPlague","rarity":"Common"}},"719":{"cardName":"Improved Plague","type":"Spell","upgraded":true,"rule":{"family":"spell","cost":2,"costElement":"Death","effect":"deathPlague","rarity":"Common"}},"52q":{"cardName":"Arsenic","type":"Weapon","upgraded":false,"rule":{"family":"weapon","cost":2,"costElement":"Death","atk":2,"hp":7,"abilities":["venom","poisonous"],"rarity":"Rare"}},"71a":{"cardName":"Arsenic","type":"Weapon","upgraded":true,"rule":{"family":"weapon","cost":2,"costElement":"Death","atk":4,"hp":7,"abilities":["venom","poisonous"],"rarity":"Rare"}},"52r":{"cardName":"Bone Wall","type":"Shield","upgraded":false,"rule":{"family":"shield","cost":7,"costElement":"Death","effect":"boneWall","boneCharges":7,"rarity":"Common"}},"71b":{"cardName":"Bone Wall","type":"Shield","upgraded":true,"rule":{"family":"shield","cost":5,"costElement":"Death","effect":"boneWall","boneCharges":7,"rarity":"Common"}},"52s":{"cardName":"Aflatoxin","type":"Spell","upgraded":false,"rule":{"family":"spell","cost":6,"costElement":"Death","effect":"aflatoxin","targeting":"creature","targetSide":"either","rarity":"Common"}},"71c":{"cardName":"Aflatoxin","type":"Spell","upgraded":true,"rule":{"family":"spell","cost":5,"costElement":"Death","effect":"aflatoxin","targeting":"creature","targetSide":"either","rarity":"Common"}},"52t":{"cardName":"Mummy","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":4,"costElement":"Death","atk":5,"hp":3,"abilities":["mummy"],"rarity":"Common"}},"71d":{"cardName":"Elite Mummy","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":3,"costElement":"Death","atk":5,"hp":3,"abilities":["mummy"],"rarity":"Common"}},"52u":{"cardName":"Deathstalker","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":2,"costElement":"Death","atk":0,"hp":1,"abilities":["deadlyVenom","poisonous"],"rarity":"Common"}},"71e":{"cardName":"Deathstalker","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":2,"costElement":"Death","atk":0,"hp":3,"abilities":["deadlyVenom","poisonous"],"rarity":"Common"}},"52v":{"cardName":"Soul Catcher","type":"Permanent","upgraded":false,"rule":{"family":"permanent","cost":0,"costElement":"Death","effect":"soulCatcher","deathQuanta":2,"rarity":"Common"}},"71f":{"cardName":"Soul Catcher","type":"Permanent","upgraded":true,"rule":{"family":"permanent","cost":0,"costElement":"Death","effect":"soulCatcher","deathQuanta":3,"rarity":"Common"}},"534":{"cardName":"Grey Nymph","type":"Creature","upgraded":false,"rule":{"family":"creature","cost":8,"costElement":"Death","atk":7,"hp":8,"abilities":["aflatoxin"],"activate":"aflatoxin","activateCost":1,"activateElement":"Death","rarity":"Ultra Rare"}},"71k":{"cardName":"Death Nymph","type":"Creature","upgraded":true,"rule":{"family":"creature","cost":8,"costElement":"Death","atk":8,"hp":9,"abilities":["aflatoxin"],"activate":"aflatoxin","activateCost":1,"activateElement":"Death","rarity":"Ultra Rare"}},"53e":{"cardName":"Shard of Sacrifice","type":"Spell","upgraded":false,"rule":{"family":"spell","cost":2,"costElement":"Death","effect":"shardSacrifice","sacrificeDamage":48,"duration":2,"rarity":"Rare"}},"71u":{"cardName":"Shard of Sacrifice","type":"Spell","upgraded":true,"rule":{"family":"spell","cost":2,"costElement":"Death","effect":"shardSacrifice","sacrificeDamage":40,"duration":2,"rarity":"Rare"}}};
+  for(const [code,rec] of Object.entries(DEATH_CODE_RULES)){
+    let id=OG_BY_CODE[code],card=id?IMPORTED_CARDS.find(c=>c.id===id):null;
+    if(!card){id='death-'+code;card={id,canonicalId:id,element:'Death',type:rec.type,tier:rec.upgraded?'Upgraded':'Basic',symbol:'☠',price:rec.rule.rarity==='Common'?65:190,legacyCode:code,review:'Classic Death card, original effect implemented.',artworkUrl:''};IMPORTED_CARDS.push(card);}
+    card.name=rec.cardName;card.element='Death';card.type=rec.type;card.tier=rec.upgraded?'Upgraded':'Basic';
+    card.review=rec.rule.rarity+' · Original Elements Death mechanic';card.legacyCode=code;
+    OG_BY_CODE[code]=id;OG_ORIGINAL_CARD_ID[code]=id;OG_UNFINISHED.delete(code);
+    RULES_BY_CARD[id]=rec.rule;
+  }
+  // Historical token, generated by Aflatoxin (never a collectible Deck/Bazaar card).
+  const DEATH_CELL_ID='death-malignant-cell';
+  IMPORTED_CARDS.push({id:DEATH_CELL_ID,canonicalId:DEATH_CELL_ID,element:'Other',name:'Malignant Cell',type:'Creature',tier:'Token',symbol:'☣',price:0,review:'Aflatoxin generated token; Infest at end of turn.',artworkUrl:''});
+  RULES_BY_CARD[DEATH_CELL_ID]={family:'creature',cost:0,atk:1,hp:1,abilities:['infest'],tokenOnly:true};
+
   const CARDS = (fromExternal && fromExternal.length ? fromExternal : IMPORTED_CARDS).map(normalizeCard);
   const BY_ID = Object.fromEntries(CARDS.map(c=>[c.id,c]));
   const demo = !fromExternal;
@@ -1722,7 +1738,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       </div></div></div>`;
   }
   function filterCards(field){const value=field==='shop'?state.shopFilter:state.filter;
-    return CARDS.filter(card=>(value==='All'||card.element===value) && (field==='shop'||!state.search||(`${card.name} ${card.element} ${card.type}`).toLowerCase().includes(state.search.toLowerCase())));
+    return CARDS.filter(card=>!cardRule(card)?.tokenOnly&&(value==='All'||card.element===value) && (field==='shop'||!state.search||(`${card.name} ${card.element} ${card.type}`).toLowerCase().includes(state.search.toLowerCase())));
   }
   function deckCollection(){const result=filterCards('deck');return `<section class="panel" id="collection-panel"><h2 class="section-title small">Your Collection</h2>
     <div class="toolbar"><input id="card-search" class="search-input" aria-label="Search cards" placeholder="Search cards..." value="${esc(state.search)}"><select id="deck-filter" aria-label="Filter collection by element" class="filter-select">${options(state.filter)}</select></div>
@@ -1786,12 +1802,85 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     return before-b[side+'Permanents'].length;
   }
   function darkCloakProtected(b,side,entry){return darkCloaked(b,side)&&darkRule(entry)?.effect!=='cloak';}
-  function darkHeal(b,side,amount){const k=side==='player'?'playerHp':'enemyHp';const mx=side==='player'?'playerMaxHp':'enemyMaxHp';b[k]=Math.min(b[mx]||50,b[k]+Math.max(0,amount));}
-  function darkDamageHero(b,side,amount){const k=side==='player'?'playerHp':'enemyHp';const done=Math.min(b[k],Math.max(0,amount));b[k]-=done;return done;}
+  function darkHeal(b,side,amount){const k=side==='player'?'playerHp':'enemyHp',mx=side==='player'?'playerMaxHp':'enemyMaxHp';if(b[side+'SacrificeTurns']>0){b[k]=Math.max(0,b[k]-Math.max(0,amount));return;}b[k]=Math.min(b[mx]||50,b[k]+Math.max(0,amount));}
+  // Death event engine: any genuine creature death emits once, regardless of cause.
+  // Triggering is independent of turn side and all battlefield effects use this hook.
+  function deathOnKill(b,side,u,{poison=false,transformed=false}={}){
+    if(!u||u._deathProcessed)return;
+    u._deathProcessed=true;
+    for(const who of ['player','enemy']){
+      for(const v of [...(b[who+'Creatures']||[])])if(v.abilities?.includes('scavenger')&&v!==u){v.atk++;v.hp++;v.maxHp=(v.maxHp||v.hp)+1;}
+      for(const p of [...(b[who+'Permanents']||[])]){
+        const r=cardRule(BY_ID[p.id]);
+        if(r?.effect==='soulCatcher')gainForSide(b,who,'Death',r.deathQuanta||2);
+        if(r?.effect==='boneyard'||r?.effect==='graveyard'){
+          const id=r.effect==='graveyard'?'death-716':(OG_BY_CODE['52m']||'og-52m');
+          const made=makeCreature(b,id,who);if(made)enterCreature(b,made,who);
+        }
+      }
+      const shield=b[who+'Shield'],sh=cardRule(BY_ID[shield?.id]);
+      if(sh?.effect==='boneWall'&&shield.bones>0)shield.bones+=2;
+    }
+    if(u.aflatoxin){
+      const cell=makeCreature(b,DEATH_CELL_ID,side);
+      if(cell)enterCreature(b,cell,side);
+    }
+  }
+  function deathKill(b,side,u,reason='damage'){
+    const units=b[side+'Creatures']||[];
+    if(!units.includes(u))return false;
+    b[side+'Creatures']=units.filter(x=>x!==u);
+    deathOnKill(b,side,u,{poison:reason==='poison'});refreshDarkAuras(b);return true;
+  }
+  function deathInflictPlague(b,side,amount=1){
+    darkDispelCloak(b,side);let affected=0;
+    for(const unit of b[side+'Creatures']||[]){
+      if(unit.burrowed||unit.abilities?.includes('immaterial'))continue;
+      unit.statuses=(unit.statuses||[]).filter(status=>status!=='invisible');
+      darkPoison(b,side,unit,amount);affected++;
+    }
+    return affected;
+  }
+  function deathSacrifice(b,side,amount){
+    // Shard cost is paid normally; its 48/40 HP sacrifice never reverses.
+    const pool=side==='player'?b.quanta:b.enemyQuanta;
+    for(const k of Object.keys(pool))if(k!=='Death')pool[k]=0;
+    const hp=side+'Hp';b[hp]=Math.max(0,b[hp]-amount);
+    b[side+'SacrificeTurns']=2;
+  }
+  function deathResolveSpell(b,side,r,target){
+    const other=side==='player'?'enemy':'player';
+    if(r.effect==='deathPoison'){b[other+'Poison']=(b[other+'Poison']||0)+(r.poisonAmount||2);return 'inflicted '+r.poisonAmount+' hero poison';}
+    if(r.effect==='deathPlague')return 'plagued '+deathInflictPlague(b,other)+' creatures and removed Cloak';
+    if(r.effect==='aflatoxin'){darkPoison(b,target.side,target.unit,2);target.unit.aflatoxin=true;return 'aflatoxin poisoned '+target.unit.name;}
+    if(r.effect==='shardSacrifice'){deathSacrifice(b,side,r.sacrificeDamage||48);return 'sacrificed '+(r.sacrificeDamage||48)+' HP and inverted damage for two turns';}
+    return '';
+  }
+  function deathShieldHit(b,defending,attacking,attacker,amount,physical){
+    const sh=b[defending+'Shield'],r=cardRule(BY_ID[sh?.id]);if(!r||!physical)return amount;
+    if(r.effect==='boneWall'&&amount>0){
+      sh.bones=(sh.bones??r.boneCharges??7)-1;
+      if(sh.bones<=0)b[defending+'Shield']=null;
+      return 0;
+    }
+    if(r.effect==='skullShield'&&amount>0){
+      const val=Math.max(0,amount-1);
+      if(attacker && amount>=2 && Math.random()<.5/Math.max(1,attacker.hp)){
+        const oldSide=attacking,old=attacker;
+        deathKill(b,oldSide,old,'skull');
+        const skeleton=makeCreature(b,old.id.endsWith('upgraded')?'death-716':(OG_BY_CODE['52m']||'og-52m'),oldSide);
+        if(skeleton){skeleton.boardSlot=old.boardSlot;enterCreature(b,skeleton,oldSide);}
+      }
+      return val;
+    }
+    return amount;
+  }
+
+  function darkDamageHero(b,side,amount){const k=side==='player'?'playerHp':'enemyHp';if(b[side+'SacrificeTurns']>0){const gain=Math.min((b[side+'MaxHp']||50)-b[k],Math.max(0,amount));b[k]+=gain;return gain;}const done=Math.min(b[k],Math.max(0,amount));b[k]-=done;return done;}
   function darkDamageCreature(b,side,u,amount){
     const hit=Math.max(0,Math.min(Math.max(u.hp,0),amount));u.hp-=Math.max(0,amount);
     if(u.abilities?.includes('voodoo')&&u.hp>0){darkDamageHero(b,side==='player'?'enemy':'player',Math.max(0,amount));}
-    if(u.hp<=0)b[side+'Creatures']=b[side+'Creatures'].filter(x=>x.key!==u.key);
+    if(u.hp<=0)deathKill(b,side,u);
     return hit;
   }
   function darkPoison(b,side,u,amount=1){u.poison=(u.poison||0)+amount;
@@ -1845,7 +1934,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     if(poisonHits.length){
       const lost=units.filter(u=>u.hp<=0);
       b[side+'Creatures']=units.filter(u=>u.hp>0);
-      for(const u of lost)steps.push(`${side} ${u.name} perished.`);
+      for(const u of lost){deathOnKill(b,side,u,{poison:true});steps.push(`${side} ${u.name} perished.`);}
       if(lost.length)refreshDarkAuras(b);
     }
   }
@@ -1894,7 +1983,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
   // quanta, plays every affordable card it can, and chooses uniformly at random
   // among genuinely legal targets, regardless of ownership.
   const AI_SPELL_EFFECTS=new Set(['steal','drainLife','liquidShadow','nightmare','lightning','shockwave',
-    'thunderstorm','clone','quintessence','fractal','wisdom','animateWeapon','skyBlitz']);
+    'thunderstorm','clone','quintessence','fractal','wisdom','animateWeapon','skyBlitz','deathPoison','deathPlague','aflatoxin','shardSacrifice']);
   // Classic Elements rarity reference, not Elementia Bazaar prices.
   // Source: https://elementscommunity.org/wiki/Category:Rares
   // Original wiki records 53 Rare / Ultra Rare card-family pages.
@@ -1969,7 +2058,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const pillars=CARDS.filter(c=>c.tier==='Basic'&&cardRule(c)?.family==='pillar');
     const eligible=CARDS.filter(c=>{
       const r=cardRule(c);
-      if(c.tier!=='Basic'||isClassicRare(c)||!r||r.cost==null||r.family==='pillar'||r.family==='tower'||(c.legacyCode&&OG_UNFINISHED.has(c.legacyCode)))return false;
+      if(c.tier!=='Basic'||r?.tokenOnly||isClassicRare(c)||!r||r.cost==null||r.family==='pillar'||r.family==='tower'||(c.legacyCode&&OG_UNFINISHED.has(c.legacyCode)))return false;
       if(c.type==='Creature')return Number.isFinite(r.atk)&&Number.isFinite(r.hp);
       if(c.type==='Permanent'||c.type==='Weapon'||c.type==='Shield'||c.type==='Pendulum')return true;
       return c.type==='Spell'&&AI_SPELL_EFFECTS.has(r.effect);
@@ -2069,6 +2158,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const side=t?.side,u=t?.unit;
     if(side==='player'&&t?.kind==='creature'&&targetEvasionTrial(b,u,'player').evaded)return `missed ${u.name} (Shard of Freedom)`;
     switch(r.effect){
+      case 'deathPoison':case 'deathPlague':case 'aflatoxin':case 'shardSacrifice':return deathResolveSpell(b,'enemy',r,t);
       case 'steal':{
         if(!u)return 'found no permanent';
         const destination='enemy';
@@ -2158,7 +2248,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       refreshDarkAuras(b);
     }else if(c.type==='Weapon'||c.type==='Shield'){
       b['enemy'+c.type]={id,key:b.nextKey++,born:b.turn,used:-1,
-        remaining:c.type==='Shield'?(r.duration??null):null,abilities:[...(r.abilities||[])]};
+        remaining:c.type==='Shield'?(r.duration??null):null,bones:r.effect==='boneWall'?7:null,abilities:[...(r.abilities||[])]};
     }else if(c.type==='Spell'){
       return `${c.name} (${aiResolveSpell(b,c,r,t)})`;
     }
@@ -2196,6 +2286,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     item.used=b.turn;
     if(target?.side==='player'&&targetEvasionTrial(b,target.unit,'player').evaded)return `${c.name}.${r.activate} missed ${target.unit.name} (Shard of Freedom)`;
     switch(r.activate){
+      case 'infect':darkPoison(b,target.side,target.unit,1);deathKill(b,'enemy',item,'sacrifice');break;
+      case 'viralPlague':deathInflictPlague(b,'player',1);deathKill(b,'enemy',item,'sacrifice');break;
+      case 'aflatoxin':darkPoison(b,target.side,target.unit,2);target.unit.aflatoxin=true;break;
       case 'burrow':item.burrowed=!item.burrowed;break;
       case 'stoneForm':item.hp+=20;item.maxHp+=20;item.stoneUsed=true;break;
       case 'infection':darkPoison(b,target.side,target.unit,1);break;
@@ -2425,8 +2518,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
     return [...creatures,...perms,...(r?.targeting==='creatureOrPlayer'?['enemy:hero','player:hero']:[])].filter(code=>validSpellTarget(b,card,code));}
   // Paid abilities: OG summoning delay (born < turn), once per turn, payable only when legal.
-  const TARGET_ABILITIES=new Set(['web','sniper','immortality','lobotomize','infection','liquidShadow']);
-  const REMOVABLE_ABILITIES=new Set(['web','duality','sniper','immortality','lobotomize','dive','queen','summonGas','ignite','infection','stoneForm','burrow','liquidShadow']);
+  const TARGET_ABILITIES=new Set(['web','sniper','immortality','lobotomize','infection','liquidShadow','infect','aflatoxin']);
+  const REMOVABLE_ABILITIES=new Set(['web','duality','sniper','immortality','lobotomize','dive','queen','summonGas','ignite','infection','stoneForm','burrow','liquidShadow','infect','viralPlague','aflatoxin']);
   function abilityEntries(b){
     return [...b.playerCreatures,...b.playerPermanents.filter(x=>!isResourcePermanent(BY_ID[x.id])),...(b.playerWeapon?[b.playerWeapon]:[]),...(b.playerShield?[b.playerShield]:[])].filter(item=>{const ability=cardRule(BY_ID[item.id])?.activate;return !!ability&&item.abilities?.includes(ability);});
   }
@@ -2552,6 +2645,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     b.pendingTarget=null;
     let message='';
     switch(r.activate){
+      case 'infect':{darkPoison(b,target.side,target.unit,1);deathKill(b,'player',item,'sacrifice');message=`${c.name} sacrificed itself to infect ${target.unit.name}.`;break;}
+      case 'viralPlague':{const count=deathInflictPlague(b,'enemy');deathKill(b,'player',item,'sacrifice');message=`${c.name} sacrificed itself to infect ${count} creatures.`;break;}
+      case 'aflatoxin':{darkPoison(b,target.side,target.unit,2);target.unit.aflatoxin=true;message=`${c.name}: Aflatoxin on ${target.unit.name}.`;break;}
       case 'burrow':{
         item.burrowed=!item.burrowed;
         message=`${c.name}: ${item.burrowed?'Burrowed (untargetable, attack halved)':'Unburrowed'}.`;break;
@@ -2692,9 +2788,12 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
           if(r?.effect==='fogShield'&&Math.random()<.4)amount=0;
         }
       }
+      amount=deathShieldHit(b,opponent,side,u,amount,!spellAttack(u)&&!u.abilities?.includes('momentum')&&!critical);
       const damage=darkDamageHero(b,opponent,amount);
       dealt+=damage;
       if(damage>0){
+        if(u.abilities?.includes('deadlyVenom'))b[opponent+'Poison']=(b[opponent+'Poison']||0)+2;
+        if(u.abilities?.includes('venom'))b[opponent+'Poison']=(b[opponent+'Poison']||0)+1;
         attacks.push(`${u.name} ${damage}${critical?' Freedom critical':''}${side==='player'&&b.skyBlitz?' (Sky Blitz)':''}`);
         if(u.abilities?.includes('vampire'))darkHeal(b,side,damage);
       }else if(base>0)attacks.push(`${u.name} blocked or missed`);
@@ -2703,6 +2802,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       if(u.dive){u.atk=Number.isFinite(u.diveBaseAtk)?u.diveBaseAtk:Math.ceil(u.atk/2);u.diveBaseAtk=null;u.dive=false;}
     }
     if(side==='player')b.skyBlitz=false;else b.enemySkyBlitz=false;
+    for(const u of [...(b[side+'Creatures']||[])])if(u.abilities?.includes('infest')){const child=makeCreature(b,DEATH_CELL_ID,side);if(child)enterCreature(b,child,side);}
     steps.push(`${side} creature attacks: ${dealt} damage${attacks.length?' ('+attacks.join('; ')+')':''}.`);
     return dealt;
   }
@@ -2719,7 +2819,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       if(sh?.effect==='fogShield'&&Math.random()<.4)damage=0;
       if(sh?.effect==='duskShield'&&Math.random()<.5)damage=0;
     }
+    damage=deathShieldHit(b,opponent,side,null,damage,!r.abilities?.includes('momentum'));
     const dealt=darkDamageHero(b,opponent,damage);
+    if(dealt>0&&r.abilities?.includes('venom'))b[opponent+'Poison']=(b[opponent+'Poison']||0)+1;
     if(dealt>0&&r.abilities?.includes('vampire'))darkHeal(b,side,dealt);
     steps.push(`${side} ${BY_ID[weapon.id]?.name||'Weapon'}: ${dealt} weapon damage.`);
     return dealt;
@@ -2747,7 +2849,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     phases.push(`${side}:1-creature-poison`);
     resolveCreaturePoisonBatch(b,side,steps);
     // Preserve zero-HP creatures' initial attack before removing them.
-    b[side+'Creatures']=b[side+'Creatures'].filter(u=>u.hp>0);
+    for(const u of [...b[side+'Creatures']])if(u.hp<=0)deathKill(b,side,u);
     refreshDarkAuras(b);
     phases.push(`${side}:3-resource-production`);
     steps.push(`${side} production: ${productionForSide(b,side)}.`);
@@ -2757,6 +2859,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     resolveWeaponCombat(b,side,steps);
     phases.push(`${side}:5-permanent-timers`);
     advancePermanentTimers(b,side,steps);
+    const defender=side==='player'?'enemy':'player';
+    if(b[defender+'SacrificeTurns']>0)b[defender+'SacrificeTurns']--;
   }
   function endTurn(){
     const b=ensureBoard();b.pendingTarget=null;
@@ -2989,7 +3093,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       b.playerWeapon={id,key:b.nextKey++,born:b.turn,used:-1,abilities:[...(r.abilities||[])]};
       message=`Equipped ${c.name} (${r.atk} ATK) in the Weapon slot.`;
     }else if(c.type==='Shield'){
-      b.playerShield={id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.duration??null,abilities:[...(r.abilities||[])]};
+      b.playerShield={id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.duration??null,bones:r.effect==='boneWall'?7:null,abilities:[...(r.abilities||[])]};
       message=`Equipped ${c.name} in the Shield slot${r.duration?' ('+r.duration+' enemy attack phases)':''}.`;
     }else if(c.type==='Spell'){
       const t=castTarget,unit=t?.unit,side=t?.side;
@@ -3052,6 +3156,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
           const weapon=b.playerWeapon,old=BY_ID[weapon.id];const animated=makeCreature(b,weapon.id);
           if(animated){animated.abilities=[...(cardRule(old)?.abilities||[])];enterCreature(b,animated);b.playerWeapon=null;}
           message=`${old.name} animated into a ${animated?.atk}/${animated?.hp} creature; Weapon slot freed.`;break;}
+        case 'deathPoison':case 'deathPlague':case 'aflatoxin':case 'shardSacrifice':{message=`${c.name}: ${deathResolveSpell(b,'player',r,t)}.`;break;}
         case 'skyBlitz':{b.skyBlitz=true;b.quanta.Air=0;message='Sky Blitz doubles Airborne attack this phase and consumes remaining Air quanta.';break;}
         default:message=`${c.name}: no handler. (This should not occur for the integrated set.)`;
       }
@@ -3206,10 +3311,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'19.2.0-common-basic-ai',isDemo:demo,
+    version:'20.0-death-expansion',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
 })();

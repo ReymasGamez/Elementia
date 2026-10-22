@@ -817,6 +817,69 @@ body[data-elementia-display="desktop"] .etg-ability-heading{font-size:16px}
 }
 </style>
 <style id="elementia-v17-3-fullscreen">
+
+/* v17.4: OG-inspired desktop layout while keeping the original mobile board untouched. */
+body[data-elementia-display="desktop"] .etg-og-frame{min-width:1280px;padding:10px;border:3px ridge #b19d71;background:linear-gradient(130deg,#222b27,#0c1111 30%,#233029 70%,#0b1111);box-shadow:0 0 0 2px #060b0b,0 9px 33px #000b}
+body[data-elementia-display="desktop"] .etg-og-arena{display:grid;grid-template-columns:132px minmax(0,1fr) 132px;grid-template-rows:auto minmax(580px,1fr) auto;grid-template-areas:'. enemyhand enemyrail' 'playerrail field enemyrail' 'playerrail playerhand .';gap:8px;align-items:stretch;min-height:790px}
+body[data-elementia-display="desktop"] .etg-og-tophand-wrap{grid-area:enemyhand;display:flex;flex-direction:column;gap:6px}
+body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{grid-area:playerhand;display:flex;flex-direction:column;gap:6px}
+body[data-elementia-display="desktop"] .etg-og-hand-legend{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#dfd2ab;padding:5px 8px;border:1px solid #645638;background:linear-gradient(180deg,#302515,#17120d)}
+body[data-elementia-display="desktop"] .etg-og-opponent-hand,body[data-elementia-display="desktop"] .etg-og-player-hand{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px}
+body[data-elementia-display="desktop"] .etg-og-op-card,body[data-elementia-display="desktop"] .etg-og-hand-card{aspect-ratio:1/1.16;border:2px solid #877654;border-radius:6px;background:linear-gradient(160deg,#1b1b1b,#2d2a23);box-shadow:inset 0 0 0 1px #0008;position:relative;overflow:hidden}
+body[data-elementia-display="desktop"] .etg-og-op-card{background:linear-gradient(160deg,#835838,#5b351e 60%,#2c170d)}
+body[data-elementia-display="desktop"] .etg-og-op-card.filled::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 32%,#e5d4a9 0,#a77a46 26%,transparent 27%),linear-gradient(180deg,#8e643d,#3a2414 65%,#24130c)}
+body[data-elementia-display="desktop"] .etg-og-op-card .etg-og-backbar{position:absolute;left:0;right:0;top:0;padding:5px 6px;background:rgba(17,14,11,.82);color:#f0dfbb;font-size:11px;letter-spacing:.08em;text-transform:uppercase;text-align:center;border-bottom:1px solid #a88c55}
+body[data-elementia-display="desktop"] .etg-og-op-card .etg-og-op-rune{position:absolute;inset:auto 0 14px 0;text-align:center;font-size:48px;color:#ffefc4;opacity:.85;text-shadow:0 0 8px #000}
+body[data-elementia-display="desktop"] .etg-og-rail{border:1px solid #645638;background:linear-gradient(160deg,#1e2623,#101818);padding:7px 6px;display:flex;flex-direction:column;gap:7px}
+body[data-elementia-display="desktop"] .etg-og-rail.player{grid-area:playerrail;align-self:end}
+body[data-elementia-display="desktop"] .etg-og-rail.enemy{grid-area:enemyrail;align-self:start}
+body[data-elementia-display="desktop"] .etg-og-rail-heading{font-size:11px;letter-spacing:.1em;text-transform:uppercase;text-align:center;color:#dfd2ab}
+body[data-elementia-display="desktop"] .etg-og-quanta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+body[data-elementia-display="desktop"] .etg-og-quantum{display:flex;align-items:center;gap:6px;padding:3px 5px;border:1px solid #31403e;background:linear-gradient(180deg,#101716,#1b2624);min-height:36px}
+body[data-elementia-display="desktop"] .etg-og-quantum .etg-resource-icon{width:24px;height:24px;flex:0 0 24px;font-size:15px}
+body[data-elementia-display="desktop"] .etg-og-quantum .etg-resource-num{font-size:14px;font-weight:700;color:#f8f1da}
+body[data-elementia-display="desktop"] .etg-og-vitals{display:flex;flex-direction:column;gap:5px;border-top:1px solid #544528;padding-top:6px}
+body[data-elementia-display="desktop"] .etg-og-vitals-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#f6ecd1;gap:6px}
+body[data-elementia-display="desktop"] .etg-og-mini-hp{height:12px;border:1px solid #2f372f;background:#06110b;border-radius:999px;overflow:hidden}
+body[data-elementia-display="desktop"] .etg-og-mini-hp i{display:block;height:100%;background:linear-gradient(90deg,#2eca51,#87f07b)}
+body[data-elementia-display="desktop"] .etg-og-field{grid-area:field;padding:10px;grid-template-rows:minmax(0,1fr) 24px minmax(0,1fr);gap:8px;border:2px solid #67776b;background:radial-gradient(ellipse at 50% 45%,#3f564a,#293c35 44%,#0c1b1c 92%)}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player{padding:8px 12px;gap:8px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player-status{min-height:29px;padding:4px 10px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player-status .name{font-size:17px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player-status .hp{font-size:15px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-mini-hp{height:12px;max-width:200px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones{gap:5px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row,body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle{gap:5px;width:min(100%,642px);margin-left:auto;margin-right:auto;justify-content:center}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle{width:min(87.1%,558px)}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot{width:100%;height:auto!important;min-height:0!important;aspect-ratio:1/1}
+body[data-elementia-display="desktop"] .etg-og-field .etg-lane-label{font-size:11px;margin:0 0 5px;letter-spacing:.06em}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten{width:min(100%,760px);margin-inline:auto;gap:5px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot{height:51px;min-height:51px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot.occupied .tinycard-title{font-size:10px;line-height:1.1;padding:3px 2px 2px;max-height:47%}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot.occupied .tinycard-stats{font-size:12px;padding:2px 0;line-height:1.1}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied .rune{font-size:31px;transform:translateY(5px)}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.occupied .rune{font-size:24px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot .stack-count{font-size:12px;min-width:21px;padding:2px 4px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot.equipment-blank .equip-icon{font-size:26px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot.equipment-blank small{font-size:10px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-divider{font-size:14px;line-height:24px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot.target-candidate .etg-crosshair{width:42px;height:42px;top:8px;right:8px}
+body[data-elementia-display="desktop"] .etg-og-field .etg-slot.target-candidate .etg-crosshair svg{width:36px;height:36px}
+body[data-elementia-display="desktop"] .etg-og-hand-card{display:grid;grid-template-rows:auto 1fr;gap:0;padding:0;cursor:pointer;min-width:0;text-align:left;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;color:#f7eed5}
+body[data-elementia-display="desktop"] .etg-og-hand-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px #0008}
+body[data-elementia-display="desktop"] .etg-og-hand-card.selected{border-color:#fff0b2;box-shadow:0 0 0 2px #f1d98a,0 8px 18px #0009}
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready{box-shadow:0 0 0 1px #71cf92 inset}
+body[data-elementia-display="desktop"] .etg-og-hand-card.empty{border-style:dashed;background:linear-gradient(180deg,#121716,#171c1b);opacity:.5}
+body[data-elementia-display="desktop"] .etg-og-cardbar{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:5px 6px;background:linear-gradient(180deg,var(--accent,#526f69),#0f1214);border-bottom:1px solid #0008;color:var(--title-ink,#fff9e9);font-size:11px;line-height:1.15;font-weight:700}
+body[data-elementia-display="desktop"] .etg-og-cardname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+body[data-elementia-display="desktop"] .etg-og-cardcost{flex:0 0 auto;font-size:11px;background:#091011cc;color:#fff9e9;padding:2px 5px;border-radius:999px;border:1px solid #fffa}
+body[data-elementia-display="desktop"] .etg-og-art{position:relative;min-height:88px;background:radial-gradient(circle at 50% 34%,color-mix(in srgb,var(--accent,#445f58) 82%,white 18%) 0,color-mix(in srgb,var(--accent,#445f58) 94%,black 6%) 28%,#111a1b 82%);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+body[data-elementia-display="desktop"] .etg-og-art.has-art{background-size:cover;background-position:center center}
+body[data-elementia-display="desktop"] .etg-og-art::after{content:"";position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.56))}
+body[data-elementia-display="desktop"] .etg-og-art-rune{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:42px;color:#fff6d4;opacity:.82;text-shadow:0 0 10px #000}
+body[data-elementia-display="desktop"] .etg-og-up{position:absolute;right:6px;bottom:6px;z-index:1;padding:2px 4px;font-style:normal;font-size:10px;letter-spacing:.08em;border-radius:4px;background:rgba(0,0,0,.62);border:1px solid #ffed96;color:#ffed96}
+@media (max-width:1100px){body[data-elementia-display="desktop"] .etg-og-frame{min-width:1160px}}
+
 /* Fullscreen is independent of the Mobile/Desktop choice and gameplay state. */
 .elementia-fullscreen-option{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:36px;padding:7px 12px;border:1px solid #b9a06a;border-radius:3px;background:linear-gradient(#34443d,#182423);color:#f0dfb4;white-space:nowrap;font:12px Georgia,serif}
 .elementia-fullscreen-option[aria-pressed="true"]{border-color:#e3c980;background:linear-gradient(#786338,#2b2b24);color:#fff0c6}
@@ -1857,18 +1920,48 @@ body:not([data-elementia-fullscreen="off"]) .battle-page .etg-rotate-hint{displa
       ${own?`${creatures}${permanents}`:`${permanents}${creatures}`}
     </section>`;
   }
+  function renderDesktopQuantaRail(b,side){
+    const own=side==='player';
+    const pool=own?b.quanta:b.enemyQuanta;
+    const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
+    const deck=own?b.library.length:(b.enemyLibrary||[]).length;
+    const handCount=own?b.hand.length:(b.enemyHand||[]).length;
+    const quanta=ELEMENTS.map(([name,symbol,color])=>`<div class="etg-og-quantum" title="${esc(name)} quanta"><span class="etg-resource-icon" style="background:${color}">${esc(symbol)}</span><span class="etg-resource-num">${pool[name]||0}</span></div>`).join('');
+    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-top"><span>Deck: ${deck}</span><span>Hand: ${handCount}</span></div><div class="etg-og-vitals-top"><span>HP: ${hp} / ${maxHp}</span><span>${own?'You':'Enemy'}</span></div><span class="etg-og-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span></div>`;
+    return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and vitals">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
+  }
+  function renderDesktopOpponentHand(b){
+    const cards=b.enemyHand||[];const total=Math.max(8,cards.length);
+    return Array.from({length:total},(_,i)=>i<cards.length?`<div class="etg-og-op-card filled" aria-label="Opponent hidden card ${i+1}"><span class="etg-og-backbar">Hidden</span><span class="etg-og-op-rune">✧</span></div>`:`<div class="etg-og-op-card" aria-hidden="true"></div>`).join('');
+  }
+  function renderDesktopPlayerHand(b){
+    const total=Math.max(8,b.hand.length);
+    return Array.from({length:total},(_,i)=>{
+      if(i>=b.hand.length)return '<div class="etg-og-hand-card empty" aria-hidden="true"></div>';
+      const c=BY_ID[b.hand[i]]; if(!c)return '<div class="etg-og-hand-card empty" aria-hidden="true"></div>';
+      const r=cardRule(c)||{};
+      const allowed=canAfford(b,c)&&!b.ended;
+      const costLabel=(r.cost||0)>0?`${r.cost} ${(ELEMENT[paymentElement(c)]?.symbol)||''}`.trim():'';
+      const artStyle=(c.artworkUrl?`background-image:url('${String(c.artworkUrl).replace(/'/g,"%27")}');`:'')+theme(c);
+      return `<button class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" style="${theme(c)}" aria-pressed="${i===b.selectedHand}" aria-label="Select ${esc(c.name)}"><span class="etg-og-cardbar"><span class="etg-og-cardname">${esc(c.name)}</span>${costLabel?`<span class="etg-og-cardcost">${esc(costLabel)}</span>`:''}</span><span class="etg-og-art ${c.artworkUrl?'has-art':''}" style="${artStyle}"><span class="etg-og-art-rune">${esc(c.symbol)}</span>${c.tier==='Upgraded'?'<em class="etg-og-up">UP</em>':''}</span></button>`;
+    }).join('');
+  }
+  function renderDesktopBattlefield(b){
+    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-hand-legend">OPPONENT HAND · ${(b.enemyHand||[]).length}/8</div><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-hand-legend">YOUR HAND · ${b.hand.length}/8</div><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
+  }
   function renderDuel(){const b=ensureBoard(),card=b.hand[b.selectedHand]!=null?BY_ID[b.hand[b.selectedHand]]:null;
     const quanta=ELEMENTS.map(([name,symbol,color])=>`<div class="etg-resource" title="${esc(name)} quanta"><span class="etg-resource-icon" style="background:${color}">${esc(symbol)}</span><span class="etg-resource-num">${b.quanta[name]||0}</span></div>`).join('');
     const hand=b.hand.map((id,i)=>{const c=BY_ID[id];if(!c)return '';const allowed=canAfford(b,c)&&!b.ended;
       return `<button class="etg-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" style="${theme(c)}" aria-pressed="${i===b.selectedHand}" aria-label="Select ${esc(c.name)}"><span class="rune">${esc(c.symbol)}</span><span class="etg-hand-name">${esc(c.name)}</span></button>`;}).join('');
     const canPlay=card&&!!cardRule(card)&&canAfford(b,card)&&!b.ended;
-    return wrap(`${title('Elemental Duel','Battle the Elements')}
-      ${displaySwitch()}
-      <div class="elementia-display-stage" aria-label="Scrollable desktop battlefield when needed"><div class="etg-frame"><div class="etg-arena">
+    const boardMarkup=state.displayMode==='desktop'?renderDesktopBattlefield(b):`<div class="elementia-display-stage" aria-label="Scrollable desktop battlefield when needed"><div class="etg-frame"><div class="etg-arena">
         <aside class="etg-quantum" aria-label="Your twelve elemental quanta"><div class="etg-rail-heading">Quanta · 50 cap</div>${quanta}</aside>
         <div class="etg-battlefield">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}</div>
         <aside class="etg-hand" aria-label="Your hand"><div class="etg-rail-heading">YOUR HAND · ${b.hand.length}/8</div><div class="etg-hand-scroll">${hand||'<p class="etg-fineprint">Your hand is empty.</p>'}</div><div class="etg-hand-footer">Deck: ${b.library.length}</div></aside>
-      </div></div></div>
+      </div></div></div>`;
+    return wrap(`${title('Elemental Duel','Battle the Elements')}
+      ${displaySwitch()}
+      ${boardMarkup}
       ${targetPrompt(b)}
       <div class="etg-actions"><div class="etg-selection">${card?`<b>${esc(card.name)}</b><small>${esc(ruleText(card))}</small>${cardRule(card)?.effect==='freedom'?'':''}`:`<b>${b.ended?(b.winner==='player'?'Victory!':'Defeat'):'Select a card'}</b><small>${b.ended?'Restart to play another training duel.':'Tap a card in your hand.'}</small>`}</div>
         <div class="etg-inspect-actions"><button class="button" data-action="inspect-hand" ${card?'':'disabled'}>Inspect card</button><button class="button" data-action="play-hand" ${canPlay?'':'disabled'}>${card?(cardRule(card)?.targeting?'Choose target & cast':card.type==='Spell'?'Cast spell':cardRule(card)?.effect==='freedom'?'Play passive Shard':'Play card'):'Select card'}</button></div>

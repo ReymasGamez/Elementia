@@ -1062,6 +1062,83 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty .etg-og-slot-num{
   body[data-elementia-display="desktop"] .etg-og-arena{grid-template-columns:155px minmax(0,1fr) 210px}
 }
 </style>
+
+<style id="elementia-v17-7-open-battlefield">
+/* Desktop only: remove redundant zone titles/counts and reclaim their space.
+   Keep every card slot, equipment slot and the existing combat logic intact. */
+.etg-desktop-resource-pager{display:none}
+body[data-elementia-display="desktop"] .etg-og-field{
+  overflow:visible;isolation:isolate;padding:3px 2px;
+  grid-template-rows:minmax(0,1fr) 12px minmax(0,1fr);
+  gap:2px;
+}
+body[data-elementia-display="desktop"] .etg-og-arena>.etg-og-rail,
+body[data-elementia-display="desktop"] .etg-og-arena>.etg-og-tophand-wrap,
+body[data-elementia-display="desktop"] .etg-og-arena>.etg-og-bottomhand-wrap{position:relative;z-index:3}
+body[data-elementia-display="desktop"] .etg-og-field .etg-lane-label{display:none!important}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player{
+  align-content:stretch;min-width:0;min-height:0;
+  padding:2px 0;gap:2px;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player.enemy{
+  grid-template-rows:auto minmax(0,1fr);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player.self{
+  grid-template-rows:minmax(0,1fr) auto;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-lane{
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:0;min-width:0;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones{
+  display:flex;flex-direction:column;justify-content:center;gap:2px;
+  width:100%;min-height:0;
+}
+/* Expand the original 8 / 7 / 8 grid to the sides of the playfield. A short,
+   controlled underlap tucks card edges beneath the hand/quanta rails; rails remain
+   in front and interactive. 7-wide center row stays centered. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle{
+  box-sizing:border-box;
+  max-width:none;
+  --expanded-card-side: min(11.25dvh, 132px);
+  width:min(calc(100% + 20px), calc(8 * var(--expanded-card-side) + 20px));
+  margin-inline:auto;
+  gap:clamp(2px,.22vw,4px);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle{
+  width:min(87.5%, calc(7 * var(--expanded-card-side) + 17px));
+  margin-inline:auto;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot{
+  width:100%;min-width:0;
+  aspect-ratio:1/1;
+}
+/* Resource/Permanent slots now share the whole board width rather than a narrow
+   centered 565px strip. Preserve the 7 resource + 3 equipment layout. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane{
+  width:100%;min-width:0;max-width:none;position:relative;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten{
+  box-sizing:border-box;width:calc(100% + 20px);max-width:none;
+  margin-inline:-10px;gap:clamp(2px,.22vw,4px);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot{
+  width:100%;height:clamp(25px,3.6vh,36px);min-height:clamp(25px,3.6vh,36px);
+}
+/* The old numerical lane text held the resource pager. Keep its functionality,
+   surfacing minimal navigation only if overflow pages actually exist. */
+body[data-elementia-display="desktop"] .etg-desktop-resource-pager{
+  display:flex;position:absolute;right:6px;bottom:calc(100% + 1px);
+  z-index:7;align-items:center;padding:1px 3px;
+  background:#0c1513df;border:1px solid #8a7952;border-radius:2px;
+  font:11px Georgia,serif;color:#e9debc;
+}
+body[data-elementia-display="desktop"] .etg-desktop-resource-pager .etg-page-controls button{
+  min-width:22px;min-height:19px;
+}
+/* Keep all mobile/tablet (Mobile mode) geometry exactly as in v17.6. */
+</style>
 </head>
 <body>
   <div id="app" aria-live="polite"></div>
@@ -2069,6 +2146,7 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty .etg-og-slot-num{
     return `<section class="etg-lane etg-permanent-lane" aria-label="${side} seven shared permanents and three equipment slots"><div class="etg-lane-label"><span>Pillars · Pendulums · Permanents</span><span>${all.length} cards · 7 spaces ${pager}</span></div>
       <div class="etg-bottom-ten">${Array.from({length:7},(_,i)=>{const stack=groups.get(page*7+i);return renderBattleSlot(b,stack?.entry,side,`shared lower slot ${i+1}`,stack?.count||1);}).join('')}
       ${equipment('Shield','◇')}${equipment('Weapon','⚔')}${equipment('Magical','✧')}</div>
+      ${pages>1?`<span class="etg-desktop-resource-pager" aria-label="Permanent page navigation">${pager}</span>`:''}
     </section>`;
   }
   function boardPlayer(side){

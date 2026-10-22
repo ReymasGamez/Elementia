@@ -1057,6 +1057,37 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty{
   border-style:dashed;background:#111a19;opacity:.75;
 }
 body[data-elementia-display="desktop"] .etg-og-hand-card.empty .etg-og-slot-num{color:#a6a294}
+
+/* v19.3 main menu refresh inspired by the original Elements layout. */
+.og-main-menu{display:grid;gap:18px;max-width:1380px;margin:0 auto;}
+.og-menu-top{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:center}
+.og-main-title{text-align:center;font:700 42px Papyrus,Georgia,serif;letter-spacing:.08em;color:var(--accent-gold);margin:2px 0 0}
+.og-menu-grid{display:grid;grid-template-columns:240px minmax(0,1fr) 320px;gap:18px;align-items:start}
+.og-menu-side,.og-menu-center,.og-menu-right{border:1px solid var(--line);background:linear-gradient(180deg,rgba(13,16,18,.92),rgba(11,14,17,.8));border-radius:16px;padding:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.og-menu-side{display:grid;gap:18px;align-content:start}
+.og-side-block h2,.og-menu-center h2,.og-menu-right h2{margin:0 0 8px;font:700 22px Papyrus,Georgia,serif;color:var(--accent-gold)}
+.og-side-block p,.og-menu-right p,.og-level-table,.og-manage-grid,.og-level-note,.og-empty-quest{font:14px Arial,sans-serif;color:var(--ink-dim)}
+.og-level-note{font-size:13px;font-style:italic;margin-top:4px}
+.og-menu-notice{border:1px solid #746248;background:#0f1417;padding:11px 14px;border-radius:12px;color:#f7e6be;font:14px Arial,sans-serif}
+.og-level-table{display:grid;grid-template-columns:140px repeat(7,minmax(82px,1fr));border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(10,12,14,.45)}
+.og-level-table>.rowlabel,.og-level-table>.cell{padding:10px 8px;border-right:1px solid rgba(219,198,155,.12);border-bottom:1px solid rgba(219,198,155,.12)}
+.og-level-table>.rowlabel{font:700 16px Papyrus,Georgia,serif;color:#f0dfb0;background:rgba(255,255,255,.02)}
+.og-level-table>.cell{text-align:center}
+.og-level-table>.head{background:rgba(255,255,255,.04)}
+.og-level-btn{width:100%;padding:8px 6px;border-radius:10px;border:1px solid #b69b61;background:linear-gradient(180deg,#7e6838,#574121);color:#fff7de;font:700 14px Georgia,serif;cursor:pointer}
+.og-level-btn.secondary{background:linear-gradient(180deg,#5d636f,#353b46)}
+.og-level-btn:hover{filter:brightness(1.05)}
+.og-menu-right{display:grid;gap:16px;align-content:start}
+.og-menu-mark-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.og-menu-mark{border:1px solid #6d5b3a;border-radius:10px;background:#101418;color:#f0ead7;padding:8px 6px;display:grid;justify-items:center;gap:4px;cursor:pointer}
+.og-menu-mark[aria-pressed="true"]{outline:2px solid #d9c38f;background:#1a2128}
+.og-menu-mark .orb{width:28px;height:28px;font-size:15px}
+.og-manage-grid{display:grid;grid-template-columns:180px 1fr;gap:10px 16px;align-items:center}
+.og-manage-grid .button{width:100%}
+.og-empty-quest{min-height:170px;border:1px dashed rgba(219,198,155,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;background:rgba(255,255,255,.02)}
+@media (max-width:1180px){.og-menu-grid{grid-template-columns:220px minmax(0,1fr) 280px}.og-level-table{grid-template-columns:120px repeat(7,minmax(72px,1fr))}}
+@media (max-width:980px){.og-menu-top{grid-template-columns:repeat(2,minmax(0,1fr))}.og-main-title{font-size:34px}.og-menu-grid{grid-template-columns:1fr}.og-menu-right{order:2}.og-menu-side{order:1}.og-menu-center{order:0}.og-level-table{overflow:auto;display:block}.og-level-table .og-level-row{display:grid;grid-template-columns:140px repeat(7,minmax(82px,1fr))}}
+
 /* Preserve clean fit down to laptop widths; the existing fitDesktopDuel handles height scaling. */
 @media(max-width:1100px){
   body[data-elementia-display="desktop"] .etg-og-arena{grid-template-columns:155px minmax(0,1fr) 210px}
@@ -1570,17 +1601,68 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     <form id="entry-form"><label class="field"><span>Player name</span><input autocomplete="nickname" required maxlength="24" id="playername" placeholder="Choose a name" value="${esc(state.player)}"></label>
     <div class="login-actions"><button class="button" type="submit">Enter Realm</button><button class="button secondary" data-action="guest" type="button">Play Now!</button></div></form>
     </section></main>`;}
-  function renderMenu(){const x=ELEMENT[state.element],total=countMap(state.deck);return wrap(`${title('Welcome to Elementia',`Greetings, ${esc(state.player)}. Your journey through the elements begins here.`)}
-    <div class="hero-menu"><section class="panel hero-panel"><div class="label">Elemental identity</div><div class="menu-crest"><span class="rune">${esc(x.symbol)}</span><span class="rune-sub">${esc(state.element)} ELEMENT</span></div>
-    <div class="menu-stat"><span>Element</span><b>${esc(state.element)}</b></div><div class="menu-stat"><span>Deck</span><b>${total} / 60 cards</b></div><div class="menu-stat"><span>Electrum</span><b>◈ ${state.credits}</b></div></section>
-    <section class="panel hero-panel"><h2 class="section-title">Twelve Elements</h2><p class="notice" style="margin:0">Choose your mark</p>
-    <div class="element-ring">${ELEMENTS.map(([name])=>`<button class="element-choice" data-action="element" data-id="${name}" aria-pressed="${name===state.element}">${orb(name)}<small>${name}</small></button>`).join('')}</div>${originalStarterDisplay(state.element)}</section>
-    <section class="panel hero-panel"><h2 class="section-title">The Great Hall</h2><div class="action-stack">
-    <button class="button" data-action="navigate" data-to="duel">Duel the Elements</button>
-    <button class="button" data-action="navigate" data-to="deck">Manage Your Deck</button>
-    <button class="button" data-action="navigate" data-to="shop">The Bazaar</button>
-    ${displaySwitch()}
-    </div></section></div>
+
+  function levelZeroSummary(){
+    return {cost:'-',reward:'1 ◈',spins:'-',type:'Trainer'};
+  }
+  function menuLevelCell(label,id,ready){
+    return `<button class="og-level-btn ${ready?'':'secondary'}" data-action="${ready?'starter-duel':'not-ready'}" data-id="${esc(id)}">${esc(label)}</button>`;
+  }
+  function renderMenu(){const x=ELEMENT[state.element],total=countMap(state.deck),lv0=levelZeroSummary();
+    const levelHeaders=[['Level 0','level0',true],['Level 1','level1',false],['Level 2','level2',false],['Level 3','level3',false],['Level 4','level4',false],['Top 50','top50',false],['False God','falsegod',false]];
+    const costs=['-','-','5 ◈','10 ◈','20 ◈','15 ◈','30 ◈'];
+    const rewards=['1 ◈','≈ 5 ◈','≈ 10 ◈','≈ 20 ◈','≈ 40 ◈','≈ 30 ◈','≈ 60 ◈'];
+    const spins=['-','1','2','3','3','3','3 (Upgraded)'];
+    const types=['Trainer','Random','Normal','Elder','Half-Blood','Top 50','False God'];
+    const rows=[
+      ['Level',levelHeaders.map(([label,id,ready])=>menuLevelCell(label,id,ready)).join('')],
+      ['Cost',costs.join('||')],
+      ['Reward',rewards.join('||')],
+      ['Spins',spins.join('||')],
+      ['Type',types.join('||')]
+    ];
+    const levelTable=`<div class="og-level-table" role="table" aria-label="Opponent levels">`+
+      `<div class="rowlabel">Level</div>`+levelHeaders.map(([label,id,ready])=>`<div class="cell head">${menuLevelCell(label,id,ready)}</div>`).join('')+
+      `<div class="rowlabel">Cost</div>`+costs.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
+      `<div class="rowlabel">Reward</div>`+rewards.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
+      `<div class="rowlabel">Spins</div>`+spins.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
+      `<div class="rowlabel">Type</div>`+types.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
+      `</div>`;
+    return wrap(`
+      <section class="og-main-menu">
+        <div class="og-menu-top">
+          <button class="button secondary" data-action="save-game">Save Game</button>
+          <button class="button secondary" data-action="logout">Logout</button>
+          <div class="og-main-title">MAIN MENU</div>
+          <button class="button secondary" data-action="open-settings">Setting</button>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><button class="button secondary" data-action="confirm-reset">Reset Account</button><button class="button secondary" data-action="account-info">Account Info</button></div>
+        </div>
+        ${state.notice?`<div class="og-menu-notice" role="status">${esc(state.notice)}</div>`:''}
+        <div class="og-menu-grid">
+          <aside class="og-menu-side">
+            <section class="og-side-block"><h2>Start A New Game</h2><p>(pick your opponent level)</p></section>
+            <section class="og-side-block"><h2>Manage Your Deck</h2><p>(add, remove, buy or sell cards)</p>
+              <div class="og-manage-grid">
+                <button class="button secondary" data-action="navigate" data-to="deck">Your Deck</button><div>View your deck and add or remove cards</div>
+                <button class="button secondary" data-action="navigate" data-to="shop">Bazaar</button><div>Buy or sell cards</div>
+                <button class="button secondary" data-action="redeem-code">Redeem Code</button><div>Insert a reward code</div>
+              </div>
+            </section>
+          </aside>
+          <section class="og-menu-center">
+            ${levelTable}
+            <div class="og-level-note">Level 0 is live now. Higher levels are visible, but not ready yet.</div>
+          </section>
+          <aside class="og-menu-right">
+            <section><h2>Choose Your Mark</h2><p>Select the element for your starter deck and identity.</p>
+              <div class="og-menu-mark-grid">${ELEMENTS.map(([name])=>`<button class="og-menu-mark" data-action="element" data-id="${name}" aria-pressed="${name===state.element}">${orb(name)}<small>${esc(name)}</small></button>`).join('')}</div>
+            </section>
+            <section><h2>Current Account</h2><p>Player: <strong>${esc(state.player)}</strong><br>Mark: <strong>${esc(state.element)}</strong><br>Deck: <strong>${total} / 60 cards</strong><br>Electrum: <strong>◈ ${state.credits}</strong></p>
+            ${displaySwitch()}</section>
+            <section><h2>Future Space</h2><div class="og-empty-quest">Reserved for later features.</div></section>
+          </aside>
+        </div>
+      </section>
     `);}
   function options(current){return `<option value="All" ${current==='All'?'selected':''}>All elements</option>${ELEMENTS.map(([name])=>`<option value="${name}" ${current===name?'selected':''}>${name}</option>`).join('')}<option value="Other" ${current==='Other'?'selected':''}>Other · Quanta/Prisma</option>`;}
   function renderDetail(card,from='collection'){
@@ -2930,7 +3012,12 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const active=abilityEntries(b);if(!b.abilitySource&&active.length)b.abilitySource=String(active[active.length-1].key);
     finishDuel(b);logDuel(b,message);render();
   }
-  function modal(){const c=BY_ID[state.modal];if(!c)return '';return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Card details"><h2 class="section-title">Card Details</h2>${renderDetail(c)}
+  function modal(){
+    if(state.modal==='settings-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Settings"><h2 class="section-title">Settings</h2><p class="notice">Choose how Elementia displays the battlefield.</p>${displaySwitch()}<div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
+    if(state.modal==='account-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Account Information"><h2 class="section-title">Account Info</h2><p><strong>Player:</strong> ${esc(state.player)}<br><strong>Mark:</strong> ${esc(state.element)}<br><strong>Deck:</strong> ${countMap(state.deck)} / 60 cards<br><strong>Electrum:</strong> ◈ ${state.credits}</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="navigate" data-to="deck">Manage Deck</button></div></section></div>`;
+    if(state.modal==='redeem-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Redeem Code"><h2 class="section-title">Redeem Code</h2><p class="notice">Reward codes are not active in this build yet.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
+    if(state.modal==='reset-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Reset Account"><h2 class="section-title">Reset Account</h2><p class="notice">This will clear your saved deck, collection, mark, and credits from this browser.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Cancel</button><button class="button" data-action="do-reset">Reset Account</button></div></section></div>`;
+    const c=BY_ID[state.modal];if(!c)return '';return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Card details"><h2 class="section-title">Card Details</h2>${renderDetail(c)}
     <div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="add-deck" data-id="${esc(c.id)}" ${(state.deck[c.id]||0)>=(state.inventory[c.id]||0)?'disabled':''}>Add to Deck</button></div></section></div>`;}
   function fitDesktopDuel(){
     if(state.scene!=='duel'||state.displayMode!=='desktop')return;
@@ -2977,6 +3064,14 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const action=button.dataset.action,id=button.dataset.id;
     switch(action){
       case 'guest':enter('Guest');break;
+      case 'save-game':save();state.notice='Game saved in this browser.';render();break;
+      case 'logout':save();state.scene='login';state.notice='';render();window.scrollTo({top:0,behavior:'instant'});break;
+      case 'open-settings':state.modal='settings-panel';render();break;
+      case 'confirm-reset':state.modal='reset-panel';render();break;
+      case 'do-reset':try{localStorage.removeItem(STORE_KEY);}catch(_){} state=defaultState(); render(); break;
+      case 'account-info':state.modal='account-panel';render();break;
+      case 'redeem-code':state.modal='redeem-panel';render();break;
+      case 'not-ready':state.notice="Oops! This isn't ready yet!"; render(); break;
       case 'fullscreen-toggle':toggleFullscreen();break;
       case 'display-mode':if(['mobile','desktop'].includes(button.dataset.mode)){
         state.displayMode=button.dataset.mode;

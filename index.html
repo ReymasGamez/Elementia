@@ -1058,35 +1058,63 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty{
 }
 body[data-elementia-display="desktop"] .etg-og-hand-card.empty .etg-og-slot-num{color:#a6a294}
 
-/* v19.3 main menu refresh inspired by the original Elements layout. */
-.og-main-menu{display:grid;gap:18px;max-width:1380px;margin:0 auto;}
-.og-menu-top{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:center}
-.og-main-title{text-align:center;font:700 42px Papyrus,Georgia,serif;letter-spacing:.08em;color:var(--accent-gold);margin:2px 0 0}
-.og-menu-grid{display:grid;grid-template-columns:240px minmax(0,1fr) 320px;gap:18px;align-items:start}
-.og-menu-side,.og-menu-center,.og-menu-right{border:1px solid var(--line);background:linear-gradient(180deg,rgba(13,16,18,.92),rgba(11,14,17,.8));border-radius:16px;padding:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
-.og-menu-side{display:grid;gap:18px;align-content:start}
-.og-side-block h2,.og-menu-center h2,.og-menu-right h2{margin:0 0 8px;font:700 22px Papyrus,Georgia,serif;color:var(--accent-gold)}
-.og-side-block p,.og-menu-right p,.og-level-table,.og-manage-grid,.og-level-note,.og-empty-quest{font:14px Arial,sans-serif;color:var(--ink-dim)}
-.og-level-note{font-size:13px;font-style:italic;margin-top:4px}
-.og-menu-notice{border:1px solid #746248;background:#0f1417;padding:11px 14px;border-radius:12px;color:#f7e6be;font:14px Arial,sans-serif}
-.og-level-table{display:grid;grid-template-columns:140px repeat(7,minmax(82px,1fr));border:1px solid var(--line);border-radius:14px;overflow:hidden;background:rgba(10,12,14,.45)}
-.og-level-table>.rowlabel,.og-level-table>.cell{padding:10px 8px;border-right:1px solid rgba(219,198,155,.12);border-bottom:1px solid rgba(219,198,155,.12)}
-.og-level-table>.rowlabel{font:700 16px Papyrus,Georgia,serif;color:#f0dfb0;background:rgba(255,255,255,.02)}
-.og-level-table>.cell{text-align:center}
-.og-level-table>.head{background:rgba(255,255,255,.04)}
-.og-level-btn{width:100%;padding:8px 6px;border-radius:10px;border:1px solid #b69b61;background:linear-gradient(180deg,#7e6838,#574121);color:#fff7de;font:700 14px Georgia,serif;cursor:pointer}
-.og-level-btn.secondary{background:linear-gradient(180deg,#5d636f,#353b46)}
-.og-level-btn:hover{filter:brightness(1.05)}
-.og-menu-right{display:grid;gap:16px;align-content:start}
-.og-menu-mark-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.og-menu-mark{border:1px solid #6d5b3a;border-radius:10px;background:#101418;color:#f0ead7;padding:8px 6px;display:grid;justify-items:center;gap:4px;cursor:pointer}
-.og-menu-mark[aria-pressed="true"]{outline:2px solid #d9c38f;background:#1a2128}
-.og-menu-mark .orb{width:28px;height:28px;font-size:15px}
-.og-manage-grid{display:grid;grid-template-columns:180px 1fr;gap:10px 16px;align-items:center}
-.og-manage-grid .button{width:100%}
-.og-empty-quest{min-height:170px;border:1px dashed rgba(219,198,155,.22);border-radius:12px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;background:rgba(255,255,255,.02)}
-@media (max-width:1180px){.og-menu-grid{grid-template-columns:220px minmax(0,1fr) 280px}.og-level-table{grid-template-columns:120px repeat(7,minmax(72px,1fr))}}
-@media (max-width:980px){.og-menu-top{grid-template-columns:repeat(2,minmax(0,1fr))}.og-main-title{font-size:34px}.og-menu-grid{grid-template-columns:1fr}.og-menu-right{order:2}.og-menu-side{order:1}.og-menu-center{order:0}.og-level-table{overflow:auto;display:block}.og-level-table .og-level-row{display:grid;grid-template-columns:140px repeat(7,minmax(82px,1fr))}}
+.og-level-swipe{display:none}
+@media(max-width:760px){.og-level-swipe{display:block;text-align:left;color:#e0c487;font:11px/1.3 Arial,sans-serif;margin-bottom:4px}}
+/* v19.4 — faithful OG-inspired menu. No changes to duel, deck or shop styling. */
+.shell:has(.og-main-menu){max-width:1590px;padding:8px clamp(9px,1.1vw,18px) 18px}
+.og-main-menu{max-width:none;display:grid;gap:13px;margin:0;color:#ece0c5;--og-rule:#ab9b69;--og-paper:#dacba5}
+.og-menu-top{display:grid;grid-template-columns:1fr 1fr minmax(230px,1.25fr) 1fr 1fr 1fr;gap:clamp(8px,1.3vw,18px);align-items:center;background:linear-gradient(180deg,#593a20,#241c19 68%,#161b1d);border:1px solid #866f49;border-radius:2px;padding:7px 13px;min-height:62px;box-shadow:inset 0 1px #e9d19e42,0 4px 12px #0008}
+.og-menu-top .button,.og-manage-grid .button{min-height:30px;padding:5px 9px;border:1px solid #bbad80;border-radius:5px;box-shadow:inset 0 1px #fff3b78c,inset 0 -2px #12110e80,0 1px 3px #0009;background:linear-gradient(180deg,#9da09a 0%,#4e5757 38%,#272e30 68%,#141b1f 100%);font-size:clamp(11px,1.15vw,15px);white-space:nowrap;color:#fff2d5}
+.og-menu-top .button:hover,.og-manage-grid .button:hover{border-color:#f1d591;filter:brightness(1.15)}
+.og-main-title{margin:0;font:normal clamp(26px,2.65vw,39px)/1 Papyrus,'Palatino Linotype',Georgia,serif;letter-spacing:.07em;white-space:nowrap;text-align:center;color:#ffe483;text-shadow:0 2px 2px #000,0 0 11px #c4933b44}
+.og-menu-notice{font:14px Georgia,serif;border:1px solid #aa9060;color:#fff0cc;background:#191d1bf2;padding:10px 15px;border-radius:3px}
+.og-menu-info{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;border:1px solid #524c37;background:linear-gradient(90deg,#171e20,#253030 45%,#111919);min-height:44px;padding:7px 15px;font:13px Georgia,serif;color:#d2d5c9}
+.og-menu-info b{font-weight:normal;color:#f2dfa4}
+.og-menu-main{display:grid;grid-template-columns:clamp(220px,20.5%,290px) minmax(0,1fr);gap:14px;align-items:stretch;min-width:0}
+.og-menu-intro{display:flex;flex-direction:column;justify-content:center;padding:18px 18px 18px 12px;min-width:0}
+.og-menu-intro h2,.og-menu-deckintro h2{font:normal clamp(21px,2.05vw,29px)/1.2 'Palatino Linotype',Georgia,serif;color:#f8dc83;text-shadow:1px 2px #080c0e;margin:0 0 5px}
+.og-menu-intro p,.og-menu-deckintro p{font:italic clamp(11px,1.1vw,15px) Georgia,serif;color:#ebdfc0;margin:0}
+.og-level-panel{min-width:0;padding:13px 10px;background:linear-gradient(145deg,#283234bf,#161e20bf);border:1px solid #8b805e;box-shadow:inset 0 0 0 2px #151b1ca6;position:relative}
+.og-level-panel:before,.og-level-panel:after{content:"";position:absolute;width:19px;height:16px;border-color:#b8a777;border-style:solid;pointer-events:none}
+.og-level-panel:before{top:-6px;left:-7px;border-width:2px 0 0 2px}.og-level-panel:after{right:-7px;bottom:-6px;border-width:0 2px 2px 0}
+.og-level-scroll{min-width:0;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-color:#968151 #1b2323}
+.og-level-table{display:grid;grid-template-columns:clamp(90px,10.1vw,150px) repeat(7,minmax(0,1fr));background:transparent;border:0;border-radius:0;overflow:visible;width:100%;min-width:780px;align-items:stretch}
+.og-level-table>.rowlabel,.og-level-table>.cell{display:flex;min-height:40px;align-items:center;justify-content:center;padding:5px 2px;border:0;border-bottom:1px solid #9d986b5c;text-align:center;background:transparent;font:clamp(12px,1.1vw,15px) Georgia,serif;color:#e9e8d8}
+.og-level-table>.rowlabel{justify-content:flex-start;padding-left:11px;font:italic clamp(19px,1.65vw,23px) Georgia,serif;color:#f7f0dc}
+.og-level-table>.cell.head{background:transparent}
+.og-level-table>.cell:nth-last-child(-n+8),.og-level-table>.rowlabel:nth-last-child(-n+8){border-bottom:none}
+.og-level-btn{min-height:28px;width:95%;padding:4px 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border:1px solid #c9bc8e;border-radius:5px;background:linear-gradient(180deg,#777f7f,#353c41 52%,#20272a);box-shadow:inset 0 1px #ffffff69,inset 0 -1px #070a0c80;color:#fff4d9;font:clamp(10px,.95vw,13px) Georgia,serif;cursor:pointer;text-shadow:0 1px #050809}
+.og-level-btn.secondary{background:linear-gradient(180deg,#7e8586,#4b5152 45%,#242a30)}
+.og-level-btn:hover,.og-level-btn:focus-visible{background:linear-gradient(180deg,#bba365,#806c45 54%,#55462f);color:#fff9d9;border-color:#ffdfa0}
+.og-level-btn[data-id="level0"]{background:linear-gradient(180deg,#a8996c,#6e634d 52%,#343731);border-color:#ead6a1}
+.og-level-note{font:11px/1.5 Arial,sans-serif;color:#aaa89a;padding:9px 4px 0;text-align:right}
+.og-menu-lower{display:grid;grid-template-columns:clamp(220px,20.5%,290px) minmax(350px,1fr) minmax(180px,29%);gap:14px;min-width:0;min-height:147px}
+.og-menu-deckintro{padding:15px 18px 10px 12px;display:flex;flex-direction:column;justify-content:center}
+.og-menu-deckpanel{min-width:0;border:1px solid #8b805e;background:linear-gradient(155deg,#303b387a,#171d1eab);padding:12px 15px;position:relative}
+.og-menu-deckpanel:before{content:"";position:absolute;left:-5px;top:-5px;height:20px;width:18px;border-left:2px solid #baa474;border-top:2px solid #baa474}
+.og-manage-grid{display:grid;grid-template-columns:minmax(133px,175px) minmax(0,1fr);gap:7px 16px;align-items:center;font:12px Georgia,serif;color:#d6d1c4}
+.og-manage-grid .button{width:100%;font:13px Georgia,serif;min-height:29px}
+.og-menu-reserved{min-width:0;border:1px solid #6d6350;background:linear-gradient(135deg,#252f3490,#17201e4d);box-shadow:inset 0 0 0 2px #11171970}
+.og-menu-mark-section{display:grid;grid-template-columns:170px minmax(0,1fr);gap:15px;border-top:1px solid #77724e;padding:11px 2px 4px;align-items:center}
+.og-menu-mark-label{font:normal 19px Georgia,serif;color:#f0d888;line-height:1.15}
+.og-menu-mark-label small{display:block;font:11px/1.6 Arial,sans-serif;color:#b3b5aa;padding-top:3px}
+.og-menu-mark-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;min-width:0}
+.og-menu-mark{border:1px solid #666047;border-radius:3px;min-width:0;background:linear-gradient(#2b3434,#151c1e);color:#e3dbc6;padding:5px 2px;display:grid;justify-items:center;gap:3px;cursor:pointer;min-height:55px}
+.og-menu-mark:hover{border-color:#ba9f65}.og-menu-mark[aria-pressed="true"]{outline:none;border-color:#f1d389;box-shadow:inset 0 0 0 1px #d6bc7d,0 0 9px #cfaa4c59;background:#45453a}
+.og-menu-mark .orb{width:24px;height:24px;font-size:14px}
+.og-menu-mark small{font:10px Georgia,serif;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.og-menu-starter{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-top:4px}
+.og-menu-starter .og-starter-block{margin:0;padding:0;border:0;flex:1 1 360px}
+.og-menu-starter .og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.og-menu-starter .og-starter-details{margin:0;padding:0;border:0;overflow:visible;min-width:0}
+.og-menu-starter .og-starter-actions .button,.og-menu-starter summary.button{width:100%;min-height:33px!important;font:12px Georgia,serif!important;padding:5px 8px!important}
+.og-menu-starter .og-starter-details[open]{grid-column:1/-1;border:1px solid #807153;background:#172021;padding:8px}
+.og-menu-starter .og-starter-details[open] .og-starter-grid{max-height:180px;overflow-y:auto}
+.og-menu-starter .elementia-display-switch{margin:0;flex:1 1 300px}
+@media(min-width:1200px){.og-level-table{min-width:0}}
+@media(max-width:1100px){.og-menu-top{grid-template-columns:repeat(3,minmax(0,1fr))}.og-main-title{grid-column:1/-1;grid-row:1}.og-menu-lower{grid-template-columns:210px 1fr 190px}.og-menu-mark-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.og-menu-main{grid-template-columns:210px minmax(0,1fr)}}
+@media(max-width:760px){.og-main-menu{gap:10px}.og-menu-top{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:8px}.og-main-title{font-size:30px}.og-menu-top .button{white-space:normal;min-height:35px;font-size:13px}.og-menu-info{font-size:11px}.og-menu-main{grid-template-columns:1fr;gap:7px}.og-menu-intro{padding:8px 5px 0}.og-menu-intro h2,.og-menu-deckintro h2{font-size:23px}.og-level-panel{padding:9px 6px}.og-level-table{min-width:805px;grid-template-columns:102px repeat(7,minmax(100px,1fr))}.og-level-table>.rowlabel,.og-level-table>.cell{min-height:39px}.og-level-note{text-align:left}.og-menu-lower{grid-template-columns:1fr;gap:6px;min-height:0}.og-menu-deckintro{padding:8px 5px 0}.og-menu-deckpanel{padding:11px}.og-menu-reserved{min-height:60px}.og-menu-mark-section{grid-template-columns:1fr;gap:10px}.og-menu-mark-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.og-menu-starter{display:block}.og-menu-starter .elementia-display-switch{margin-top:9px}}
+@media(max-width:385px){.og-menu-top .button{font-size:12px}.og-main-title{font-size:28px}.og-manage-grid{grid-template-columns:116px minmax(0,1fr);gap:7px}.og-manage-grid .button{font-size:11px}.og-menu-starter .og-starter-actions{grid-template-columns:1fr}}
 
 /* Preserve clean fit down to laptop widths; the existing fitDesktopDuel handles height scaling. */
 @media(max-width:1100px){
@@ -1594,7 +1622,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
     <nav class="nav" aria-label="Primary navigation">${[['menu','Main Menu'],['deck','Deck'],['shop','Bazaar'],['duel','Duel']].map(([id,label])=>`<button class="nav-button" data-action="navigate" data-to="${id}" ${state.scene===id?'aria-current="page"':''}>${label}</button>`).join('')}</nav></header><div class="ornament-line"></div>`;}
   function footer(){return `<footer class="footer">ELEMENTIA · THE RETURN</footer>`;}
-  function wrap(content,battle=false){return `<div class="shell ${battle?'battle-page':''}">${nav()}<main id="main">${content}</main>${footer()}</div>${state.modal?modal():''}`;}
+  function wrap(content,battle=false){const classicMenu=state.scene==='menu';return `<div class="shell ${battle?'battle-page':''}">${classicMenu?'':nav()}<main id="main">${content}</main>${classicMenu?'':footer()}</div>${state.modal?modal():''}`;}
   function title(main,description,side=''){return `<div class="page-title"><div><h1>${main}</h1><p>${description}</p></div>${side}</div>`;}
   function renderLogin(){return `<main class="login"><section class="panel login-card" aria-label="Elementia entry screen"><div class="eyebrow">A realm of twelve elements</div><div class="login-sigil" aria-hidden="true">✥</div>
     <h1 class="hero-title">ELEMENTIA</h1><p class="hero-sub">The Return</p><div class="ornament-line" style="margin-bottom:24px"></div>
@@ -1602,68 +1630,55 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     <div class="login-actions"><button class="button" type="submit">Enter Realm</button><button class="button secondary" data-action="guest" type="button">Play Now!</button></div></form>
     </section></main>`;}
 
-  function levelZeroSummary(){
-    return {cost:'-',reward:'1 ◈',spins:'-',type:'Trainer'};
-  }
   function menuLevelCell(label,id,ready){
-    return `<button class="og-level-btn ${ready?'':'secondary'}" data-action="${ready?'starter-duel':'not-ready'}" data-id="${esc(id)}">${esc(label)}</button>`;
+    return `<button type="button" class="og-level-btn ${ready?'':'secondary'}" data-action="${ready?'starter-duel':'not-ready'}" data-id="${esc(id)}" aria-label="${esc(label)}">${esc(label)}</button>`;
   }
-  function renderMenu(){const x=ELEMENT[state.element],total=countMap(state.deck),lv0=levelZeroSummary();
-    const levelHeaders=[['Level 0','level0',true],['Level 1','level1',false],['Level 2','level2',false],['Level 3','level3',false],['Level 4','level4',false],['Top 50','top50',false],['False God','falsegod',false]];
-    const costs=['-','-','5 ◈','10 ◈','20 ◈','15 ◈','30 ◈'];
-    const rewards=['1 ◈','≈ 5 ◈','≈ 10 ◈','≈ 20 ◈','≈ 40 ◈','≈ 30 ◈','≈ 60 ◈'];
-    const spins=['-','1','2','3','3','3','3 (Upgraded)'];
-    const types=['Trainer','Random','Normal','Elder','Half-Blood','Top 50','False God'];
+  function renderMenu(){
+    const total=countMap(state.deck);
+    const levels=[['Level 0','level0',true],['Level 1','level1',false],['Level 2','level2',false],['Level 3','level3',false],['Level 4','level4',false],['Top 50','top50',false],['False God','falsegod',false]];
     const rows=[
-      ['Level',levelHeaders.map(([label,id,ready])=>menuLevelCell(label,id,ready)).join('')],
-      ['Cost',costs.join('||')],
-      ['Reward',rewards.join('||')],
-      ['Spins',spins.join('||')],
-      ['Type',types.join('||')]
+      ['Cost',['-','-','5 ◈','10 ◈','20 ◈','15 ◈','30 ◈']],
+      ['Reward',['1 ◈','≈ 5 ◈','≈ 10 ◈','≈ 20 ◈','≈ 40 ◈','≈ 30 ◈','≈ 60 ◈']],
+      ['Spins',['-','1','2','3','3','3','3 (Upgraded)']],
+      ['Type',['Trainer','Random','Normal','Elder','Half-Blood','Top 50','False God']]
     ];
-    const levelTable=`<div class="og-level-table" role="table" aria-label="Opponent levels">`+
-      `<div class="rowlabel">Level</div>`+levelHeaders.map(([label,id,ready])=>`<div class="cell head">${menuLevelCell(label,id,ready)}</div>`).join('')+
-      `<div class="rowlabel">Cost</div>`+costs.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
-      `<div class="rowlabel">Reward</div>`+rewards.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
-      `<div class="rowlabel">Spins</div>`+spins.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
-      `<div class="rowlabel">Type</div>`+types.map(v=>`<div class="cell">${esc(v)}</div>`).join('')+
-      `</div>`;
-    return wrap(`
-      <section class="og-main-menu">
-        <div class="og-menu-top">
-          <button class="button secondary" data-action="save-game">Save Game</button>
-          <button class="button secondary" data-action="logout">Logout</button>
-          <div class="og-main-title">MAIN MENU</div>
-          <button class="button secondary" data-action="open-settings">Setting</button>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><button class="button secondary" data-action="confirm-reset">Reset Account</button><button class="button secondary" data-action="account-info">Account Info</button></div>
-        </div>
-        ${state.notice?`<div class="og-menu-notice" role="status">${esc(state.notice)}</div>`:''}
-        <div class="og-menu-grid">
-          <aside class="og-menu-side">
-            <section class="og-side-block"><h2>Start A New Game</h2><p>(pick your opponent level)</p></section>
-            <section class="og-side-block"><h2>Manage Your Deck</h2><p>(add, remove, buy or sell cards)</p>
-              <div class="og-manage-grid">
-                <button class="button secondary" data-action="navigate" data-to="deck">Your Deck</button><div>View your deck and add or remove cards</div>
-                <button class="button secondary" data-action="navigate" data-to="shop">Bazaar</button><div>Buy or sell cards</div>
-                <button class="button secondary" data-action="redeem-code">Redeem Code</button><div>Insert a reward code</div>
-              </div>
-            </section>
-          </aside>
-          <section class="og-menu-center">
-            ${levelTable}
-            <div class="og-level-note">Level 0 is live now. Higher levels are visible, but not ready yet.</div>
-          </section>
-          <aside class="og-menu-right">
-            <section><h2>Choose Your Mark</h2><p>Select the element for your starter deck and identity.</p>
-              <div class="og-menu-mark-grid">${ELEMENTS.map(([name])=>`<button class="og-menu-mark" data-action="element" data-id="${name}" aria-pressed="${name===state.element}">${orb(name)}<small>${esc(name)}</small></button>`).join('')}</div>
-            </section>
-            <section><h2>Current Account</h2><p>Player: <strong>${esc(state.player)}</strong><br>Mark: <strong>${esc(state.element)}</strong><br>Deck: <strong>${total} / 60 cards</strong><br>Electrum: <strong>◈ ${state.credits}</strong></p>
-            ${displaySwitch()}</section>
-            <section><h2>Future Space</h2><div class="og-empty-quest">Reserved for later features.</div></section>
-          </aside>
-        </div>
+    const table=`<div class="og-level-scroll" role="region" aria-label="Opponent level comparison — scroll horizontally on small screens" tabindex="0">
+      <div class="og-level-table" role="table" aria-label="Opponent levels">
+        <div class="rowlabel" role="rowheader">Level</div>${levels.map(([label,id,ready])=>`<div class="cell head" role="columnheader">${menuLevelCell(label,id,ready)}</div>`).join('')}
+        ${rows.map(([name,values])=>`<div class="rowlabel" role="rowheader">${esc(name)}</div>${values.map(v=>`<div class="cell" role="cell">${esc(v)}</div>`).join('')}`).join('')}
+      </div></div>`;
+    const deckActions=`<div class="og-manage-grid">
+      <button type="button" class="button secondary" data-action="navigate" data-to="deck">Your Deck</button><span>View your deck and add or remove cards</span>
+      <button type="button" class="button secondary" data-action="navigate" data-to="shop">Bazaar</button><span>Buy or sell cards</span>
+      <button type="button" class="button secondary" data-action="redeem-code">Redeem Code</button><span>Insert a reward code</span>
+    </div>`;
+    return wrap(`<section class="og-main-menu" aria-label="Elementia main menu">
+      <div class="og-menu-top" role="toolbar" aria-label="Main menu actions">
+        <button type="button" class="button secondary" data-action="save-game">Save Game</button>
+        <button type="button" class="button secondary" data-action="logout">Logout</button>
+        <h1 class="og-main-title">MAIN MENU</h1>
+        <button type="button" class="button secondary" data-action="open-settings">Setting</button>
+        <button type="button" class="button secondary" data-action="confirm-reset">Reset Account</button>
+        <button type="button" class="button secondary" data-action="account-info">Account Info</button>
+      </div>
+      <div class="og-menu-info"><span>Welcome, <b>${esc(state.player)}</b></span><span>Your Mark: <b>${esc(state.element)}</b></span><span>Deck: <b>${total} / 60</b></span><span>Electrum: <b>◈ ${state.credits}</b></span></div>
+      ${state.notice?`<div class="og-menu-notice" role="status">${esc(state.notice)}</div>`:''}
+      <div class="og-menu-main">
+        <div class="og-menu-intro"><h2>Start A New Game</h2><p>(pick your opponent level)</p></div>
+        <section class="og-level-panel" aria-label="Choose opponent level">${table}<div class="og-level-note"><span class="og-level-swipe">Swipe sideways to view all opponent levels →</span>Level 0 is ready. Other levels are planned.</div></section>
+      </div>
+      <div class="og-menu-lower">
+        <div class="og-menu-deckintro"><h2>Manage Your Deck</h2><p>(add, remove, buy or sell cards)</p></div>
+        <section class="og-menu-deckpanel" aria-label="Deck actions">${deckActions}</section>
+        <div class="og-menu-reserved" aria-label="Reserved space for future features"></div>
+      </div>
+      <section class="og-menu-mark-section" aria-label="Choose your element mark">
+        <div class="og-menu-mark-label">Choose Your Mark<small>Starter deck selection</small></div>
+        <div class="og-menu-mark-grid">${ELEMENTS.map(([name])=>`<button type="button" class="og-menu-mark" data-action="element" data-id="${name}" aria-pressed="${name===state.element}" title="${esc(name)}">${orb(name)}<small>${esc(name)}</small></button>`).join('')}</div>
       </section>
-    `);}
+      <div class="og-menu-starter">${originalStarterDisplay(state.element)}${displaySwitch()}</div>
+    </section>`);
+  }
   function options(current){return `<option value="All" ${current==='All'?'selected':''}>All elements</option>${ELEMENTS.map(([name])=>`<option value="${name}" ${current===name?'selected':''}>${name}</option>`).join('')}<option value="Other" ${current==='Other'?'selected':''}>Other · Quanta/Prisma</option>`;}
   function renderDetail(card,from='collection'){
     if (!card) return '<div class="empty">No card selected.</div>';
@@ -3013,6 +3028,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     finishDuel(b);logDuel(b,message);render();
   }
   function modal(){
+    if(state.modal==='unavailable-level')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Unfinished opponent level"><h2 class="section-title">Oops! This isn't ready yet!</h2><div class="modal-actions"><button type="button" class="button" data-action="close-modal">OK</button></div></section></div>`;
     if(state.modal==='settings-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Settings"><h2 class="section-title">Settings</h2><p class="notice">Choose how Elementia displays the battlefield.</p>${displaySwitch()}<div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
     if(state.modal==='account-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Account Information"><h2 class="section-title">Account Info</h2><p><strong>Player:</strong> ${esc(state.player)}<br><strong>Mark:</strong> ${esc(state.element)}<br><strong>Deck:</strong> ${countMap(state.deck)} / 60 cards<br><strong>Electrum:</strong> ◈ ${state.credits}</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="navigate" data-to="deck">Manage Deck</button></div></section></div>`;
     if(state.modal==='redeem-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Redeem Code"><h2 class="section-title">Redeem Code</h2><p class="notice">Reward codes are not active in this build yet.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
@@ -3051,7 +3067,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     requestAnimationFrame(fitDesktopDuel);
   }
   function enter(name){state.player=(name||'Guest').trim().slice(0,24)||'Guest';state.scene='menu';save();render();}
-  function navigate(to){if(!['menu','deck','shop','duel','login'].includes(to))return;if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
+  function navigate(to){if(!['menu','deck','shop','duel','login'].includes(to))return;if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
     if(delta>0&&(current>=(state.inventory[id]||0)||countMap(state.deck)>=60||(!unlimited&&current>=6))){state.notice='Card unavailable, six-copy limit reached, or the deck is full (60).';return;}
     state.deck[id]=Math.max(0,current+delta);state.duel=null;save();}
@@ -3071,7 +3087,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       case 'do-reset':try{localStorage.removeItem(STORE_KEY);}catch(_){} state=defaultState(); render(); break;
       case 'account-info':state.modal='account-panel';render();break;
       case 'redeem-code':state.modal='redeem-panel';render();break;
-      case 'not-ready':state.notice="Oops! This isn't ready yet!"; render(); break;
+      case 'not-ready':state.modal='unavailable-level';render();break;
       case 'fullscreen-toggle':toggleFullscreen();break;
       case 'display-mode':if(['mobile','desktop'].includes(button.dataset.mode)){
         state.displayMode=button.dataset.mode;

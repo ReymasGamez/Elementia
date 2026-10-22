@@ -1170,6 +1170,47 @@ body[data-elementia-display="desktop"] .etg-slot.occupied[data-hover-card]:hover
 @media(max-height:650px){#elementia-hover-inspect .preview-art{height:170px}#elementia-hover-inspect .preview-rules{max-height:74px}}
 @media(prefers-reduced-motion:reduce){#elementia-hover-inspect{animation:none}}
 </style>
+<style id="elementia-v17-9-tall-field-safe-permanents">
+/* Desktop tabletop uses previously-unused viewport space. Mobile retains all v17.8 metrics. */
+body[data-elementia-display="desktop"] .elementia-display-stage .etg-og-frame{
+  width:100%;box-sizing:border-box;min-height:0;overflow:hidden;
+}
+body[data-elementia-display="desktop"] .etg-og-arena{
+  height:100%;min-height:0;grid-template-rows:minmax(0,1fr) minmax(0,1fr);
+}
+body[data-elementia-display="desktop"] .etg-og-field{
+  min-height:0;min-width:0;overflow:hidden; /* prevent zone frames from drawing into interactive rails */
+  padding:4px 4px;grid-template-rows:minmax(0,1fr) 12px minmax(0,1fr);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player{
+  min-height:0;min-width:0;overflow:visible;
+}
+/* The 7 resource/permanent plus 3 equipment spaces must never extend past field edges.
+   A 7px inner gap also leaves room for selection outlines / ready-to-activate effects. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane{
+  width:100%;max-width:100%;min-width:0;box-sizing:border-box;margin:0;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten{
+  box-sizing:border-box;
+  width:min(calc(100% - 14px),1060px);max-width:calc(100% - 14px);
+  margin-left:auto;margin-right:auto;
+  grid-template-columns:repeat(10,minmax(0,1fr));
+  column-gap:clamp(3px,.35vw,6px);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot{
+  box-sizing:border-box;min-width:0;width:100%;
+  height:clamp(44px,7.2dvh,70px);min-height:clamp(44px,7.2dvh,70px);
+  max-height:70px;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.occupied .rune{
+  font-size:clamp(19px,2.1vh,27px);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.occupied .tinycard-title{
+  font-size:clamp(7px,.82vh,9px);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.equipment-blank .equip-icon{font-size:clamp(17px,2.1vh,24px)}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.equipment-blank small{font-size:clamp(7px,.88vh,10px)}
+</style>
 </head>
 <body>
   <div id="app" aria-live="polite"></div>
@@ -2412,21 +2453,23 @@ body[data-elementia-display="desktop"] .etg-slot.occupied[data-hover-card]:hover
     <div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="add-deck" data-id="${esc(c.id)}" ${(state.deck[c.id]||0)>=(state.inventory[c.id]||0)?'disabled':''}>Add to Deck</button></div></section></div>`;}
   function fitDesktopDuel(){
     if(state.scene!=='duel'||state.displayMode!=='desktop')return;
-    const stage=root.querySelector('.elementia-display-stage'), frame=stage?.querySelector('.etg-og-frame');
+    const stage=root.querySelector('.elementia-display-stage'),frame=stage?.querySelector('.etg-og-frame');
     if(!frame)return;
-    stage.style.zoom='1';stage.style.width='100%';
-    const boardTop=stage.getBoundingClientRect().top;
+    // Give the OG tabletop the screen height left below its small top toolbar.
+    // Use the unscaled dimensions so a re-render never accumulates zoom errors.
+    stage.style.zoom='1';stage.style.width='100%';frame.style.height='';
+    const top=stage.getBoundingClientRect().top;
     const actions=root.querySelector('.battle-page .etg-actions:not(.etg-rules-actions)');
     const log=root.querySelector('.battle-page .etg-log');
-    const target=root.querySelector('.etg-target-banner');
-    const below=(actions?.getBoundingClientRect().height||0)+(log?.getBoundingClientRect().height||0)+42;
-    const verticalSpace=Math.max(200,window.innerHeight-boardTop-below);
-    const physicalHeight=frame.getBoundingClientRect().height;
-    const physicalWidth=frame.getBoundingClientRect().width;
+    const below=(actions?.getBoundingClientRect().height||0)+(log?.getBoundingClientRect().height||0)+10;
+    const available=Math.max(300,Math.floor(window.innerHeight-top-below));
+    frame.style.height=available+'px';
     const availableWidth=stage.getBoundingClientRect().width;
-    // Preserve legible cards on narrow devices even when Desktop mode is selected.
-    const widthRatio=window.innerWidth>760?availableWidth/physicalWidth:1;
-    const ratio=Math.max(.42,Math.min(1,verticalSpace/physicalHeight,widthRatio));
+    const naturalWidth=frame.getBoundingClientRect().width;
+    const widthRatio=window.innerWidth>760?availableWidth/naturalWidth:1;
+    // Keep a last-resort scale fallback for unusually short displays.
+    const minimumContents=frame.querySelector('.etg-og-arena')?.scrollHeight||available;
+    const ratio=Math.max(.42,Math.min(1,widthRatio,available/minimumContents));
     if(ratio<.999){stage.style.zoom=String(ratio);stage.style.width=`${100/ratio}%`;}
   }
   window.addEventListener('resize',()=>requestAnimationFrame(fitDesktopDuel));
@@ -2522,7 +2565,7 @@ body[data-elementia-display="desktop"] .etg-slot.occupied[data-hover-card]:hover
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'17.8.0-direct-click-hover-spacebar',isDemo:demo,
+    version:'17.9.0-tall-safe-resource-zones',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

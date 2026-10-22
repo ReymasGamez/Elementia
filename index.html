@@ -1692,26 +1692,70 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       }
     }
   }
-  function darkPoisonPhase(b,steps){
-    for(const side of ['player','enemy']){
-      const list=b[side+'Creatures']||[];
-      for(const u of [...list])if((u.poison||0)>0){
-        darkDamageCreature(b,side,u,u.poison);steps.push(`${u.name}: ${u.poison} poison damage.`);
-      }
-    }
-    for(const side of ['player','enemy'])if((b[side+'Poison']||0)>0){
-      darkDamageHero(b,side,b[side+'Poison']);steps.push(`${side} hero suffers ${b[side+'Poison']} poison.`);
+  function resolvePlayerPoison(b,attacker,steps){
+    // Poison on a player is triggered by the OPPOSING turn, just before attacks.
+    const target=attacker==='player'?'enemy':'player',poison=b[target+'Poison']||0;
+    if(poison>0){
+      const dealt=darkDamageHero(b,target,poison);
+      steps.push(`${target} hero: ${dealt} poison damage (before ${attacker} creatures).`);
     }
   }
-  function darkEndPhase(b,steps){
-    darkPoisonPhase(b,steps);
-    // Cloak is visible and targetable, but conceals everything else on its side.
-    for(const side of ['player','enemy']){
-      for(const p of [...(b[side+'Permanents']||[])])if(darkRule(p)?.effect==='cloak'){
-        p.remaining=(p.remaining??3)-1;
-        if(p.remaining<=0){b[side+'Permanents']=b[side+'Permanents'].filter(x=>x.key!==p.key);steps.push(`${BY_ID[p.id].name} expired.`);}
-      }
+  function resolveCreaturePoisonBatch(b,side,steps){
+    // All poisoned creatures on the acting side take damage AFTER their attack
+    // opportunities. Snapshot all losses, then remove every defeated creature once.
+    const units=b[side+'Creatures']||[];
+    const poisonHits=units.filter(u=>(u.poison||0)>0).map(u=>({u,amount:u.poison}));
+    for(const {u,amount} of poisonHits){
+      u.hp-=amount;
+      steps.push(`${side} ${u.name}: ${amount} poison damage.`);
+      // Voodoo mirrors poison when the status is applied, not a second time per tick.
     }
+    if(poisonHits.length){
+      const lost=units.filter(u=>u.hp<=0);
+      b[side+'Creatures']=units.filter(u=>u.hp>0);
+      for(const u of lost)steps.push(`${side} ${u.name} perished.`);
+      if(lost.length)refreshDarkAuras(b);
+    }
+  }
+  function darkPoisonPhase(b,steps,side='player'){
+    resolveCreaturePoisonBatch(b,side,steps);
+  }
+  function advancePermanentTimers(b,side,steps){
+    // Snapshot starting counters. Zero at START of this turn expires now;
+    // a counter becoming zero today stays on the board until the next turn.
+    const units=b[side+'Permanents']||[];
+    const expired=[];
+    for(const item of units){
+      if(!Number.isFinite(item.remaining))continue;
+      const previous=item.remaining;
+      if(previous<=0){expired.push(item);continue;}
+      item.remaining=Math.max(0,previous-1);
+      steps.push(`${BY_ID[item.id]?.name||item.name||'Permanent'} timer ${previous} → ${item.remaining}.`);
+    }
+    if(expired.length){
+      const keys=new Set(expired.map(item=>item.key));
+      b[side+'Permanents']=units.filter(item=>!keys.has(item.key));
+      for(const item of expired)steps.push(`${BY_ID[item.id]?.name||item.name||'Timed permanent'} expired (started at zero).`);
+      refreshDarkAuras(b);
+    }
+  }
+  function darkEndPhase(b,steps,side='player'){advancePermanentTimers(b,side,steps);}
+
+  // The original-looking board has middle (8..14), bottom (15..22), and
+  // top (0..7) creature rows. Each row shuffles independently every phase.
+  function orderedCreatureAttackers(b,side,random=Math.random){
+    const units=[...(b[side+'Creatures']||[])];
+    const rank=slot=>slot>=8&&slot<=14?0:slot>=15&&slot<=22?1:2;
+    const order=[];
+    for(let row=0;row<3;row++){
+      const group=units.filter(u=>rank(u.boardSlot)===row);
+      for(let i=group.length-1;i>0;i--){
+        const j=Math.floor(random()*(i+1));
+        [group[i],group[j]]=[group[j],group[i]];
+      }
+      order.push(...group);
+    }
+    return order;
   }
 
   function newDuel(useTraining=true){
@@ -1792,12 +1836,48 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
   function gain(b,element,qty=1){const amount=Math.max(0,qty|0);for(let i=0;i<amount;i++){const type=element==='Random'?ELEMENTS[Math.floor(Math.random()*ELEMENTS.length)][0]:element;b.quanta[type]=Math.min(GAME_RULES.maxQuanta,(b.quanta[type]||0)+1);}}
   function canAfford(b,card){return canPay(b,card);}
   function spend(b,card){return pay(b,card);}
-  function bestPillarElement(b){const tally={};for(const p of b.playerPermanents){const c=BY_ID[p.id],r=cardRule(c);if(c?.element==='Other')continue;if(['pillar','tower'].includes(r?.family))tally[c.element]=(tally[c.element]||0)+1;}
-    const best=Math.max(0,...Object.values(tally));if(!best)return null;const ties=Object.keys(tally).filter(e=>tally[e]===best);return ties[Math.floor(Math.random()*ties.length)];}
-  function production(b){const before={...b.quanta};for(const p of b.playerPermanents){const c=BY_ID[p.id],r=cardRule(c);if(!c||!['pillar','tower'].includes(r?.family))continue;if(p.sleep){p.sleep=false;continue;}gain(b,c.element==='Other'?'Random':c.element,r.quantity||1);}
-    for(const p of b.playerPermanents){const c=BY_ID[p.id],r=cardRule(c);if(r?.family!=='pendulum')continue;const element=p.mode==='assigned'?c.element:(bestPillarElement(b)||c.element);gain(b,element,1);p.mode=p.mode==='assigned'?'majority':'assigned';}
-    for(const u of b.playerCreatures){if(u.abilities?.includes('airgen'))gain(b,'Air',1);}
-    return Object.entries(b.quanta).filter(([e,n])=>n>before[e]).map(([e,n])=>`${e} +${n-before[e]}`).join(', ')||'no quanta gained';}
+  function gainForSide(b,side,element,qty=1){
+    if(side==='player'){gain(b,element,qty);return;}
+    const amount=Math.max(0,qty|0);
+    for(let i=0;i<amount;i++){
+      const type=element==='Random'?ELEMENTS[Math.floor(Math.random()*ELEMENTS.length)][0]:element;
+      b.enemyQuanta[type]=Math.min(GAME_RULES.maxQuanta,(b.enemyQuanta[type]||0)+1);
+    }
+  }
+  function bestPillarElement(b,side='player'){
+    const tally={};
+    for(const p of b[side+'Permanents']||[]){
+      const c=BY_ID[p.id],r=cardRule(c);
+      if(!c||c.element==='Other')continue;
+      if(['pillar','tower'].includes(r?.family))tally[c.element]=(tally[c.element]||0)+1;
+    }
+    const best=Math.max(0,...Object.values(tally));
+    if(!best)return null;
+    const ties=Object.keys(tally).filter(e=>tally[e]===best);
+    return ties[Math.floor(Math.random()*ties.length)];
+  }
+  function productionForSide(b,side='player'){
+    const pool=side==='player'?b.quanta:b.enemyQuanta;
+    const before={...pool},permanents=b[side+'Permanents']||[];
+    // A brick-passed basic Pillar sleeps through its first production; Towers do not.
+    for(const p of permanents){
+      const c=BY_ID[p.id],r=cardRule(c);
+      if(!c||!['pillar','tower'].includes(r?.family))continue;
+      if(p.sleep){p.sleep=false;continue;}
+      gainForSide(b,side,c.element==='Other'?'Random':c.element,r.quantity||1);
+    }
+    // Pendulums produce after Pillars and Towers, using today's predominant element.
+    for(const p of permanents){
+      const c=BY_ID[p.id],r=cardRule(c);
+      if(r?.family!=='pendulum')continue;
+      const element=p.mode==='assigned'?c.element:(bestPillarElement(b,side)||c.element);
+      gainForSide(b,side,element,1);
+      p.mode=p.mode==='assigned'?'majority':'assigned';
+    }
+    for(const u of b[side+'Creatures']||[])if(u.abilities?.includes('airgen'))gainForSide(b,side,'Air',1);
+    return Object.entries(pool).filter(([e,n])=>n>before[e]).map(([e,n])=>`${e} +${n-before[e]}`).join(', ')||'no quanta gained';
+  }
+  function production(b){return productionForSide(b,'player');}
   function drawDuel(b){if(b.hand.length>=GAME_RULES.maxHand)return 'Hand full (8): draw skipped.';if(!b.library.length)return 'Deck empty: no card drawn.';b.hand.push(b.library.shift());return `Drew 1 card (${b.library.length} left).`;}
   function brickPass(b){if(b.played)return '';
     const eligible=b.library.map((id,i)=>({id,i,c:BY_ID[id]})).filter(x=>['pillar','tower'].includes(cardRule(x.c)?.family));
@@ -2100,70 +2180,113 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       logDuel(b,`Enemy spell targets ${unit.name} for 1 damage (Shard evasion ${Math.round(result.chance*100)}%; ${result.evaded?'evaded':'hit'}).`);}
     render();
   }
-  function endTurn(){const b=ensureBoard();b.pendingTarget=null;
-    if(b.ended){logDuel(b,'This duel has ended; reset to play another.');render();return;}
-    const steps=[],brick=brickPass(b);if(brick)steps.push(brick);
-    steps.push(`Production: ${production(b)}.`);
-    // Passive resource theft, poison, and Void max-health reduction.
-    darkStartPhase(b,steps);refreshDarkAuras(b);
-    let total=0;const attacks=[],bonuses=shardBonuses(b);
-    for(const u of [...b.playerCreatures]){
-      const base=Math.max(0,u.atk||0);let amount=u.burrowed?Math.floor(base/2):base;
+  function resolveCreatureCombat(b,side,steps){
+    const opponent=side==='player'?'enemy':'player';
+    const attacks=[],bonuses=shardBonuses(b,side),order=orderedCreatureAttackers(b,side);
+    b.lastAttackOrders ||= {};
+    b.lastAttackOrders[side]=order.map(u=>({key:u.key,name:u.name,boardSlot:u.boardSlot}));
+    let dealt=0;
+    for(const u of order){
+      const base=Math.max(0,u.atk||0);
+      let amount=u.burrowed?Math.floor(base/2):base;
       if(u.frozen||u.delayed)amount=0;
-      if(b.skyBlitz&&u.abilities?.includes('airborne'))amount*=2;
+      if(side==='player'&&b.skyBlitz&&u.abilities?.includes('airborne'))amount*=2;
       const critical=amount>0&&u.abilities?.includes('airborne')&&Math.random()<bonuses.criticalChance;
       if(critical)amount=Math.ceil(amount*bonuses.criticalMultiplier);
-      const hit=resolveCreatureStrike(b,u,amount,critical);amount=hit.damage;
-      // Enemy training shield behavior is preserved but future AI shield selection is not automated.
-      if(b.enemyShield){const sh=cardRule(BY_ID[b.enemyShield.id]);
-        if(!spellAttack(u)&&!critical&&!u.abilities?.includes('momentum')){
-          if(sh?.effect==='duskShield'&&Math.random()<.5)amount=0;
-          if(sh?.effect==='dimensionalShield')amount=0;
-          if(sh?.effect==='wingsShield'&&!u.abilities?.includes('airborne'))amount=0;
-          if(sh?.effect==='fogShield'&&Math.random()<.4)amount=0;
+      const shield=b[opponent+'Shield'];
+      if(shield){
+        const r=cardRule(BY_ID[shield.id]);
+        const physical=!spellAttack(u)&&!u.abilities?.includes('momentum');
+        if(physical&&!critical){
+          if(shield.blocksPhysical===true)amount=0;
+          if(r?.effect==='dimensionalShield'||r?.effect==='wingsShield'&&!u.abilities?.includes('airborne'))amount=0;
+          if(r?.effect==='duskShield'&&Math.random()<.5)amount=0;
+          if(r?.effect==='fogShield'&&Math.random()<.4)amount=0;
         }
       }
-      if(amount>0){total+=amount;attacks.push(`${u.name} ${amount}${critical?' Freedom critical':''}${b.skyBlitz?' (Sky Blitz)':''}`);
-        if(u.abilities?.includes('vampire'))darkHeal(b,'player',Math.min(amount,Math.max(0,b.enemyHp-(total-amount))));}
-      else if(base>0)attacks.push(`${u.name} blocked or missed`);
-      if(base>0&&u.abilities?.includes('bioluminescence'))gain(b,'Light',1);
-      if(base>0&&u.abilities?.includes('incandescence'))gain(b,'Fire',1);
+      const damage=darkDamageHero(b,opponent,amount);
+      dealt+=damage;
+      if(damage>0){
+        attacks.push(`${u.name} ${damage}${critical?' Freedom critical':''}${side==='player'&&b.skyBlitz?' (Sky Blitz)':''}`);
+        if(u.abilities?.includes('vampire'))darkHeal(b,side,damage);
+      }else if(base>0)attacks.push(`${u.name} blocked or missed`);
+      if(base>0&&u.abilities?.includes('bioluminescence'))gainForSide(b,side,'Light',1);
+      if(base>0&&u.abilities?.includes('incandescence'))gainForSide(b,side,'Fire',1);
       if(u.dive){u.atk=Number.isFinite(u.diveBaseAtk)?u.diveBaseAtk:Math.ceil(u.atk/2);u.diveBaseAtk=null;u.dive=false;}
     }
-    if(b.playerWeapon){const w=cardRule(BY_ID[b.playerWeapon.id]);if(w?.atk){let atk=w.atk;
-      if(b.enemyShield){const sh=cardRule(BY_ID[b.enemyShield.id]);if(sh?.effect==='dimensionalShield')atk=0;
-        if(sh?.effect==='wingsShield'&&!w?.abilities?.includes('ranged'))atk=0;
-        if(sh?.effect==='fogShield'&&Math.random()<.4)atk=0;}
-      if(b.enemyShield&&cardRule(BY_ID[b.enemyShield.id])?.effect==='duskShield'&&Math.random()<.5)atk=0;
-      total+=atk;attacks.push(`${BY_ID[b.playerWeapon.id].name}: ${atk} weapon damage`);
-      if(w?.abilities?.includes('vampire'))darkHeal(b,'player',Math.min(atk,Math.max(0,b.enemyHp-(total-atk))));}}
-    b.enemyHp=Math.max(0,b.enemyHp-total);steps.push(`Attack: ${total} damage${attacks.length?' ('+attacks.join('; ')+')':''}.`);
-    // An original 0-HP attacker receives one attacking opportunity, then leaves.
-    b.playerCreatures=b.playerCreatures.filter(u=>u.hp>0);b.skyBlitz=false;finishDuel(b);
-    if(!b.ended){let enemyDamage=0;const enemyHits=[];
-      for(const foe of [...b.enemyCreatures]){
-        let atk=Math.max(0,foe.atk||0);if(foe.burrowed)atk=Math.floor(atk/2);const special=spellAttack(foe),physical=!special&&!foe.abilities?.includes('momentum');
-        if(physical&&b.playerShield){const shield=cardRule(BY_ID[b.playerShield.id]);
-          if(shield?.effect==='dimensionalShield')atk=0;
-          else if(shield?.effect==='wingsShield'&&!foe.abilities?.includes('airborne'))atk=0;
-          else if(shield?.effect==='fogShield'&&Math.random()<.4)atk=0;
-          else if(shield?.effect==='duskShield'&&Math.random()<.5)atk=0;
-        }
-        enemyDamage+=atk;enemyHits.push(`${foe.name}: ${atk}`);
-        if(atk>0&&foe.abilities?.includes('vampire'))darkHeal(b,'enemy',Math.min(atk,Math.max(0,b.playerHp-(enemyDamage-atk))));
-      }
-      b.playerHp=Math.max(0,b.playerHp-enemyDamage);
-      if(b.enemyWeapon){const w=darkRule(b.enemyWeapon);if(w?.abilities?.includes('vampire'))darkHeal(b,'enemy',w.atk||0);}
-      b.enemyCreatures=b.enemyCreatures.filter(u=>u.hp>0);
-      steps.push(`Training enemy: ${enemyDamage} damage (${enemyHits.join(', ')||'no attackers'}).`);
-      // Duration counts enemy attack phases. One full following turn blocks re-equipping the same family.
-      for(const side of ['player','enemy']){const shield=b[side+'Shield'];if(shield&&shield.remaining!=null){shield.remaining--;
-        if(shield.remaining<=0){const cr=cardRule(BY_ID[shield.id]);b[side+'Shield']=null;
-          if(side==='player'&&cr?.effect==='dimensionalShield')b.shieldUnlockTurn=b.turn+2;
-          steps.push(`${BY_ID[shield.id].name} expired.`);}
-      }}finishDuel(b);
+    if(side==='player')b.skyBlitz=false;
+    steps.push(`${side} creature attacks: ${dealt} damage${attacks.length?' ('+attacks.join('; ')+')':''}.`);
+    return dealt;
+  }
+  function resolveWeaponCombat(b,side,steps){
+    const opponent=side==='player'?'enemy':'player',weapon=b[side+'Weapon'];
+    if(!weapon)return 0;
+    const r=cardRule(BY_ID[weapon.id]);
+    if(!r?.atk)return 0;
+    let damage=r.atk;
+    const shield=b[opponent+'Shield'];
+    if(shield){
+      const sh=cardRule(BY_ID[shield.id]);
+      if(sh?.effect==='dimensionalShield'||sh?.effect==='wingsShield'&&!r.abilities?.includes('ranged'))damage=0;
+      if(sh?.effect==='fogShield'&&Math.random()<.4)damage=0;
+      if(sh?.effect==='duskShield'&&Math.random()<.5)damage=0;
     }
-    darkEndPhase(b,steps);refreshDarkAuras(b);finishDuel(b);
+    const dealt=darkDamageHero(b,opponent,damage);
+    if(dealt>0&&r.abilities?.includes('vampire'))darkHeal(b,side,dealt);
+    steps.push(`${side} ${BY_ID[weapon.id]?.name||'Weapon'}: ${dealt} weapon damage.`);
+    return dealt;
+  }
+  function ageDefensiveShields(b,steps){
+    // Shields are special: their durations count incoming enemy attack phases.
+    for(const side of ['player','enemy']){
+      const shield=b[side+'Shield'];
+      if(!shield||shield.remaining==null)continue;
+      shield.remaining--;
+      if(shield.remaining<=0){
+        const r=cardRule(BY_ID[shield.id]);
+        b[side+'Shield']=null;
+        if(side==='player'&&r?.effect==='dimensionalShield')b.shieldUnlockTurn=b.turn+2;
+        steps.push(`${BY_ID[shield.id]?.name||'Shield'} expired.`);
+      }
+    }
+  }
+  function resolveActingSide(b,side,steps){
+    const phases=(b.lastTurnPhases ||= []);
+    phases.push(`${side}:1-hero-poison`);
+    resolvePlayerPoison(b,side,steps);
+    phases.push(`${side}:1-creature-attacks`);
+    resolveCreatureCombat(b,side,steps);
+    phases.push(`${side}:1-creature-poison`);
+    resolveCreaturePoisonBatch(b,side,steps);
+    // Preserve zero-HP creatures' initial attack before removing them.
+    b[side+'Creatures']=b[side+'Creatures'].filter(u=>u.hp>0);
+    refreshDarkAuras(b);
+    phases.push(`${side}:3-resource-production`);
+    steps.push(`${side} production: ${productionForSide(b,side)}.`);
+    // The passive Darkness mechanics still resolve at the resource step, once
+    // per training exchange, including Shard of Void and Devourer theft.
+    if(side==='player')darkStartPhase(b,steps);
+    phases.push(`${side}:4-weapon`);
+    resolveWeaponCombat(b,side,steps);
+    phases.push(`${side}:5-permanent-timers`);
+    advancePermanentTimers(b,side,steps);
+  }
+  function endTurn(){
+    const b=ensureBoard();b.pendingTarget=null;
+    if(b.ended){logDuel(b,'This duel has ended; reset to play another.');render();return;}
+    const steps=[],brick=brickPass(b);
+    if(brick)steps.push(brick);
+    b.lastTurnPhases=[];b.lastAttackOrders={};
+    resolveActingSide(b,'player',steps);
+    finishDuel(b);
+    if(!b.ended){
+      // The current opponent is still a training simulation, but its attacking
+      // phase now follows the same rules and triggers YOUR poison during its turn.
+      resolveActingSide(b,'enemy',steps);
+      ageDefensiveShields(b,steps);
+      finishDuel(b);
+    }
+    refreshDarkAuras(b);
     if(!b.ended){b.turn++;b.played=false;b.selectedHand=-1;steps.push(drawDuel(b));}
     else steps.push(b.winner==='player'?'Victory.':'Defeat.');
     logDuel(b,steps.join(' '));render();
@@ -2372,7 +2495,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       const arriving=enterCreature(b,makeCreature(b,id));
       message=`Summoned ${c.name} (${arriving?.atk??r.atk}/${arriving?.hp??r.hp}).`;
     }else if(c.type==='Permanent'){
-      addPermanent(b,{id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.effect==='cloak'?r.duration:null,abilities:[...(r.abilities||[])]});
+      addPermanent(b,{id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.effect==='cloak'?Math.max(0,(r.duration||1)-1):null,abilities:[...(r.abilities||[])]});
       refreshDarkAuras(b);
       message=`Placed ${c.name} on the battlefield${r.activate?'; '+r.activate+' ready next turn':''}.`;
     }else if(c.type==='Weapon'){
@@ -2565,10 +2688,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'17.9.0-tall-safe-resource-zones',isDemo:demo,
+    version:'18.0.0-ordered-turn-phases',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
 })();

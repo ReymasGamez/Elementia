@@ -1377,7 +1377,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
   }
   const fromExternal = Array.isArray(window.ELEMENTIA_CARDS) ? window.ELEMENTIA_CARDS : null;
   const normalizeCard = (card, i) => {
-    const element = ELEMENT[card.element] ? card.element : 'Aether';
+    // Preserve the neutral 'Other' identity, so Quanta Pillar generates random
+    // elements instead of being silently converted into an Aether Pillar.
+    const element = ELEMENT[card.element] || card.element==='Other' ? card.element : 'Aether';
     const type = ['Creature', 'Spell', 'Pillar', 'Pendulum', 'Permanent', 'Shield', 'Weapon'].includes(card.type) ? card.type : 'Permanent';
     return { id:String(card.id || `external-${i}`), name:String(card.name || `Card ${i+1}`), element,
       type, tier:card.tier === 'Upgraded' ? 'Upgraded' : 'Basic',
@@ -1759,36 +1761,37 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     return order;
   }
 
-  // v19: Level 0 intentionally has no tactical evaluator. It spends any available
+  // v19.1: Level 0 intentionally has no tactical evaluator. It spends any available
   // quanta, plays every affordable card it can, and chooses uniformly at random
   // among genuinely legal targets, regardless of ownership.
   const AI_SPELL_EFFECTS=new Set(['steal','drainLife','liquidShadow','nightmare','lightning','shockwave',
     'thunderstorm','clone','quintessence','fractal','wisdom','animateWeapon','skyBlitz']);
   function levelZeroDeck(){
-    const pillars=CARDS.filter(c=>cardRule(c)?.family==='pillar'&&c.element!=='Other');
+    // Level 0 is a tutorial bot, not a deck builder: no upgraded cards and no
+    // favored elements, synergy checking, or matching cards to its Pillars.
+    // Ten Pillars are selected independently from all 12 elemental types
+    // plus the neutral Quanta Pillar, with no relationship to other deck cards.
+    const pillars=CARDS.filter(c=>c.tier==='Basic'&&cardRule(c)?.family==='pillar');
     const eligible=CARDS.filter(c=>{
       const r=cardRule(c);
-      if(!r||r.cost==null||r.family==='pillar'||r.family==='tower'||(c.legacyCode&&OG_UNFINISHED.has(c.legacyCode)))return false;
+      if(c.tier!=='Basic'||!r||r.cost==null||r.family==='pillar'||r.family==='tower'||(c.legacyCode&&OG_UNFINISHED.has(c.legacyCode)))return false;
       if(c.type==='Creature')return Number.isFinite(r.atk)&&Number.isFinite(r.hp);
       if(c.type==='Permanent'||c.type==='Weapon'||c.type==='Shield'||c.type==='Pendulum')return true;
       return c.type==='Spell'&&AI_SPELL_EFFECTS.has(r.effect);
     });
-    // Choose a random subset of elements, so a brainless AI can still pay for
-    // some of its random cards with the ten randomly selected Pillars.
-    const usable=shuffle([...new Set(eligible.map(c=>c.element))].filter(e=>pillars.some(p=>p.element===e))).slice(0,3);
-    const elementalPillars=pillars.filter(c=>usable.includes(c.element));
-    const nonPillars=eligible.filter(c=>usable.includes(c.element));
+    if(!pillars.length||!eligible.length)throw Error('Level 0 needs basic Pillars and playable basic cards.');
     const deck=[];
-    for(let i=0;i<10;i++)deck.push(elementalPillars[Math.floor(Math.random()*elementalPillars.length)].id);
-    const count={};
+    for(let i=0;i<10;i++)deck.push(aiRandom(pillars).id);
+    // The other 30 slots are completely independent random draws from every
+    // eligible element. Only the universal 6-copy limit constrains selection.
+    const counts={};
     while(deck.length<40){
-      const pool=nonPillars.filter(c=>(count[c.id]||0)<6);
-      if(!pool.length)break;
-      const card=pool[Math.floor(Math.random()*pool.length)];
-      count[card.id]=(count[card.id]||0)+1;
+      const pool=eligible.filter(c=>(counts[c.id]||0)<6);
+      if(!pool.length)throw Error('Insufficient basic cards for Level 0 deck.');
+      const card=aiRandom(pool);
+      counts[card.id]=(counts[card.id]||0)+1;
       deck.push(card.id);
     }
-    if(deck.length!==40)throw Error('Level 0 deck must contain exactly 40 cards.');
     return shuffle(deck);
   }
   function aiRandom(items){return items[Math.floor(Math.random()*items.length)];}
@@ -2057,7 +2060,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     return {version:12,aiLevel:0,enemyDeck:[...aiDeck],turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
       playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
       playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
-      selectedHand:-1,permanentPages:{player:0,enemy:0},labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — randomized 40-card deck (10 Pillars).',
+      selectedHand:-1,permanentPages:{player:0,enemy:0},labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — 40 random basic cards, including 10 Pillars.',
       history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2};
   }
   // V12: 23 fixed creature spaces per side. Spawn priority: middle 7, lower 8, upper 8.
@@ -2977,7 +2980,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'19.0.0-level-zero-ai',isDemo:demo,
+    version:'19.1.0-random-basic-ai',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

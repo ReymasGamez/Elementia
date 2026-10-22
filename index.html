@@ -1671,10 +1671,11 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     if(!u.abilities.includes('vampire'))u.abilities.push('vampire');
     u.poison=(u.poison||0)+1;
   }
-  function darkStartPhase(b,steps){
+  function darkStartPhase(b,steps,actingSide=null){
     // A Devourer turns a single randomly selected enemy quantum into Darkness quanta.
     for(const u of [...b.playerCreatures,...b.enemyCreatures]){
       if(!u.abilities?.includes('devourer'))continue;
+      if(actingSide&&!(b[actingSide+'Creatures']||[]).includes(u))continue;
       const side=b.playerCreatures.includes(u)?'player':'enemy', other=side==='player'?'enemy':'player';
       const pool=other==='player'?b.quanta:b.enemyQuanta;
       const eligible=Object.keys(pool||{}).filter(e=>pool[e]>0);
@@ -1683,7 +1684,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       if(side==='player')gain(b,'Darkness',1);else b.enemyQuanta.Darkness=Math.min(50,(b.enemyQuanta.Darkness||0)+1);
       steps.push(`${u.name}: stole 1 ${stolen}; gained 1 Darkness.`);
     }
-    for(const side of ['player','enemy']){
+    for(const side of (actingSide?[actingSide]:['player','enemy'])){
       const shards=(b[side+'Permanents']||[]).filter(p=>darkRule(p)?.effect==='shardVoid').length;
       if(shards){const other=side==='player'?'enemy':'player',mk=other+'MaxHp',hk=other+'Hp';
         const reduction=shards*(side==='player'&&state.element==='Darkness'?3:2);
@@ -1758,16 +1759,305 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     return order;
   }
 
+  // v19: Level 0 intentionally has no tactical evaluator. It spends any available
+  // quanta, plays every affordable card it can, and chooses uniformly at random
+  // among genuinely legal targets, regardless of ownership.
+  const AI_SPELL_EFFECTS=new Set(['steal','drainLife','liquidShadow','nightmare','lightning','shockwave',
+    'thunderstorm','clone','quintessence','fractal','wisdom','animateWeapon','skyBlitz']);
+  function levelZeroDeck(){
+    const pillars=CARDS.filter(c=>cardRule(c)?.family==='pillar'&&c.element!=='Other');
+    const eligible=CARDS.filter(c=>{
+      const r=cardRule(c);
+      if(!r||r.cost==null||r.family==='pillar'||r.family==='tower'||(c.legacyCode&&OG_UNFINISHED.has(c.legacyCode)))return false;
+      if(c.type==='Creature')return Number.isFinite(r.atk)&&Number.isFinite(r.hp);
+      if(c.type==='Permanent'||c.type==='Weapon'||c.type==='Shield'||c.type==='Pendulum')return true;
+      return c.type==='Spell'&&AI_SPELL_EFFECTS.has(r.effect);
+    });
+    // Choose a random subset of elements, so a brainless AI can still pay for
+    // some of its random cards with the ten randomly selected Pillars.
+    const usable=shuffle([...new Set(eligible.map(c=>c.element))].filter(e=>pillars.some(p=>p.element===e))).slice(0,3);
+    const elementalPillars=pillars.filter(c=>usable.includes(c.element));
+    const nonPillars=eligible.filter(c=>usable.includes(c.element));
+    const deck=[];
+    for(let i=0;i<10;i++)deck.push(elementalPillars[Math.floor(Math.random()*elementalPillars.length)].id);
+    const count={};
+    while(deck.length<40){
+      const pool=nonPillars.filter(c=>(count[c.id]||0)<6);
+      if(!pool.length)break;
+      const card=pool[Math.floor(Math.random()*pool.length)];
+      count[card.id]=(count[card.id]||0)+1;
+      deck.push(card.id);
+    }
+    if(deck.length!==40)throw Error('Level 0 deck must contain exactly 40 cards.');
+    return shuffle(deck);
+  }
+  function aiRandom(items){return items[Math.floor(Math.random()*items.length)];}
+  function aiOpponent(side){return side==='enemy'?'player':'enemy';}
+  function aiPool(b){return b.enemyQuanta;}
+  function aiCanPay(b,card){
+    const r=cardRule(card);if(r?.cost==null)return false;
+    const element=paymentElement(card),pool=aiPool(b);
+    return element==='Random'?Object.values(pool).reduce((sum,n)=>sum+n,0)>=r.cost:(pool[element]||0)>=r.cost;
+  }
+  function aiSpend(b,card){
+    if(!aiCanPay(b,card))return false;
+    let count=cardRule(card).cost,element=paymentElement(card),pool=aiPool(b);
+    if(element==='Random')while(count-->0){const types=Object.keys(pool).filter(k=>pool[k]>0);pool[aiRandom(types)]--;}
+    else pool[element]-=count;
+    return true;
+  }
+  function aiAcceptsSide(r,side){
+    return !r.targetSide||r.targetSide==='either'||(r.targetSide==='enemy'&&side==='player')||(r.targetSide==='player'&&side==='enemy');
+  }
+  function aiLegalTargets(b,card){
+    const r=cardRule(card);
+    if(!r?.targeting)return [];
+    const choices=[];
+    for(const side of ['player','enemy']){
+      if(!aiAcceptsSide(r,side))continue;
+      if(r.targeting==='creatureOrPlayer')choices.push({kind:'hero',side,code:side+':hero'});
+      if(r.targeting==='permanent'){
+        for(const u of b[side+'Permanents']||[]){
+          if(side==='player'&&darkCloakProtected(b,side,u))continue;
+          if(r.effect==='steal'&&side==='player'&&!isResourcePermanent(BY_ID[u.id])&&mainCount(b,'enemy')>=GAME_RULES.maxMainBoard)continue;
+          choices.push({kind:'permanent',side,unit:u,code:side+':p-'+u.key});
+        }
+        for(const type of ['Weapon','Shield','Magical']){
+          const u=b[side+type];if(!u)continue;
+          if(side==='player'&&darkCloakProtected(b,side,u))continue;
+          choices.push({kind:'permanent',side,unit:u,equipment:type,code:side+':'+type.toLowerCase()});
+        }
+      }else{
+        for(const u of b[side+'Creatures']||[]){
+          if(u.burrowed||u.abilities?.includes('immaterial')&&!r.targetImmaterial)continue;
+          if(side==='player'&&darkCloaked(b,'player'))continue;
+          if(r.effect==='fractal'&&!BY_ID[u.id])continue;
+          if(r.effect==='nightmare'&&!BY_ID[u.id])continue;
+          choices.push({kind:'creature',side,unit:u,code:side+':'+u.key});
+        }
+      }
+    }
+    // Steal only moves an enemy permanent; if another rule truly allows self-
+    // targeting, the selection logic above intentionally retains it.
+    return choices;
+  }
+  function aiCanPlay(b,id){
+    const c=BY_ID[id],r=cardRule(c);
+    if(!c||!r||!aiCanPay(b,c))return false;
+    if(['Creature','Permanent'].includes(c.type)&&!isResourcePermanent(c)&&mainCount(b,'enemy')>=GAME_RULES.maxMainBoard)return false;
+    if(c.type==='Creature'&&!Number.isFinite(r.atk))return false;
+    if(c.type==='Spell'&&!AI_SPELL_EFFECTS.has(r.effect))return false;
+    if(c.type==='Spell'&&r.targeting&&!aiLegalTargets(b,c).length)return false;
+    if(c.type==='Spell'&&r.effect==='clone'&&mainCount(b,'enemy')>=GAME_RULES.maxMainBoard)return false;
+    if(c.type==='Spell'&&r.effect==='animateWeapon'&&(!b.enemyWeapon||mainCount(b,'enemy')>=GAME_RULES.maxMainBoard))return false;
+    if(c.type==='Shield'&&r.effect==='dimensionalShield'&&b.turn<(b.enemyShieldUnlockTurn||0))return false;
+    return true;
+  }
+  function aiDraw(b){
+    if(b.enemyHand.length>=GAME_RULES.maxHand||!b.enemyLibrary.length)return '';
+    b.enemyHand.push(b.enemyLibrary.shift());return 'Level 0 draws a card.';
+  }
+  function aiBrickPass(b){
+    if(b.enemyPlayed)return '';
+    const options=b.enemyLibrary.map((id,i)=>({id,i,card:BY_ID[id]}))
+      .filter(x=>['pillar','tower'].includes(cardRule(x.card)?.family));
+    if(!options.length)return '';
+    const item=aiRandom(options),r=cardRule(item.card);
+    b.enemyLibrary.splice(item.i,1);
+    addPermanent(b,{id:item.id,key:b.nextKey++,mode:'assigned',sleep:r.family==='pillar'},'enemy');
+    return `Level 0 brick-passes ${item.card.name}.`;
+  }
+  function aiResolveSpell(b,c,r,t){
+    const side=t?.side,u=t?.unit;
+    if(side==='player'&&t?.kind==='creature'&&targetEvasionTrial(b,u,'player').evaded)return `missed ${u.name} (Shard of Freedom)`;
+    switch(r.effect){
+      case 'steal':{
+        if(!u)return 'found no permanent';
+        const destination='enemy';
+        if(t.equipment){
+          b[side+t.equipment]=null;
+          b[destination+t.equipment]={...u,key:b.nextKey++,born:b.turn,used:-1};
+        }else{
+          b[side+'Permanents']=b[side+'Permanents'].filter(p=>p.key!==u.key);
+          addPermanent(b,{...u,key:b.nextKey++,born:b.turn,used:-1,reserveSlot:null},destination);
+        }
+        refreshDarkAuras(b);return `stole ${BY_ID[u.id]?.name||'a permanent'}`;
+      }
+      case 'drainLife':{
+        const amount=2+2*Math.floor((b.enemyQuanta.Darkness+r.cost)/10); // before cost
+        const done=t.kind==='hero'?darkDamageHero(b,side,amount):darkDamageCreature(b,side,u,amount);
+        darkHeal(b,'enemy',done);return `drained ${done} life from ${side}`;
+      }
+      case 'liquidShadow':darkVampirize(u);return `vampirized ${u.name} (${side})`;
+      case 'nightmare':{
+        // Card copies are placed in the OPPOSING hand regardless of who owns the target.
+        const n=Math.max(0,GAME_RULES.maxHand-b.hand.length);
+        for(let i=0;i<n;i++)b.hand.push(u.id);
+        darkDamageHero(b,'player',2*n);return `filled ${n} opponent hand slots with ${u.name}`;
+      }
+      case 'lightning':{
+        if(t.kind==='hero')darkDamageHero(b,side,r.damage);
+        else darkDamageCreature(b,side,u,r.damage);
+        return `struck ${side==='enemy'?'its own':'your'} ${t.kind==='hero'?'hero':u.name} for ${r.damage}`;
+      }
+      case 'shockwave':{
+        const amount=u.frozen||u.statuses?.includes('frozen')?Math.max(1,u.hp):r.damage||4;
+        darkDamageCreature(b,side,u,amount);return `hit ${u.name} for ${amount}`;
+      }
+      case 'thunderstorm':{
+        darkDispelCloak(b,'player');
+        for(const u of [...b.playerCreatures]){
+          u.statuses=(u.statuses||[]).filter(s=>s!=='invisible');
+          if(!u.abilities?.includes('immaterial'))darkDamageCreature(b,'player',u,2);
+        }
+        refreshDarkAuras(b);return 'struck player creatures with a thunderstorm';
+      }
+      case 'clone':{
+        if(t.kind!=='creature')return 'failed to clone';
+        const pos=chooseFreeCreatureSlot(b,'enemy');
+        if(pos>=0)enterCreature(b,{...u,key:b.nextKey++,boardSlot:pos,born:b.turn,used:-1,
+          abilities:[...(u.abilities||[])],statuses:[...(u.statuses||[])],dive:false,diveBaseAtk:null},'enemy');
+        return `copied ${u.name} (${side})`;
+      }
+      case 'quintessence':{
+        if(!u.abilities?.includes('immaterial'))u.abilities.push('immaterial');
+        return `made ${u.name} immaterial (${side})`;
+      }
+      case 'fractal':{
+        let n=0;while(b.enemyHand.length<GAME_RULES.maxHand){b.enemyHand.push(u.id);n++;}
+        b.enemyQuanta.Aether=0;return `copied ${u.name} ${n} times`;
+      }
+      case 'wisdom':{
+        const add=r.atkBonus??r.bonus??2,immaterial=u.abilities?.includes('immaterial');
+        if(u.dive&&Number.isFinite(u.diveBaseAtk)){u.diveBaseAtk+=add;u.atk+=2*add;}else u.atk+=add;
+        u.wisdomBuff=(u.wisdomBuff||0)+add;if(immaterial)u.spellAttack=true;
+        return `buffed ${u.name} (${side}) by ${add}`;
+      }
+      case 'animateWeapon':{
+        const weapon=b.enemyWeapon,unit=makeCreature(b,weapon.id,'enemy');
+        if(unit){enterCreature(b,unit,'enemy');b.enemyWeapon=null;}
+        return `animated ${BY_ID[weapon.id]?.name||'weapon'}`;
+      }
+      case 'skyBlitz':b.enemySkyBlitz=true;b.enemyQuanta.Air=0;return 'activated Sky Blitz';
+    }
+    return 'cast';
+  }
+  function aiPlayCard(b,index){
+    const id=b.enemyHand[index],c=BY_ID[id],r=cardRule(c);
+    if(!aiCanPlay(b,id))return '';
+    const candidates=r.targeting?aiLegalTargets(b,c):[];
+    const t=candidates.length?aiRandom(candidates):null;
+    // The cost is only paid once a complete legal action is available.
+    if(!aiSpend(b,c))return '';
+    b.enemyHand.splice(index,1);b.enemyPlayed=true;
+    if(isResourcePermanent(c)){
+      addPermanent(b,{id,key:b.nextKey++,mode:'assigned',sleep:false},'enemy');
+      if(r.playBonus)gainForSide(b,'enemy',c.element==='Other'?'Random':c.element,r.playBonus);
+    }else if(c.type==='Creature'){
+      enterCreature(b,makeCreature(b,id,'enemy'),'enemy');
+    }else if(c.type==='Permanent'){
+      addPermanent(b,{id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.effect==='cloak'?Math.max(0,(r.duration||1)-1):null,abilities:[...(r.abilities||[])]},'enemy');
+      refreshDarkAuras(b);
+    }else if(c.type==='Weapon'||c.type==='Shield'){
+      b['enemy'+c.type]={id,key:b.nextKey++,born:b.turn,used:-1,
+        remaining:c.type==='Shield'?(r.duration??null):null,abilities:[...(r.abilities||[])]};
+    }else if(c.type==='Spell'){
+      return `${c.name} (${aiResolveSpell(b,c,r,t)})`;
+    }
+    return c.name;
+  }
+  function aiAbilityTargets(b,item,r){
+    if(!TARGET_ABILITIES.has(r.activate))return [];
+    const candidates=[];
+    for(const side of ['player','enemy']){
+      if(side==='player'&&darkCloaked(b,'player'))continue;
+      for(const u of b[side+'Creatures']||[]){
+        if(u.burrowed||u.abilities?.includes('immaterial'))continue;
+        if(r.activate==='web'&&!u.abilities?.includes('airborne'))continue;
+        if(r.activate==='lobotomize'&&!u.abilities?.some(a=>REMOVABLE_ABILITIES.has(a)))continue;
+        candidates.push({side,unit:u});
+      }
+    }
+    return candidates;
+  }
+  function aiAbilityReady(b,item){
+    const r=cardRule(BY_ID[item.id]);if(!r?.activate||!item.abilities?.includes(r.activate)||
+      !Number.isInteger(item.born)||item.born>=b.turn||item.used===b.turn)return false;
+    if(r.activate==='stoneForm'&&item.stoneUsed)return false;
+    if((b.enemyQuanta[r.activateElement]||0)<r.activateCost)return false;
+    if(['queen','summonGas'].includes(r.activate)&&mainCount(b,'enemy')>=GAME_RULES.maxMainBoard)return false;
+    if(r.activate==='duality'&&(b.enemyHand.length>=8||!b.library.length))return false;
+    if(TARGET_ABILITIES.has(r.activate)&&!aiAbilityTargets(b,item,r).length)return false;
+    return true;
+  }
+  function aiActivate(b,item){
+    const c=BY_ID[item.id],r=cardRule(c),t=aiAbilityTargets(b,item,r);
+    if(!aiAbilityReady(b,item))return '';
+    const target=t.length?aiRandom(t):null;
+    b.enemyQuanta[r.activateElement]-=r.activateCost;
+    item.used=b.turn;
+    if(target?.side==='player'&&targetEvasionTrial(b,target.unit,'player').evaded)return `${c.name}.${r.activate} missed ${target.unit.name} (Shard of Freedom)`;
+    switch(r.activate){
+      case 'burrow':item.burrowed=!item.burrowed;break;
+      case 'stoneForm':item.hp+=20;item.maxHp+=20;item.stoneUsed=true;break;
+      case 'infection':darkPoison(b,target.side,target.unit,1);break;
+      case 'liquidShadow':darkVampirize(target.unit);break;
+      case 'dive':item.diveBaseAtk=item.atk;item.atk*=2;item.dive=true;break;
+      case 'summonGas':addPermanent(b,{id:'air-unstable-gas',key:b.nextKey++,born:b.turn,used:-1,abilities:['ignite']},'enemy');break;
+      case 'ignite':{
+        b.enemyPermanents=b.enemyPermanents.filter(p=>p.key!==item.key);
+        darkDispelCloak(b,'player');darkDispelCloak(b,'enemy');
+        darkDamageHero(b,'player',r.abilityDamage||10);
+        for(const side of ['player','enemy'])for(const u of [...b[side+'Creatures']]){
+          if(!u.abilities?.includes('immaterial'))darkDamageCreature(b,side,u,1);
+        }
+        break;
+      }
+      case 'queen':{
+        const id=c.tier==='Upgraded'?'air-elite-firefly':'air-firefly';
+        const baby=makeCreature(b,id,'enemy');if(baby)enterCreature(b,baby,'enemy');break;
+      }
+      case 'duality':b.enemyHand.push(b.library[0]);break;
+      case 'web':target.unit.abilities=target.unit.abilities.filter(a=>a!=='airborne');break;
+      case 'immortality':target.unit.abilities.push('immaterial');break;
+      case 'lobotomize':target.unit.abilities=target.unit.abilities.filter(a=>!REMOVABLE_ABILITIES.has(a));break;
+      case 'sniper':darkDamageCreature(b,target.side,target.unit,r.abilityDamage||3);break;
+    }
+    refreshDarkAuras(b);
+    return `${c.name}.${r.activate}${target?' → '+target.side+' '+target.unit.name:''}`;
+  }
+  function aiTakeTurn(b,steps){
+    const events=[];b.enemyPlayed=false;
+    // It never plans: randomly pick from all currently affordable actions until
+    // none remain. Recheck after each card, since cards change quanta and slots.
+    for(let i=0;i<80&&!b.ended;i++){
+      const possible=b.enemyHand.map((id,index)=>({id,index})).filter(x=>aiCanPlay(b,x.id));
+      if(!possible.length)break;
+      const choice=aiRandom(possible),action=aiPlayCard(b,choice.index);
+      if(action)events.push('played '+action);
+      finishDuel(b);
+    }
+    // Try every usable activated ability once, in random order; new summons
+    // cannot activate until the next turn, per the established delay rule.
+    const active=shuffle([...b.enemyCreatures,...b.enemyPermanents,b.enemyWeapon,b.enemyShield]
+      .filter(Boolean).filter(item=>aiAbilityReady(b,item)));
+    for(const item of active){if(b.ended)break;const action=aiActivate(b,item);if(action)events.push('used '+action);finishDuel(b);}
+    const brick=aiBrickPass(b);if(brick)events.push(brick);
+    steps.push('Level 0: '+(events.length?events.join('; '):'no playable cards or abilities.')+'.');
+    b.lastAiActions=events;
+  }
+
   function newDuel(useTraining=true){
     const entries=Object.entries(state.deck).filter(([id,qty])=>BY_ID[id]&&qty>0);
     const playerCards=useTraining?originalStarterForMark(state.element):entries.flatMap(([id,qty])=>Array(Math.min(qty,60)).fill(id));
     const cards=useTraining?playerCards:(playerCards.length>=30&&playerCards.length<=60?playerCards:originalStarterForMark(state.element));
     const library=shuffle(cards);
     const hand=library.splice(0,7);
-    return {version:12,turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
-      playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,name==='Darkness'?10:2])),enemyHand:['training-familiar'],playerCreatures:[],enemyCreatures:[{id:'training-familiar',name:'Training Familiar',atk:2,hp:9,abilities:[],key:1,boardSlot:8+Math.floor(Math.random()*7)}],
-      playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,
-      selectedHand:-1,permanentPages:{player:0,enemy:0},labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary:['aether-phase-spider','aether-mindgate','air-wyrm','air-queen'],log:(useTraining?state.element+' starter deck — 40 cards ready.':'Custom deck duel ready.'),
+    const aiDeck=levelZeroDeck(),enemyLibrary=shuffle(aiDeck),enemyHand=enemyLibrary.splice(0,7);
+    return {version:12,aiLevel:0,enemyDeck:[...aiDeck],turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
+      playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
+      playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
+      selectedHand:-1,permanentPages:{player:0,enemy:0},labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — randomized 40-card deck (10 Pillars).',
       history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2};
   }
   // V12: 23 fixed creature spaces per side. Spawn priority: middle 7, lower 8, upper 8.
@@ -2190,7 +2480,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       const base=Math.max(0,u.atk||0);
       let amount=u.burrowed?Math.floor(base/2):base;
       if(u.frozen||u.delayed)amount=0;
-      if(side==='player'&&b.skyBlitz&&u.abilities?.includes('airborne'))amount*=2;
+      if((side==='player'?b.skyBlitz:b.enemySkyBlitz)&&u.abilities?.includes('airborne'))amount*=2;
       const critical=amount>0&&u.abilities?.includes('airborne')&&Math.random()<bonuses.criticalChance;
       if(critical)amount=Math.ceil(amount*bonuses.criticalMultiplier);
       const shield=b[opponent+'Shield'];
@@ -2214,7 +2504,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
       if(base>0&&u.abilities?.includes('incandescence'))gainForSide(b,side,'Fire',1);
       if(u.dive){u.atk=Number.isFinite(u.diveBaseAtk)?u.diveBaseAtk:Math.ceil(u.atk/2);u.diveBaseAtk=null;u.dive=false;}
     }
-    if(side==='player')b.skyBlitz=false;
+    if(side==='player')b.skyBlitz=false;else b.enemySkyBlitz=false;
     steps.push(`${side} creature attacks: ${dealt} damage${attacks.length?' ('+attacks.join('; ')+')':''}.`);
     return dealt;
   }
@@ -2236,16 +2526,16 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     steps.push(`${side} ${BY_ID[weapon.id]?.name||'Weapon'}: ${dealt} weapon damage.`);
     return dealt;
   }
-  function ageDefensiveShields(b,steps){
-    // Shields are special: their durations count incoming enemy attack phases.
-    for(const side of ['player','enemy']){
+  function ageDefensiveShields(b,steps,defender=null){
+    // Shields tick only when their owner actually received an enemy attack phase.
+    for(const side of (defender?[defender]:['player','enemy'])){
       const shield=b[side+'Shield'];
       if(!shield||shield.remaining==null)continue;
       shield.remaining--;
       if(shield.remaining<=0){
         const r=cardRule(BY_ID[shield.id]);
         b[side+'Shield']=null;
-        if(side==='player'&&r?.effect==='dimensionalShield')b.shieldUnlockTurn=b.turn+2;
+        if(r?.effect==='dimensionalShield'){if(side==='player')b.shieldUnlockTurn=b.turn+2;else b.enemyShieldUnlockTurn=b.turn+2;}
         steps.push(`${BY_ID[shield.id]?.name||'Shield'} expired.`);
       }
     }
@@ -2263,9 +2553,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     refreshDarkAuras(b);
     phases.push(`${side}:3-resource-production`);
     steps.push(`${side} production: ${productionForSide(b,side)}.`);
-    // The passive Darkness mechanics still resolve at the resource step, once
-    // per training exchange, including Shard of Void and Devourer theft.
-    if(side==='player')darkStartPhase(b,steps);
+    // Resolve each side's Darkness passives exactly once, on that side's resource phase.
+    darkStartPhase(b,steps,side);
     phases.push(`${side}:4-weapon`);
     resolveWeaponCombat(b,side,steps);
     phases.push(`${side}:5-permanent-timers`);
@@ -2278,16 +2567,16 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     if(brick)steps.push(brick);
     b.lastTurnPhases=[];b.lastAttackOrders={};
     resolveActingSide(b,'player',steps);
+    ageDefensiveShields(b,steps,'enemy');
     finishDuel(b);
     if(!b.ended){
-      // The current opponent is still a training simulation, but its attacking
-      // phase now follows the same rules and triggers YOUR poison during its turn.
-      resolveActingSide(b,'enemy',steps);
-      ageDefensiveShields(b,steps);
+      // The opponent plays real cards and abilities before its combat phases.
+      if(b.aiLevel===0)aiTakeTurn(b,steps);
+      if(!b.ended){resolveActingSide(b,'enemy',steps);ageDefensiveShields(b,steps,'player');}
       finishDuel(b);
     }
     refreshDarkAuras(b);
-    if(!b.ended){b.turn++;b.played=false;b.selectedHand=-1;steps.push(drawDuel(b));}
+    if(!b.ended){b.turn++;b.played=false;b.enemyPlayed=false;b.selectedHand=-1;steps.push(drawDuel(b));if(b.aiLevel===0){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}}
     else steps.push(b.winner==='player'?'Victory.':'Defeat.');
     logDuel(b,steps.join(' '));render();
   }
@@ -2349,7 +2638,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const creatures=creatureRows(b,side),permanents=permanentRow(b,side);
     return `<section class="etg-player ${own?'self':'enemy'}" aria-label="${own?'Your':'Opponent'} battlefield">
-      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Training Enemy')}</span><span class="etg-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span><span class="hp">${hp} / ${maxHp} HP</span></div>
+      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span><span class="etg-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span><span class="hp">${hp} / ${maxHp} HP</span></div>
       ${own?`${creatures}${permanents}`:`${permanents}${creatures}`}
     </section>`;
   }
@@ -2688,10 +2977,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'18.0.0-ordered-turn-phases',isDemo:demo,
+    version:'19.0.0-level-zero-ai',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
 })();

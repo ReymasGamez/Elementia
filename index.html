@@ -979,6 +979,89 @@ body[data-elementia-display="desktop"] .battle-page .etg-top-history{position:re
 @media (max-width:650px){.etg-top-strip{gap:5px}.etg-top-links{flex:1 1 100%;justify-content:center}.etg-top-strip .elementia-display-switch{width:100%;justify-content:center}}
 @media (prefers-reduced-motion:reduce){.etg-top-link,.etg-top-history>summary{transition:none}}
 </style>
+
+<style id="elementia-v17-6-opposed-hands">
+/* v17.6 — eight vertical hand slots on opposite corners of the OG desktop board.
+   All selectors are desktop-scoped: compact/mobile markup and styling remain intact. */
+body[data-elementia-display="desktop"] .etg-og-arena{
+  grid-template-columns:178px minmax(0,1fr) 240px;
+  grid-template-rows:minmax(0,1fr) minmax(0,1fr);
+  grid-template-areas:"enemyhand field enemyrail" "playerrail field playerhand";
+  gap:5px;
+  min-height:0;
+}
+body[data-elementia-display="desktop"] .etg-og-tophand-wrap{align-self:start;min-width:0;grid-area:enemyhand}
+body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{align-self:end;min-width:0;grid-area:playerhand}
+body[data-elementia-display="desktop"] .etg-og-field{grid-area:field;min-width:0}
+body[data-elementia-display="desktop"] .etg-og-opponent-hand,
+body[data-elementia-display="desktop"] .etg-og-player-hand{
+  display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(8,30px);gap:3px;
+  min-width:0;
+}
+body[data-elementia-display="desktop"] .etg-og-op-card,
+body[data-elementia-display="desktop"] .etg-og-hand-card{
+  box-sizing:border-box;width:100%;height:30px;min-height:30px;max-height:30px;
+  aspect-ratio:auto;border-radius:2px;
+}
+body[data-elementia-display="desktop"] .etg-og-op-card{
+  display:grid;grid-template-columns:19px 27px minmax(0,1fr);align-items:center;gap:5px;
+  padding:2px 5px;background:linear-gradient(90deg,#59361f,#241a15);border-color:#927958;
+}
+body[data-elementia-display="desktop"] .etg-og-op-card.filled::before{
+  background:linear-gradient(90deg,#8c613e,#56371f 42%,#241914 100%);pointer-events:none
+}
+body[data-elementia-display="desktop"] .etg-og-op-card>*{z-index:1;min-width:0}
+body[data-elementia-display="desktop"] .etg-og-slot-num{
+  font:700 11px/1 Georgia,serif;text-align:center;color:#d7c59f;
+}
+body[data-elementia-display="desktop"] .etg-og-card-back{
+  display:grid;place-items:center;height:23px;border:1px solid #d0b17a;background:linear-gradient(135deg,#a87b50,#4b2d1b);
+  box-shadow:inset 0 0 0 2px #281a12;color:#f1dcad;font:17px/1 Georgia,serif;
+}
+body[data-elementia-display="desktop"] .etg-og-back-label{
+  font:10px/1.15 Georgia,serif;letter-spacing:.07em;text-transform:uppercase;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#e6d4b1;
+}
+body[data-elementia-display="desktop"] .etg-og-op-card:not(.filled){
+  background:#151b1a;border-style:dashed;border-color:#4f524a;
+}
+body[data-elementia-display="desktop"] .etg-og-op-card:not(.filled) .etg-og-back-label,
+body[data-elementia-display="desktop"] .etg-og-op-card:not(.filled) .etg-og-slot-num{opacity:.6}
+body[data-elementia-display="desktop"] .etg-og-hand-card{
+  display:grid;grid-template-columns:18px 27px minmax(0,1fr) auto;
+  grid-template-rows:1fr;gap:5px;align-items:center;
+  padding:2px 5px;text-align:left;
+  color:#f2ebd6;border-color:#7d745c;
+  background:linear-gradient(90deg,var(--accent,#4b5a52) 0,#172322 27%,#111a19 100%);
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card .etg-og-slot-num{color:#f4e8c2}
+body[data-elementia-display="desktop"] .etg-og-hand-art{
+  display:grid;place-items:center;width:27px;height:23px;border:1px solid #c0ae83;
+  background:radial-gradient(circle at 50% 30%,var(--accent,#45594f),#0e1c1c);
+  background-size:cover;background-position:center;color:#fff0ca;font:16px/1 Georgia,serif;
+  overflow:hidden;text-shadow:0 1px 2px #000;
+}
+body[data-elementia-display="desktop"] .etg-og-row-name{
+  min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font:11px/1.15 Georgia,serif;color:#f7eed8;
+}
+body[data-elementia-display="desktop"] .etg-og-row-cost{
+  min-width:21px;justify-self:end;white-space:nowrap;
+  font:700 10px/1 Arial,sans-serif;text-align:right;color:#ffedbe;
+  padding:3px 3px;background:#071211d6;border:1px solid #817451;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.selected{
+  border-color:#ffe4a0;outline:1px solid #ffe4a0;outline-offset:-2px;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.empty{
+  border-style:dashed;background:#111a19;opacity:.75;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.empty .etg-og-slot-num{color:#a6a294}
+/* Preserve clean fit down to laptop widths; the existing fitDesktopDuel handles height scaling. */
+@media(max-width:1100px){
+  body[data-elementia-display="desktop"] .etg-og-arena{grid-template-columns:155px minmax(0,1fr) 210px}
+}
+</style>
 </head>
 <body>
   <div id="app" aria-live="polite"></div>
@@ -2008,19 +2091,25 @@ body[data-elementia-display="desktop"] .battle-page .etg-top-history{position:re
     return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and vitals">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
   }
   function renderDesktopOpponentHand(b){
-    const cards=b.enemyHand||[];const total=Math.max(8,cards.length);
-    return Array.from({length:total},(_,i)=>i<cards.length?`<div class="etg-og-op-card filled" aria-label="Opponent hidden card ${i+1}"><span class="etg-og-backbar">Hidden</span><span class="etg-og-op-rune">✧</span></div>`:`<div class="etg-og-op-card" aria-hidden="true"></div>`).join('');
+    // Opponent card identities are never revealed: exactly eight ordered, face-down slots.
+    const visible=Math.min(8,(b.enemyHand||[]).length);
+    return Array.from({length:8},(_,i)=>{
+      const filled=i<visible;
+      return `<div class="etg-og-op-card ${filled?'filled':''}" aria-label="Opponent hand slot ${i+1}: ${filled?'face-down card':'empty'}"><span class="etg-og-slot-num">${i+1}</span>${filled?'<span class="etg-og-card-back" aria-hidden="true">✧</span>':'<span aria-hidden="true"></span>'}<span class="etg-og-back-label">${filled?'Face down':'Empty'}</span></div>`;
+    }).join('');
   }
   function renderDesktopPlayerHand(b){
-    const total=Math.max(8,b.hand.length);
-    return Array.from({length:total},(_,i)=>{
-      if(i>=b.hand.length)return '<div class="etg-og-hand-card empty" aria-hidden="true"></div>';
-      const c=BY_ID[b.hand[i]]; if(!c)return '<div class="etg-og-hand-card empty" aria-hidden="true"></div>';
-      const r=cardRule(c)||{};
+    // Each row keeps the original hand index so clicks, selection and spell targeting work.
+    return Array.from({length:8},(_,i)=>{
+      const c=i<b.hand.length?BY_ID[b.hand[i]]:null;
+      if(!c)return `<div class="etg-og-hand-card empty" aria-label="Your hand slot ${i+1}: empty"><span class="etg-og-slot-num">${i+1}</span></div>`;
+      const r=cardRule(c);
       const allowed=canAfford(b,c)&&!b.ended;
-      const costLabel=(r.cost||0)>0?`${r.cost} ${(ELEMENT[paymentElement(c)]?.symbol)||''}`.trim():'';
-      const artStyle=(c.artworkUrl?`background-image:url('${String(c.artworkUrl).replace(/'/g,"%27")}');`:'')+theme(c);
-      return `<button class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" style="${theme(c)}" aria-pressed="${i===b.selectedHand}" aria-label="Select ${esc(c.name)}"><span class="etg-og-cardbar"><span class="etg-og-cardname">${esc(c.name)}</span>${costLabel?`<span class="etg-og-cardcost">${esc(costLabel)}</span>`:''}</span><span class="etg-og-art ${c.artworkUrl?'has-art':''}" style="${artStyle}"><span class="etg-og-art-rune">${esc(c.symbol)}</span>${c.tier==='Upgraded'?'<em class="etg-og-up">UP</em>':''}</span></button>`;
+      const payment=paymentElement(c);
+      const costLabel=r&&Number.isFinite(r.cost)&&r.cost>0?`${r.cost} ${ELEMENT[payment]?.symbol||payment}`:'';
+      const artStyle=c.artworkUrl?`background-image:url('${String(c.artworkUrl).replace(/'/g,'%27')}');`:'';
+      const artGlyph=c.artworkUrl?'':esc(c.symbol);
+      return `<button type="button" class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" style="${theme(c)}" aria-pressed="${i===b.selectedHand}" title="${esc(c.name)}${costLabel?' · '+esc(costLabel):''}" aria-label="Hand slot ${i+1}: select ${esc(c.name)}${costLabel?', cost '+esc(costLabel):''}"><span class="etg-og-slot-num">${i+1}</span><span class="etg-og-hand-art" style="${artStyle}">${artGlyph}</span><span class="etg-og-row-name">${esc(c.name)}</span>${costLabel?`<span class="etg-og-row-cost">${esc(costLabel)}</span>`:''}</button>`;
     }).join('');
   }
   function renderDesktopBattlefield(b){
@@ -2249,7 +2338,7 @@ body[data-elementia-display="desktop"] .battle-page .etg-top-history{position:re
   });
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(state.duel?.pendingTarget)cancelTarget();else if(state.modal){state.modal=null;render();}else if(focusFullscreen){focusFullscreen=false;syncFullscreenUI();}else if(nativeFullscreenElement()){const exit=document.exitFullscreen||document.webkitExitFullscreen;if(exit)Promise.resolve(exit.call(document)).catch(()=>{});}}});
   window.ElementiaInterface = Object.freeze({
-    version:'17.5.0-compact-desktop',isDemo:demo,
+    version:'17.6.0-opposed-hands',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

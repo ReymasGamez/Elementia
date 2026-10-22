@@ -1761,11 +1761,77 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     return order;
   }
 
-  // v19.1: Level 0 intentionally has no tactical evaluator. It spends any available
+  // v19.2: Level 0 intentionally has no tactical evaluator. It spends any available
   // quanta, plays every affordable card it can, and chooses uniformly at random
   // among genuinely legal targets, regardless of ownership.
   const AI_SPELL_EFFECTS=new Set(['steal','drainLife','liquidShadow','nightmare','lightning','shockwave',
     'thunderstorm','clone','quintessence','fractal','wisdom','animateWeapon','skyBlitz']);
+  // Classic Elements rarity reference, not Elementia Bazaar prices.
+  // Source: https://elementscommunity.org/wiki/Category:Rares
+  // Original wiki records 53 Rare / Ultra Rare card-family pages.
+  // The normal card in every listed family is excluded from Level 0; the
+  // existing no-upgrades rule also rejects every upgraded version.
+  const CLASSIC_RARE_FAMILIES=new Set(
+[
+    "Amber Nymph",
+    "Arctic Squid",
+    "Arsenic",
+    "Auburn Nymph",
+    "Black Nymph",
+    "Blue Nymph",
+    "Chimera (Foil)",
+    "Discord",
+    "Druidic Staff",
+    "Eternity",
+    "Fahrenheit",
+    "Golden Nymph",
+    "Green Nymph",
+    "Grey Nymph",
+    "Light Nymph",
+    "Lobotomizer",
+    "Mark of Aether",
+    "Mark of Air",
+    "Mark of Darkness",
+    "Mark of Death",
+    "Mark of Earth",
+    "Mark of Entropy",
+    "Mark of Fire",
+    "Mark of Gravity",
+    "Mark of Life",
+    "Mark of Light",
+    "Mark of Time",
+    "Mark of Water",
+    "Miracle",
+    "Morning Star",
+    "Nymph Queen",
+    "Owl's Eye",
+    "Pharaoh",
+    "Pulverizer",
+    "Purple Nymph",
+    "Red Nymph",
+    "Relic",
+    "Shard of Bravery",
+    "Shard of Divinity",
+    "Shard of Focus",
+    "Shard of Freedom",
+    "Shard of Gratitude",
+    "Shard of Integrity",
+    "Shard of Patience",
+    "Shard of Readiness",
+    "Shard of Sacrifice",
+    "Shard of Serendipity",
+    "Shard of Void",
+    "Shard of Wisdom",
+    "Titan",
+    "Trident",
+    "Turquoise Nymph",
+    "Vampire Stiletto"
+].map(name=>name.toLowerCase()));
+  function isClassicRare(card){
+    if(!card)return false;
+    const name=String(card.name||'').normalize('NFKC').replace(/[’‘]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
+    return CLASSIC_RARE_FAMILIES.has(name);
+  }
   function levelZeroDeck(){
     // Level 0 is a tutorial bot, not a deck builder: no upgraded cards and no
     // favored elements, synergy checking, or matching cards to its Pillars.
@@ -1774,7 +1840,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     const pillars=CARDS.filter(c=>c.tier==='Basic'&&cardRule(c)?.family==='pillar');
     const eligible=CARDS.filter(c=>{
       const r=cardRule(c);
-      if(c.tier!=='Basic'||!r||r.cost==null||r.family==='pillar'||r.family==='tower'||(c.legacyCode&&OG_UNFINISHED.has(c.legacyCode)))return false;
+      if(c.tier!=='Basic'||isClassicRare(c)||!r||r.cost==null||r.family==='pillar'||r.family==='tower'||(c.legacyCode&&OG_UNFINISHED.has(c.legacyCode)))return false;
       if(c.type==='Creature')return Number.isFinite(r.atk)&&Number.isFinite(r.hp);
       if(c.type==='Permanent'||c.type==='Weapon'||c.type==='Shield'||c.type==='Pendulum')return true;
       return c.type==='Spell'&&AI_SPELL_EFFECTS.has(r.effect);
@@ -2060,7 +2126,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     return {version:12,aiLevel:0,enemyDeck:[...aiDeck],turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
       playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
       playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
-      selectedHand:-1,permanentPages:{player:0,enemy:0},labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — 40 random basic cards, including 10 Pillars.',
+      selectedHand:-1,permanentPages:{player:0,enemy:0},labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
       history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2};
   }
   // V12: 23 fixed creature spaces per side. Spawn priority: middle 7, lower 8, upper 8.
@@ -2980,10 +3046,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.e
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'19.1.0-random-basic-ai',isDemo:demo,
+    version:'19.2.0-common-basic-ai',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
 })();

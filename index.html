@@ -1756,9 +1756,51 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty>.etg-og-action-st
   }
 }
 </style>
+
+<style id="elementia-v20-10-light-beams">
+/* OG desktop hand readiness: glow exists only for a legally playable card.
+   Starts as a bright translucent edge and fades outward like a flashlight.
+   Non-playable slots render no strip at all (no gray/off track). */
+body[data-elementia-display="desktop"] .etg-og-hand-card > .etg-og-action-strip,
+body[data-elementia-display="desktop"] .etg-og-hand-card > .etg-og-action-strip:not(.is-ready){
+  display:none!important;
+}
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready > .etg-og-action-strip.is-ready{
+  display:block!important;
+  position:absolute;
+  z-index:20;
+  pointer-events:none;
+  top:1px;
+  left:calc(100% + 2px);
+  /* Longer than the old box: it can extend past the end of the gray hand rail. */
+  width:clamp(112px,12vw,185px);
+  height:calc(var(--etg-stack-step) - 2px);
+  border:0;
+  border-radius:0;
+  /* Beam is physically long but fades before the window edge, avoiding
+     the old hard, rectangular bar seen in narrower desktop viewports. */
+  background:linear-gradient(90deg,
+    rgba(255,255,255,.86) 0%,
+    rgba(255,255,255,.60) 12%,
+    rgba(255,255,255,.33) 25%,
+    rgba(255,255,255,.12) 38%,
+    rgba(255,255,255,.035) 48%,
+    rgba(255,255,255,0) 58%,
+    rgba(255,255,255,0) 100%);
+  box-shadow:none;
+  filter:drop-shadow(0 0 5px rgba(255,255,255,.33));
+  opacity:1;
+}
+/* Prevent long beams from introducing a page-wide scrollbar at laptop widths. */
+body[data-elementia-display="desktop"] .battle-page{overflow-x:clip}
+/* Thin outline of the playable card remains independent of beam intensity. */
+body[data-elementia-display="desktop"] .etg-og-hand-card.preview-ready{
+  border-color:#b6ad98;
+}
+</style>
 </head>
 <body>
-  <!-- Elementia v20.9: verified right-side playable hand tracks -->
+  <!-- Elementia v20.10: fading playable-card light beams -->
 <div id="app" aria-live="polite"></div>
   <script>
 /*
@@ -3463,14 +3505,14 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty>.etg-og-action-st
       const visible=Math.min(8,b.hand.length);
       const offset=i<visible||!visible?`calc(${i} * var(--etg-stack-step))`:`calc(${visible-1} * var(--etg-stack-step) + var(--etg-stack-card-h) + ${i-visible} * var(--etg-stack-step))`;
       const c=i<b.hand.length?BY_ID[b.hand[i]]:null;
-      if(!c)return `<div class="etg-og-hand-card empty" style="--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-label="Your hand slot ${i+1}: empty"><span class="etg-og-empty-caption">EMPTY</span><span class="etg-og-action-strip is-empty" aria-hidden="true"></span></div>`;
+      if(!c)return `<div class="etg-og-hand-card empty" style="--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-label="Your hand slot ${i+1}: empty"><span class="etg-og-empty-caption">EMPTY</span></div>`;
       const r=cardRule(c);
       const allowed=desktopHandCardPlayable(b,c);
       const payment=paymentElement(c);
       const costLabel=r&&Number.isFinite(r.cost)&&r.cost>0?`${r.cost} ${ELEMENT[payment]?.symbol||payment}`:'';
       const artStyle=c.artworkUrl?`background-image:url('${String(c.artworkUrl).replace(/'/g,'%27')}');`:'';
       const artGlyph=c.artworkUrl?'':esc(c.symbol);
-      return `<button type="button" class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" data-hover-card="${esc(c.id)}" style="${theme(c)};--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-pressed="${i===b.selectedHand}" aria-label="Hand slot ${i+1}: ${esc(c.name)}${costLabel?', cost '+esc(costLabel):''}${allowed?', playable':''}"><span class="etg-og-hand-art" style="${artStyle}">${artGlyph}</span><span class="etg-og-row-name">${esc(c.name)}</span>${costLabel?`<span class="etg-og-row-cost">${esc(costLabel)}</span>`:''}<span class="etg-og-full-art" style="${artStyle}">${artGlyph?`<span class="full-glyph">${artGlyph}</span>`:''}</span><span class="etg-og-action-strip ${allowed?'is-ready':''}" aria-hidden="true"></span></button>`;
+      return `<button type="button" class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" data-hover-card="${esc(c.id)}" style="${theme(c)};--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-pressed="${i===b.selectedHand}" aria-label="Hand slot ${i+1}: ${esc(c.name)}${costLabel?', cost '+esc(costLabel):''}${allowed?', playable':''}"><span class="etg-og-hand-art" style="${artStyle}">${artGlyph}</span><span class="etg-og-row-name">${esc(c.name)}</span>${costLabel?`<span class="etg-og-row-cost">${esc(costLabel)}</span>`:''}<span class="etg-og-full-art" style="${artStyle}">${artGlyph?`<span class="full-glyph">${artGlyph}</span>`:''}</span>${allowed?'<span class="etg-og-action-strip is-ready" aria-hidden="true"></span>':''}</button>`;
     }).join('');
   }
   function renderDesktopBattlefield(b){
@@ -3802,7 +3844,7 @@ body[data-elementia-display="desktop"] .etg-og-hand-card.empty>.etg-og-action-st
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.6-classic-hand-stack-visible',isDemo:demo,
+    version:'20.10-flashlight-playability-glow',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

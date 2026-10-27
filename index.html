@@ -1996,6 +1996,55 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
 /* The empty eighth position never carries a cost or glow. */
 body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card.empty > .etg-og-persistent-cost{display:none}
 </style>
+
+<style id="elementia-v20-16-spaced-player-hand-art-peek">
+/* Desktop player hand: make each of eight overlapping cards reveal a narrow
+   art strip below its name, while the glow stays individually visible. */
+body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{
+  --etg-stack-step:clamp(24px,3.55dvh,30px);
+  --etg-stack-card-h:clamp(110px,9.3vw,128px);
+  --etg-stack-card-side:var(--etg-stack-card-h);
+  --etg-hand-header-h:clamp(19px,2.55dvh,22px);
+}
+/* Stack geometry remains an 8-position layout, sized by the final card's full
+   square and seven partially exposed cards. Empty slots stay at the end. */
+body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap .etg-og-player-hand{
+  height:calc(7 * var(--etg-stack-step) + var(--etg-stack-card-side));
+}
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not(.empty){
+  height:var(--etg-stack-card-side);
+  min-height:var(--etg-stack-card-side);
+  max-height:var(--etg-stack-card-side);
+  grid-template-rows:var(--etg-hand-header-h) minmax(0,1fr);
+  overflow:visible;
+}
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card .etg-og-row-name{
+  padding:2px 5px 2px 7px;
+  min-height:0;
+  line-height:1.05;
+}
+/* A glimpse of artwork appears between the short name band and the next card.
+   The bottom-most card still shows its full square portrait. */
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card .etg-og-full-art{
+  margin:0 3px 3px;
+  border-top:1px solid rgba(216,197,153,.65);
+}
+/* Individual flashes stop short of the next card's strip, with a subtle
+   gap that keeps eight nearby active indicators visually distinct. */
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card.preview-ready > .etg-og-action-strip.is-ready{
+  top:1px;
+  height:calc(var(--etg-stack-step) - 4px);
+  border-radius:1px;
+}
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card > .etg-og-persistent-cost{
+  top:1px;
+  height:calc(var(--etg-stack-step) - 4px);
+}
+/* No ghost indicators for cards that are not playable. */
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not(.preview-ready) > .etg-og-action-strip{
+  display:none!important;
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->

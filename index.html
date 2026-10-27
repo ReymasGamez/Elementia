@@ -2161,6 +2161,74 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
 .etg-ability-fields .etg-element-icon,.etg-ability-status .etg-element-icon{display:inline-block;width:1.16em;height:1.16em;vertical-align:-.18em;margin:0 2px}
 .card-cost .etg-element-icon{width:1.1em;height:1.1em}
 </style>
+
+<style id="elementia-v20-22-classic-targeting">
+/* OG-inspired in-field targeting instruction. The prompt floats over the middle
+   divider, and it never intercepts card target clicks. */
+.etg-battlefield{position:relative}
+.etg-og-target-prompt,
+body[data-elementia-display="desktop"] .etg-og-target-prompt{
+  position:absolute;left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%);
+  z-index:40;width:min(92%,800px);max-width:calc(100% - 8px);
+  min-height:80px;padding:0;border:0;background:transparent;box-shadow:none;
+  display:grid;grid-template-columns:clamp(26px,8%,86px) minmax(0,1fr) clamp(26px,8%,86px);
+  align-items:center;gap:0;overflow:visible;pointer-events:none;margin:0;
+  font-family:Georgia,serif;color:#f2ead1;
+}
+.etg-og-target-prompt .etg-target-flourish{height:92px;width:100%;fill:#f4db87;stroke:#d8b96e;stroke-width:2.5;filter:drop-shadow(0 1px 2px #0a0b07);align-self:center;overflow:visible}
+.etg-og-target-prompt .etg-target-flourish.right{transform:scaleX(-1)}
+.etg-og-target-prompt .etg-target-prompt-body{
+  position:relative;display:flex;align-items:center;justify-content:center;min-height:58px;
+  background:linear-gradient(180deg,rgba(0,0,0,.95),#050503 52%,rgba(0,0,0,.94));
+  border-top:2px solid #c3a05b;border-bottom:2px solid #bd9b5c;
+  box-shadow:0 6px 12px #0007;min-width:0;
+}
+.etg-og-target-prompt .etg-target-message{
+  display:flex;gap:7px;align-items:baseline;justify-content:center;flex-wrap:wrap;
+  text-align:center;font:clamp(15px,1.8vw,25px)/1.1 Georgia,serif;
+  padding:9px 5px;max-width:100%;
+}
+.etg-og-target-prompt .etg-target-message strong{font-weight:700;color:#f5d86c;text-shadow:0 0 8px #f1bb3d77}
+.etg-og-target-prompt .etg-target-colon{color:#e0d5b6}
+.etg-og-target-prompt .etg-target-cancel{
+  position:absolute;right:6px;top:calc(100% + 3px);pointer-events:auto;z-index:45;
+  width:clamp(80px,24%,178px);height:29px;padding:2px 8px;
+  border:2px solid #c7b27b;border-radius:5px;background:#0a0b08;
+  font:16px Georgia,serif;color:#f7eccb;cursor:pointer;box-shadow:0 2px 6px #0008;
+}
+.etg-og-target-prompt .etg-target-cancel:hover,.etg-og-target-prompt .etg-target-cancel:focus-visible{background:#30301d;outline:2px solid #eed580;outline-offset:1px}
+/* One click on a legal hero's HP is exactly the same as choosing a legal unit. */
+.etg-hp-hero-anchor{display:block;position:relative;min-width:0}
+.etg-hp-hero-anchor[data-action="select-hero-target"]{cursor:crosshair}
+.etg-hp-hero-anchor>.etg-forecast-hp{display:block;width:100%;pointer-events:none}
+.etg-player-status .etg-hp-hero-anchor{flex:1;max-width:105px}
+body[data-elementia-display="desktop"] .etg-og-vitals-hud .etg-hp-hero-anchor{width:100%;min-height:12px}
+.etg-hero-target{
+  position:absolute;left:0;top:50%;width:100%;height:64px;transform:translateY(-50%);
+  z-index:42;display:grid;place-items:center;border:0;padding:0;background:transparent;
+  cursor:crosshair;overflow:visible;
+}
+.etg-hero-target svg{display:block;width:66px;height:66px;overflow:visible;fill:none;
+  stroke:#f13d1e;stroke-width:4;stroke-linecap:square;filter:drop-shadow(0 0 3px #ff2c11)}
+.etg-hero-target svg,.etg-hero-target svg *{pointer-events:none}
+.etg-hero-target svg .etg-crosshair-corners{stroke-width:4.5}
+.etg-hero-target:hover svg,.etg-hero-target:focus-visible svg{stroke:#ffb69e;filter:drop-shadow(0 0 5px #ff2716)}
+.etg-hero-target:focus-visible{outline:2px solid #ff9b8c;outline-offset:3px}
+body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visible}
+@media(max-width:680px){
+  /* Mobile HP sits next to the battlefield divider. Raise the banner so the
+     player HP crosshair remains entirely visible and tappable. */
+  .etg-og-target-prompt,body[data-elementia-display="desktop"] .etg-og-target-prompt{top:calc(50% - 58px);width:96%;max-width:96%;min-height:52px;grid-template-columns:28px minmax(0,1fr) 28px}
+  .etg-og-target-prompt .etg-target-flourish{height:54px}
+  .etg-og-target-prompt .etg-target-prompt-body{min-height:47px}
+  .etg-og-target-prompt .etg-target-message{font-size:13px;gap:3px;padding:6px 2px}
+  .etg-og-target-prompt .etg-target-cancel{top:calc(100% + 2px);height:26px;width:90px;font-size:13px}
+  .etg-hero-target{height:50px}
+  .etg-hero-target svg{width:50px;height:50px}
+}
+@media(prefers-reduced-motion:reduce){.etg-hero-target svg{animation:none}}
+</style>
+
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3512,10 +3580,35 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
     }
     return false;
   }
-  function targetPrompt(b){const p=b.pendingTarget;if(!p)return '';
-    const c=p.kind==='spell'?BY_ID[p.cardId]:BY_ID[sourceByKey(b,p.sourceKey)?.id];const choices=p.kind==='spell'?legalSpellTargets(b,c):legalAbilityTargets(b,sourceByKey(b,p.sourceKey));
-    const playerChoices=choices.filter(code=>code.endsWith(':hero'));
-    return `<div class="etg-target-banner" role="status"><span><b>${esc(c?.name||'Choose target')}:</b> Select a glowing creature, or use a player target below. <small>${choices.length} legal target(s). No cost spent yet.</small></span><div class="etg-inspect-actions">${playerChoices.map(code=>`<button class="button mini" data-action="select-hero-target" data-id="${code}">${code.startsWith('enemy')?'Target enemy player':'Target yourself'}</button>`).join('')}<button class="button secondary mini" data-action="cancel-target" type="button">Cancel</button></div></div>`;
+  function targetPrompt(b){
+    const p=b.pendingTarget;if(!p)return '';
+    const c=p.kind==='spell'?BY_ID[p.cardId]:BY_ID[sourceByKey(b,p.sourceKey)?.id];
+    const r=c?cardRule(c):null;
+    const targets=p.kind==='spell'?legalSpellTargets(b,c):legalAbilityTargets(b,sourceByKey(b,p.sourceKey));
+    const direction=r?.targeting==='permanent'?'Select a Permanent':r?.targeting==='creature'?'Select a Creature':p.kind==='ability'?'Select a Creature':'Select Your Target';
+    // The center banner is decorative except for Cancel: it must not steal card/hero target clicks.
+    return `<div class="etg-target-banner etg-og-target-prompt" role="status" aria-label="${esc(c?.name||'Card')}: ${esc(direction)}">
+      <svg class="etg-target-flourish left" viewBox="0 0 100 96" aria-hidden="true"><path d="M97 48H3 M78 43C56 45 34 22 18 2c0 29 10 37 28 44C23 50 17 63 6 83c31 0 48-13 72-31M41 47C26 41 23 27 19 20m22 31C24 57 22 65 16 76"/><circle cx="12" cy="48" r="8"/></svg>
+      <div class="etg-target-prompt-body"><div class="etg-target-message"><strong>${esc(c?.name||'Card')}</strong><span class="etg-target-colon">:</span><span>${esc(direction)}</span></div>
+      <button type="button" class="etg-target-cancel" data-action="cancel-target" aria-label="Cancel targeting">Cancel</button></div>
+      <svg class="etg-target-flourish right" viewBox="0 0 100 96" aria-hidden="true"><path d="M97 48H3 M78 43C56 45 34 22 18 2c0 29 10 37 28 44C23 50 17 63 6 83c31 0 48-13 72-31M41 47C26 41 23 27 19 20m22 31C24 57 22 65 16 76"/><circle cx="12" cy="48" r="8"/></svg>
+    </div>`;
+  }
+  function legalHeroTarget(b,side){
+    const p=b.pendingTarget;
+    return !!p&&p.kind==='spell'&&b.hand[p.handIndex]===p.cardId&&validSpellTarget(b,BY_ID[p.cardId],side+':hero');
+  }
+  function heroTargetAnchorAttrs(b,side){
+    // Clicks on the bar itself also resolve the target, even through a transparent SVG area.
+    return legalHeroTarget(b,side)?`data-action="select-hero-target" data-id="${side}:hero" title="Target ${side==='enemy'?'opponent':'yourself'}"`:'';
+  }
+  function heroTargetMarkup(b,side){
+    // Only actual legal player targets get an active red crosshair; all other HP bars remain untouched.
+    if(!legalHeroTarget(b,side))return '';
+    const p=b.pendingTarget,code=side+':hero';
+    return `<button type="button" class="etg-hero-target" data-action="select-hero-target" data-id="${code}" aria-label="Target ${side==='enemy'?'opponent':'yourself'}: ${esc(BY_ID[p.cardId]?.name||'spell')}" title="Target ${side==='enemy'?'opponent':'yourself'}">
+      <svg viewBox="0 0 100 100" focusable="false" aria-hidden="true"><circle cx="50" cy="50" r="33"/><path d="M50 2v26 M50 72v26 M2 50h26 M72 50h26"/><path class="etg-crosshair-corners" d="M3 27V3h24 M73 3h24v24 M97 73v24H73 M27 97H3V73"/></svg>
+    </button>`;
   }
   function selectCrosshairTarget(side,key){
     const b=ensureBoard(),p=b.pendingTarget;
@@ -3913,7 +4006,7 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const creatures=creatureRows(b,side),permanents=permanentRow(b,side);
     return `<section class="etg-player ${own?'self':'enemy'}" aria-label="${own?'Your':'Opponent'} battlefield">
-      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span>${hudHealthBar(b,side)}<span class="etg-hp-with-poison"><span class="hp">${hp} / ${maxHp} HP</span>${heroPoisonMarker(b,side)}</span></div>
+      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span><span class="etg-hp-hero-anchor" ${state.displayMode==='desktop'?'':heroTargetAnchorAttrs(b,side)}>${hudHealthBar(b,side)}${state.displayMode==='desktop'?'':heroTargetMarkup(b,side)}</span><span class="etg-hp-with-poison"><span class="hp">${hp} / ${maxHp} HP</span>${heroPoisonMarker(b,side)}</span></div>
       ${own?`${creatures}${permanents}`:`${permanents}${creatures}`}
     </section>`;
   }
@@ -3923,7 +4016,7 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const deck=own?b.library.length:(b.enemyLibrary||[]).length;
     const quanta=ELEMENTS.map(([name,symbol,color])=>hudQuantum(name,symbol,color,pool,true)).join('');
-    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-hud"><div class="etg-og-vitals-main"><span class="etg-og-hp-with-poison"><strong>HP: ${hp}<small> / ${maxHp}</small></strong>${heroPoisonMarker(b,side)}</span>${hudHealthBar(b,side,true)}</div><div class="etg-deck-placeholder" role="img" aria-label="${side} deck, ${deck} cards remaining; deck icon placeholder" title="${deck} cards remaining"><span class="etg-deck-art" aria-hidden="true">✥</span><span class="etg-deck-number">${deck}</span></div></div></div>`;
+    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-hud"><div class="etg-og-vitals-main"><span class="etg-og-hp-with-poison"><strong>HP: ${hp}<small> / ${maxHp}</small></strong>${heroPoisonMarker(b,side)}</span><span class="etg-hp-hero-anchor" ${heroTargetAnchorAttrs(b,side)}>${hudHealthBar(b,side,true)}${heroTargetMarkup(b,side)}</span></div><div class="etg-deck-placeholder" role="img" aria-label="${side} deck, ${deck} cards remaining; deck icon placeholder" title="${deck} cards remaining"><span class="etg-deck-art" aria-hidden="true">✥</span><span class="etg-deck-number">${deck}</span></div></div></div>`;
     return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and HUD">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
   }
   function renderDesktopOpponentHand(b){
@@ -3974,7 +4067,7 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
     }).join('');
   }
   function renderDesktopBattlefield(b){
-    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-hand-legend">OPPONENT HAND · ${(b.enemyHand||[]).length}/8</div><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-hand-legend">YOUR HAND · ${b.hand.length}/8</div><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
+    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-hand-legend">OPPONENT HAND · ${(b.enemyHand||[]).length}/8</div><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-hand-legend">YOUR HAND · ${b.hand.length}/8</div><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
   }
   // Mouse-only delayed inspection, intentionally does not open a modal or pause the duel.
   // Original card art is shown in full where the archive has an actual artwork URL.
@@ -4035,13 +4128,12 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
     const canPlay=card&&!!cardRule(card)&&canAfford(b,card)&&!b.ended;
     const boardMarkup=state.displayMode==='desktop'?renderDesktopBattlefield(b):`<div class="elementia-display-stage" aria-label="Scrollable desktop battlefield when needed"><div class="etg-frame"><div class="etg-arena">
         <aside class="etg-quantum" aria-label="Your twelve elemental quanta"><div class="etg-rail-heading">Quanta · 50 cap</div>${quanta}</aside>
-        <div class="etg-battlefield">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}</div>
+        <div class="etg-battlefield">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div>
         <aside class="etg-hand" aria-label="Your hand"><div class="etg-rail-heading">YOUR HAND · ${b.hand.length}/8</div><div class="etg-hand-scroll">${hand||'<p class="etg-fineprint">Your hand is empty.</p>'}</div><div class="etg-hand-footer">Deck: ${b.library.length}</div></aside>
       </div></div></div>`;
     return wrap(`${title('Elemental Duel','Battle the Elements')}
       ${duelQuickBar(b)}
       ${boardMarkup}
-      ${targetPrompt(b)}
       ${state.displayMode==='desktop'?'':`<div class="etg-actions"><div class="etg-selection">${card?`<b>${esc(card.name)}</b><small>${esc(ruleText(card))}</small>${cardRule(card)?.effect==='freedom'?'':''}`:`<b>${b.ended?(b.winner==='player'?'Victory!':'Defeat'):'Select a card'}</b><small>${b.ended?'Restart to play another training duel.':'Tap a card in your hand.'}</small>`}</div>
         <div class="etg-inspect-actions"><button class="button" data-action="inspect-hand" ${card?'':'disabled'}>Inspect card</button><button class="button" data-action="play-hand" ${canPlay?'':'disabled'}>${card?(cardRule(card)?.targeting?'Choose target & cast':card.type==='Spell'?'Cast spell':cardRule(card)?.effect==='freedom'?'Play passive Shard':'Play card'):'Select card'}</button></div>
         <button class="button secondary" data-action="end-turn" ${b.ended?'disabled':''}>End Turn →</button></div><div class="etg-log" role="status">${esc(b.log)}</div>`}
@@ -4304,7 +4396,7 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-persistent-co
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.21-light-transparent',isDemo:demo,
+    version:'20.22-og-target-prompts',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

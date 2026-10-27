@@ -2045,6 +2045,105 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not
   display:none!important;
 }
 </style>
+
+<style id="elementia-v20-17-og-quanta-hud">
+/* OG-derived 2 x 6 HUD counters; art discs are replaceable icon placeholders.
+   Keep the already-supplied official Aether image intact. */
+body[data-elementia-display="desktop"] .etg-og-rail{
+  padding:6px 5px;gap:6px;background:linear-gradient(145deg,#18201e,#101817 76%);
+  border:1px solid #b5a37c;box-shadow:inset 0 0 0 1px #0008;
+  min-width:0;
+}
+body[data-elementia-display="desktop"] .etg-og-rail-heading{
+  font:700 clamp(9px,.78vw,12px)/1.2 Georgia,serif;
+  color:#eee6d3;letter-spacing:.065em;padding:2px 0;
+}
+body[data-elementia-display="desktop"] .etg-og-quanta-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:row;
+  gap:clamp(4px,.6vh,9px) 5px;min-width:0;
+}
+body[data-elementia-display="desktop"] .etg-og-quantum{
+  position:relative;display:flex;justify-content:flex-end;align-items:center;
+  min-width:0;height:clamp(23px,3.2vh,33px);min-height:0;
+  padding:0 5px 0 21px;margin-left:7px;gap:0;
+  border:1px solid #a3a29c;border-radius:3px 7px 7px 3px;
+  background:linear-gradient(180deg,#222725,#0a0e0d 65%);
+  box-shadow:inset 0 1px 0 #ffffff31,0 1px 2px #000b;
+  overflow:visible;
+}
+.etg-hud-quantum .etg-quanta-fill{
+  position:absolute;bottom:2px;left:0;height:3px;max-width:100%;
+  border-radius:0 2px 2px 0;background:var(--quanta-hue);
+  opacity:.8;box-shadow:0 0 3px var(--quanta-hue);
+  transition:width 250ms ease;pointer-events:none;z-index:1;
+}
+body[data-elementia-display="desktop"] .etg-hud-quantum .etg-quanta-fill{bottom:2px;height:3px}
+body[data-elementia-display="desktop"] .etg-og-quantum .etg-resource-icon{
+  position:absolute;z-index:2;left:-13px;top:50%;transform:translateY(-50%);
+  box-sizing:border-box;width:clamp(23px,3.2vh,33px);height:clamp(23px,3.2vh,33px);flex:none;
+  border:1px solid #e7dfbe97;border-radius:50%;font:15px/1 Georgia,serif;
+  box-shadow:inset 0 2px 6px #fff7,0 1px 3px #000a;
+  color:#fff6d1;text-shadow:0 1px 3px #141515;
+}
+body[data-elementia-display="desktop"] .etg-og-quantum .etg-resource-num{
+  position:relative;z-index:2;flex:0 0 auto;min-width:0;margin-left:0;padding:0 2px 1px 0;
+  font:700 clamp(12px,1.25vw,18px)/1 Georgia,serif;color:#fff8e8;
+  text-shadow:0 1px 3px #000;
+}
+body[data-elementia-display="desktop"] .etg-og-quantum .official-icon{background:#09343c!important}
+body[data-elementia-display="desktop"] .etg-og-quantum .placeholder-icon{filter:saturate(.95)}
+/* Player footer / opponent header. Deck-card portrait is a deliberate placeholder. */
+body[data-elementia-display="desktop"] .etg-og-vitals{
+  border-top:1px solid #6f654b;padding-top:6px;min-width:0;
+}
+body[data-elementia-display="desktop"] .etg-og-rail.enemy .etg-og-vitals{
+  border-top:0;border-bottom:1px solid #6f654b;padding:0 0 6px;
+}
+body[data-elementia-display="desktop"] .etg-og-vitals-hud{
+  display:grid;grid-template-columns:minmax(0,1fr) 30px;
+  align-items:end;gap:5px;min-width:0;
+}
+body[data-elementia-display="desktop"] .etg-og-vitals-main{
+  display:flex;flex-direction:column;gap:3px;min-width:0;
+}
+body[data-elementia-display="desktop"] .etg-og-vitals-hud .etg-og-hp-with-poison{
+  display:flex;justify-content:space-between;gap:2px;width:100%;min-width:0;
+  min-height:25px;align-items:center;
+}
+body[data-elementia-display="desktop"] .etg-og-vitals-hud .etg-og-hp-with-poison strong{
+  color:#f0e4c1;font:700 clamp(11px,1vw,14px)/1.1 Georgia,serif;white-space:nowrap;
+}
+body[data-elementia-display="desktop"] .etg-og-vitals-hud .etg-og-hp-with-poison small{font-size:.78em;color:#d8eac7}
+body[data-elementia-display="desktop"] .etg-og-vitals-hud .etg-poison-slot{
+  width:24px;min-width:24px;flex-basis:24px;height:24px;min-height:24px;
+}
+.etg-forecast-hp{position:relative;display:block;overflow:hidden}
+.etg-forecast-hp i{position:relative;z-index:1;display:block;height:100%;max-width:100%;background:linear-gradient(#a7fb5b,#18b922 65%,#15871f);}
+.etg-forecast-hp .etg-predicted-damage{
+  position:absolute;z-index:2;display:block;top:0;bottom:0;
+  background:linear-gradient(90deg,#f9df2c,#fee95a 65%,#fac317);
+  box-shadow:inset 0 1px 0 #fffba2c4;
+  transition:left 200ms ease,width 200ms ease;pointer-events:none;
+}
+body[data-elementia-display="desktop"] .etg-og-vitals-hud .etg-og-mini-hp{
+  width:100%;height:12px;min-height:12px;border:1px solid #9e985e;
+  border-radius:2px;box-shadow:inset 0 1px 2px #0009;
+}
+body[data-elementia-display="desktop"] .etg-deck-placeholder{
+  height:48px;min-height:48px;width:30px;box-sizing:border-box;
+  border:2px solid #bf9c69;background:linear-gradient(150deg,#ae5a3d,#71371d 62%,#3a1d13);
+  box-shadow:0 2px 4px #0009,inset 0 0 0 2px #d6a47d80;
+  color:#f7f0da;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-radius:2px;overflow:hidden;
+}
+.etg-deck-art{font:17px Georgia,serif;color:#f5e2b8;opacity:.72;line-height:1.1}
+.etg-deck-number{font:700 16px/1 Georgia,serif;text-shadow:1px 1px 2px #2a1a10;letter-spacing:-.04em}
+/* Mobile retains its original lanes. Only add fills and incoming-damage shading. */
+.etg-resource.etg-hud-quantum{position:relative;overflow:hidden}
+.etg-resource.etg-hud-quantum .etg-resource-icon,.etg-resource.etg-hud-quantum .etg-resource-num{position:relative;z-index:2}
+.etg-mini-hp.etg-forecast-hp .etg-predicted-damage{top:0;bottom:0}
+@media (prefers-reduced-motion:reduce){.etg-forecast-hp .etg-predicted-damage,.etg-hud-quantum .etg-quanta-fill{transition:none}}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -2359,7 +2458,9 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not
     return `--accent:${color};--accent-lite:${lite};--title-ink:${brightness<128?'#fff9e9':'#101a1a'}`;
   }
   function orb(name){const x=ELEMENT[name]||ELEMENT.Aether;return `<span class="orb" style="background:${x.color}">${name==='Aether'?`<img class="etg-aether-mini" src="${AETHER_SYMBOL_IMAGE}" alt="Aether">`:esc(x.symbol)}</span>`;}
-  function elementIconMarkup(name,fallback){return name==='Aether'?`<img class="etg-aether-mini" src="${AETHER_SYMBOL_IMAGE}" alt="Aether">`:esc(fallback);}
+  // Future official element icon files can be added here without changing HUD code.
+  const ELEMENT_ICON_ASSETS=Object.freeze({Aether:AETHER_SYMBOL_IMAGE});
+  function elementIconMarkup(name,fallback){const image=ELEMENT_ICON_ASSETS[name];return image?`<img class="etg-aether-mini" src="${image}" alt="${esc(name)}">`:esc(fallback);}
 
   function hexMix(base,target='#000000',ratio=.5){
     const norm=v=>Math.max(0,Math.min(255,Math.round(v)));
@@ -3722,12 +3823,59 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not
     const active=poison>0;
     return `<span class="etg-poison-slot" aria-hidden="${active?'false':'true'}"><span class="etg-poison-marker ${active?'':'is-off'}" data-digits="${String(poison).length}" ${active?`title="Poison ${poison}: ${poison} damage during the opponent's turn" role="img" aria-label="${poison} poison damage on each opposing turn"`:''}><span class="etg-poison-skull" aria-hidden="true">☠</span><span class="etg-poison-count" aria-hidden="true">${poison}</span></span></span>`;
   }
+  // v20.17 visual-only estimate. Never calls damage functions or changes the duel.
+  // Models existing creature attack values, deterministic shields and average
+  // chance-based blocking. Excludes weapons, poison, spells and unknown future effects.
+  function predictedCreatureDamage(b,defender){
+    if(!b||b.ended||b[defender+'SacrificeTurns']>0)return 0;
+    const attacker=defender==='player'?'enemy':'player';
+    const units=b[attacker+'Creatures']||[],shield=b[defender+'Shield'];
+    const shieldRule=shield?cardRule(BY_ID[shield.id]):null;
+    const bonus=shardBonuses(b,attacker);
+    const chance=Math.min(1,Math.max(0,Number(bonus.criticalChance)||0));
+    let boneCharges=shieldRule?.effect==='boneWall'?(shield.bones??shieldRule.boneCharges??7):0;
+    let sum=0;
+    for(const u of units){
+      const base=Math.max(0,Number(u.atk)||0);
+      if(!base||u.frozen||u.delayed)continue;
+      let dmg=u.burrowed?Math.floor(base/2):base;
+      if(b[attacker==='player'?'skyBlitz':'enemySkyBlitz']&&u.abilities?.includes('airborne'))dmg*=2;
+      const physical=!spellAttack(u)&&!u.abilities?.includes('momentum');
+      const airborne=u.abilities?.includes('airborne');
+      // Average the Shard of Freedom criticals without a random dice roll.
+      let normal=dmg,critical=airborne?Math.ceil(dmg*(bonus.criticalMultiplier||1.5)):dmg;
+      if(physical&&shield){
+        if(shield.blocksPhysical||shieldRule?.effect==='dimensionalShield'||
+          (shieldRule?.effect==='wingsShield'&&!airborne))normal=0;
+        if(shieldRule?.effect==='duskShield')normal*=.5;
+        if(shieldRule?.effect==='fogShield')normal*=.6;
+        if(shieldRule?.effect==='boneWall'&&boneCharges>0){normal=0;boneCharges--;}
+        if(shieldRule?.effect==='skullShield')normal=Math.max(0,normal-1);
+      }
+      sum+=airborne?normal*(1-chance)+critical*chance:normal;
+    }
+    // Display an integer damage estimate, limited to current HP.
+    return Math.min(Math.max(0,Number(b[defender+'Hp'])||0),Math.max(0,Math.round(sum)));
+  }
+  function hudHealthBar(b,side,desktop=false){
+    const hp=Math.max(0,Number(b[side+'Hp'])||0),maxHp=Math.max(1,Number(b[side+'MaxHp'])||50);
+    const forecast=predictedCreatureDamage(b,side);
+    const hpPct=Math.min(100,100*hp/maxHp),leftPct=Math.max(0,100*(hp-forecast)/maxHp);
+    const yellowPct=Math.max(0,hpPct-leftPct);
+    const label=`${forecast} estimated creature damage next opposing attack; excludes weapon and poison damage. Random attacks may vary.`;
+    return `<span class="${desktop?'etg-og-mini-hp':'etg-mini-hp'} etg-forecast-hp" role="meter" aria-label="${side} health; ${label}" aria-valuemin="0" aria-valuemax="${maxHp}" aria-valuenow="${hp}" title="${esc(label)}"><i style="width:${hpPct}%"></i><span class="etg-predicted-damage" style="left:${leftPct}%;width:${yellowPct}%" aria-hidden="true"></span></span>`;
+  }
+  function hudQuantum(name,symbol,color,pool,desktop=false){
+    const amount=Math.max(0,Number(pool?.[name])||0);
+    const percent=Math.min(100,100*amount/50);
+    return `<div class="${desktop?'etg-og-quantum':'etg-resource'} etg-hud-quantum" title="${esc(name)}: ${amount} of 50 quanta" style="--quanta-hue:${color}"><span class="etg-quanta-fill" style="width:${percent}%" aria-hidden="true"></span><span class="etg-resource-icon ${ELEMENT_ICON_ASSETS[name]?'official-icon':'placeholder-icon'}" aria-label="${esc(name)} icon ${name==='Aether'?'official':'placeholder'}" style="background:${color}">${elementIconMarkup(name,symbol)}</span><span class="etg-resource-num">${amount}</span></div>`;
+  }
   function boardPlayer(side){
     const b=state.duel,own=side==='player';
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const creatures=creatureRows(b,side),permanents=permanentRow(b,side);
     return `<section class="etg-player ${own?'self':'enemy'}" aria-label="${own?'Your':'Opponent'} battlefield">
-      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span><span class="etg-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span><span class="etg-hp-with-poison"><span class="hp">${hp} / ${maxHp} HP</span>${heroPoisonMarker(b,side)}</span></div>
+      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span>${hudHealthBar(b,side)}<span class="etg-hp-with-poison"><span class="hp">${hp} / ${maxHp} HP</span>${heroPoisonMarker(b,side)}</span></div>
       ${own?`${creatures}${permanents}`:`${permanents}${creatures}`}
     </section>`;
   }
@@ -3736,10 +3884,9 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not
     const pool=own?b.quanta:b.enemyQuanta;
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const deck=own?b.library.length:(b.enemyLibrary||[]).length;
-    const handCount=own?b.hand.length:(b.enemyHand||[]).length;
-    const quanta=ELEMENTS.map(([name,symbol,color])=>`<div class="etg-og-quantum" title="${esc(name)} quanta"><span class="etg-resource-icon" style="background:${color}">${elementIconMarkup(name,symbol)}</span><span class="etg-resource-num">${pool[name]||0}</span></div>`).join('');
-    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-top"><span>Deck: ${deck}</span><span>Hand: ${handCount}</span></div><div class="etg-og-vitals-top etg-og-vitals-poison-row"><span class="etg-og-hp-with-poison"><span>HP: ${hp} / ${maxHp}</span>${heroPoisonMarker(b,side)}</span><span>${own?'You':'Enemy'}</span></div><span class="etg-og-mini-hp" aria-hidden="true"><i style="width:${Math.max(0,Math.min(100,100*hp/maxHp))}%"></i></span></div>`;
-    return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and vitals">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
+    const quanta=ELEMENTS.map(([name,symbol,color])=>hudQuantum(name,symbol,color,pool,true)).join('');
+    const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-hud"><div class="etg-og-vitals-main"><span class="etg-og-hp-with-poison"><strong>HP: ${hp}<small> / ${maxHp}</small></strong>${heroPoisonMarker(b,side)}</span>${hudHealthBar(b,side,true)}</div><div class="etg-deck-placeholder" role="img" aria-label="${side} deck, ${deck} cards remaining; deck icon placeholder" title="${deck} cards remaining"><span class="etg-deck-art" aria-hidden="true">✥</span><span class="etg-deck-number">${deck}</span></div></div></div>`;
+    return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and HUD">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
   }
   function renderDesktopOpponentHand(b){
     // Opponent card identities are never revealed: exactly eight ordered, face-down slots.
@@ -3844,7 +3991,7 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not
   window.addEventListener('blur',clearHoverCard);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)clearHoverCard();});
   function renderDuel(){const b=ensureBoard(),card=b.hand[b.selectedHand]!=null?BY_ID[b.hand[b.selectedHand]]:null;
-    const quanta=ELEMENTS.map(([name,symbol,color])=>`<div class="etg-resource" title="${esc(name)} quanta"><span class="etg-resource-icon" style="background:${color}">${elementIconMarkup(name,symbol)}</span><span class="etg-resource-num">${b.quanta[name]||0}</span></div>`).join('');
+    const quanta=ELEMENTS.map(([name,symbol,color])=>hudQuantum(name,symbol,color,b.quanta,false)).join('');
     const hand=b.hand.map((id,i)=>{const c=BY_ID[id];if(!c)return '';const allowed=canAfford(b,c)&&!b.ended;
       const r=cardRule(c),pay=paymentElement(c),cost=r?.cost>0?`<span class="etg-mobile-hand-cost">${r.cost}${pay==='Aether'?`<img class="etg-aether-mini" src="${AETHER_SYMBOL_IMAGE}" alt="Aether">`:esc(ELEMENT[pay]?.symbol||pay)}</span>`:'';
       const artStyle=c.artworkUrl?`background-image:url('${String(c.artworkUrl).replace(/'/g,'%27')}');background-size:cover;background-position:center;`:'';
@@ -4121,7 +4268,7 @@ body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card:not
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.15-extended-beams-persistent-costs',isDemo:demo,
+    version:'20.17-og-quanta-hud-damage-forecast',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

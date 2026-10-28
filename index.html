@@ -2229,6 +2229,18 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visi
 @media(prefers-reduced-motion:reduce){.etg-hero-target svg{animation:none}}
 </style>
 
+
+<style id="elementia-v20-23-stable-target-layout">
+/* Targeting is painted over the arena, not included in its fit measurement.
+   The red hero crosshairs extend beyond the HP bar and otherwise inflate the
+   arena scrollHeight, triggering an unintended page-wide zoom adjustment. */
+.elementia-display-stage.etg-measuring-duel-layout .etg-hero-target,
+.elementia-display-stage.etg-measuring-duel-layout .etg-og-target-prompt,
+.elementia-display-stage.etg-measuring-duel-layout .etg-slot .etg-crosshair {
+  display:none!important;
+}
+</style>
+
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4291,7 +4303,18 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visi
     const naturalWidth=frame.getBoundingClientRect().width;
     const widthRatio=window.innerWidth>760?availableWidth/naturalWidth:1;
     // Keep a last-resort scale fallback for unusually short displays.
-    const minimumContents=frame.querySelector('.etg-og-arena')?.scrollHeight||available;
+    // Calculate natural board height WITHOUT target-only decoration. A large
+    // absolute-positioned HP crosshair can raise arena.scrollHeight even though
+    // it changes no actual layout. That falsely forces the whole board to zoom.
+    // The measuring class exists only within this animation frame; it is
+    // removed before the browser paints, leaving targets fully visible.
+    stage.classList.add('etg-measuring-duel-layout');
+    let minimumContents;
+    try{
+      minimumContents=frame.querySelector('.etg-og-arena')?.scrollHeight||available;
+    }finally{
+      stage.classList.remove('etg-measuring-duel-layout');
+    }
     const ratio=Math.max(.42,Math.min(1,widthRatio,available/minimumContents));
     if(ratio<.999){stage.style.zoom=String(ratio);stage.style.width=`${100/ratio}%`;}
   }
@@ -4396,7 +4419,7 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visi
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.22-og-target-prompts',isDemo:demo,
+    version:'20.23-stable-target-layout',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

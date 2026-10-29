@@ -2529,68 +2529,101 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten {
   .etg-bottom-ten > .etg-equipment-group{gap:1px;}
 }
 </style>
-<style id="elementia-v20-30-expanded-permanent-zone">
-/* v20.30 — thirteen independently addressable permanent slots per side.
-   Reclaim horizontal gaps with 7+6 staggered rows; no socket is resized.
-   Shield, Weapon and Magical remain three distinct 75%-size squares at the
-   upper-right (enemy) / lower-right (player) of the battlefield. */
+<style id="elementia-v20-31-layered-permanent-ranks">
+/* v20.31: restore creature ranks to their v20.29 spacing (no v20.30
+   creature-overlap override), while preserving all thirteen permanent slots.
+   Permanents retain 75% of each creature's square side, even on mobile. */
 .etg-bottom-ten,
 body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten {
   display:grid!important;
   grid-template-columns:minmax(0,1fr) max-content!important;
   column-gap:clamp(2px,.35vw,6px)!important;
-  align-items:start;
-  justify-items:stretch;
   width:100%!important;
-  min-width:0;
-  max-width:100%!important;
+  min-width:0;max-width:100%!important;
   margin:0!important;
   box-sizing:border-box;
+  align-items:stretch;
+  justify-items:stretch;
 }
+/* Two 7-wide geometries: first rank has seven cards, while the second
+   has six offset by half a square, like the original creature formation. */
 .etg-bottom-ten > .etg-shared-permanents {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  width:100%;min-width:0;
+  position:relative;
+  isolation:isolate;
+}
+.etg-shared-permanents > .etg-permanent-rank {
   display:grid;
   grid-template-columns:repeat(14,minmax(0,1fr));
   grid-auto-rows:var(--etg-permanent-square,24px);
-  gap:clamp(1px,.18vw,3px) 0;
-  width:100%;min-width:0;
-  align-items:center;
-  justify-items:center;
+  min-width:0;width:100%;
+  justify-items:center;align-items:center;
   position:relative;
+  pointer-events:none;
 }
-.etg-shared-permanents > .etg-slot,
-body[data-elementia-display="desktop"] .etg-og-field .etg-shared-permanents > .etg-slot {
+.etg-permanent-rank > .etg-slot,
+body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-rank > .etg-slot {
+  box-sizing:border-box;
   grid-column:span 2;
   width:var(--etg-permanent-square,24px)!important;
   height:var(--etg-permanent-square,24px)!important;
+  min-width:0!important;min-height:0!important;
+  max-height:none!important;
   aspect-ratio:1/1;
-  box-sizing:border-box;
-  min-width:0!important;min-height:0!important;max-height:none!important;
   isolation:isolate;
 }
-/* Six second-rank sockets are centered between the seven first-rank ones. */
-.etg-shared-permanents > .etg-slot:nth-child(8) { grid-column:2 / span 2; }
+.etg-permanent-rank.second > .etg-slot:first-child { grid-column:2 / span 2!important; }
+/* The overlapping rank is always in front. Each card underneath retains
+   a visible edge, and occupied slots remain individually clickable. */
+.etg-permanent-rank.base { z-index:1; }
+.etg-permanent-rank.second { z-index:3; }
+.etg-permanent-rank .etg-slot.occupied { pointer-events:auto; }
+.etg-permanent-rank .etg-slot.vacant { pointer-events:none; }
+/* Enemy: outer/first rank is the TOP row; new permanents overlap BELOW it. */
+.etg-player.enemy .etg-permanent-rank.second {
+  margin-top:calc(var(--etg-permanent-square,24px) * -.54);
+}
+/* Player: outer/first rank is BOTTOM row; new permanents overlap ABOVE it. */
+.etg-player.self .etg-permanent-rank.base {
+  margin-top:calc(var(--etg-permanent-square,24px) * -.54);
+}
+/* Focused cards can rise for inspection without shifting other cards. */
+.etg-permanent-rank:has(> .etg-slot.occupied:hover),
+.etg-permanent-rank:has(> .etg-slot.occupied:focus-visible) { z-index:6; }
 .etg-bottom-ten > .etg-equipment-group {
-  display:flex;justify-content:flex-end;gap:clamp(1px,.18vw,3px);
-  align-self:start;min-width:0;width:max-content;max-width:100%;
+  display:flex;
+  justify-content:flex-end;
+  gap:clamp(1px,.18vw,3px);
+  min-width:0;width:max-content;max-width:100%;
+  align-self:start;
 }
 .etg-player.self .etg-bottom-ten > .etg-equipment-group { align-self:end; }
-/* Preserve room for the extra rank by allowing a slightly greater OG-style
-   creature underlap. Their ATK/HP and ability labels remain on exposed lips. */
-.etg-creature-zones,
-body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
-  --etg-rank-overlap:max(10px,calc(var(--etg-permanent-square,24px) * .68));
+/* The enemy pager must be INSIDE the battlefield, not clipped above its top
+   border. Both pagers sit beside (not over) the rightmost creature column. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-player.enemy .etg-desktop-resource-pager {
+  top:calc(100% + 2px);
+  bottom:auto!important;
+  right:3px;
 }
-@media(max-width:560px) {
+body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-desktop-resource-pager {
+  right:3px;
+}
+@media (orientation:landscape) and (max-height:520px){
+  .etg-player.enemy .etg-permanent-rank.second,
+  .etg-player.self .etg-permanent-rank.base {
+    margin-top:calc(var(--etg-permanent-square,24px) * -.86);
+  }
+  /* Keep the extra 2-rank PZ off the creature hitboxes on very low viewports. */
+  body[data-elementia-display="desktop"] .etg-og-field .etg-player.enemy .etg-creature-zones { transform:translateY(3px); }
+  body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-creature-zones { transform:translateY(-3px); }
+}
+@media(max-width:560px){
   .etg-bottom-ten,
   body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten{column-gap:1px!important;}
   .etg-bottom-ten > .etg-equipment-group{gap:1px;}
-}
-/* Very short landscape viewports need a few extra pixels of rank underlap
-   to keep both permanent ranks clear of the creatures at the center seam. */
-@media (orientation:landscape) and (max-height:520px) {
-  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
-    --etg-rank-overlap:max(12px,calc(var(--etg-permanent-square,24px) * .88));
-  }
 }
 </style>
 </head>
@@ -3743,8 +3776,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
   }
   function isResourcePermanent(card){return !!card&&(card.type==='Pillar'||card.type==='Pendulum');}
   function mainCount(b,side='player'){return (b[side+'Creatures']||[]).length+(b[side+'Permanents']||[]).filter(p=>!isResourcePermanent(BY_ID[p.id])).length;}
-  // Thirteen physical permanent slots per page (7 + 6 staggered). Identical
-  // resource cards still share one visual stack without merging game state.
+  // Thirteen permanent positions per page: seven randomly filled outer-row
+  // sockets, followed by six randomly filled overlapping-row sockets.
+  // Identical resource cards still share one visual stack without merging state.
   // Overflow pages avoid imposing a new cap on distinct Pillar/Pendulum variants.
   function assignPermanentSlot(b,item,side='player'){
     const list=b[side+'Permanents']||[];
@@ -3755,7 +3789,11 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
     const occupied=new Set(list.filter(x=>x!==item&&Number.isInteger(x.reserveSlot)).map(x=>x.reserveSlot));
     let page=0;
     while(true){
-      const free=Array.from({length:13},(_,v)=>page*13+v).filter(v=>!occupied.has(v));
+      // Populate seven outer-row sockets randomly first, then the six
+      // staggered overlay sockets randomly. Preserve each existing slot.
+      const base=Array.from({length:7},(_,v)=>page*13+v).filter(v=>!occupied.has(v));
+      const overlay=Array.from({length:6},(_,v)=>page*13+7+v).filter(v=>!occupied.has(v));
+      const free=base.length?base:overlay;
       if(free.length){item.reserveSlot=free[Math.floor(Math.random()*free.length)];return item.reserveSlot;}
       page++;
     }
@@ -4315,7 +4353,12 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
     };
     const pager=pages>1?`<span class="etg-page-controls"><button type="button" data-action="permanent-page" data-side="${side}" data-page="${page-1}" ${page===0?'disabled':''} aria-label="Previous permanent slots page">‹</button> ${page+1}/${pages} <button type="button" data-action="permanent-page" data-side="${side}" data-page="${page+1}" ${page+1>=pages?'disabled':''} aria-label="Next permanent slots page">›</button></span>`:'';
     return `<section class="etg-lane etg-permanent-lane" aria-label="${side} thirteen shared permanents and three equipment slots"><div class="etg-lane-label"><span>Pillars · Pendulums · Permanents</span><span>${all.length} cards · 13 spaces ${pager}</span></div>
-      <div class="etg-bottom-ten"><div class="etg-shared-permanents" role="group" aria-label="${side} thirteen shared permanent sockets">${Array.from({length:13},(_,i)=>{const stack=groups.get(page*13+i);return renderBattleSlot(b,stack?.entry,side,`shared permanent slot ${i+1}`,stack?.count||1);}).join('')}</div>
+      <div class="etg-bottom-ten"><div class="etg-shared-permanents" role="group" aria-label="${side} thirteen shared permanent sockets">${(() => {
+        const rank=(which,start,count)=>`<div class="etg-permanent-rank ${which}" aria-label="${side} ${which==='base'?'first':'overlapping'} permanent rank, ${count} slots">${Array.from({length:count},(_,i)=>{const stack=groups.get(page*13+start+i);return renderBattleSlot(b,stack?.entry,side,`${which} permanent slot ${i+1}`,stack?.count||1);}).join('')}</div>`;
+        // The opponent grows inward from the top, the player from the bottom.
+        // Overlay rank paints above base on BOTH sides, without changing IDs.
+        return side==='enemy'?rank('base',0,7)+rank('second',7,6):rank('second',7,6)+rank('base',0,7);
+      })()}</div>
       <div class="etg-equipment-group" role="group" aria-label="${side} Shield, Weapon and Magical sockets">${equipment('Shield','◇')}${equipment('Weapon','⚔')}${equipment('Magical','✧')}</div></div>
       ${pages>1?`<span class="etg-desktop-resource-pager" aria-label="Permanent page navigation">${pager}</span>`:''}
     </section>`;
@@ -4796,7 +4839,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.30-expanded-thirteen-permanents',isDemo:demo,
+    version:'20.31-layered-permanent-ranks',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

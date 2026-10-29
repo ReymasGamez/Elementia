@@ -2415,6 +2415,43 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.o
   .etg-creature-row { transition:none; }
 }
 </style>
+
+<style id="elementia-v20-26-creatures-near-center">
+/* v20.26 — fuller creature portraits and less wasted space at the turn divider.
+   Both halves are anchored INWARD, without transforming either field or its
+   hit targets. The established front-to-back 8 / 7 / 8 stacking is untouched. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-player.enemy .etg-creature-lane {
+  justify-content:flex-end;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-creature-lane {
+  justify-content:flex-start;
+}
+/* Increase creature squares by roughly 7% at normal desktop height.
+   The field-width cap still protects narrow and low-resolution screens. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle {
+  --expanded-card-side:min(12dvh,140px);
+}
+/* Mobile's eight-across grid already uses nearly all its width. Keep its
+   current square sizing but pull each formation toward the center bar. */
+body[data-elementia-display="mobile"] .etg-player.enemy .etg-creature-lane {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+}
+body[data-elementia-display="mobile"] .etg-player.self .etg-creature-lane {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+}
+/* Avoid squeezing the center seam or forcing a new scale on short screens. */
+@media(orientation:landscape) and (max-height:520px) {
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row,
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle {
+    --expanded-card-side:min(11.7dvh,135px);
+  }
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4602,7 +4639,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.o
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.25-og-layered-board',isDemo:demo,
+    version:'20.26-creatures-near-center',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

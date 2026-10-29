@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.35</title>
+  <title>Elementia — The Return · v20.36</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -2753,6 +2753,60 @@ body[data-elementia-fullscreen="focus"] #app #elementia-hover-inspect {
   position:fixed;z-index:9999;pointer-events:none;
 }
 </style>
+<style id="elementia-v20-36-quanta-expansion">
+/* Expand the two desktop quanta rails into the vertical space on their own side
+   of the battlefield. Each ends at least 12px before the mid-field Turn bar.
+   Keep the HP/deck HUD at its original outside edge and give the 6 counter
+   rows the remaining height so all twelve counters grow together. */
+body[data-elementia-display="desktop"] .etg-og-arena > .etg-og-rail.enemy,
+body[data-elementia-display="desktop"] .etg-og-arena > .etg-og-rail.player {
+  box-sizing:border-box;
+  height:calc(100% - 12px);
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(5px,.7vh,8px);
+  padding:6px 5px;
+}
+body[data-elementia-display="desktop"] .etg-og-arena > .etg-og-rail.enemy {align-self:start;}
+body[data-elementia-display="desktop"] .etg-og-arena > .etg-og-rail.player {align-self:end;}
+body[data-elementia-display="desktop"] .etg-og-rail .etg-og-quanta-grid {
+  flex:1 1 0;
+  min-height:0;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(6,minmax(0,1fr));
+  align-content:stretch;
+  gap:clamp(3px,.6vh,6px) 5px;
+}
+body[data-elementia-display="desktop"] .etg-og-rail .etg-og-quantum {
+  box-sizing:border-box;
+  width:auto;
+  height:100%;
+  min-height:0;
+  padding:0 5px 0 clamp(21px,2.15vw,29px);
+  margin-left:9px;
+  border-radius:4px 9px 9px 4px;
+}
+body[data-elementia-display="desktop"] .etg-og-rail .etg-og-quantum .etg-resource-icon {
+  left:-13px;
+  width:auto;
+  height:min(42px,calc(100% - 2px));
+  aspect-ratio:1 / 1;
+  max-width:none;
+  max-height:none;
+  font-size:clamp(15px,1.4vw,22px);
+}
+body[data-elementia-display="desktop"] .etg-og-rail .etg-og-quantum .etg-resource-num {
+  font-size:clamp(14px,1.18vw,19px);
+  line-height:1;
+  padding:0 2px 0 0;
+}
+body[data-elementia-display="desktop"] .etg-og-rail .etg-hud-quantum .etg-quanta-fill {
+  height:4px;
+}
+/* The main quanta expansion is desktop-specific; compact mobile stays intact. */
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3176,7 +3230,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-hover-inspect {
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.35 — invisible empty slots, clean HUD, fullscreen inspection and stable crosshairs">v20.35 · Clean Board</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.36 — enlarged adaptive quanta counters">v20.36 · Quanta HUD</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>

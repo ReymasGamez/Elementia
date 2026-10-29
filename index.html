@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · Darkness</title>
+  <title>Elementia — The Return · v20.32</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -2625,6 +2625,32 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
   body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten{column-gap:1px!important;}
   .etg-bottom-ten > .etg-equipment-group{gap:1px;}
 }
+
+/* v20.32 live-classic safeguard: ensure the seven-first, six-overlapping
+   rank layout wins against older ten-slot and v20.30 two-row rules. */
+.etg-shared-permanents > .etg-permanent-rank.base { z-index:1; }
+.etg-shared-permanents > .etg-permanent-rank.second { z-index:3; }
+.etg-player.enemy .etg-shared-permanents > .etg-permanent-rank.second {
+  margin-top:calc(var(--etg-permanent-square,24px) * -.54);
+}
+.etg-player.self .etg-shared-permanents > .etg-permanent-rank.base {
+  margin-top:calc(var(--etg-permanent-square,24px) * -.54);
+}
+/* Small visible version check prevents mistaking a cached Pages deployment
+   for the newly installed battlefield. Does not affect board geometry. */
+.etg-build-stamp{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:2px 5px;min-height:20px;
+  color:#b9c4b4;border:1px solid #5864559c;
+  background:#15211dcc;font:9px/1 Arial,sans-serif;
+  letter-spacing:.03em;white-space:nowrap;
+}
+@media(orientation:landscape) and (max-height:520px){
+  .etg-player.enemy .etg-shared-permanents > .etg-permanent-rank.second,
+  .etg-player.self .etg-shared-permanents > .etg-permanent-rank.base{
+    margin-top:calc(var(--etg-permanent-square,24px) * -.86);
+  }
+}
 </style>
 </head>
 <body>
@@ -3047,7 +3073,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.32 — overlapping Permanent Zones">v20.32</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
@@ -4839,7 +4865,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.31-layered-permanent-ranks',isDemo:demo,
+    version:'20.32-verified-overlapping-permanents',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

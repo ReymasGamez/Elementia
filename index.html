@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.36</title>
+  <title>Elementia — The Return · v20.37</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -2807,6 +2807,97 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-hud-quantum .etg-quanta
 }
 /* The main quanta expansion is desktop-specific; compact mobile stays intact. */
 </style>
+<style id="elementia-v20-37-og-creature-faces">
+/* OG tabletop creature labels, contained inside the SAME square hit target.
+   No shift to the 8/7/8 ranks, turn bar, permanent rows or combat overlays. */
+.etg-creature-row .etg-slot.occupied.og-creature-face {
+  --etg-og-foot:clamp(13px,1.8dvh,19px);
+  overflow:hidden!important;
+  background:#14201e;
+}
+.etg-creature-row .etg-slot.occupied.og-creature-face.has-aether-art .etg-slot-art {
+  bottom:0; inset:0; background-size:cover; background-position:center;
+}
+/* Real elemental strip at the top. White readable lettering irrespective of element. */
+.etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-title,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-title {
+  display:block!important;
+  box-sizing:border-box;
+  position:absolute;top:0;left:0;right:0;bottom:auto;
+  max-height:26%!important;min-height:14px;
+  margin:0;padding:2px 3px!important;
+  background:var(--accent,#716c69)!important;
+  color:#fffdf4!important;
+  font:700 clamp(8px,1.06dvh,13px)/1.08 Georgia,serif!important;
+  text-shadow:0 1px 2px #000d,0 0 3px #0008!important;
+  text-align:left;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  -webkit-line-clamp:unset;
+  border-bottom:1px solid #fff7d24d;
+  z-index:7;pointer-events:none;
+}
+/* Attack | Health sits over the lower-right edge of the art, not in a full-width strip. */
+.etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-stats,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-stats {
+  position:absolute;left:auto;right:1px;
+  bottom:2px;padding:1px 2px;
+  width:auto;max-width:95%;border-radius:2px;
+  background:#071112ac!important;color:#fffdf0!important;
+  font:700 clamp(9px,1.3dvh,15px)/1.05 Georgia,serif!important;
+  text-align:right;text-shadow:0 1px 2px #000;
+  white-space:nowrap;z-index:9;pointer-events:none;
+}
+/* Passive and quanta ability ribbon, under the art just like OG Elements.
+   Kept inside the square to preserve row overlaps and board boundaries. */
+.etg-creature-row .etg-slot.occupied.og-creature-face:has(.tinycard-abilities) .tinycard-stats,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face:has(.tinycard-abilities) .tinycard-stats {
+  bottom:calc(var(--etg-og-foot) + 1px);
+}
+.etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities {
+  display:flex!important;align-items:center;justify-content:flex-start;gap:2px;
+  box-sizing:border-box;position:absolute;
+  left:0;right:0;bottom:0;top:auto;
+  min-height:var(--etg-og-foot);max-height:var(--etg-og-foot);
+  margin:0;padding:1px 2px;
+  background:#0a1514f2!important;
+  border-top:1px solid #d7c79580;
+  color:#f7f1db!important;
+  font:600 clamp(6px,.93dvh,10px)/1 Georgia,serif!important;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  text-align:left;z-index:10;pointer-events:none;
+}
+.etg-creature-row .og-creature-face .etg-ability-paid {display:inline-flex;align-items:center;gap:2px;flex:0 0 auto;white-space:nowrap;min-width:0}
+.etg-creature-row .og-creature-face .etg-paid-number {font-weight:700;color:#fff4d7}
+.etg-creature-row .og-creature-face .etg-paid-orb {
+  display:inline-grid;place-items:center;flex:0 0 auto;
+  height:clamp(9px,1.15dvh,13px);width:clamp(9px,1.15dvh,13px);
+  border-radius:50%;background:var(--etg-paid-color,#a9a1a1);
+  color:#fff;font:700 8px/1 Georgia,serif;text-shadow:0 1px 2px #000;
+  box-shadow:inset 0 1px 2px #fff7,0 0 0 1px #fff8;
+}
+.etg-creature-row .og-creature-face .etg-paid-name,
+.etg-creature-row .og-creature-face .etg-ability-passives {min-width:0;overflow:hidden;text-overflow:ellipsis}
+.etg-creature-row .og-creature-face .etg-ability-sep {flex:0 0 auto;color:#d0cbb3}
+/* The OG card carries a lower text lip; the existing layered rank selection
+   and pointer hitboxes remain unchanged, including native fullscreen. */
+@media(max-width:650px) {
+  .etg-creature-row .etg-slot.occupied.og-creature-face {--etg-og-foot:9px}
+  .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities,
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities {font-size:5.5px!important;padding:0 1px}
+  .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-title,
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-title {font-size:6px!important;min-height:9px;padding:1px!important}
+  .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-stats,
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-stats {font-size:7px!important;padding:0 1px}
+  .etg-creature-row .og-creature-face .etg-paid-orb {width:8px;height:8px;font-size:6px}
+}
+@media (orientation:landscape) and (max-height:520px) {
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.og-creature-face {--etg-og-foot:8px}
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.og-creature-face .tinycard-title {min-height:8px;font-size:5.5px!important}
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.og-creature-face .tinycard-stats {font-size:7px!important}
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.og-creature-face .tinycard-abilities {font-size:5px!important}
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3230,7 +3321,7 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-hud-quantum .etg-quanta
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.36 — enlarged adaptive quanta counters">v20.36 · Quanta HUD</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.37 — OG creature labels, stats and abilities">v20.37 · OG Creatures</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
@@ -4501,10 +4592,30 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-hud-quantum .etg-quanta
   // v12 board: the 23 creature spaces never contain Shards or other Permanents.
   // Lower fourteen shared spaces per page contain Pillars/Towers, Pendulums and Permanents.
   function crosshair(){return `<span class="etg-crosshair" aria-hidden="true"><svg viewBox="0 0 40 40" width="28" height="28" focusable="false"><circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M20 1v10 M20 29v10 M1 20h10 M29 20h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>`;}
+  // v20.37 — OG on-board creature footer. Draw the activation cost/element
+  // from the live rule, followed by passive traits; never invent an ability.
+  function creatureBoardAbility(entry,card){
+    const r=cardRule(card)||{};
+    const active=String(r.activate||'').trim();
+    const passive=(Array.isArray(entry.abilities)?entry.abilities:[])
+      .map(x=>String(x)).filter(x=>x && x!==active);
+    const readable=name=>name.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/[_-]/g,' ').replace(/^./,x=>x.toUpperCase());
+    const passiveNames={airborne:'Airborne',airgen:'+1 Air',bioluminescence:'+1 Light',incandescence:'+1 Fire',immaterial:'Immaterial',psion:'Spell attack',salvaging:'Salvage',ranged:'Ranged',burrowed:'Burrowed',vampire:'Vampire',poison:'Poison'};
+    const passiveText=passive.map(name=>passiveNames[name]||readable(name)).join(' · ');
+    const parts=[];
+    if(active){
+      const element=String(r.activateElement||card?.element||'Other');
+      const el=ELEMENT[element]||{color:'#a39a82',symbol:'✶'};
+      const cost=Number.isFinite(Number(r.activateCost))?Math.max(0,Number(r.activateCost)):0;
+      parts.push(`<span class="etg-ability-paid" title="${esc(cost)} ${esc(element)} quanta: ${esc(readable(active))}"><span class="etg-paid-number">${cost}</span><span class="etg-paid-orb" style="--etg-paid-color:${el.color}" aria-label="${esc(element)}">${esc(el.symbol)}</span><span class="etg-paid-name">: ${esc(readable(active))}</span></span>`);
+    }
+    if(passiveText)parts.push(`<span class="etg-ability-passives" title="${esc(passiveText)}">${esc(passiveText)}</span>`);
+    return parts.length?`<span class="tinycard-abilities" aria-label="${esc([active?`${r.activateCost||0} ${r.activateElement||card?.element||'Other'}: ${readable(active)}`:'',passiveText].filter(Boolean).join('; '))}">${parts.join('<span class="etg-ability-sep">; </span>')}</span>`:'';
+  }
   function renderBattleSlot(b,entry,side,label,stackCount=1){
     if(!entry)return `<span class="etg-slot vacant" aria-label="${side} ${esc(label)}: empty"></span>`;
     const card=BY_ID[entry.id],c=card||entry,concealed=side==='enemy'&&darkCloakProtected(b,side,entry);
-    const creature=Number.isFinite(entry.atk),targetable=isTargetCandidate(b,side,entry);
+    const creature=Number.isFinite(entry.atk),creatureSlot=label.includes('creature slot'),targetable=isTargetCandidate(b,side,entry);
     const ready=side==='player'&&sourceByKey(b,entry.key)&&readyToGlow(b,entry)&&!b.pendingTarget;
     const isOngoing=card?.type==='Permanent';
     const active=side==='player'&&!!cardRule(card)?.activate;
@@ -4518,11 +4629,10 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-hud-quantum .etg-quanta
     const remainingBones=boneRule?.effect==='boneWall'&&!concealed
       ? Math.max(0,Number.isFinite(entry.bones)?entry.bones:(boneRule.boneCharges??7)) : null;
     const boneBadge=remainingBones===null?'':`<span class="bone-shield-count" aria-label="${remainingBones} bone shields remaining">x${remainingBones}</span>`;
-    const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}/${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.abilities?.includes('immaterial')?' ◇':''}${entry.burrowed?' ⌄':''}${entry.poison?' ☣'+entry.poison:''}</span>`:'';
-    // Ability names live just above ATK/HP so staggered lower rows remain readable.
-    const abilityLabels=creature&&!concealed&&Array.isArray(entry.abilities)?entry.abilities.slice(0,2).map(name=>String(name).replace(/([a-z])([A-Z])/g,'$1 $2')).join(' · '):'';
-    const abilityCaption=abilityLabels?`<span class="tinycard-abilities" aria-label="Abilities: ${esc(abilityLabels)}">${esc(abilityLabels)}</span>`:'';
-    return `<button type="button" class="etg-slot occupied ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
+    // A|H lives on the portrait, including in overlapping ranks.
+    const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.abilities?.includes('immaterial')?' ◇':''}${entry.burrowed?' ⌄':''}${entry.poison?' ☣'+entry.poison:''}</span>`:'';
+    const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
+    return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
       ${artMarkup}<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
@@ -5037,7 +5147,7 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-hud-quantum .etg-quanta
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.34-visible-seven-by-seven-permanents',isDemo:demo,
+    version:'20.37-og-creature-onboard-labels',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

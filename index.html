@@ -2307,6 +2307,114 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visi
   }
 }
 </style>
+
+<style id="elementia-v20-25-og-layered-board">
+/* v20.25 — OG tabletop proportions: compact, SQUARE lower permanents/equipment
+   and overlapping 8 / 7 / 8 creature ranks. Visual-only: all slot identities,
+   combat data, pagination, art references and input handlers are unchanged. */
+
+/* Adjacent ranks overlap, but the earlier rank paints above the next: top over
+   middle, middle over bottom. Lower ranks retain their exposed lower area,
+   including attack/health, poison and other live stat badges. */
+.etg-creature-zones {
+  --etg-rank-overlap:clamp(7px,1.7dvh,17px);
+  gap:0!important;
+  position:relative;
+  isolation:isolate;
+}
+.etg-creature-row { position:relative; pointer-events:none; }
+.etg-creature-row.top { z-index:3; }
+.etg-creature-row.middle { z-index:2; }
+.etg-creature-row.bottom { z-index:1; }
+.etg-creature-row.middle,
+.etg-creature-row.bottom { margin-top:calc(-1 * var(--etg-rank-overlap)); }
+.etg-creature-row .etg-slot.occupied { pointer-events:auto; }
+.etg-creature-row .etg-slot.vacant { pointer-events:none; }
+/* Keep both live stat bars AND a short ability label in the exposed lower lip. */
+.etg-creature-row .etg-slot.occupied .tinycard-abilities {
+  position:absolute;
+  left:0;right:0;
+  bottom:clamp(8px,1.13dvh,12px);
+  z-index:8;
+  padding:1px 2px;
+  background:#0b1716df;
+  color:#fff0cc;
+  font:600 clamp(5.5px,.88dvh,9px)/1.1 Georgia,serif;
+  text-align:center;
+  text-shadow:0 1px 2px #000;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  pointer-events:none;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .tinycard-abilities {
+  bottom:clamp(10px,1.2dvh,14px);
+  font-size:clamp(7px,1.05dvh,10px);
+}
+/* The exposed bottom region is the important part of the partially hidden card. */
+.etg-creature-row .etg-slot.occupied .tinycard-stats,
+.etg-creature-row .etg-slot.occupied .bone-shield-count { z-index:9; }
+/* When a lower-rank card is focused or hovered, surface that individual rank.
+   No changes to geometry or board fit, including while targeting. */
+.etg-creature-row:has(> .etg-slot.occupied:hover),
+.etg-creature-row:has(> .etg-slot.occupied:focus-visible) { z-index:6; }
+
+/* Lower ten spaces: 7 resource/permanent spaces and 3 equipment sockets.
+   Keep all ten columns and clicks intact; center the smaller squares within
+   their cells instead of stretching them into wide rectangles. */
+.etg-bottom-ten { justify-items:center; align-items:center; }
+.etg-bottom-ten > .etg-slot {
+  box-sizing:border-box;
+  width:min(100%,var(--etg-small-square,clamp(17px,2.9dvh,27px)))!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  aspect-ratio:1/1;
+}
+.etg-bottom-ten .etg-slot.occupied .tinycard-title {
+  font-size:clamp(5.5px,.8dvh,8px);
+  padding:1px;
+  max-height:48%;
+}
+.etg-bottom-ten .etg-slot.equipment-blank .equip-icon { font-size:clamp(10px,1.8dvh,17px); }
+.etg-bottom-ten .etg-slot.equipment-blank small { font-size:clamp(5px,.75dvh,7px); }
+
+/* The wider original-style desktop board makes larger creature portraits,
+   so its overlap and small-square dimensions are proportionately larger. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
+  --etg-rank-overlap:clamp(14px,3.25dvh,36px);
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten {
+  --etg-small-square:clamp(34px,5.9dvh,57px);
+}
+/* Explicitly beat earlier desktop height / max-height rules. */
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot {
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
+  aspect-ratio:1/1;
+  width:min(100%,var(--etg-small-square))!important;
+}
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten .etg-slot.occupied .tinycard-title {
+  font-size:clamp(6px,.88dvh,9px);
+}
+@media(max-width:560px) and (orientation:portrait) {
+  .etg-creature-zones { --etg-rank-overlap:clamp(6px,1.15dvh,12px); }
+  .etg-bottom-ten { --etg-small-square:clamp(16px,2.55dvh,23px); }
+}
+@media(orientation:landscape) and (max-height:520px) {
+  .etg-creature-zones { --etg-rank-overlap:clamp(5px,1.55dvh,11px); }
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones {
+    --etg-rank-overlap:clamp(9px,2.65dvh,18px);
+  }
+  body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten {
+    --etg-small-square:clamp(24px,5.5dvh,34px);
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .etg-creature-row { transition:none; }
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3998,8 +4106,11 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visi
       ? Math.max(0,Number.isFinite(entry.bones)?entry.bones:(boneRule.boneCharges??7)) : null;
     const boneBadge=remainingBones===null?'':`<span class="bone-shield-count" aria-label="${remainingBones} bone shields remaining">x${remainingBones}</span>`;
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}/${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.abilities?.includes('immaterial')?' ◇':''}${entry.burrowed?' ⌄':''}${entry.poison?' ☣'+entry.poison:''}</span>`:'';
+    // Ability names live just above ATK/HP so staggered lower rows remain readable.
+    const abilityLabels=creature&&!concealed&&Array.isArray(entry.abilities)?entry.abilities.slice(0,2).map(name=>String(name).replace(/([a-z])([A-Z])/g,'$1 $2')).join(' · '):'';
+    const abilityCaption=abilityLabels?`<span class="tinycard-abilities" aria-label="Abilities: ${esc(abilityLabels)}">${esc(abilityLabels)}</span>`:'';
     return `<button type="button" class="etg-slot occupied ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
-      ${artMarkup}<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
+      ${artMarkup}<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
     const units=b[side+'Creatures']||[];
@@ -4491,7 +4602,7 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visi
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.24-air-darkness-png',isDemo:demo,
+    version:'20.25-og-layered-board',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

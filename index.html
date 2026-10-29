@@ -2452,6 +2452,22 @@ body[data-elementia-display="mobile"] .etg-player.self .etg-creature-lane {
   }
 }
 </style>
+<style id="elementia-v20-27-half-sized-permanent-slots">
+/* v20.27 — Pillar, Tower, Pendulum, ordinary Permanent, Shield, Weapon and
+   Magical sockets use square sides exactly HALF the rendered creature sides.
+   This shared style applies to both players in Desktop and Mobile layouts.
+   Slot allocation, hit testing, pagination and game rules are unchanged. */
+.etg-bottom-ten > .etg-slot,
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot {
+  box-sizing:border-box;
+  width:var(--etg-permanent-square, var(--etg-small-square, 24px))!important;
+  height:var(--etg-permanent-square, var(--etg-small-square, 24px))!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-height:none!important;
+  aspect-ratio:1/1;
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4506,6 +4522,20 @@ body[data-elementia-display="mobile"] .etg-player.self .etg-creature-lane {
       }
     }
   }
+  // v20.27: Measure the same creature square the player sees, rather than
+  // guessing from viewport height. CSS receives half its unzoomed side length;
+  // doing this after the desktop fit also keeps short-window scales accurate.
+  function syncPermanentSquareSlots(){
+    for(const side of root.querySelectorAll('.etg-player')){
+      const creatureSquare=side.querySelector('.etg-creature-row.top .etg-slot');
+      const permanents=side.querySelector('.etg-bottom-ten');
+      if(!creatureSquare||!permanents)continue;
+      const creatureSide=parseFloat(getComputedStyle(creatureSquare).width);
+      if(Number.isFinite(creatureSide)&&creatureSide>0){
+        permanents.style.setProperty('--etg-permanent-square',(creatureSide/2)+'px');
+      }
+    }
+  }
   function fitDesktopDuel(){
     if(state.scene!=='duel'||state.displayMode!=='desktop')return;
     const stage=root.querySelector('.elementia-display-stage'),frame=stage?.querySelector('.etg-og-frame');
@@ -4538,7 +4568,7 @@ body[data-elementia-display="mobile"] .etg-player.self .etg-creature-lane {
     const ratio=Math.max(.42,Math.min(1,widthRatio,available/minimumContents));
     if(ratio<.999){stage.style.zoom=String(ratio);stage.style.width=`${100/ratio}%`;}
   }
-  window.addEventListener('resize',()=>requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();}));
+  window.addEventListener('resize',()=>requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();}));
   function render(){
     clearHoverCard();
     document.body.dataset.elementiaDisplay=state.displayMode;
@@ -4546,7 +4576,7 @@ body[data-elementia-display="mobile"] .etg-player.self .etg-creature-lane {
     document.title=`${state.scene==='login'?'Welcome':state.scene.charAt(0).toUpperCase()+state.scene.slice(1)} — Elementia: The Return`;
     if(state.duel)state.duel.lastPlacedKey=null; // Animate only newly dealt cards, never the whole board on every update.
     syncFullscreenUI();
-    requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();});
+    requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();});
   }
   function enter(name){state.player=(name||'Guest').trim().slice(0,24)||'Guest';state.scene='menu';save();render();}
   function navigate(to){if(!['menu','deck','shop','duel','login'].includes(to))return;if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
@@ -4639,7 +4669,7 @@ body[data-elementia-display="mobile"] .etg-player.self .etg-creature-lane {
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.26-creatures-near-center',isDemo:demo,
+    version:'20.27-half-sized-permanent-slots',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

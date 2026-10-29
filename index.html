@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.37</title>
+  <title>Elementia — The Return · v20.38</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -2898,6 +2898,81 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.og-creature-face .tinycard-abilities {font-size:5px!important}
 }
 </style>
+<style id="elementia-v20-38-abilities-outside-portrait">
+/* OG board: the square is the framed creature artwork; abilities are printed
+   immediately UNDER that square, not in a dark ribbon over the image. No
+   changes to slot hit areas, 8/7/8 positions, combat, or artwork mappings. */
+.etg-creature-row .etg-slot.occupied.og-creature-face,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face {
+  overflow:visible!important;
+}
+/* Keep ATK|HP anchored in the portrait even when an ability is present. */
+.etg-creature-row .etg-slot.occupied.og-creature-face:has(.tinycard-abilities) .tinycard-stats,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face:has(.tinycard-abilities) .tinycard-stats {
+  bottom:2px!important;
+}
+.etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities {
+  box-sizing:border-box;
+  position:absolute;
+  top:calc(100% + 2px)!important;
+  bottom:auto!important;
+  left:0!important;
+  right:0!important;
+  width:100%;
+  height:auto;
+  min-height:var(--etg-og-foot);
+  max-height:var(--etg-og-foot);
+  padding:0 1px!important;
+  margin:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#fff5dc!important;
+  text-shadow:0 1px 2px #000,0 0 5px #000!important;
+  line-height:1.12!important;
+  font-size:clamp(7px,.93dvh,10px)!important;
+  z-index:12;
+  pointer-events:none;
+}
+/* Keep the original top-over-middle-over-bottom layering, but reserve
+   a narrow readable lip below each visible portrait: the next rank overlaps
+   the artwork less, rather than painting over its OG ability caption. */
+.etg-creature-zones { --etg-ability-rank-clearance:clamp(5px,.67dvh,8px); }
+.etg-creature-row.middle,
+.etg-creature-row.bottom {
+  margin-top:calc(-1 * var(--etg-rank-overlap) + var(--etg-ability-rank-clearance));
+}
+@media(max-width:560px) and (orientation:portrait){
+  .etg-creature-zones { --etg-ability-rank-clearance:7px; }
+}
+@media(orientation:landscape) and (max-height:520px){
+  .etg-creature-zones { --etg-ability-rank-clearance:4px; }
+}
+/* Prevent a label from crossing the center Turn divider or bottom separator.
+   The small reserved lip is added inside the existing creature lane, without
+   moving the divider, permanents, or changing card dimensions. */
+.etg-player.enemy .etg-creature-lane,
+.etg-player.self .etg-creature-lane {padding-bottom:calc(var(--etg-og-foot,14px) + 3px);box-sizing:border-box;}
+@media(max-width:650px) {
+  .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities,
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities {
+    font-size:6px!important;
+    max-height:10px;
+    min-height:10px;
+  }
+  .etg-player.enemy .etg-creature-lane,
+  .etg-player.self .etg-creature-lane {padding-bottom:12px;}
+}
+@media(orientation:landscape) and (max-height:520px) {
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face .tinycard-abilities {
+    font-size:5.5px!important;
+    max-height:9px;
+    min-height:9px;
+  }
+  body[data-elementia-display="desktop"] .etg-og-field .etg-player .etg-creature-lane {padding-bottom:11px;}
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3321,7 +3396,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.37 — OG creature labels, stats and abilities">v20.37 · OG Creatures</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.38 — creature ability text beneath portraits">v20.38 · OG Ability Labels</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>

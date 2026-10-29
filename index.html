@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.32</title>
+  <title>Elementia — The Return · v20.33</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -2651,6 +2651,30 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     margin-top:calc(var(--etg-permanent-square,24px) * -.86);
   }
 }
+
+/* v20.33 — seven + seven permanent sockets, with a true half-slot stagger.
+   All squares retain the exact 75%-of-creature sizing supplied by JS.
+   Fifteen half-columns make room for seven full-size cards on BOTH ranks,
+   preventing the extra seventh card from wrapping onto a third row. */
+.etg-shared-permanents > .etg-permanent-rank {
+  grid-template-columns:repeat(15,minmax(0,1fr));
+}
+.etg-shared-permanents > .etg-permanent-rank.base > .etg-slot:first-child {
+  grid-column:1 / span 2;
+}
+.etg-shared-permanents > .etg-permanent-rank.second > .etg-slot:first-child {
+  grid-column:2 / span 2!important;
+}
+/* Top physical rank overlays the bottom rank, for both players. The opponent's
+   first-filled base is physically upper; the player's second rank is upper. */
+.etg-player.enemy .etg-shared-permanents > .etg-permanent-rank.base {z-index:4;}
+.etg-player.enemy .etg-shared-permanents > .etg-permanent-rank.second {z-index:2;}
+.etg-player.self .etg-shared-permanents > .etg-permanent-rank.second {z-index:4;}
+.etg-player.self .etg-shared-permanents > .etg-permanent-rank.base {z-index:2;}
+/* A hovered or keyboard-focused lower card still rises above the other rank,
+   without permanently changing which rank is drawn on top. */
+.etg-shared-permanents > .etg-permanent-rank:has(> .etg-slot.occupied:hover),
+.etg-shared-permanents > .etg-permanent-rank:has(> .etg-slot.occupied:focus-visible) {z-index:8;}
 </style>
 </head>
 <body>
@@ -3073,7 +3097,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.32 — overlapping Permanent Zones">v20.32</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.33 — fourteen stacked Permanent Zone slots">v20.33</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
@@ -3757,7 +3781,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     return {version:12,aiLevel:0,enemyDeck:[...aiDeck],turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
       playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
       playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
-      selectedHand:-1,permanentPages:{player:0,enemy:0},labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
+      selectedHand:-1,permanentPages:{player:0,enemy:0},permanentGeometryVersion:14,labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
       history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2};
   }
   // V12: 23 fixed creature spaces per side. Spawn priority: middle 7, lower 8, upper 8.
@@ -3777,6 +3801,20 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     if(b.version!==12){
       b.version=12;b.targetChosen=false;b.pendingTarget=null;
       for(const u of b.playerCreatures){if(u.dive&&!Number.isFinite(u.diveBaseAtk)){u.diveBaseAtk=u.atk;u.atk*=2;}}
+    }
+    // v20.33: preserve the placement of every existing v20.32 permanent.
+    // Previous pages contained 13 positions; the new upper rank adds a 14th.
+    // Shift only legacy overflow pages, not the first 13 positions.
+    if(b.permanentGeometryVersion!==14){
+      for(const side of ['player','enemy']){
+        for(const permanent of b[side+'Permanents']||[]){
+          if(Number.isInteger(permanent.reserveSlot)&&permanent.reserveSlot>=13){
+            const oldPage=Math.floor(permanent.reserveSlot/13);
+            permanent.reserveSlot=oldPage*14+(permanent.reserveSlot%13);
+          }
+        }
+      }
+      b.permanentGeometryVersion=14;
     }
     b.permanentPages ||= {player:0,enemy:0};
     b.playerMaxHp ??= 50;b.enemyMaxHp ??= 50;b.playerPoison ??= 0;b.enemyPoison ??= 0;
@@ -3802,8 +3840,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
   }
   function isResourcePermanent(card){return !!card&&(card.type==='Pillar'||card.type==='Pendulum');}
   function mainCount(b,side='player'){return (b[side+'Creatures']||[]).length+(b[side+'Permanents']||[]).filter(p=>!isResourcePermanent(BY_ID[p.id])).length;}
-  // Thirteen permanent positions per page: seven randomly filled outer-row
-  // sockets, followed by six randomly filled overlapping-row sockets.
+  // Fourteen permanent positions per page: seven randomly filled outer-row
+  // sockets, followed by seven randomly filled overlapping-row sockets.
   // Identical resource cards still share one visual stack without merging state.
   // Overflow pages avoid imposing a new cap on distinct Pillar/Pendulum variants.
   function assignPermanentSlot(b,item,side='player'){
@@ -3815,10 +3853,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     const occupied=new Set(list.filter(x=>x!==item&&Number.isInteger(x.reserveSlot)).map(x=>x.reserveSlot));
     let page=0;
     while(true){
-      // Populate seven outer-row sockets randomly first, then the six
-      // staggered overlay sockets randomly. Preserve each existing slot.
-      const base=Array.from({length:7},(_,v)=>page*13+v).filter(v=>!occupied.has(v));
-      const overlay=Array.from({length:6},(_,v)=>page*13+7+v).filter(v=>!occupied.has(v));
+      // Populate seven outer-row sockets randomly first, then seven
+      // staggered upper-rank sockets randomly. Preserve each existing slot.
+      const base=Array.from({length:7},(_,v)=>page*14+v).filter(v=>!occupied.has(v));
+      const overlay=Array.from({length:7},(_,v)=>page*14+7+v).filter(v=>!occupied.has(v));
       const free=base.length?base:overlay;
       if(free.length){item.reserveSlot=free[Math.floor(Math.random()*free.length)];return item.reserveSlot;}
       page++;
@@ -4328,7 +4366,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     return [...(b[side+'Creatures']||[])];
   }
   // v12 board: the 23 creature spaces never contain Shards or other Permanents.
-  // Lower thirteen shared spaces per page contain Pillars/Towers, Pendulums and Permanents.
+  // Lower fourteen shared spaces per page contain Pillars/Towers, Pendulums and Permanents.
   function crosshair(){return `<span class="etg-crosshair" aria-hidden="true"><svg viewBox="0 0 40 40" width="28" height="28" focusable="false"><circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M20 1v10 M20 29v10 M1 20h10 M29 20h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>`;}
   function renderBattleSlot(b,entry,side,label,stackCount=1){
     if(!entry)return `<span class="etg-slot vacant" aria-label="${side} ${esc(label)}: empty"></span>`;
@@ -4369,7 +4407,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
       if(existing){existing.count++;existing.entries.push(entry);}
       else groups.set(entry.reserveSlot,{entry,count:1,entries:[entry]});
     }
-    const pages=Math.max(1,Math.ceil((Math.max(-1,...groups.keys())+1)/13));
+    const pages=Math.max(1,Math.ceil((Math.max(-1,...groups.keys())+1)/14));
     const page=Math.min(pages-1,Math.max(0,b.permanentPages[side]||0));
     b.permanentPages[side]=page;
     const equipment=(kind,symbol)=>{
@@ -4378,12 +4416,12 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
       return `<span class="etg-slot equipment-blank" aria-label="${side} empty ${kind} slot"><span class="equip-icon" aria-hidden="true">${symbol}</span><small>${kind}</small></span>`;
     };
     const pager=pages>1?`<span class="etg-page-controls"><button type="button" data-action="permanent-page" data-side="${side}" data-page="${page-1}" ${page===0?'disabled':''} aria-label="Previous permanent slots page">‹</button> ${page+1}/${pages} <button type="button" data-action="permanent-page" data-side="${side}" data-page="${page+1}" ${page+1>=pages?'disabled':''} aria-label="Next permanent slots page">›</button></span>`:'';
-    return `<section class="etg-lane etg-permanent-lane" aria-label="${side} thirteen shared permanents and three equipment slots"><div class="etg-lane-label"><span>Pillars · Pendulums · Permanents</span><span>${all.length} cards · 13 spaces ${pager}</span></div>
-      <div class="etg-bottom-ten"><div class="etg-shared-permanents" role="group" aria-label="${side} thirteen shared permanent sockets">${(() => {
-        const rank=(which,start,count)=>`<div class="etg-permanent-rank ${which}" aria-label="${side} ${which==='base'?'first':'overlapping'} permanent rank, ${count} slots">${Array.from({length:count},(_,i)=>{const stack=groups.get(page*13+start+i);return renderBattleSlot(b,stack?.entry,side,`${which} permanent slot ${i+1}`,stack?.count||1);}).join('')}</div>`;
+    return `<section class="etg-lane etg-permanent-lane" aria-label="${side} fourteen shared permanents and three equipment slots"><div class="etg-lane-label"><span>Pillars · Pendulums · Permanents</span><span>${all.length} cards · 14 spaces ${pager}</span></div>
+      <div class="etg-bottom-ten"><div class="etg-shared-permanents" role="group" aria-label="${side} fourteen shared permanent sockets">${(() => {
+        const rank=(which,start,count)=>`<div class="etg-permanent-rank ${which}" aria-label="${side} ${which==='base'?'first':'overlapping'} permanent rank, ${count} slots">${Array.from({length:count},(_,i)=>{const stack=groups.get(page*14+start+i);return renderBattleSlot(b,stack?.entry,side,`${which} permanent slot ${i+1}`,stack?.count||1);}).join('')}</div>`;
         // The opponent grows inward from the top, the player from the bottom.
         // Overlay rank paints above base on BOTH sides, without changing IDs.
-        return side==='enemy'?rank('base',0,7)+rank('second',7,6):rank('second',7,6)+rank('base',0,7);
+        return side==='enemy'?rank('base',0,7)+rank('second',7,7):rank('second',7,7)+rank('base',0,7);
       })()}</div>
       <div class="etg-equipment-group" role="group" aria-label="${side} Shield, Weapon and Magical sockets">${equipment('Shield','◇')}${equipment('Weapon','⚔')}${equipment('Magical','✧')}</div></div>
       ${pages>1?`<span class="etg-desktop-resource-pager" aria-label="Permanent page navigation">${pager}</span>`:''}
@@ -4865,7 +4903,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.32-verified-overlapping-permanents',isDemo:demo,
+    version:'20.33-seven-plus-seven-permanents',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

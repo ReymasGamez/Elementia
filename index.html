@@ -2468,6 +2468,67 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot
   aspect-ratio:1/1;
 }
 </style>
+<style id="elementia-v20-29-corner-equipment-groups">
+/* v20.29 — keep the seven shared permanent positions on their original row,
+   but collect the three independent equipment sockets tightly at its RIGHT.
+   The enemy's row is the top of the enemy field; the player's is the bottom.
+   No overlay or absolute positioning: all ten stay inside the battlefield. */
+.etg-bottom-ten,
+body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten {
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr)) max-content!important;
+  column-gap:2px!important;
+  align-items:center;
+  justify-items:center;
+  box-sizing:border-box;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0;
+  margin:0!important;
+}
+.etg-bottom-ten > .etg-equipment-group {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:2px;
+  min-width:0;
+  width:max-content;
+  max-width:100%;
+  position:relative;
+}
+/* Equipment is still three discrete hit targets at the same 75% scale as
+   the seven regular sockets; the inherited CSS variable is synced per side. */
+.etg-bottom-ten .etg-equipment-group > .etg-slot {
+  box-sizing:border-box;
+  width:var(--etg-permanent-square,var(--etg-small-square,24px))!important;
+  height:var(--etg-permanent-square,var(--etg-small-square,24px))!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-height:none!important;
+  flex:0 0 auto;
+  aspect-ratio:1/1;
+  isolation:isolate;
+}
+.etg-bottom-ten .etg-equipment-group > .etg-slot:not(.occupied) {
+  border-color:#a9a38367;
+  background:#1015159e;
+}
+/* On very short landscape screens, the previous 3-rank formation could
+   graze the permanent row. Trim only the creature scale here to leave a
+   visible gap while keeping the established 75% permanent-to-creature ratio. */
+@media (orientation:landscape) and (max-height:520px) {
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row,
+  body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle {
+    --expanded-card-side:min(10.65dvh,125px);
+  }
+}
+/* Keep all three sockets alongside the seven even on narrow phones. */
+@media(max-width:560px){
+  .etg-bottom-ten,
+  body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten{column-gap:1px!important;}
+  .etg-bottom-ten > .etg-equipment-group{gap:1px;}
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4191,7 +4252,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot
     const pager=pages>1?`<span class="etg-page-controls"><button type="button" data-action="permanent-page" data-side="${side}" data-page="${page-1}" ${page===0?'disabled':''} aria-label="Previous permanent slots page">‹</button> ${page+1}/${pages} <button type="button" data-action="permanent-page" data-side="${side}" data-page="${page+1}" ${page+1>=pages?'disabled':''} aria-label="Next permanent slots page">›</button></span>`:'';
     return `<section class="etg-lane etg-permanent-lane" aria-label="${side} seven shared permanents and three equipment slots"><div class="etg-lane-label"><span>Pillars · Pendulums · Permanents</span><span>${all.length} cards · 7 spaces ${pager}</span></div>
       <div class="etg-bottom-ten">${Array.from({length:7},(_,i)=>{const stack=groups.get(page*7+i);return renderBattleSlot(b,stack?.entry,side,`shared lower slot ${i+1}`,stack?.count||1);}).join('')}
-      ${equipment('Shield','◇')}${equipment('Weapon','⚔')}${equipment('Magical','✧')}</div>
+      <div class="etg-equipment-group" role="group" aria-label="${side} Shield, Weapon and Magical sockets">${equipment('Shield','◇')}${equipment('Weapon','⚔')}${equipment('Magical','✧')}</div></div>
       ${pages>1?`<span class="etg-desktop-resource-pager" aria-label="Permanent page navigation">${pager}</span>`:''}
     </section>`;
   }
@@ -4669,7 +4730,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.28-three-quarter-permanent-slots',isDemo:demo,
+    version:'20.29-corner-equipment-group',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

@@ -2452,9 +2452,9 @@ body[data-elementia-display="mobile"] .etg-player.self .etg-creature-lane {
   }
 }
 </style>
-<style id="elementia-v20-27-half-sized-permanent-slots">
-/* v20.27 — Pillar, Tower, Pendulum, ordinary Permanent, Shield, Weapon and
-   Magical sockets use square sides exactly HALF the rendered creature sides.
+<style id="elementia-v20-28-three-quarter-permanent-slots">
+/* v20.28 — Pillar, Tower, Pendulum, ordinary Permanent, Shield, Weapon and
+   Magical sockets use square sides 75% of the rendered creature sides.
    This shared style applies to both players in Desktop and Mobile layouts.
    Slot allocation, hit testing, pagination and game rules are unchanged. */
 .etg-bottom-ten > .etg-slot,
@@ -4522,8 +4522,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot
       }
     }
   }
-  // v20.27: Measure the same creature square the player sees, rather than
-  // guessing from viewport height. CSS receives half its unzoomed side length;
+  // v20.28: Measure the same creature square the player sees, rather than
+  // guessing from viewport height. CSS receives 75% of its unzoomed side length;
   // doing this after the desktop fit also keeps short-window scales accurate.
   function syncPermanentSquareSlots(){
     for(const side of root.querySelectorAll('.etg-player')){
@@ -4532,7 +4532,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot
       if(!creatureSquare||!permanents)continue;
       const creatureSide=parseFloat(getComputedStyle(creatureSquare).width);
       if(Number.isFinite(creatureSide)&&creatureSide>0){
-        permanents.style.setProperty('--etg-permanent-square',(creatureSide/2)+'px');
+        permanents.style.setProperty('--etg-permanent-square',(creatureSide*0.75)+'px');
       }
     }
   }
@@ -4669,7 +4669,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-bottom-ten > .etg-slot
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.27-half-sized-permanent-slots',isDemo:demo,
+    version:'20.28-three-quarter-permanent-slots',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

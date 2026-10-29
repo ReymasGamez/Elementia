@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.34</title>
+  <title>Elementia — The Return · v20.35</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -2708,6 +2708,51 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
   }
 }
 </style>
+<style id="elementia-v20-35-clean-field-and-hover-fixes">
+/* Keep all 23 creature spaces and all 14 + 3 permanent/equipment spaces
+   physically present for geometry and placement; just hide VACANT outlines. */
+.etg-creature-zones .etg-slot.vacant,
+.etg-shared-permanents .etg-slot.vacant,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-zones .etg-slot.vacant,
+body[data-elementia-display="desktop"] .etg-og-field .etg-shared-permanents .etg-slot.vacant {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+.etg-creature-zones .etg-slot.vacant::after,
+.etg-shared-permanents .etg-slot.vacant::after,
+.etg-creature-zones .etg-slot.vacant::before,
+.etg-shared-permanents .etg-slot.vacant::before {content:none!important;display:none!important;}
+/* Fine gold separators between creatures and permanent sockets, without taking
+   room away from the established 7+7 stacks or pushing the divider. */
+.etg-permanent-lane {position:relative;}
+.etg-player.enemy .etg-permanent-lane::after,
+.etg-player.self .etg-permanent-lane::before {
+  content:"";position:absolute;left:1.5%;right:1.5%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(221,184,108,.55) 12%,rgba(236,203,132,.78) 50%,rgba(221,184,108,.55) 88%,transparent);
+  box-shadow:0 0 4px rgba(237,189,101,.16);
+  z-index:8;pointer-events:none;
+}
+.etg-player.enemy .etg-permanent-lane::after{bottom:-5px;}
+.etg-player.self .etg-permanent-lane::before{top:-5px;}
+/* Hand capacity is still eight; unused positions are just visually absent. */
+body[data-elementia-display="desktop"] .etg-og-opponent-hand .etg-og-op-card:not(.filled),
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card.empty {
+  visibility:hidden!important;
+}
+/* Keep the live card art / live card backs visible and clickable. */
+/* The hero reticle is vertically centered with translateY(-50%). A generic
+   button:active transform previously replaced it with translateY(1px),
+   abruptly pushing the reticle down on mouse-down. */
+.etg-hero-target:active:not(:disabled) {transform:translateY(-50%)!important;}
+/* Hover preview is appended to the fullscreen root, not the hidden document body. */
+#app:fullscreen #elementia-hover-inspect,
+#app:-webkit-full-screen #elementia-hover-inspect,
+body[data-elementia-fullscreen="focus"] #app #elementia-hover-inspect {
+  position:fixed;z-index:9999;pointer-events:none;
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3085,6 +3130,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
   function nativeFullscreenElement(){return document.fullscreenElement||document.webkitFullscreenElement||null;}
   function fullscreenIsActive(){return !!nativeFullscreenElement()||focusFullscreen;}
   function syncFullscreenUI(){
+    // Preview needs a new fullscreen-layer host when the screen mode changes.
+    if(hoverPreview)clearHoverCard();
     const native=!!nativeFullscreenElement();
     const mode=native?'native':focusFullscreen?'focus':'off';
     document.body.dataset.elementiaFullscreen=mode;
@@ -3129,7 +3176,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.34 — 7 + 7 closely stacked Permanent Zone slots">v20.34 · PZ 7+7</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.35 — invisible empty slots, clean HUD, fullscreen inspection and stable crosshairs">v20.35 · Clean Board</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
@@ -4529,7 +4576,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     const deck=own?b.library.length:(b.enemyLibrary||[]).length;
     const quanta=ELEMENTS.map(([name,symbol,color])=>hudQuantum(name,symbol,color,pool,true)).join('');
     const vitals=`<div class="etg-og-vitals"><div class="etg-og-vitals-hud"><div class="etg-og-vitals-main"><span class="etg-og-hp-with-poison"><strong>HP: ${hp}<small> / ${maxHp}</small></strong>${heroPoisonMarker(b,side)}</span><span class="etg-hp-hero-anchor" ${heroTargetAnchorAttrs(b,side)}>${hudHealthBar(b,side,true)}${heroTargetMarkup(b,side)}</span></div><div class="etg-deck-placeholder" role="img" aria-label="${side} deck, ${deck} cards remaining; deck icon placeholder" title="${deck} cards remaining"><span class="etg-deck-art" aria-hidden="true">✥</span><span class="etg-deck-number">${deck}</span></div></div></div>`;
-    return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and HUD">${own?'':vitals}<div class="etg-og-rail-heading">${own?'YOUR QUANTA':'OPPONENT QUANTA'}</div><div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
+    return `<aside class="etg-og-rail ${own?'player':'enemy'}" aria-label="${own?'Your':'Opponent'} quanta and HUD">${own?'':vitals}<div class="etg-og-quanta-grid">${quanta}</div>${own?vitals:''}</aside>`;
   }
   function renderDesktopOpponentHand(b){
     // Opponent card identities are never revealed: exactly eight ordered, face-down slots.
@@ -4579,7 +4626,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     }).join('');
   }
   function renderDesktopBattlefield(b){
-    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-hand-legend">OPPONENT HAND · ${(b.enemyHand||[]).length}/8</div><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-hand-legend">YOUR HAND · ${b.hand.length}/8</div><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
+    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
   }
   // Mouse-only delayed inspection, intentionally does not open a modal or pause the duel.
   // Original card art is shown in full where the archive has an actual artwork URL.
@@ -4599,17 +4646,18 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     hoverPreview.style.left=left+'px';hoverPreview.style.top=top+'px';
   }
   function showHoverCard(anchor){
-    if(hoverCardElement!==anchor||state.scene!=='duel'||state.displayMode!=='desktop'||!anchor.isConnected)return;
+    if(hoverCardElement!==anchor||state.scene!=='duel'||(state.displayMode!=='desktop'&&!fullscreenIsActive())||!anchor.isConnected)return;
     const card=BY_ID[anchor.dataset.hoverCard];if(!card)return;
     const preview=document.createElement('div');
     preview.id='elementia-hover-inspect';preview.setAttribute('role','tooltip');
     preview.setAttribute('aria-label',`${card.name} enlarged card preview`);
     preview.style.cssText=theme(card);
     preview.innerHTML=`<div class="card-tile ${card.cardFrameUrl?'has-aether-frame':''} ${card.cardFrameUrl&&['Air','Darkness'].includes(card.element)?'has-elementia-frame frame-'+card.element.toLowerCase():''}" style="--elementia-card-ratio:${card.cardFrameAspect}">${cardFace(card)}</div>`;
-    document.body.appendChild(preview);hoverPreview=preview;positionHoverPreview();
+    const previewHost=nativeFullscreenElement()|| (focusFullscreen?root:document.body);
+    previewHost.appendChild(preview);hoverPreview=preview;positionHoverPreview();
   }
   root.addEventListener('pointerover',event=>{
-    if(state.scene!=='duel'||state.displayMode!=='desktop'||event.pointerType==='touch')return;
+    if(state.scene!=='duel'||(state.displayMode!=='desktop'&&!fullscreenIsActive())||event.pointerType==='touch')return;
     const anchor=event.target.closest('[data-hover-card]');
     if(!anchor||anchor===hoverCardElement)return;
     clearHoverCard();hoverCardElement=anchor;
@@ -4636,12 +4684,12 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-player.self .etg-deskt
     const hand=b.hand.map((id,i)=>{const c=BY_ID[id];if(!c)return '';const allowed=canAfford(b,c)&&!b.ended;
       const r=cardRule(c),pay=paymentElement(c),cost=r?.cost>0?`<span class="etg-mobile-hand-cost">${r.cost}${elementCostMarkup(pay)}</span>`:'';
       const artStyle=c.artworkUrl?`background-image:url('${String(c.artworkUrl).replace(/'/g,'%27')}');background-size:cover;background-position:center;`:'';
-      return `<button class="etg-hand-card ${c.artworkUrl?'has-card-art':''} ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" style="${theme(c)}" aria-pressed="${i===b.selectedHand}" aria-label="Select ${esc(c.name)}"><span class="rune" style="${artStyle}">${c.artworkUrl?'':esc(c.symbol)}</span><span class="etg-hand-name">${esc(c.name)}${cost}</span></button>`;}).join('');
+      return `<button class="etg-hand-card ${c.artworkUrl?'has-card-art':''} ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" data-hover-card="${esc(c.id)}" style="${theme(c)}" aria-pressed="${i===b.selectedHand}" aria-label="Select ${esc(c.name)}"><span class="rune" style="${artStyle}">${c.artworkUrl?'':esc(c.symbol)}</span><span class="etg-hand-name">${esc(c.name)}${cost}</span></button>`;}).join('');
     const canPlay=card&&!!cardRule(card)&&canAfford(b,card)&&!b.ended;
     const boardMarkup=state.displayMode==='desktop'?renderDesktopBattlefield(b):`<div class="elementia-display-stage" aria-label="Scrollable desktop battlefield when needed"><div class="etg-frame"><div class="etg-arena">
         <aside class="etg-quantum" aria-label="Your twelve elemental quanta"><div class="etg-rail-heading">Quanta · 50 cap</div>${quanta}</aside>
         <div class="etg-battlefield">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div>
-        <aside class="etg-hand" aria-label="Your hand"><div class="etg-rail-heading">YOUR HAND · ${b.hand.length}/8</div><div class="etg-hand-scroll">${hand||'<p class="etg-fineprint">Your hand is empty.</p>'}</div><div class="etg-hand-footer">Deck: ${b.library.length}</div></aside>
+        <aside class="etg-hand" aria-label="Your hand"><div class="etg-hand-scroll">${hand||'<p class="etg-fineprint">Your hand is empty.</p>'}</div><div class="etg-hand-footer">Deck: ${b.library.length}</div></aside>
       </div></div></div>`;
     return wrap(`${title('Elemental Duel','Battle the Elements')}
       ${duelQuickBar(b)}

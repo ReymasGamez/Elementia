@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.41</title>
+  <title>Elementia — The Return · v20.42</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -3054,6 +3054,48 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   background-repeat:no-repeat;
 }
 </style>
+
+<style id="elementia-v20-42-music-of-elementia">
+/* v20.42 music jukebox. Existing duel CSS, audio and card behavior untouched. */
+.og-music-entry {display:block;width:calc(50% - 4px);max-width:100%;margin-top:8px;min-height:38px!important;font-size:clamp(11px,1.1vw,14px)!important;letter-spacing:.035em}
+@media(max-width:600px){.og-music-entry{width:100%;min-height:42px!important}}
+.elementia-music-page{min-height:70vh;max-width:1050px;margin:25px auto 60px;padding:0 20px;color:#eee0c7}
+.elementia-music-page .music-return{display:inline-flex;align-items:center;justify-content:center;margin:5px 0 18px;padding:9px 18px}
+.elementia-music-card{border:1px solid #b09258;border-radius:12px;padding:clamp(17px,3vw,35px);background:radial-gradient(ellipse at 60% 0%,#433022 0%,#221c1b 42%,#0c1517 100%);box-shadow:inset 0 0 0 3px #b69b5422,0 15px 35px #0007}
+.elementia-music-kicker{font:700 11px Georgia,serif;letter-spacing:.25em;text-transform:uppercase;color:#d4b870;text-align:center}
+.elementia-music-card h1{font:normal clamp(30px,4.5vw,52px)/1.1 Georgia,serif;text-align:center;color:#f6e3ac;margin:10px 0 5px;text-shadow:0 3px 9px #000}
+.elementia-music-subtitle{text-align:center;font:14px/1.6 Georgia,serif;color:#c7b99c;max-width:600px;margin:8px auto 22px}
+.elementia-music-ornament{height:1px;margin:22px 0;background:linear-gradient(to right,transparent,#b6955b,transparent)}
+.elementia-music-layout{display:grid;grid-template-columns: minmax(0,1fr) minmax(250px,0.85fr);gap:18px;align-items:stretch}
+.elementia-music-list{display:flex;flex-direction:column;gap:10px;min-width:0}
+.elementia-music-track{color:#f0dfc7;background:linear-gradient(110deg,#322920,#151d1e);border:1px solid #796447;border-radius:8px;padding:12px;display:flex;align-items:center;gap:12px;text-align:left;width:100%;cursor:pointer;transition:background .2s,border-color .2s,box-shadow .2s;min-height:76px}
+.elementia-music-track:hover,.elementia-music-track:focus-visible{border-color:#dfbc74;background:#392b1d;outline-offset:2px}
+.elementia-music-track.active{border-color:#e5c77e;box-shadow:0 0 0 1px #f2d1845c,inset 4px 0 0 #c49a54;background:#403020}
+.elementia-music-track-icon{display:grid;place-items:center;width:40px;height:40px;border:2px solid #bca16b;border-radius:50%;background:radial-gradient(circle,#57442b 0 15%,#171a1a 18% 38%,#3c3024 42% 60%,#121414 68%);font:19px Georgia,serif;color:#f7e8c5;flex:none}
+.elementia-music-track.active .elementia-music-track-icon{box-shadow:0 0 12px #d4ac6780}
+.elementia-music-track-main{flex:1;min-width:0}
+.elementia-music-track-title{display:block;font:700 clamp(13px,1.15vw,16px)/1.25 Georgia,serif;overflow-wrap:anywhere}
+.elementia-music-track-note{display:block;margin-top:5px;font:12px/1.35 Georgia,serif;color:#c6b8a0}
+.elementia-music-track-duration{color:#d8c8aa;font:12px Georgia,serif;flex:none}
+.elementia-music-player{border:1px solid #7d6447;background:linear-gradient(160deg,#2f2623,#10191a);border-radius:10px;min-width:0;padding:23px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;text-align:center}
+.elementia-music-disc{position:relative;width:min(190px,58vw);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:repeating-radial-gradient(circle at center,#302722 0 3px,#131719 4px 6px,#2d2a26 7px 9px);box-shadow:0 0 0 5px #9c814e,0 0 0 7px #2a1b14,0 9px 18px #000b}
+.elementia-music-disc::before{content:'✧';font:64px Georgia,serif;color:#e5cc8b;background:radial-gradient(circle,#815b36,#4b3328);border:1px solid #d9ae6c;width:54%;height:54%;border-radius:50%;display:grid;place-items:center}
+.elementia-music-disc::after{content:'';position:absolute;width:11px;height:11px;border-radius:50%;background:#131516;border:1px solid #d1b984}
+.elementia-music-page.is-playing .elementia-music-disc{animation:elementia-record-spin 12s linear infinite}
+@keyframes elementia-record-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.elementia-music-page.is-playing .elementia-music-disc{animation:none}}
+.elementia-music-now-label{font:700 10px Georgia,serif;letter-spacing:.2em;color:#c5a86d}
+.elementia-music-now{font:normal 23px/1.2 Georgia,serif;color:#f0dda7;min-height:55px;display:flex;align-items:center;justify-content:center}
+.elementia-music-status{font:13px Georgia,serif;color:#d1c1a9;min-height:18px}
+.elementia-music-play-btn{min-width:144px;padding:11px 22px;cursor:pointer;border:1px solid #d4ae6b;border-radius:6px;background:linear-gradient(180deg,#c1a06b,#81623e);color:#15191a;font:700 15px Georgia,serif}
+.elementia-music-play-btn:disabled{opacity:.48;cursor:default}
+.elementia-music-seek{width:100%;accent-color:#d5b16a;cursor:pointer}
+.elementia-music-timestamps{display:flex;justify-content:space-between;width:100%;font:12px Georgia,serif;color:#c1b4a0}
+.elementia-music-volume{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;font:12px Georgia,serif;color:#dfd0af}
+.elementia-music-volume input{flex:1;min-width:0;max-width:145px;accent-color:#d5b16a}
+.elementia-music-info{font:12px/1.6 Georgia,serif;text-align:center;color:#c7b69a;padding-top:12px}
+@media(max-width:700px){.elementia-music-layout{grid-template-columns:1fr}.elementia-music-player{order:-1}.elementia-music-disc{width:148px}.elementia-music-track{min-height:70px}.elementia-music-page{margin:15px auto;padding:0 10px}}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3272,7 +3314,7 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
       const c=BY_ID[OG_ORIGINAL_CARD_ID[code]],ready=!!cardRule(c)&&!OG_UNFINISHED.has(code);
       return `<div class="og-starter-row"><span>${esc(c?.name||OG_CARD_INFO[code].name)}</span><span class="og-starter-qty">x${number}</span>${ready?'':`<span class="og-starter-pending" title="Ability effects are still being implemented">○</span>`}</div>`;
     }).join('');
-    return `<div class="og-starter-block" aria-label="Selected Mark starter deck"><div class="og-starter-actions"><button type="button" class="button" data-action="starter-duel">Play ${esc(element)} Starter Deck</button><details class="og-starter-details"><summary class="button secondary">View Original Starter Deck</summary><div class="og-starter-grid">${rows}</div><div class="og-starter-legend">40 original cards · ○ Cards with unfinished effects</div></details></div></div>`;
+    return `<div class="og-starter-block" aria-label="Selected Mark starter deck"><div class="og-starter-actions"><button type="button" class="button" data-action="starter-duel">Play ${esc(element)} Starter Deck</button><details class="og-starter-details"><summary class="button secondary">View Original Starter Deck</summary><div class="og-starter-grid">${rows}</div><div class="og-starter-legend">40 original cards · ○ Cards with unfinished effects</div></details></div><button type="button" class="button secondary og-music-entry" data-action="navigate" data-to="music">♫ Music of Elementia</button></div>`;
   }
 
 
@@ -3477,7 +3519,7 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.40 — equal-size face-down hands with complete card-back artwork">v20.41 · Stretched Card Backs</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.40 — equal-size face-down hands with complete card-back artwork">v20.42 · Music of Elementia</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
@@ -3485,6 +3527,79 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   function footer(){return `<footer class="footer">ELEMENTIA · THE RETURN</footer>`;}
   function wrap(content,battle=false){const classicMenu=state.scene==='menu';return `<div class="shell ${battle?'battle-page':''}">${classicMenu?'':nav()}<main id="main">${content}</main>${classicMenu?'':footer()}</div>${state.modal?modal():''}`;}
   function title(main,description,side=''){return `<div class="page-title"><div><h1>${main}</h1><p>${description}</p></div>${side}</div>`;}
+
+  // v20.42 -- One shared player for every jukebox track (never simultaneous audio).
+  const MUSIC_TRACKS = [
+    {title:"False God — Extended",note:"Original False God theme · three-minute extended cut",duration:180,src:"Elements_False_God_3_Minute_Extended.mp3"},
+    {title:"False God — Endless Sands Reawakened",note:"Reawakened arrangement · louder mix, no plinks",duration:180,src:"Elements_False_God_Endless_Sands_Reawakened_Louder_No_Plinks.mp3"},
+    {title:"Procession of the Deathless",note:"Three-minute arrangement",duration:180,src:"Procession_of_the_Deathless_3_Minute.mp3"},
+    {title:"False God — Time God Remix",note:"120 BPM remix",duration:180,src:"Elements_False_God_Time_God_120BPM_Remix.mp3"},
+  ];
+  let jukeboxTrack=-1;
+  let jukeboxPlaying=false;
+  const musicTime=(seconds)=>{const t=Math.max(0,Math.floor(Number(seconds)||0));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
+  function musicAudio(){return root.querySelector('#elementia-jukebox-audio');}
+  function stopJukebox(){
+    const audio=musicAudio();
+    if(audio){audio.pause();audio.removeAttribute('src');audio.load();}
+    jukeboxTrack=-1;jukeboxPlaying=false;
+  }
+  function updateMusicControls(){
+    if(state.scene!=='music')return;
+    const audio=musicAudio();if(!audio)return;
+    const active=jukeboxTrack>=0?MUSIC_TRACKS[jukeboxTrack]:null;
+    root.querySelectorAll('.elementia-music-track').forEach((row)=>{
+      const idx=Number(row.dataset.id),selected=idx===jukeboxTrack;
+      row.classList.toggle('active',selected);
+      row.setAttribute('aria-pressed',selected?'true':'false');
+      const glyph=row.querySelector('.elementia-music-track-icon');
+      if(glyph)glyph.textContent=selected&&jukeboxPlaying?'Ⅱ':'♪';
+    });
+    const playing=jukeboxPlaying&&!audio.paused;
+    root.querySelector('.elementia-music-page')?.classList.toggle('is-playing',playing);
+    const now=root.querySelector('#elementia-music-now');if(now)now.textContent=active?.title||'Select a track';
+    const btn=root.querySelector('#elementia-music-play');if(btn){btn.disabled=!active;btn.textContent=playing?'Ⅱ Pause':'▶ Play';}
+    const status=root.querySelector('#elementia-music-status');if(status)status.textContent=!active?'Select a song to begin':playing?'Now playing':'Paused';
+    const duration=Number.isFinite(audio.duration)&&audio.duration>0?audio.duration:(active?.duration||180);
+    const elapsed=Math.min(duration,Number.isFinite(audio.currentTime)?audio.currentTime:0);
+    const seek=root.querySelector('#elementia-music-seek');if(seek){seek.max=String(duration);if(!seek.matches(':active'))seek.value=String(elapsed);seek.disabled=!active;}
+    const current=root.querySelector('#elementia-music-current');if(current)current.textContent=musicTime(elapsed);
+    const total=root.querySelector('#elementia-music-total');if(total)total.textContent=musicTime(duration);
+  }
+  function musicToggle(index){
+    const audio=musicAudio();if(!audio||index<0||index>=MUSIC_TRACKS.length)return;
+    if(jukeboxTrack!==index){
+      audio.pause();audio.src=MUSIC_TRACKS[index].src;audio.currentTime=0;audio.volume=Number(root.querySelector('#elementia-music-volume')?.value||75)/100;jukeboxTrack=index;
+      jukeboxPlaying=false;
+    }else if(!audio.paused){audio.pause();jukeboxPlaying=false;updateMusicControls();return;}
+    // Initiated by an actual click, so browsers allow sound without autoplay.
+    const result=audio.play();jukeboxPlaying=true;updateMusicControls();
+    if(result&&typeof result.catch==='function')result.catch(()=>{jukeboxPlaying=false;updateMusicControls();});
+  }
+  function renderJukebox(){
+    const rows=MUSIC_TRACKS.map((track,i)=>`<button type="button" class="elementia-music-track" data-action="music-toggle" data-id="${i}" aria-pressed="false" aria-label="Play ${esc(track.title)}"><span class="elementia-music-track-icon" aria-hidden="true">♪</span><span class="elementia-music-track-main"><span class="elementia-music-track-title">${String(i+1).padStart(2,'0')} · ${esc(track.title)}</span><span class="elementia-music-track-note">${esc(track.note)}</span></span><span class="elementia-music-track-duration">3:00</span></button>`).join('');
+    return wrap(`<div class="elementia-music-page"><button type="button" class="button secondary music-return" data-action="navigate" data-to="menu">← Back to Main Menu</button><section class="elementia-music-card" aria-label="Music of Elementia jukebox"><div class="elementia-music-kicker">The Return · Original & New Arrangements</div><h1>Music of Elementia</h1><p class="elementia-music-subtitle">Four tracks from the Elements world. Choose a piece, and let the jukebox play — only one song can play at a time.</p><div class="elementia-music-ornament"></div><div class="elementia-music-layout"><div class="elementia-music-list" aria-label="Available tracks">${rows}</div><div class="elementia-music-player" aria-label="Music player"><div class="elementia-music-disc" aria-hidden="true"></div><div class="elementia-music-now-label">NOW PLAYING</div><div class="elementia-music-now" id="elementia-music-now">Select a track</div><div class="elementia-music-status" id="elementia-music-status" role="status">Select a song to begin</div><button type="button" class="elementia-music-play-btn" id="elementia-music-play" data-action="music-play-pause" disabled>▶ Play</button><input type="range" class="elementia-music-seek" id="elementia-music-seek" aria-label="Song position" value="0" min="0" max="180" step="1" disabled><div class="elementia-music-timestamps"><span id="elementia-music-current">0:00</span><span id="elementia-music-total">3:00</span></div><label class="elementia-music-volume">Volume <input type="range" id="elementia-music-volume" min="0" max="100" value="75" aria-label="Jukebox volume"></label></div></div><div class="elementia-music-info">Music stops when you leave the jukebox. Tracks are played manually and do not overlap.</div><audio id="elementia-jukebox-audio" preload="none" aria-label="Music of Elementia audio player"></audio></section></div>`);
+  }
+  root.addEventListener('timeupdate',event=>{if(event.target?.id==='elementia-jukebox-audio')updateMusicControls();},true);
+  for(const eventName of ['play','pause','ended','loadedmetadata','error']){
+    root.addEventListener(eventName,event=>{
+      if(event.target?.id!=='elementia-jukebox-audio')return;
+      if(eventName==='ended'||eventName==='error')jukeboxPlaying=false;
+      else if(eventName==='play')jukeboxPlaying=true;
+      else if(eventName==='pause')jukeboxPlaying=false;
+      updateMusicControls();
+      if(eventName==='error'){
+        const status=root.querySelector('#elementia-music-status');
+        if(status)status.textContent='Audio could not load. Check that all four MP3s are uploaded beside index.html.';
+      }
+    },true);
+  }
+  root.addEventListener('input',event=>{
+    const audio=musicAudio();if(!audio)return;
+    if(event.target?.id==='elementia-music-volume')audio.volume=Math.min(1,Math.max(0,Number(event.target.value)/100));
+    if(event.target?.id==='elementia-music-seek' && jukeboxTrack>=0 && audio.readyState>=1){audio.currentTime=Number(event.target.value);updateMusicControls();}
+  });
+
   function renderLogin(){return `<main class="login"><section class="panel login-card" aria-label="Elementia entry screen"><div class="eyebrow">A realm of twelve elements</div><div class="login-sigil" aria-hidden="true">✥</div>
     <h1 class="hero-title">ELEMENTIA</h1><p class="hero-sub">The Return</p><div class="ornament-line" style="margin-bottom:24px"></div>
     <form id="entry-form"><label class="field"><span>Player name</span><input autocomplete="nickname" required maxlength="24" id="playername" placeholder="Choose a name" value="${esc(state.player)}"></label>
@@ -5206,14 +5321,14 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   function render(){
     clearHoverCard();
     document.body.dataset.elementiaDisplay=state.displayMode;
-    root.innerHTML=state.scene==='login'?renderLogin():state.scene==='menu'?renderMenu():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():renderDuel();
+    root.innerHTML=state.scene==='login'?renderLogin():state.scene==='menu'?renderMenu():state.scene==='music'?renderJukebox():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():renderDuel();
     document.title=`${state.scene==='login'?'Welcome':state.scene.charAt(0).toUpperCase()+state.scene.slice(1)} — Elementia: The Return`;
     if(state.duel)state.duel.lastPlacedKey=null; // Animate only newly dealt cards, never the whole board on every update.
     syncFullscreenUI();
     requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();});
   }
   function enter(name){state.player=(name||'Guest').trim().slice(0,24)||'Guest';state.scene='menu';save();render();}
-  function navigate(to){if(!['menu','deck','shop','duel','login'].includes(to))return;if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
+  function navigate(to){if(!['menu','deck','shop','duel','login','music'].includes(to))return;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
     if(delta>0&&(current>=(state.inventory[id]||0)||countMap(state.deck)>=60||(!unlimited&&current>=6))){state.notice='Card unavailable, six-copy limit reached, or the deck is full (60).';return;}
     state.deck[id]=Math.max(0,current+delta);state.duel=null;save();}
@@ -5239,6 +5354,8 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
         state.displayMode=button.dataset.mode;
         save();render();
       }break;
+      case 'music-toggle':musicToggle(Number(id));break;
+      case 'music-play-pause':if(jukeboxTrack>=0)musicToggle(jukeboxTrack);break;
       case 'navigate':navigate(button.dataset.to);break;
       case 'element':if(ELEMENT[id]){state.element=id;state.duel=null;save();render();}break;
       case 'starter-duel':state.duel=newDuel(true);navigate('duel');break;

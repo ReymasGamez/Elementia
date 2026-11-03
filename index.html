@@ -3149,12 +3149,12 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
 </style>
 
 <style id="elementia-v20-61-pause-desktop-layout">
-/* v20.61: single full-size desktop board; controls live behind M, no top toolbar. */
+/* v20.62: preserve the M-key desktop layout while restoring hand indicator space. */
 body[data-elementia-display="desktop"] .battle-page{max-width:none;width:100%;padding:0 clamp(3px,.35vw,8px) 2px;box-sizing:border-box}
 body[data-elementia-display="desktop"] .battle-page #main{margin:0;padding:0;max-width:none}
 body[data-elementia-display="desktop"] .battle-page .elementia-display-stage{margin:0 auto;width:100%;max-width:100%;overflow-x:hidden;overflow-y:hidden}
 body[data-elementia-display="desktop"] .battle-page .elementia-display-stage>.etg-og-frame{width:100%;padding:3px;min-width:0;box-sizing:border-box;overflow:hidden}
-body[data-elementia-display="desktop"] .battle-page .etg-og-arena{gap:clamp(3px,.35vw,7px);grid-template-columns:clamp(125px,12.4vw,184px) minmax(0,1fr) clamp(125px,12.4vw,184px)}
+body[data-elementia-display="desktop"] .battle-page .etg-og-arena{--etg-duel-rail-width:clamp(125px,12.4vw,184px);gap:clamp(3px,.35vw,7px);grid-template-columns:var(--etg-duel-rail-width) minmax(0,1fr) var(--etg-duel-rail-width)}
 body[data-elementia-display="desktop"] .battle-page .etg-og-field{padding:clamp(3px,.4vw,7px);gap:clamp(2px,.35dvh,5px)}
 /* Scale all battlefield artwork/slots together; keep 8–7–8 layering and 75% permanents. */
 @media (min-height:620px){
@@ -3172,17 +3172,27 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row.middle{
 /* Side piles use the extra height, but each card remains inside its rail. */
 body[data-elementia-display="desktop"] .etg-og-tophand-wrap,
 body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{
-  --etg-hand-column-width:100%;
+  --etg-hand-column-width:var(--etg-duel-rail-width);
   --etg-stack-step:clamp(23px,3.7dvh,33px);
-  --etg-stack-card-h:clamp(106px,10.6dvw,148px);
+  /* v20.62: restore the original 110–128px hand squares wherever room permits.
+     Reserve at least 34px for the cost and playable-card glow beside them. */
+  --etg-stack-card-h:min(clamp(110px,9.3vw,128px),calc(var(--etg-duel-rail-width) - 34px));
   --etg-stack-card-side:var(--etg-stack-card-h);
 }
 body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.filled{width:min(100%,var(--etg-stack-card-side));height:var(--etg-stack-card-side);max-height:var(--etg-stack-card-side)}
 body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap .etg-og-hand-card{max-width:min(100%,var(--etg-stack-card-side));width:min(100%,var(--etg-stack-card-side))}
-body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card.preview-ready > .etg-og-action-strip.is-ready{max-width:none;width:max(0px,calc(100% - var(--etg-stack-card-side) - 3px))}
+/* The readiness strip is inside the card's button, but extends outward to the
+   rest of the rail. 100% here means CARD width, not rail width. */
+body[data-elementia-display="desktop"] .etg-og-player-hand .etg-og-hand-card.preview-ready > .etg-og-action-strip.is-ready{
+  display:block!important;left:calc(100% + 1px);right:auto;top:1px;
+  width:calc(var(--etg-duel-rail-width) - var(--etg-stack-card-side) - 4px);
+  min-width:0;max-width:none;height:calc(var(--etg-stack-step) - 4px);
+  border:0;border-radius:1px;box-shadow:none;padding:0;
+  background:linear-gradient(90deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.74) 22%,rgba(255,255,255,.46) 48%,rgba(255,255,255,.20) 74%,transparent 100%);
+  filter:drop-shadow(0 0 5px rgba(255,255,255,.35));pointer-events:none;
+}
 @media (max-width:1150px){
- body[data-elementia-display="desktop"] .battle-page .etg-og-arena{grid-template-columns:clamp(105px,12vw,145px) minmax(0,1fr) clamp(105px,12vw,145px)}
- body[data-elementia-display="desktop"] .etg-og-tophand-wrap,body[data-elementia-display="desktop"] .etg-og-bottomhand-wrap{--etg-stack-card-h:clamp(92px,10vw,126px)}
+ body[data-elementia-display="desktop"] .battle-page .etg-og-arena{--etg-duel-rail-width:clamp(105px,12vw,145px)}
 }
 /* Dialog stays in the fullscreen root (#app), never behind the browser's top layer. */
 body.etg-duel-paused{overflow:hidden}
@@ -3898,7 +3908,7 @@ body.etg-duel-paused{overflow:hidden}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.61 · Pause Menu & Desktop Board</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.62 · Hand Indicators Restored</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -6822,7 +6832,7 @@ body.etg-duel-paused{overflow:hidden}
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.61-m-pause-desktop',isDemo:demo,
+    version:'20.62-hand-readiness-restore',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

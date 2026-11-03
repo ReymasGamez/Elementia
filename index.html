@@ -2873,6 +2873,16 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-hud-quantum .etg-quanta
 }
 /* The main quanta expansion is desktop-specific; compact mobile stays intact. */
 </style>
+<style id="elementia-v20-50-battle-palette">
+/* Darkness's black quanta progress needs a slim outline against the dark HUD. */
+.etg-hud-quantum[data-element="Darkness"] .etg-quanta-fill {
+  opacity:1;
+  background:#080808;
+  box-shadow:0 0 0 1px #8d9292,0 0 3px #ffffff44;
+}
+/* White quanta uses full brightness rather than fading to gray. */
+.etg-hud-quantum[data-element="Light"] .etg-quanta-fill {opacity:1;}
+</style>
 <style id="elementia-v20-37-og-creature-faces">
 /* OG tabletop creature labels, contained inside the SAME square hit target.
    No shift to the 8/7/8 ranks, turn bar, permanent rows or combat overlays. */
@@ -2892,10 +2902,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   position:absolute;top:0;left:0;right:0;bottom:auto;
   max-height:26%!important;min-height:14px;
   margin:0;padding:2px 3px!important;
-  background:var(--accent,#716c69)!important;
-  color:#fffdf4!important;
+  background:var(--board-name-color,var(--accent,#716c69))!important;
+  color:var(--board-name-ink,#fffdf4)!important;
   font:700 clamp(8px,1.06dvh,13px)/1.08 Georgia,serif!important;
-  text-shadow:0 1px 2px #000d,0 0 3px #0008!important;
+  text-shadow:0 1px 2px #000a,0 0 2px #0005!important;
   text-align:left;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   -webkit-line-clamp:unset;
@@ -3136,6 +3146,14 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
     ['Entropy', '✳', '#ce9b72'], ['Aether', '✦', '#93bfd6']
   ];
   const ELEMENT = Object.fromEntries(ELEMENTS.map(([name, symbol, color]) => [name, { name, symbol, color }]));
+  // v20.50: canonical battlefield/HUD palette. This is intentionally separate
+  // from card frame themes and the supplied official elemental icon artwork.
+  const BATTLE_ELEMENT_COLORS = Object.freeze({
+    Air:'#6AC9F5', Darkness:'#080808', Fire:'#E53935', Water:'#2463D9',
+    Earth:'#8B5A2B', Light:'#FFFFFF', Life:'#29AC4C', Death:'#8232B9',
+    Time:'#F5D52D', Gravity:'#F18727', Entropy:'#FF1493', Aether:'#22C9BC'
+  });
+  const BATTLE_DARK_TITLE_INK = new Set(['Air','Light','Time','Aether']);
   const DEMO_CARDS = [
     {id:'air-dragonfly',name:'Dragonfly',element:'Air',type:'Creature',tier:'Basic',symbol:'❧',price:50,review:'Approved Air v0.4 · 1 ATK / 1 HP · 1 Air'},
     {id:'air-damselfly',name:'Damselfly',element:'Air',type:'Creature',tier:'Upgraded',symbol:'❧',price:80,review:'Approved Air v0.4 · 2 ATK / 1 HP · 0 Air'},
@@ -3635,7 +3653,7 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.49 — original Gravity cards and special abilities">v20.49 · Gravity Mechanics</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.49 — original Gravity cards and special abilities">v20.50 · Element Palette</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
@@ -5415,7 +5433,11 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
     const isOngoing=card?.type==='Permanent';
     const active=side==='player'&&!!cardRule(card)?.activate;
     const action=targetable?'select-crosshair':b.pendingTarget?'blocked-target':active?'tap-ability':creature?'choose-target':'detail';
-    const styles=card?theme(card):'--accent:#99866d';
+    // Name strip only: independently themed from full-card artwork and frame.
+    const elementName=card?.element||entry.element||'Other';
+    const boardNameColor=BATTLE_ELEMENT_COLORS[elementName]||'#99866d';
+    const boardNameInk=BATTLE_DARK_TITLE_INK.has(elementName)?'#14212a':'#fffdf4';
+    const styles=(card?theme(card):'--accent:#99866d')+(creatureSlot?`;--board-name-color:${boardNameColor};--board-name-ink:${boardNameInk}`:'');
     const artMarkup=card?.artworkUrl&&!concealed?`<span class="etg-slot-art" style="background-image:url('${String(card.artworkUrl).replace(/'/g,'%27')}')"></span>`:'';
     const countText=stackCount>1?`<span class="stack-count" aria-label="${stackCount} copies">x${stackCount}</span>`:'';
     // Both basic Bone Wall and its upgraded version carry their own live bone count.
@@ -5519,7 +5541,8 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   function hudQuantum(name,symbol,color,pool,desktop=false){
     const amount=Math.max(0,Number(pool?.[name])||0);
     const percent=Math.min(100,100*amount/50);
-    return `<div class="${desktop?'etg-og-quantum':'etg-resource'} etg-hud-quantum" title="${esc(name)}: ${amount} of 50 quanta" style="--quanta-hue:${color}"><span class="etg-quanta-fill" style="width:${percent}%" aria-hidden="true"></span><span class="etg-resource-icon ${ELEMENT_ICON_ASSETS[name]?'official-icon':'placeholder-icon'}" aria-label="${esc(name)} element ${ELEMENT_ICON_ASSETS[name]?'official symbol':'placeholder'}" style="background:${ELEMENT_ICON_ASSETS[name]?'transparent':color}">${elementIconMarkup(name,symbol,true)}</span><span class="etg-resource-num">${amount}</span></div>`;
+    const barColor=BATTLE_ELEMENT_COLORS[name]||color;
+    return `<div class="${desktop?'etg-og-quantum':'etg-resource'} etg-hud-quantum" data-element="${esc(name)}" title="${esc(name)}: ${amount} of 50 quanta" style="--quanta-hue:${barColor}"><span class="etg-quanta-fill" style="width:${percent}%" aria-hidden="true"></span><span class="etg-resource-icon ${ELEMENT_ICON_ASSETS[name]?'official-icon':'placeholder-icon'}" aria-label="${esc(name)} element ${ELEMENT_ICON_ASSETS[name]?'official symbol':'placeholder'}" style="background:${ELEMENT_ICON_ASSETS[name]?'transparent':color}">${elementIconMarkup(name,symbol,true)}</span><span class="etg-resource-num">${amount}</span></div>`;
   }
   function boardPlayer(side){
     const b=state.duel,own=side==='player';

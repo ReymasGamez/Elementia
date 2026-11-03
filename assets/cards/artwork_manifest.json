@@ -1,0 +1,3760 @@
+{
+  "version": "v20.54",
+  "source_build": "v20.53",
+  "note": "These images replace embedded card frames/portraits. They do not grant gameplay abilities.",
+  "uploaded_element_counts": {
+    "Air": 17,
+    "Darkness": 18,
+    "Death": 19,
+    "Entropy": 19,
+    "Gravity": 18,
+    "Life": 17,
+    "Earth": 19,
+    "Fire": 18,
+    "Water": 19,
+    "Light": 18,
+    "Time": 18
+  },
+  "extracted_aether_designs": 16,
+  "entries": [
+    {
+      "element": "Air",
+      "display_name": "Owl's Eye",
+      "aliases": [
+        "Owls Eye",
+        "Owl's Eye"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Owls_Eye.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Owls_Eye_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Owls_Eye_portrait.webp",
+      "optimized_bytes": 280646,
+      "matching_original_codes": [
+        "5ol"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Shockwave",
+      "aliases": [
+        "Shockwave"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Shockwave.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Shockwave_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Shockwave_portrait.webp",
+      "optimized_bytes": 247784,
+      "matching_original_codes": [
+        "5on"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Azure Dragon",
+      "aliases": [
+        "Azure Dragon"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Azure_Dragon.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Azure_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Azure_Dragon_portrait.webp",
+      "optimized_bytes": 369648,
+      "matching_original_codes": [
+        "5of"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Flying Weapon",
+      "aliases": [
+        "Flying Weapon"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Flying_Weapon.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Flying_Weapon_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Flying_Weapon_portrait.webp",
+      "optimized_bytes": 295946,
+      "matching_original_codes": [
+        "5oi"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Blue Nymph",
+      "aliases": [
+        "Blue Nymph"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Blue_Nymph.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Blue_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Blue_Nymph_portrait.webp",
+      "optimized_bytes": 341230,
+      "matching_original_codes": [
+        "5p0"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Shard of Freedom",
+      "aliases": [
+        "Shard of Freedom"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Shard_of_Freedom.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Shard_of_Freedom_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Shard_of_Freedom_portrait.webp",
+      "optimized_bytes": 258998,
+      "matching_original_codes": [
+        "5pa"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Dragonfly",
+      "aliases": [
+        "Dragonfly"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Dragonfly.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Dragonfly_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Dragonfly_portrait.webp",
+      "optimized_bytes": 216788,
+      "matching_original_codes": [
+        "5od"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Thunderstorm",
+      "aliases": [
+        "Thunderstorm"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Thunderstorm.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Thunderstorm_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Thunderstorm_portrait.webp",
+      "optimized_bytes": 306946,
+      "matching_original_codes": [
+        "5oh"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Air Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Air Pendulum"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Pendulum.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Pendulum_portrait.webp",
+      "optimized_bytes": 166718,
+      "matching_original_codes": [
+        "5pu"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Wind Pillar",
+      "aliases": [
+        "Pillar",
+        "Air Pillar",
+        "Wind Pillar"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Pillar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Pillar_portrait.webp",
+      "optimized_bytes": 121220,
+      "matching_original_codes": [
+        "5oc"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Wings",
+      "aliases": [
+        "Wings"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Wings.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Wings_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Wings_portrait.webp",
+      "optimized_bytes": 376980,
+      "matching_original_codes": [
+        "5oo"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Sky Blitz",
+      "aliases": [
+        "Sky Blitz"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Sky_Blitz.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Sky_Blitz_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Sky_Blitz_portrait.webp",
+      "optimized_bytes": 339990,
+      "matching_original_codes": [
+        "5op"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Unstable Gas",
+      "aliases": [
+        "Unstable Gas"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Unstable_Gas.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Unstable_Gas_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Unstable_Gas_portrait.webp",
+      "optimized_bytes": 344842,
+      "matching_original_codes": [
+        "5om"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Fog Shield",
+      "aliases": [
+        "Fog Shield"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Fog_Shield.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Fog_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Fog_Shield_portrait.webp",
+      "optimized_bytes": 322106,
+      "matching_original_codes": [
+        "5og"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Firefly Queen",
+      "aliases": [
+        "Firefly Queen"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Firefly_Queen.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Firefly_Queen_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Firefly_Queen_portrait.webp",
+      "optimized_bytes": 212852,
+      "matching_original_codes": [
+        "5oj"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Wyrm",
+      "aliases": [
+        "Wyrm"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Wyrm.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Wyrm_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Wyrm_portrait.webp",
+      "optimized_bytes": 274606,
+      "matching_original_codes": [
+        "5oe"
+      ]
+    },
+    {
+      "element": "Air",
+      "display_name": "Firefly",
+      "aliases": [
+        "Firefly"
+      ],
+      "source_zip": "Elementia_Air_Cards.zip",
+      "source_png": "Elementia_Air_Cards/Elementia_Air_Firefly.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Air/Firefly_card.webp",
+      "battlefield_portrait": "assets/cards/Air/Firefly_portrait.webp",
+      "optimized_bytes": 315030,
+      "matching_original_codes": [
+        "5ok"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Minor Vampire",
+      "aliases": [
+        "Minor Vampire"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Minor_Vampire_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Minor_Vampire_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Minor_Vampire_portrait.webp",
+      "optimized_bytes": 154948,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Steal",
+      "aliases": [
+        "Steal"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Steal_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Steal_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Steal_portrait.webp",
+      "optimized_bytes": 233186,
+      "matching_original_codes": [
+        "5up"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Black Dragon",
+      "aliases": [
+        "Black Dragon"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Black_Dragon_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Black_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Black_Dragon_portrait.webp",
+      "optimized_bytes": 192898,
+      "matching_original_codes": [
+        "5ul"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Shard of Void",
+      "aliases": [
+        "Shard of Void"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Shard_of_Void_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Shard_of_Void_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Shard_of_Void_portrait.webp",
+      "optimized_bytes": 170908,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Parasite",
+      "aliases": [
+        "Parasite"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Parasite_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Parasite_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Parasite_portrait.webp",
+      "optimized_bytes": 189574,
+      "matching_original_codes": [
+        "5un"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Gargoyle",
+      "aliases": [
+        "Gargoyle"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Gargoyle_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Gargoyle_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Gargoyle_portrait.webp",
+      "optimized_bytes": 191916,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Nightmare",
+      "aliases": [
+        "Nightmare"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Nightmare_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Nightmare_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Nightmare_portrait.webp",
+      "optimized_bytes": 292610,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Nightfall",
+      "aliases": [
+        "Nightfall"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Nightfall_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Nightfall_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Nightfall_portrait.webp",
+      "optimized_bytes": 204372,
+      "matching_original_codes": [
+        "5uq"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Drain Life",
+      "aliases": [
+        "Drain Life"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Drain_Life_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Drain_Life_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Drain_Life_portrait.webp",
+      "optimized_bytes": 259548,
+      "matching_original_codes": [
+        "5us"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Dusk Mantle",
+      "aliases": [
+        "Dusk Mantle"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Dusk_Mantle_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Dusk_Mantle_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Dusk_Mantle_portrait.webp",
+      "optimized_bytes": 257842,
+      "matching_original_codes": [
+        "5uo"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Vampire Stiletto",
+      "aliases": [
+        "Vampire Stiletto"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Vampire_Stiletto_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Vampire_Stiletto_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Vampire_Stiletto_portrait.webp",
+      "optimized_bytes": 171058,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Liquid Shadow",
+      "aliases": [
+        "Liquid Shadow"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Liquid_Shadow_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Liquid_Shadow_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Liquid_Shadow_portrait.webp",
+      "optimized_bytes": 262186,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Cloak",
+      "aliases": [
+        "Cloak"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Cloak_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Cloak_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Cloak_portrait.webp",
+      "optimized_bytes": 183884,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Voodoo Doll",
+      "aliases": [
+        "Voodoo Doll"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Voodoo_Doll_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Voodoo_Doll_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Voodoo_Doll_portrait.webp",
+      "optimized_bytes": 171706,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Obsidian Pillar",
+      "aliases": [
+        "Pillar",
+        "Darkness Pillar",
+        "Obsidian Pillar"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Pillar_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Pillar_portrait.webp",
+      "optimized_bytes": 199854,
+      "matching_original_codes": [
+        "5uk"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Devourer",
+      "aliases": [
+        "Devourer"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Devourer_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Devourer_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Devourer_portrait.webp",
+      "optimized_bytes": 179292,
+      "matching_original_codes": [
+        "5um"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Dark Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Darkness Pendulum",
+        "Dark Pendulum"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Pendulum_Final.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Pendulum_portrait.webp",
+      "optimized_bytes": 182450,
+      "matching_original_codes": [
+        "606"
+      ]
+    },
+    {
+      "element": "Darkness",
+      "display_name": "Dark Nymph",
+      "aliases": [
+        "Dark Nymph"
+      ],
+      "source_zip": "Elementia_Darkness_Cards.zip",
+      "source_png": "Elementia_Darkness_Cards/Elementia_Darkness_Dark_Nymph_Resized.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Darkness/Dark_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Darkness/Dark_Nymph_portrait.webp",
+      "optimized_bytes": 254716,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Death",
+      "display_name": "Bone Pillar",
+      "aliases": [
+        "Pillar",
+        "Death Pillar",
+        "Bone Pillar"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Pillar.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Pillar_portrait.webp",
+      "optimized_bytes": 298928,
+      "matching_original_codes": [
+        "52g"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Death Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Death Pendulum"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Pendulum.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Pendulum_portrait.webp",
+      "optimized_bytes": 286950,
+      "matching_original_codes": [
+        "542"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Aflatoxin",
+      "aliases": [
+        "Alfatoxin",
+        "Aflatoxin"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Alfatoxin.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Alfatoxin_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Alfatoxin_portrait.webp",
+      "optimized_bytes": 263738,
+      "matching_original_codes": [
+        "52s"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Arsenic",
+      "aliases": [
+        "Arsenic"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Arsenic.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Arsenic_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Arsenic_portrait.webp",
+      "optimized_bytes": 325782,
+      "matching_original_codes": [
+        "52q"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Bone Dragon",
+      "aliases": [
+        "Bone Dragon"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Bone_Dragon.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Bone_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Bone_Dragon_portrait.webp",
+      "optimized_bytes": 324446,
+      "matching_original_codes": [
+        "52h"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Deathstalker",
+      "aliases": [
+        "Deathstalker"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Deathstalker.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Deathstalker_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Deathstalker_portrait.webp",
+      "optimized_bytes": 299096,
+      "matching_original_codes": [
+        "52u"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Flesh Spider",
+      "aliases": [
+        "Flesh Spider"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Flesh_Spider.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Flesh_Spider_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Flesh_Spider_portrait.webp",
+      "optimized_bytes": 282252,
+      "matching_original_codes": [
+        "52j"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Grey Nymph",
+      "aliases": [
+        "Grey Nymph"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Grey_Nymph.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Grey_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Grey_Nymph_portrait.webp",
+      "optimized_bytes": 341418,
+      "matching_original_codes": [
+        "534"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Mummy",
+      "aliases": [
+        "Mummy"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Mummy.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Mummy_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Mummy_portrait.webp",
+      "optimized_bytes": 316494,
+      "matching_original_codes": [
+        "52t"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Skeleton",
+      "aliases": [
+        "Skeleton"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Skeleton.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Skeleton_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Skeleton_portrait.webp",
+      "optimized_bytes": 329044,
+      "matching_original_codes": [
+        "52m"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Virus",
+      "aliases": [
+        "Virus"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Virus.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Virus_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Virus_portrait.webp",
+      "optimized_bytes": 337128,
+      "matching_original_codes": [
+        "52i"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Vulture",
+      "aliases": [
+        "Vulture"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Vulture.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Vulture_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Vulture_portrait.webp",
+      "optimized_bytes": 283688,
+      "matching_original_codes": [
+        "52k"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Bone Wall",
+      "aliases": [
+        "Bone Wall"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Bone_Wall.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Bone_Wall_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Bone_Wall_portrait.webp",
+      "optimized_bytes": 411308,
+      "matching_original_codes": [
+        "52r"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Boneyard",
+      "aliases": [
+        "Bone Yard",
+        "Boneyard"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Bone_Yard.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Bone_Yard_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Bone_Yard_portrait.webp",
+      "optimized_bytes": 368102,
+      "matching_original_codes": [
+        "52n"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Plague",
+      "aliases": [
+        "Plague"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Plague.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Plague_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Plague_portrait.webp",
+      "optimized_bytes": 413552,
+      "matching_original_codes": [
+        "52p"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Poison",
+      "aliases": [
+        "Poison"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Poison.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Poison_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Poison_portrait.webp",
+      "optimized_bytes": 348528,
+      "matching_original_codes": [
+        "52o"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Shard of Sacrifice",
+      "aliases": [
+        "Shard of Sacrifice"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Shard_of_Sacrifice.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Shard_of_Sacrifice_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Shard_of_Sacrifice_portrait.webp",
+      "optimized_bytes": 351294,
+      "matching_original_codes": [
+        "53e"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Skull Shield",
+      "aliases": [
+        "Skull Shield"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Skull_Shield.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Skull_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Skull_Shield_portrait.webp",
+      "optimized_bytes": 325988,
+      "matching_original_codes": [
+        "52l"
+      ]
+    },
+    {
+      "element": "Death",
+      "display_name": "Soul Catcher",
+      "aliases": [
+        "Soul Catcher"
+      ],
+      "source_zip": "Elementia_Death_All_19_Cards.zip",
+      "source_png": "Death_Soul_Catcher.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Death/Soul_Catcher_card.webp",
+      "battlefield_portrait": "assets/cards/Death/Soul_Catcher_portrait.webp",
+      "optimized_bytes": 385558,
+      "matching_original_codes": [
+        "52v"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Abomination",
+      "aliases": [
+        "Abomination"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Abomination.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Abomination_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Abomination_portrait.webp",
+      "optimized_bytes": 272898,
+      "matching_original_codes": [
+        "4ve"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Antimatter",
+      "aliases": [
+        "Antimatter"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Antimatter.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Antimatter_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Antimatter_portrait.webp",
+      "optimized_bytes": 159118,
+      "matching_original_codes": [
+        "4vn"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Butterfly Effect",
+      "aliases": [
+        "Butterfly Effect"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Butterfly_Effect.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Butterfly_Effect_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Butterfly_Effect_portrait.webp",
+      "optimized_bytes": 329328,
+      "matching_original_codes": [
+        "4vo"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Chaos Seed",
+      "aliases": [
+        "Chaos Seed"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Chaos_Seed.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Chaos_Seed_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Chaos_Seed_portrait.webp",
+      "optimized_bytes": 238550,
+      "matching_original_codes": [
+        "4vi"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Discord",
+      "aliases": [
+        "Discord"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Discord.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Discord_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Discord_portrait.webp",
+      "optimized_bytes": 312978,
+      "matching_original_codes": [
+        "4vl"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Dissipation Shield",
+      "aliases": [
+        "Dissipation Shield"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Dissipation_Shield.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Dissipation_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Dissipation_Shield_portrait.webp",
+      "optimized_bytes": 208594,
+      "matching_original_codes": [
+        "4vg"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Fallen Elf",
+      "aliases": [
+        "Fallen Elf"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Fallen_Elf.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Fallen_Elf_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Fallen_Elf_portrait.webp",
+      "optimized_bytes": 215160,
+      "matching_original_codes": [
+        "4vm"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Lycanthrope",
+      "aliases": [
+        "Lycanthrope"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Lycanthrope.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Lycanthrope_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Lycanthrope_portrait.webp",
+      "optimized_bytes": 170616,
+      "matching_original_codes": [
+        "4vh"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Maxwell's Demon",
+      "aliases": [
+        "Maxwells Demon",
+        "Maxwell's Demon"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Maxwells_Demon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Maxwells_Demon_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Maxwells_Demon_portrait.webp",
+      "optimized_bytes": 229016,
+      "matching_original_codes": [
+        "4vd"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Mutation",
+      "aliases": [
+        "Mutation"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Mutation.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Mutation_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Mutation_portrait.webp",
+      "optimized_bytes": 213170,
+      "matching_original_codes": [
+        "4vk"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Pandemonium",
+      "aliases": [
+        "Pandemonium"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Pandemonium.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Pandemonium_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Pandemonium_portrait.webp",
+      "optimized_bytes": 355382,
+      "matching_original_codes": [
+        "4vp"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Purple Dragon",
+      "aliases": [
+        "Purple Dragon"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Purple_Dragon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Purple_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Purple_Dragon_portrait.webp",
+      "optimized_bytes": 186332,
+      "matching_original_codes": [
+        "4vf"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Purple Nymph",
+      "aliases": [
+        "Purple Nymph"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Purple_Nymph.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Purple_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Purple_Nymph_portrait.webp",
+      "optimized_bytes": 249024,
+      "matching_original_codes": [
+        "500"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Schrödinger's Cat",
+      "aliases": [
+        "Schrodingers Cat",
+        "Schrödinger's Cat"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Schrodingers_Cat.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Schrodingers_Cat_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Schrodingers_Cat_portrait.webp",
+      "optimized_bytes": 206036,
+      "matching_original_codes": [
+        "4vq"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Shard of Serendipity",
+      "aliases": [
+        "Shard of Serendipity"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Shard_of_Serendipity.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Shard_of_Serendipity_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Shard_of_Serendipity_portrait.webp",
+      "optimized_bytes": 232120,
+      "matching_original_codes": [
+        "50a"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Singularity",
+      "aliases": [
+        "Singularity"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Singularity.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Singularity_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Singularity_portrait.webp",
+      "optimized_bytes": 253156,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Nova",
+      "aliases": [
+        "Nova"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Nova.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Nova_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Nova_portrait.webp",
+      "optimized_bytes": 215526,
+      "matching_original_codes": [
+        "4vj"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Entropy Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Entropy Pendulum"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Pendulum.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Pendulum_portrait.webp",
+      "optimized_bytes": 172960,
+      "matching_original_codes": [
+        "50u"
+      ]
+    },
+    {
+      "element": "Entropy",
+      "display_name": "Amethyst Pillar",
+      "aliases": [
+        "Pillar",
+        "Entropy Pillar",
+        "Amethyst Pillar"
+      ],
+      "source_zip": "Elementia_Entropy_Collection.zip",
+      "source_png": "Entropy_Pillar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Entropy/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Entropy/Pillar_portrait.webp",
+      "optimized_bytes": 236302,
+      "matching_original_codes": [
+        "4vc"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Acceleration",
+      "aliases": [
+        "Acceleration"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Acceleration.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Acceleration_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Acceleration_portrait.webp",
+      "optimized_bytes": 399966,
+      "matching_original_codes": [
+        "562"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Armagio",
+      "aliases": [
+        "Armagio"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Armagio.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Armagio_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Armagio_portrait.webp",
+      "optimized_bytes": 478140,
+      "matching_original_codes": [
+        "55m"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Amber Nymph",
+      "aliases": [
+        "Auburn Nymph",
+        "Amber Nymph"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Auburn_Nymph.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Auburn_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Auburn_Nymph_portrait.webp",
+      "optimized_bytes": 451652,
+      "matching_original_codes": [
+        "568"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Black Hole",
+      "aliases": [
+        "Black Hole"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Black_Hole.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Black_Hole_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Black_Hole_portrait.webp",
+      "optimized_bytes": 432566,
+      "matching_original_codes": [
+        "55v"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Catapult",
+      "aliases": [
+        "Catapult"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Catapult.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Catapult_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Catapult_portrait.webp",
+      "optimized_bytes": 460184,
+      "matching_original_codes": [
+        "561"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Chimera",
+      "aliases": [
+        "Chimera"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Chimera.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Chimera_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Chimera_portrait.webp",
+      "optimized_bytes": 420344,
+      "matching_original_codes": [
+        "560"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Colossal Dragon",
+      "aliases": [
+        "Colossal Dragon"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Colossal_Dragon.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Colossal_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Colossal_Dragon_portrait.webp",
+      "optimized_bytes": 476024,
+      "matching_original_codes": [
+        "55o"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Graviton Fire Eater",
+      "aliases": [
+        "Graviton Fire Eater"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Graviton_Fire_Eater.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Graviton_Fire_Eater_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Graviton_Fire_Eater_portrait.webp",
+      "optimized_bytes": 431944,
+      "matching_original_codes": [
+        "55u"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Graviton Mercenary",
+      "aliases": [
+        "Graviton Mercenary"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Graviton_Mercenary.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Graviton_Mercenary_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Graviton_Mercenary_portrait.webp",
+      "optimized_bytes": 427514,
+      "matching_original_codes": [
+        "55n"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Graviton Salvager",
+      "aliases": [
+        "Graviton Salvager"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Graviton_Salvager.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Graviton_Salvager_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Graviton_Salvager_portrait.webp",
+      "optimized_bytes": 436498,
+      "matching_original_codes": [
+        "563"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Gravity Pull",
+      "aliases": [
+        "Gravity Pull"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Gravity_Pull.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Gravity_Pull_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Gravity_Pull_portrait.webp",
+      "optimized_bytes": 352160,
+      "matching_original_codes": [
+        "55t"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Gravity Shield",
+      "aliases": [
+        "Gravity Shield"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Gravity_Shield.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Gravity_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Gravity_Shield_portrait.webp",
+      "optimized_bytes": 358462,
+      "matching_original_codes": [
+        "55p"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Momentum",
+      "aliases": [
+        "Momentum"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Momentum.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Momentum_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Momentum_portrait.webp",
+      "optimized_bytes": 261816,
+      "matching_original_codes": [
+        "55q"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Otyugh",
+      "aliases": [
+        "Otyugh"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Otyugh.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Otyugh_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Otyugh_portrait.webp",
+      "optimized_bytes": 501004,
+      "matching_original_codes": [
+        "55r"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Gravity Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Gravity Pendulum"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Pendulum.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Pendulum_portrait.webp",
+      "optimized_bytes": 327866,
+      "matching_original_codes": [
+        "576"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Gravity Pillar",
+      "aliases": [
+        "Pillar",
+        "Gravity Pillar"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Pillar.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Pillar_portrait.webp",
+      "optimized_bytes": 301552,
+      "matching_original_codes": [
+        "55k"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Sapphire Charger",
+      "aliases": [
+        "Sapphire Charger"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Sapphire_Charger.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Sapphire_Charger_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Sapphire_Charger_portrait.webp",
+      "optimized_bytes": 514920,
+      "matching_original_codes": [
+        "55l"
+      ]
+    },
+    {
+      "element": "Gravity",
+      "display_name": "Titan",
+      "aliases": [
+        "Titan"
+      ],
+      "source_zip": "Elementia_Gravity_Complete_So_Far.zip",
+      "source_png": "Gravity_Titan.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Gravity/Titan_card.webp",
+      "battlefield_portrait": "assets/cards/Gravity/Titan_portrait.webp",
+      "optimized_bytes": 317092,
+      "matching_original_codes": [
+        "55s"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Emerald Pillar",
+      "aliases": [
+        "Pillar",
+        "Life Pillar",
+        "Emerald Pillar"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Pillar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Pillar_portrait.webp",
+      "optimized_bytes": 310298,
+      "matching_original_codes": [
+        "5bs"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Life Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Life Pendulum"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Pendulum.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Pendulum_portrait.webp",
+      "optimized_bytes": 232596,
+      "matching_original_codes": [
+        "5de"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Adrenaline",
+      "aliases": [
+        "Adrenaline"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Adrenaline.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Adrenaline_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Adrenaline_portrait.webp",
+      "optimized_bytes": 281512,
+      "matching_original_codes": [
+        "5c7"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Cockatrice",
+      "aliases": [
+        "Cockatrice"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Cockatrice.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Cockatrice_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Cockatrice_portrait.webp",
+      "optimized_bytes": 367248,
+      "matching_original_codes": [
+        "5c0"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Druidic Staff",
+      "aliases": [
+        "Druidic Staff"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Druidic_Staff.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Druidic_Staff_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Druidic_Staff_portrait.webp",
+      "optimized_bytes": 276942,
+      "matching_original_codes": [
+        "5c5"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Emerald Shield",
+      "aliases": [
+        "Emerald Shield"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Emerald_Shield.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Emerald_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Emerald_Shield_portrait.webp",
+      "optimized_bytes": 248130,
+      "matching_original_codes": [
+        "5c4"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Empathic Bond",
+      "aliases": [
+        "Empathic Bond"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Empathic_Bond.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Empathic_Bond_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Empathic_Bond_portrait.webp",
+      "optimized_bytes": 353480,
+      "matching_original_codes": [
+        "5c6"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Forest Scorpion",
+      "aliases": [
+        "Forest Scorpion"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Forest_Scorpion.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Forest_Scorpion_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Forest_Scorpion_portrait.webp",
+      "optimized_bytes": 356916,
+      "matching_original_codes": [
+        "5c8"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Forest Spirit",
+      "aliases": [
+        "Forest Spirit"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Forest_Spirit.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Forest_Spirit_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Forest_Spirit_portrait.webp",
+      "optimized_bytes": 356334,
+      "matching_original_codes": [
+        "5c1"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Emerald Dragon",
+      "aliases": [
+        "Green Dragon",
+        "Emerald Dragon"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Green_Dragon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Green_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Green_Dragon_portrait.webp",
+      "optimized_bytes": 323580,
+      "matching_original_codes": [
+        "5bt"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Green Nymph",
+      "aliases": [
+        "Green Nymph"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Green_Nymph.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Green_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Green_Nymph_portrait.webp",
+      "optimized_bytes": 327568,
+      "matching_original_codes": [
+        "5cg"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Heal",
+      "aliases": [
+        "Heal"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Heal.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Heal_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Heal_portrait.webp",
+      "optimized_bytes": 263250,
+      "matching_original_codes": [
+        "5c2"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Horned Frog",
+      "aliases": [
+        "Horned Frog"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Horned_Frog.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Horned_Frog_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Horned_Frog_portrait.webp",
+      "optimized_bytes": 279534,
+      "matching_original_codes": [
+        "5bu"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Mitosis",
+      "aliases": [
+        "Mitosis"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Mitosis.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Mitosis_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Mitosis_portrait.webp",
+      "optimized_bytes": 299798,
+      "matching_original_codes": [
+        "5c9"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Rustler",
+      "aliases": [
+        "Rustler"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Rustler.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Rustler_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Rustler_portrait.webp",
+      "optimized_bytes": 361372,
+      "matching_original_codes": [
+        "5bv"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Shard of Gratitude",
+      "aliases": [
+        "Shard of Gratitude"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Shard_of_Gratitude.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Shard_of_Gratitude_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Shard_of_Gratitude_portrait.webp",
+      "optimized_bytes": 244742,
+      "matching_original_codes": [
+        "5cq"
+      ]
+    },
+    {
+      "element": "Life",
+      "display_name": "Thorn Carapace",
+      "aliases": [
+        "Thorn Carapace"
+      ],
+      "source_zip": "Elementia_Life_Complete_So_Far.zip",
+      "source_png": "Life_Thorn_Carapace.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Life/Thorn_Carapace_card.webp",
+      "battlefield_portrait": "assets/cards/Life/Thorn_Carapace_portrait.webp",
+      "optimized_bytes": 319564,
+      "matching_original_codes": [
+        "5c3"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Stone Pillar",
+      "aliases": [
+        "Pillar",
+        "Earth Pillar",
+        "Stone Pillar"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Pillar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Pillar_portrait.webp",
+      "optimized_bytes": 321064,
+      "matching_original_codes": [
+        "58o"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Earth Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Earth Pendulum"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Pendulum.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Pendulum_portrait.webp",
+      "optimized_bytes": 226436,
+      "matching_original_codes": [
+        "5aa"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Antlion",
+      "aliases": [
+        "Antlion"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Antlion.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Antlion_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Antlion_portrait.webp",
+      "optimized_bytes": 293914,
+      "matching_original_codes": [
+        "58p"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Brown Nymph",
+      "aliases": [
+        "Auburn Nymph",
+        "Brown Nymph"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Auburn_Nymph.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Auburn_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Auburn_Nymph_portrait.webp",
+      "optimized_bytes": 289260,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Earth",
+      "display_name": "Basilisk Blood",
+      "aliases": [
+        "Basilisk Blood"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Basilisk_Blood.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Basilisk_Blood_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Basilisk_Blood_portrait.webp",
+      "optimized_bytes": 315062,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Earth",
+      "display_name": "Earthquake",
+      "aliases": [
+        "Earthquake"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Earthquake.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Earthquake_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Earthquake_portrait.webp",
+      "optimized_bytes": 381170,
+      "matching_original_codes": [
+        "593"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Enchant Artifact",
+      "aliases": [
+        "Enchant Artifact"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Enchant_Artifact.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Enchant_Artifact_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Enchant_Artifact_portrait.webp",
+      "optimized_bytes": 298252,
+      "matching_original_codes": [
+        "592"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Gnome Rider",
+      "aliases": [
+        "Gnome Rider"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Gnome_Rider.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Gnome_Rider_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Gnome_Rider_portrait.webp",
+      "optimized_bytes": 329220,
+      "matching_original_codes": [
+        "58u"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Graboid",
+      "aliases": [
+        "Graboid"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Graboid.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Graboid_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Graboid_portrait.webp",
+      "optimized_bytes": 312838,
+      "matching_original_codes": [
+        "590"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Hematite Golem",
+      "aliases": [
+        "Hematite Golem"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Hematite_Golem.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Hematite_Golem_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Hematite_Golem_portrait.webp",
+      "optimized_bytes": 251550,
+      "matching_original_codes": [
+        "58q"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Iridium Warden",
+      "aliases": [
+        "Iridium Warden"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Iridium_Warden.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Iridium_Warden_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Iridium_Warden_portrait.webp",
+      "optimized_bytes": 321414,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Earth",
+      "display_name": "Plate Armor",
+      "aliases": [
+        "Plate Armor"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Plate_Armor.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Plate_Armor_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Plate_Armor_portrait.webp",
+      "optimized_bytes": 312194,
+      "matching_original_codes": [
+        "58t"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Pulverizer",
+      "aliases": [
+        "Pulverizer"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Pulverizer.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Pulverizer_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Pulverizer_portrait.webp",
+      "optimized_bytes": 289634,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Earth",
+      "display_name": "Shard Golem",
+      "aliases": [
+        "Shard Golem"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Shard_Golem.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Shard_Golem_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Shard_Golem_portrait.webp",
+      "optimized_bytes": 370164,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Earth",
+      "display_name": "Shard of Integrity",
+      "aliases": [
+        "Shard of Integrity"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Shard_of_Integrity.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Shard_of_Integrity_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Shard_of_Integrity_portrait.webp",
+      "optimized_bytes": 238528,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Earth",
+      "display_name": "Shrieker",
+      "aliases": [
+        "Shrieker"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Shrieker.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Shrieker_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Shrieker_portrait.webp",
+      "optimized_bytes": 340714,
+      "matching_original_codes": [
+        "591"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Stone Dragon",
+      "aliases": [
+        "Stone Dragon"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Stone_Dragon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Stone_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Stone_Dragon_portrait.webp",
+      "optimized_bytes": 293710,
+      "matching_original_codes": [
+        "58r"
+      ]
+    },
+    {
+      "element": "Earth",
+      "display_name": "Stone Skin",
+      "aliases": [
+        "Stone Skin"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Stone_Skin.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Stone_Skin_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Stone_Skin_portrait.webp",
+      "optimized_bytes": 336652,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Earth",
+      "display_name": "Titanium Shield",
+      "aliases": [
+        "Titanium Shield"
+      ],
+      "source_zip": "Elementia_Earth_Complete_So_Far.zip",
+      "source_png": "Earth_Titanium_Shield.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Earth/Titanium_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Earth/Titanium_Shield_portrait.webp",
+      "optimized_bytes": 222062,
+      "matching_original_codes": [
+        "58s"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Ash",
+      "aliases": [
+        "Ash"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Ash.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Ash_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Ash_portrait.webp",
+      "optimized_bytes": 416664,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Fire",
+      "display_name": "Ash Eater",
+      "aliases": [
+        "Ash Eater"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Ash_Eater.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Ash_Eater_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Ash_Eater_portrait.webp",
+      "optimized_bytes": 389042,
+      "matching_original_codes": [
+        "5f1"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Crimson Dragon",
+      "aliases": [
+        "Crimson Dragon"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Crimson_Dragon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Crimson_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Crimson_Dragon_portrait.webp",
+      "optimized_bytes": 407690,
+      "matching_original_codes": [
+        "5f2"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Deflagration",
+      "aliases": [
+        "Deflagration"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Deflagration.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Deflagration_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Deflagration_portrait.webp",
+      "optimized_bytes": 548770,
+      "matching_original_codes": [
+        "5f6"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Fahrenheit",
+      "aliases": [
+        "Fahrenheit"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Fahrenheit.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Fahrenheit_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Fahrenheit_portrait.webp",
+      "optimized_bytes": 425372,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Fire",
+      "display_name": "Fire Bolt",
+      "aliases": [
+        "Fire Bolt"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Fire_Bolt.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Fire_Bolt_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Fire_Bolt_portrait.webp",
+      "optimized_bytes": 363012,
+      "matching_original_codes": [
+        "5f4"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Fire Shield",
+      "aliases": [
+        "Fire Shield"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Fire_Shield.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Fire_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Fire_Shield_portrait.webp",
+      "optimized_bytes": 386124,
+      "matching_original_codes": [
+        "5f5"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Fire Spirit",
+      "aliases": [
+        "Fire Spirit"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Fire_Spirit.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Fire_Spirit_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Fire_Spirit_portrait.webp",
+      "optimized_bytes": 440536,
+      "matching_original_codes": [
+        "5f3"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Immolation",
+      "aliases": [
+        "Immolation"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Immolation.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Immolation_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Immolation_portrait.webp",
+      "optimized_bytes": 378430,
+      "matching_original_codes": [
+        "5f9"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Lava Golem",
+      "aliases": [
+        "Lava Golem"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Lava_Golem.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Lava_Golem_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Lava_Golem_portrait.webp",
+      "optimized_bytes": 469676,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Fire",
+      "display_name": "Fire Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Fire Pendulum"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Pendulum.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Pendulum_portrait.webp",
+      "optimized_bytes": 337672,
+      "matching_original_codes": [
+        "5gi"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Phoenix",
+      "aliases": [
+        "Phoenix"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Phoenix.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Phoenix_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Phoenix_portrait.webp",
+      "optimized_bytes": 513150,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Fire",
+      "display_name": "Burning Pillar",
+      "aliases": [
+        "Pillar",
+        "Fire Pillar",
+        "Burning Pillar"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Pillar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Pillar_portrait.webp",
+      "optimized_bytes": 428818,
+      "matching_original_codes": [
+        "5f0"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Rage Potion",
+      "aliases": [
+        "Rage Potion"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Rage_Potion.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Rage_Potion_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Rage_Potion_portrait.webp",
+      "optimized_bytes": 407234,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Fire",
+      "display_name": "Rain of Fire",
+      "aliases": [
+        "Rain of Fire"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Rain_of_Fire.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Rain_of_Fire_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Rain_of_Fire_portrait.webp",
+      "optimized_bytes": 361892,
+      "matching_original_codes": [
+        "5f8"
+      ]
+    },
+    {
+      "element": "Fire",
+      "display_name": "Red Nymph",
+      "aliases": [
+        "Red Nymph"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Red_Nymph.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Red_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Red_Nymph_portrait.webp",
+      "optimized_bytes": 406450,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Fire",
+      "display_name": "Seraph",
+      "aliases": [
+        "Seraph"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Seraph.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Seraph_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Seraph_portrait.webp",
+      "optimized_bytes": 450210,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Fire",
+      "display_name": "Shard of Bravery",
+      "aliases": [
+        "Shard of Bravery"
+      ],
+      "source_zip": "Elementia_Fire_Complete_So_Far.zip",
+      "source_png": "Fire_Shard_of_Bravery.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Fire/Shard_of_Bravery_card.webp",
+      "battlefield_portrait": "assets/cards/Fire/Shard_of_Bravery_portrait.webp",
+      "optimized_bytes": 341594,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Arctic Squid",
+      "aliases": [
+        "Arctic Squid"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Arctic_Squid.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Arctic_Squid_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Arctic_Squid_portrait.webp",
+      "optimized_bytes": 346340,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Blue Crawler",
+      "aliases": [
+        "Blue Crawler"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Blue_Crawler.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Blue_Crawler_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Blue_Crawler_portrait.webp",
+      "optimized_bytes": 325526,
+      "matching_original_codes": [
+        "5i6"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Chrysaora",
+      "aliases": [
+        "Chrysaora"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Chrysaora.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Chrysaora_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Chrysaora_portrait.webp",
+      "optimized_bytes": 346438,
+      "matching_original_codes": [
+        "5i5"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Dry Spell",
+      "aliases": [
+        "Dry Spell"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Dry_Spell.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Dry_Spell_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Dry_Spell_portrait.webp",
+      "optimized_bytes": 249014,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Ice Bolt",
+      "aliases": [
+        "Ice Bolt"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Ice_Bolt.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Ice_Bolt_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Ice_Bolt_portrait.webp",
+      "optimized_bytes": 286578,
+      "matching_original_codes": [
+        "5i8"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Ice Dragon",
+      "aliases": [
+        "Ice Dragon"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Ice_Dragon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Ice_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Ice_Dragon_portrait.webp",
+      "optimized_bytes": 391682,
+      "matching_original_codes": [
+        "5id"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Mind Flayer",
+      "aliases": [
+        "Mind Flayer"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Mind_Flayer.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Mind_Flayer_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Mind_Flayer_portrait.webp",
+      "optimized_bytes": 322778,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Nymph Queen",
+      "aliases": [
+        "Nymph Queen"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Nymph_Queen.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Nymph_Queen_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Nymph_Queen_portrait.webp",
+      "optimized_bytes": 301868,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Steam Engine",
+      "aliases": [
+        "Steam Engine"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Steam_Engine.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Steam_Engine_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Steam_Engine_portrait.webp",
+      "optimized_bytes": 412018,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Toadfish",
+      "aliases": [
+        "Toadfish"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Toadfish.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Toadfish_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Toadfish_portrait.webp",
+      "optimized_bytes": 364316,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Flooding",
+      "aliases": [
+        "Flooding"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Flooding.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Flooding_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Flooding_portrait.webp",
+      "optimized_bytes": 372976,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Freeze",
+      "aliases": [
+        "Freeze"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Freeze.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Freeze_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Freeze_portrait.webp",
+      "optimized_bytes": 324978,
+      "matching_original_codes": [
+        "5i7"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Ice Shield",
+      "aliases": [
+        "Frost Shield",
+        "Ice Shield"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Frost_Shield.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Frost_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Frost_Shield_portrait.webp",
+      "optimized_bytes": 331392,
+      "matching_original_codes": [
+        "5i9"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Nymph's Tears",
+      "aliases": [
+        "Nymphs Tears",
+        "Nymph's Tears"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Nymphs_Tears.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Nymphs_Tears_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Nymphs_Tears_portrait.webp",
+      "optimized_bytes": 313916,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Purify",
+      "aliases": [
+        "Purify"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Purify.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Purify_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Purify_portrait.webp",
+      "optimized_bytes": 243970,
+      "matching_original_codes": [
+        "5ia"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Shard of Patience",
+      "aliases": [
+        "Shard of Patience"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Shard_of_Patience.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Shard_of_Patience_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Shard_of_Patience_portrait.webp",
+      "optimized_bytes": 277964,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Trident",
+      "aliases": [
+        "Trident"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Trident.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Trident_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Trident_portrait.webp",
+      "optimized_bytes": 354586,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Water",
+      "display_name": "Water Pillar",
+      "aliases": [
+        "Pillar",
+        "Water Pillar"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Pillar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Pillar_portrait.webp",
+      "optimized_bytes": 404716,
+      "matching_original_codes": [
+        "5i4"
+      ]
+    },
+    {
+      "element": "Water",
+      "display_name": "Water Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Water Pendulum"
+      ],
+      "source_zip": "Elementia_Water_All_19_Cards.zip",
+      "source_png": "Water_Pendulum.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Water/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Water/Pendulum_portrait.webp",
+      "optimized_bytes": 291782,
+      "matching_original_codes": [
+        "5jm"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Blessing",
+      "aliases": [
+        "Blessing"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Blessing.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Blessing_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Blessing_portrait.webp",
+      "optimized_bytes": 200104,
+      "matching_original_codes": [
+        "5lf"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Crusader",
+      "aliases": [
+        "Crusader"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Crusader.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Crusader_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Crusader_portrait.webp",
+      "optimized_bytes": 221124,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "Golden Dragon",
+      "aliases": [
+        "Golden Dragon"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Golden_Dragon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Golden_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Golden_Dragon_portrait.webp",
+      "optimized_bytes": 205772,
+      "matching_original_codes": [
+        "5la"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Guardian Angel",
+      "aliases": [
+        "Guardian Angel"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Guardian_Angel.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Guardian_Angel_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Guardian_Angel_portrait.webp",
+      "optimized_bytes": 174072,
+      "matching_original_codes": [
+        "5le"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Holy Light",
+      "aliases": [
+        "Holy Light"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Holy_Light.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Holy_Light_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Holy_Light_portrait.webp",
+      "optimized_bytes": 240648,
+      "matching_original_codes": [
+        "5lc"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Hope",
+      "aliases": [
+        "Hope"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Hope.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Hope_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Hope_portrait.webp",
+      "optimized_bytes": 208136,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "White Nymph",
+      "aliases": [
+        "Light Nymph",
+        "White Nymph"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Light_Nymph.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Light_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Light_Nymph_portrait.webp",
+      "optimized_bytes": 228162,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "Luciferin",
+      "aliases": [
+        "Luciferin"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Luciferin.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Luciferin_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Luciferin_portrait.webp",
+      "optimized_bytes": 200610,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "Miracle",
+      "aliases": [
+        "Miracle"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Miracle.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Miracle_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Miracle_portrait.webp",
+      "optimized_bytes": 214038,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "Morning Star",
+      "aliases": [
+        "Morningstar",
+        "Morning Star"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Morningstar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Morningstar_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Morningstar_portrait.webp",
+      "optimized_bytes": 207842,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "Pegasus",
+      "aliases": [
+        "Pegasus"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Pegasus.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Pegasus_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Pegasus_portrait.webp",
+      "optimized_bytes": 229928,
+      "matching_original_codes": [
+        "5lb"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Light Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Light Pendulum"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Pendulum.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Pendulum_portrait.webp",
+      "optimized_bytes": 198964,
+      "matching_original_codes": [
+        "5mq"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Photon",
+      "aliases": [
+        "Photon"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Photon.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Photon_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Photon_portrait.webp",
+      "optimized_bytes": 196466,
+      "matching_original_codes": [
+        "5l9"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Light Pillar",
+      "aliases": [
+        "Pillar",
+        "Light Pillar"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Pillar.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Pillar_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Pillar_portrait.webp",
+      "optimized_bytes": 218914,
+      "matching_original_codes": [
+        "5l8"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Reflective Shield",
+      "aliases": [
+        "Reflective Shield"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Reflective_Shield.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Reflective_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Reflective_Shield_portrait.webp",
+      "optimized_bytes": 208754,
+      "matching_original_codes": [
+        "5lg"
+      ]
+    },
+    {
+      "element": "Light",
+      "display_name": "Sanctuary",
+      "aliases": [
+        "Sanctuary"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Sanctuary.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Sanctuary_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Sanctuary_portrait.webp",
+      "optimized_bytes": 239656,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "Shard of Divinity",
+      "aliases": [
+        "Shard of Divinity"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Shard_of_Divinity.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Shard_of_Divinity_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Shard_of_Divinity_portrait.webp",
+      "optimized_bytes": 210756,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Light",
+      "display_name": "Solar Shield",
+      "aliases": [
+        "Solar Shield"
+      ],
+      "source_zip": "Elementia_Light_Complete_18_Cards.zip",
+      "source_png": "Light_Solar_Shield.png",
+      "original_px": [
+        1000,
+        1536
+      ],
+      "full_card": "assets/cards/Light/Solar_Shield_card.webp",
+      "battlefield_portrait": "assets/cards/Light/Solar_Shield_portrait.webp",
+      "optimized_bytes": 243742,
+      "matching_original_codes": [
+        "5ld"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Time Pillar",
+      "aliases": [
+        "Factory",
+        "Time Factory",
+        "Time Pillar"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Factory.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Factory_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Factory_portrait.webp",
+      "optimized_bytes": 355124,
+      "matching_original_codes": [
+        "5rg"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Time Pendulum",
+      "aliases": [
+        "Pendulum",
+        "Time Pendulum"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Pendulum.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Pendulum_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Pendulum_portrait.webp",
+      "optimized_bytes": 229528,
+      "matching_original_codes": [
+        "5t2"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Anubis",
+      "aliases": [
+        "Anubis"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Anubis.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Anubis_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Anubis_portrait.webp",
+      "optimized_bytes": 287450,
+      "matching_original_codes": [
+        "5rn"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Deja Vu",
+      "aliases": [
+        "Deja Vu"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Deja_Vu.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Deja_Vu_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Deja_Vu_portrait.webp",
+      "optimized_bytes": 340434,
+      "matching_original_codes": [
+        "5rh"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Devonian Dragon",
+      "aliases": [
+        "Devonian Dragon"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Devonian_Dragon.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Devonian_Dragon_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Devonian_Dragon_portrait.webp",
+      "optimized_bytes": 331686,
+      "matching_original_codes": [
+        "5rm"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Dune Scorpion",
+      "aliases": [
+        "Dune Scorpion"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Dune_Scorpion.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Dune_Scorpion_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Dune_Scorpion_portrait.webp",
+      "optimized_bytes": 315354,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Fate Egg",
+      "aliases": [
+        "Fate Egg"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Fate_Egg.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Fate_Egg_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Fate_Egg_portrait.webp",
+      "optimized_bytes": 298330,
+      "matching_original_codes": [
+        "5ri"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Ghost of the Past",
+      "aliases": [
+        "Ghost of the Past"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Ghost_of_the_Past.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Ghost_of_the_Past_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Ghost_of_the_Past_portrait.webp",
+      "optimized_bytes": 338212,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Golden Nymph",
+      "aliases": [
+        "Golden Nymph"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Golden_Nymph.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Golden_Nymph_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Golden_Nymph_portrait.webp",
+      "optimized_bytes": 346250,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Pharaoh",
+      "aliases": [
+        "Pharaoh"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Pharaoh.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Pharaoh_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Pharaoh_portrait.webp",
+      "optimized_bytes": 391588,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Scarab",
+      "aliases": [
+        "Scarab"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Scarab.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Scarab_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Scarab_portrait.webp",
+      "optimized_bytes": 414318,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Eternity",
+      "aliases": [
+        "Eternity"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Eternity.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Eternity_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Eternity_portrait.webp",
+      "optimized_bytes": 301986,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Golden Hourglass",
+      "aliases": [
+        "Golden Hourglass"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Golden_Hourglass.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Golden_Hourglass_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Golden_Hourglass_portrait.webp",
+      "optimized_bytes": 370220,
+      "matching_original_codes": [
+        "5rl"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Precognition",
+      "aliases": [
+        "Precognition"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Precognition.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Precognition_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Precognition_portrait.webp",
+      "optimized_bytes": 259552,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Procrastination",
+      "aliases": [
+        "Procrastination"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Procrastination.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Procrastination_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Procrastination_portrait.webp",
+      "optimized_bytes": 339830,
+      "matching_original_codes": [
+        "5rj"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Reverse Time",
+      "aliases": [
+        "Reverse Time"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Reverse_Time.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Reverse_Time_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Reverse_Time_portrait.webp",
+      "optimized_bytes": 376562,
+      "matching_original_codes": [
+        "5rk"
+      ]
+    },
+    {
+      "element": "Time",
+      "display_name": "Shard of Readiness",
+      "aliases": [
+        "Shard of Readiness"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Shard_of_Readiness.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Shard_of_Readiness_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Shard_of_Readiness_portrait.webp",
+      "optimized_bytes": 258752,
+      "matching_original_codes": []
+    },
+    {
+      "element": "Time",
+      "display_name": "Sundial",
+      "aliases": [
+        "Sundial"
+      ],
+      "source_zip": "Elementia_Time_All_18_Cards.zip",
+      "source_png": "Time_Sundial.png",
+      "original_px": [
+        1024,
+        1536
+      ],
+      "full_card": "assets/cards/Time/Sundial_card.webp",
+      "battlefield_portrait": "assets/cards/Time/Sundial_portrait.webp",
+      "optimized_bytes": 278424,
+      "matching_original_codes": []
+    }
+  ]
+}

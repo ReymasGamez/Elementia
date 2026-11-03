@@ -3826,7 +3826,7 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   function duelQuickBar(b){return `<div class="etg-top-strip" role="toolbar" aria-label="Duel controls">
     <div class="etg-top-links"><button type="button" class="etg-top-link" data-action="reset-duel">New Duel</button>
     <button type="button" class="etg-top-link" data-action="navigate" data-to="menu">Menu</button>
-    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.57 — Pegasus and Elite Pegasus Dive use 1 Air quanta; symbol library preserved">v20.58 · Fire Time Water Mechanics</span></div>
+    <details class="etg-top-history"><summary>Turn History</summary><div aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p class="history-empty">No turns recorded yet.</p>'}</div></details><span class="etg-build-stamp" title="Elementia build v20.60 — verified Time and Water combat, abilities, timings, and cross-element costs">v20.60 · Time & Water Refinement</span></div>
     ${displaySwitch()}</div>`;}
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
@@ -4943,9 +4943,10 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
         const element=r.effect==='fireBolt'?'Fire':'Water',perTen=element==='Fire'?3:2;
         const damage=perTen*Math.max(1,Math.floor(((entropyPool(b,caster)[element]||0)+r.cost)/10));
         const dealt=target?darkDamageCreature(b,owner,target,damage):darkDamageHero(b,owner,damage);
-        if(element==='Water'&&Math.random()<Math.min(1,.05*damage)){
+        if(element==='Water'&&Math.random()<Math.min(1,.30+.05*damage)){
           if(target)classicFrozen(target,3);
-          else if(b[owner+'Weapon'])b[owner+'Weapon'].gravityFrozenTurns=3;
+          else if(b[owner+'Weapon'] && !b[owner+'Weapon'].abilities?.includes('immaterial'))
+            b[owner+'Weapon'].gravityFrozenTurns=Math.max(b[owner+'Weapon'].gravityFrozenTurns||0,3);
         }
         return 'dealt '+dealt+' '+element+' spell damage';
       }
@@ -5001,7 +5002,10 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
           'opponent hand: '+classicRevealedHand(b,caster);
       case 'timeReadiness':{
         if(!target)return 'no creature';target.readinessZero=true;
-        if(BY_ID[target.id]?.element==='Time'){target.readinessDoubleTurn=b.turn;target.readinessUsesThisTurn=0;}
+        if(BY_ID[target.id]?.element==='Time'){
+          target.readinessDoubleTurn=b.turn;target.readinessUsesThisTurn=0;
+          target.readinessImmediateTurn=b.turn;
+        }
         return target.name+' activated skills now cost zero'+(target.readinessDoubleTurn===b.turn?'; Time creature may activate twice this turn':'');
       }
     }
@@ -5030,20 +5034,32 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
       case 'waterNymph':return classicNymphTears(b,t);
       case 'waterTsunami':{
         if(!t||!isResourcePermanent(BY_ID[t.unit?.id]))return 'choose a resource';
-        const element=BY_ID[t.unit.id]?.element;
-        const group=(b[t.side+'Permanents']||[]).filter(p=>isResourcePermanent(BY_ID[p.id])&&BY_ID[p.id]?.element===element);
-        const gone=group.slice(0,3);
-        b[t.side+'Permanents']=b[t.side+'Permanents'].filter(p=>!gone.includes(p));
-        return 'Tsunami destroyed '+gone.length+' '+element+' resources';
+        // A cluster contains identical stacked Pillars/Pendulums, not all cards of an element.
+        const group=(b[t.side+'Permanents']||[]).filter(p=>p.id===t.unit.id).slice(0,3);
+        b[t.side+'Permanents']=b[t.side+'Permanents'].filter(p=>!group.includes(p));
+        return 'Tsunami destroyed '+group.length+' '+BY_ID[t.unit.id]?.name+' from one stack';
       }
       case 'waterRelease':
         b[caster+'Permanents']=b[caster+'Permanents'].filter(p=>p!==item);return 'removed Shard of Patience';
       case 'timeClone':{
-        const u=makeCreature(b,item.id,caster);if(!u)return 'board full';enterCreature(b,u,caster);return 'copied '+item.name;
+        const u=makeCreature(b,item.id,caster);if(!u)return 'board full';
+        // Deja Vu splits with its current buffed stats and temporary statuses,
+        // but both creatures lose the split ability after the first activation.
+        u.atk=item.atk;u.hp=item.hp;u.maxHp=item.maxHp;
+        for(const property of ['lifeAdrenaline','entropicAdrenaline','entropyAdrenaline','frozen','freezeTurns',
+          'delayed','delayTurns','poison','regen','burrowed','dive','diveBaseAtk','spellAttack','wisdomBuff',
+          'darkAuraAtk','darkAuraHp','gravityAcceleration'])if(item[property]!==undefined)u[property]=item[property];
+        u.statuses=Array.isArray(item.statuses)?[...item.statuses]:[];
+        u.abilities=(item.abilities||[]).filter(x=>x!=='timeClone');
+        item.abilities=(item.abilities||[]).filter(x=>x!=='timeClone');
+        enterCreature(b,u,caster);return 'split '+item.name+' into two buffed creatures (no further Deja Vu)';
       }
       case 'timeHatch':{
-        const old=BY_ID[item.id];const pool=CARDS.filter(c=>c.tier===old.tier&&c.type==='Creature'&&cardRule(c)?.family==='creature'&&
-          !cardRule(c)?.tokenOnly&&!/Fate Egg/i.test(c.name));
+        const old=BY_ID[item.id];
+        const excluded=new Set(['Ash','Chimera','Devonian Dragon','Silurian Dragon','Immortal',
+          'Malignant Cell','Scarab','Elite Scarab','Shard Golem','Singularity','Shard of Focus']);
+        const pool=CARDS.filter(c=>c.tier===old.tier&&c.type==='Creature'&&cardRule(c)?.family==='creature'&&
+          !cardRule(c)?.tokenOnly&&!excluded.has(c.name)&&!cardRule(c)?.generatedOnly);
         if(!pool.length)return 'no hatch candidates';
         const selected=pool[Math.floor(Math.random()*pool.length)];
         classicTransformCreature(b,caster,item,selected.id);return 'hatched into '+selected.name;
@@ -5063,31 +5079,43 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
     const rule=cardRule(BY_ID[b[defender+'Shield']?.id]);
     if(!rule)return amount;
     if(rule.effect==='fireShield'&&attacker)darkDamageCreature(b,attackerSide,attacker,1);
-    if(rule.effect==='waterIceShield'&&attacker&&Math.random()<.3)classicFrozen(attacker,3);
-    if(rule.effect==='timeBubbleShield'&&attacker&&amount>0){attacker.delayed=true;attacker.delayTurns=1;}
+    if(rule.effect==='waterIceShield'&&attacker&&Math.random()<.3)classicFrozen(attacker,4);
+    // Delay and Freeze tick at the end of their attack phase; include the
+    // current (already-completed) phase so the NEXT full phase is blocked.
+    if(rule.effect==='timeBubbleShield'&&attacker&&amount>0){attacker.delayed=true;attacker.delayTurns=Math.max(attacker.delayTurns||0,2);}
     return rule.effect==='waterIceShield'?Math.max(0,amount-(rule.block||1)):amount;
   }
   function classicBeforeAttack(b,side,steps){
-    const shards=(b[side+'Permanents']||[]).filter(p=>cardRule(BY_ID[p.id])?.effect==='waterPatience');
-    if(!shards.length)return false;
-    const flooded=(b[side+'Permanents']||[]).some(p=>cardRule(BY_ID[p.id])?.effect==='waterFlooding');
+    const hasPatience=(b[side+'Permanents']||[]).some(p=>cardRule(BY_ID[p.id])?.effect==='waterPatience');
+    if(!hasPatience)return false;
+    const flooded=['player','enemy'].some(who=>(b[who+'Permanents']||[])
+      .some(p=>cardRule(BY_ID[p.id])?.effect==='waterFlooding'));
+    const drySlots=new Set(CREATURE_ROW_ORDER.slice(0,5));
     for(const u of b[side+'Creatures']||[]){
-      const edge=(u.boardSlot<8||u.boardSlot>=15),special=BY_ID[u.id]?.element==='Water'&&flooded&&edge;
-      const n=(special?5:2)*shards.length;entropyBuff(u,n,n);
+      const special=BY_ID[u.id]?.element==='Water'&&flooded&&!drySlots.has(u.boardSlot);
+      entropyBuff(u,special?5:2,special?5:2);
     }
-    steps.push(side+' Shard of Patience: creatures gain bonuses and skip attacks.');return true;
+    steps.push(side+' Shard of Patience: +2/+2 (+5/+5 for flooded Water); no creature attacks.');return true;
   }
   function classicEndPhase(b,side,steps){
     for(const p of [...(b[side+'Permanents']||[])]){
-      const r=cardRule(BY_ID[p.id]);
-      if(r?.effect==='waterFlooding'){
-        const pool=entropyPool(b,side);
-        if((pool.Water||0)<1){b[side+'Permanents']=b[side+'Permanents'].filter(x=>x!==p);steps.push(side+' Flooding expired: no Water upkeep.');continue;}
-        pool.Water--;
-        for(const who of ['player','enemy'])for(const u of [...(b[who+'Creatures']||[])]){
-          if(!(u.boardSlot<8||u.boardSlot>=15))continue;
-          if(!['Water','Other'].includes(BY_ID[u.id]?.element)&&!u.abilities?.includes('immaterial'))deathKill(b,who,u,'flooding');
-        }
+      if(cardRule(BY_ID[p.id])?.effect!=='waterFlooding')continue;
+      const pool=entropyPool(b,side);
+      if((pool.Water||0)<1){
+        b[side+'Permanents']=b[side+'Permanents'].filter(x=>x!==p);
+        steps.push(side+' Flooding expired: no Water upkeep.');continue;
+      }
+      // Every copy pays upkeep, but flooding's destruction never stacks.
+      pool.Water--;
+    }
+    const floodingActive=['player','enemy'].some(who=>(b[who+'Permanents']||[])
+      .some(p=>cardRule(BY_ID[p.id])?.effect==='waterFlooding'));
+    if(floodingActive){
+      const drySlots=new Set(CREATURE_ROW_ORDER.slice(0,5));
+      for(const who of ['player','enemy'])for(const u of [...(b[who+'Creatures']||[])]){
+        if(drySlots.has(u.boardSlot))continue;
+        if(['Water','Other'].includes(BY_ID[u.id]?.element)||u.burrowed||u.abilities?.includes('immaterial'))continue;
+        deathKill(b,who,u,'flooding');
       }
     }
     for(const u of [...(b[side+'Creatures']||[])]){
@@ -5281,8 +5309,12 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
         const unit=makeCreature(b,id,'enemy',true);if(unit){gravityChimeraFusion(b,'enemy',unit);enterCreature(b,unit,'enemy');}
       }else enterCreature(b,makeCreature(b,id,'enemy'),'enemy');
     }else if(c.type==='Permanent'){
-      addPermanent(b,{id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.effect==='cloak'?Math.max(0,(r.duration||1)-1):null,abilities:[...(r.abilities||[])]},'enemy');
-      refreshDarkAuras(b);if(r.effect==='timeSundial')b.timeStasisTurn=b.turn;
+      addPermanent(b,{id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.effect==='timeSundial'?1:r.effect==='cloak'?Math.max(0,(r.duration||1)-1):null,abilities:[...(r.abilities||[])]},'enemy');
+      refreshDarkAuras(b);
+      if(r.effect==='timeSundial'){
+        b.timeStasisPending ||= {player:0,enemy:0};
+        b.timeStasisPending.player=1;b.timeStasisPending.enemy=1;
+      }
     }else if(c.type==='Weapon'||c.type==='Shield'){
       b['enemy'+c.type]={id,key:b.nextKey++,born:b.turn,used:-1,
         remaining:c.type==='Shield'?(r.duration??null):null,bones:r.effect==='boneWall'?7:null,abilities:[...(r.abilities||[])]};
@@ -5304,6 +5336,8 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
     }
     if(['destroy','accretion'].includes(r.activate)||CLASSIC_TARGET_ABILITY_PERMANENT.has(r.activate)){
       for(const side of ['player','enemy']){
+        if(r.activate==='waterNymph'&&side!=='enemy')continue;
+        if(r.activate==='waterTsunami'&&side!=='player')continue;
         if(side==='player'&&darkCloaked(b,'player'))continue;
         for(const u of b[side+'Permanents']){
           if(CLASSIC_TARGET_ABILITY_PERMANENT.has(r.activate)&&!isResourcePermanent(BY_ID[u.id]))continue;
@@ -5323,7 +5357,6 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
         if(r.activate==='devour'&&u.hp>=item.hp)continue;
         if(r.activate==='catapult'&&side!=='enemy')continue;
         if(r.activate==='adrenaline'&&BY_ID[u.id]?.type==='Weapon')continue;
-        if(r.activate==='waterNymph'||r.activate==='waterTsunami')continue;
         candidates.push({side,unit:u});
       }
     }
@@ -5331,9 +5364,11 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   }
   function aiAbilityReady(b,item){
     const r=entropyActiveRule(item);if(!r?.activate||!item.abilities?.includes(r.activate)||
-      !Number.isInteger(item.born)||item.born>=b.turn||(!lifeAbilityRepeatable(r)&&item.used===b.turn&&!(item.readinessDoubleTurn===b.turn&&(item.readinessUsesThisTurn||0)<2)))return false;
+      !Number.isInteger(item.born)||(item.born>=b.turn&&item.readinessImmediateTurn!==b.turn)||(!lifeAbilityRepeatable(r)&&item.used===b.turn&&!(item.readinessDoubleTurn===b.turn&&(item.readinessUsesThisTurn||0)<2)))return false;
+    if(item.frozen||item.freezeTurns>0||item.gravityFrozenTurns>0||item.delayed||item.delayTurns>0)return false;
     if(r.activate==='stoneForm'&&item.stoneUsed)return false;
     if(r.activate==='mitosis'&&!lifeAbilityCapacity(b,'enemy',item,r))return false;
+    if(r.activate==='waterNymph'&&mainCount(b,'enemy')>=GAME_RULES.maxMainBoard)return false;
     if(r.activate==='lycanthropy'&&item.lycanUsed)return false;
     if((b.enemyQuanta[r.activateElement]||0)<r.activateCost)return false;
     if(['queen','summonGas','timeClone','timeScarab'].includes(r.activate)&&mainCount(b,'enemy')>=GAME_RULES.maxMainBoard)return false;
@@ -5652,7 +5687,9 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
     if(!item)return 'Select one of your active-ability cards.';
     const card=BY_ID[item.id],r=entropyActiveRule(item);if(!r?.activate)return 'No paid ability.';
     if(!Number.isInteger(item.born))return 'Invalid source: place this card normally before activating.';
-    if(b.turn<=item.born)return 'Wait until your next turn to activate.';
+    if(b.turn<=item.born&&item.readinessImmediateTurn!==b.turn)return 'Wait until your next turn to activate.';
+    if(item.frozen||item.freezeTurns>0||item.gravityFrozenTurns>0)return 'This card is frozen and cannot use skills.';
+    if(item.delayed||item.delayTurns>0)return 'This creature is delayed and cannot use skills.';
     if(!lifeAbilityRepeatable(r)&&item.used===b.turn&&!(item.readinessDoubleTurn===b.turn&&(item.readinessUsesThisTurn||0)<2))return 'Already activated this turn.';
     if(r.activate==='lycanthropy'&&item.lycanUsed)return 'Lycanthropy can only be used once.';
     if(r.activate==='stoneForm'&&item.stoneUsed)return 'Stone Form can only be used once.';
@@ -5940,7 +5977,10 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
   function resolveCreatureCombat(b,side,steps){
     const opponent=side==='player'?'enemy':'player';
     const attacks=[],bonuses=shardBonuses(b,side),order=orderedCreatureAttackers(b,side);
-    if(b.timeStasisTurn===b.turn||classicBeforeAttack(b,side,steps)){steps.push(side+' attacks prevented by Stasis or Patience.');return 0;}
+    const stasis=!!(b.timeStasisPending&&b.timeStasisPending[side]>0);
+    if(stasis)b.timeStasisPending[side]--;
+    const patience=classicBeforeAttack(b,side,steps);
+    if(stasis||patience){steps.push(side+' attacks prevented by Stasis or Patience.');return 0;}
     b.lastAttackOrders ||= {};
     b.lastAttackOrders[side]=order.map(u=>({key:u.key,name:u.name,boardSlot:u.boardSlot}));
     let dealt=0;
@@ -6434,8 +6474,12 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
       if(arriving){if(r.abilities?.includes('chimera'))gravityChimeraFusion(b,'player',arriving);enterCreature(b,arriving);}
       message=`Summoned ${c.name} (${arriving?.atk??r.atk}/${arriving?.hp??r.hp}).`;
     }else if(c.type==='Permanent'){
-      addPermanent(b,{id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.effect==='cloak'?Math.max(0,(r.duration||1)-1):null,abilities:[...(r.abilities||[])]});
-      refreshDarkAuras(b);if(r.effect==='timeSundial')b.timeStasisTurn=b.turn;
+      addPermanent(b,{id,key:b.nextKey++,born:b.turn,used:-1,remaining:r.effect==='timeSundial'?1:r.effect==='cloak'?Math.max(0,(r.duration||1)-1):null,abilities:[...(r.abilities||[])]});
+      refreshDarkAuras(b);
+      if(r.effect==='timeSundial'){
+        b.timeStasisPending ||= {player:0,enemy:0};
+        b.timeStasisPending.player=1;b.timeStasisPending.enemy=1;
+      }
       message=`Placed ${c.name} on the battlefield${r.activate?'; '+r.activate+' ready next turn':''}.`;
     }else if(c.type==='Weapon'){
       b.playerWeapon={id,key:b.nextKey++,born:b.turn,used:-1,abilities:[...(r.abilities||[])]};
@@ -6707,10 +6751,10 @@ body[data-elementia-display="desktop"] .etg-og-tophand-wrap .etg-og-op-card.fill
     }
   });
   window.ElementiaInterface = Object.freeze({
-    version:'20.55-light-mechanics',isDemo:demo,
+    version:'20.60-time-water-refinement',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
 })();

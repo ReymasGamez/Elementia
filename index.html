@@ -3215,6 +3215,14 @@ body.etg-duel-paused{overflow:hidden}
 .etg-pause-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:17px;padding-top:13px;border-top:1px solid #62573d;color:#adab9c;font:11px/1.3 Arial,sans-serif;text-align:left}
 @media(max-width:550px){.etg-pause-buttons{grid-template-columns:1fr}.etg-pause-dialog{max-height:95dvh}.etg-pause-overlay{padding:8px}}
 </style>
+
+<style id="elementia-v20-64-turn-sequence">
+.etg-og-hand-card.discard-choice{outline:2px solid #d9a769!important;outline-offset:-2px;cursor:pointer!important}
+.etg-og-hand-card.discard-choice:hover,.etg-og-hand-card.discard-choice:focus-visible{box-shadow:0 0 12px #e9c282!important}
+.etg-discard-notice{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:80;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;max-width:min(80%,360px);padding:12px 20px;background:#18201eeb;border:1px solid #cba56d;box-shadow:0 4px 20px #0009;color:#f7edd3;font:12px Georgia,serif}
+.etg-discard-notice strong{font-size:15px}
+@media(max-width:800px){.etg-discard-notice{font-size:10px;padding:7px 10px}.etg-discard-notice strong{font-size:12px}}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3962,7 +3970,7 @@ body.etg-duel-paused{overflow:hidden}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.63 · Aether & Other Artwork</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.64 · OG Turn Sequence</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -4368,7 +4376,8 @@ body.etg-duel-paused{overflow:hidden}
     let block=0;
     if(r.effect==='lightHope'){
       const glowing=(b[defender+'Creatures']||[]).filter(u=>u.abilities?.includes('bioluminescence')).length;
-      block=glowing+(r.block||0);
+      const equipped=b[defender+'Shield'];
+      block=Number.isFinite(equipped?.hopeBlock)?equipped.hopeBlock:glowing+(r.block||0);
     }else if(['lightSolarShield','lightMirrorShield'].includes(r.effect))block=r.block||0;
     const absorbed=Math.min(Math.max(0,amount),Math.max(0,block));
     if(r.effect==='lightSolarShield'&&absorbed>0)gainForSide(b,defender,'Light',absorbed);
@@ -4771,6 +4780,27 @@ body.etg-duel-paused{overflow:hidden}
     b[side+'Creatures']=units.filter(x=>x!==u);
     deathOnKill(b,side,u,{poison:reason==='poison'});refreshDarkAuras(b);return true;
   }
+  // Remove all simultaneous casualties BEFORE firing their on-death effects.
+  // Boneyard summons therefore cannot become additional casualties in the same
+  // batch of Flooding/poison damage, nor attack in the current combat snapshot.
+  function killCreatureBatch(b,casualties,reason='damage'){
+    const batches={player:new Set(),enemy:new Set()};
+    for(const {side,unit} of casualties){
+      if(!batches[side]||(b[side+'Creatures']||[]).indexOf(unit)<0)continue;
+      batches[side].add(unit);
+    }
+    for(const side of ['player','enemy']){
+      if(batches[side].size)b[side+'Creatures']=(b[side+'Creatures']||[])
+        .filter(unit=>!batches[side].has(unit));
+    }
+    let removed=0;
+    for(const side of ['player','enemy'])for(const unit of batches[side]){
+      removed++;
+      deathOnKill(b,side,unit,{poison:reason==='poison'});
+    }
+    if(removed)refreshDarkAuras(b);
+    return removed;
+  }
   function deathInflictPlague(b,side,amount=1){
     darkDispelCloak(b,side);let affected=0;
     for(const unit of b[side+'Creatures']||[]){
@@ -4844,14 +4874,6 @@ body.etg-duel-paused{overflow:hidden}
       if(side==='player')gain(b,'Darkness',1);else b.enemyQuanta.Darkness=Math.min(50,(b.enemyQuanta.Darkness||0)+1);
       steps.push(`${u.name}: stole 1 ${stolen}; gained 1 Darkness.`);
     }
-    for(const side of (actingSide?[actingSide]:['player','enemy'])){
-      const shards=(b[side+'Permanents']||[]).filter(p=>darkRule(p)?.effect==='shardVoid').length;
-      if(shards){const other=side==='player'?'enemy':'player',mk=other+'MaxHp',hk=other+'Hp';
-        const reduction=shards*(side==='player'&&state.element==='Darkness'?3:2);
-        b[mk]=Math.max(1,(b[mk]||50)-reduction);b[hk]=Math.min(b[hk],b[mk]);
-        steps.push(`Shard of Void: ${other} maximum HP −${reduction} (${b[mk]} max).`);
-      }
-    }
   }
   function resolvePlayerPoison(b,attacker,steps){
     // Poison on a player is triggered by the OPPOSING turn, just before attacks.
@@ -4873,11 +4895,51 @@ body.etg-duel-paused{overflow:hidden}
     }
     if(poisonHits.length){
       const lost=units.filter(u=>u.hp<=0);
-      b[side+'Creatures']=units.filter(u=>u.hp>0);
-      for(const u of lost){deathOnKill(b,side,u,{poison:true});steps.push(`${side} ${u.name} perished.`);}
-      if(lost.length)refreshDarkAuras(b);
+      killCreatureBatch(b,lost.map(unit=>({side,unit})),'poison');
+      for(const unit of lost)steps.push(`${side} ${unit.name} perished.`);
     }
   }
+  // Non-resource permanents resolve after production, one at a time in entry
+  // order; costed upkeep is paid when that particular permanent is reached.
+  function resolvePermanentEffects(b,side,steps){
+    const otherside=side==='player'?'enemy':'player';
+    const perm=b[side+'Permanents']||[];
+    const queue=perm.map((item,index)=>({item,index})).filter(({item})=>
+      !isResourcePermanent(BY_ID[item.id]))
+      .sort((a,z)=>Number.isFinite(a.item.key)&&Number.isFinite(z.item.key)?a.item.key-z.item.key:a.index-z.index);
+    b.lastPermanentOrder ||= {};
+    b.lastPermanentOrder[side]=[];
+    for(const {item} of queue){
+      if(!(b[side+'Permanents']||[]).includes(item))continue;
+      const r=cardRule(BY_ID[item.id]);
+      const effect=r?.effect;
+      b.lastPermanentOrder[side].push({key:item.key,id:item.id,effect});
+      if(effect==='lifeEmpathicBond'){
+        const heal=(b[side+'Creatures']||[]).length,before=b[side+'Hp'];
+        darkHeal(b,side,heal);
+        steps.push(`${side} Empathic Bond healed ${b[side+'Hp']-before} HP.`);
+      }else if(effect==='lifeGratitude'){
+        const mark=side==='player'?state.element:b.enemyMark;
+        const before=b[side+'Hp'];darkHeal(b,side,mark==='Life'?5:3);
+        steps.push(`${side} Shard of Gratitude healed ${b[side+'Hp']-before} HP.`);
+      }else if(effect==='lightSanctuary'){
+        const before=b[side+'Hp'];darkHeal(b,side,4);
+        steps.push(`${side} Sanctuary healed ${b[side+'Hp']-before} HP.`);
+      }else if(effect==='shardVoid'){
+        const key=otherside+'MaxHp',hp=otherside+'Hp';
+        const reduction=side==='player'&&state.element==='Darkness'?3:2;
+        b[key]=Math.max(1,(b[key]||50)-reduction);b[hp]=Math.min(b[hp],b[key]);
+        steps.push(`Shard of Void: ${otherside} maximum HP −${reduction}.`);
+      }else if(effect==='waterFlooding'){
+        const pool=entropyPool(b,side);
+        if((pool.Water||0)<1){
+          b[side+'Permanents']=b[side+'Permanents'].filter(p=>p!==item);
+          steps.push(`${side} Flooding expired: no Water upkeep.`);
+        }else{pool.Water--;steps.push(`${side} Flooding maintained for 1 Water.`);}
+      }
+    }
+  }
+
   function darkPoisonPhase(b,steps,side='player'){
     resolveCreaturePoisonBatch(b,side,steps);
   }
@@ -4904,19 +4966,16 @@ body.etg-duel-paused{overflow:hidden}
 
   // The original-looking board has middle (8..14), bottom (15..22), and
   // top (0..7) creature rows. Each row shuffles independently every phase.
-  function orderedCreatureAttackers(b,side,random=Math.random){
+  // OG FIFO attack queue: middle rank, upper rank, then lower rank. Within
+  // each rank the creature that entered the battlefield first attacks first.
+  // A snapshot means any Boneyard Skeletons born during combat cannot attack now.
+  function orderedCreatureAttackers(b,side){
     const units=[...(b[side+'Creatures']||[])];
-    const rank=slot=>slot>=8&&slot<=14?0:slot>=15&&slot<=22?1:2;
-    const order=[];
-    for(let row=0;row<3;row++){
-      const group=units.filter(u=>rank(u.boardSlot)===row);
-      for(let i=group.length-1;i>0;i--){
-        const j=Math.floor(random()*(i+1));
-        [group[i],group[j]]=[group[j],group[i]];
-      }
-      order.push(...group);
-    }
-    return order;
+    const rank=slot=>slot>=8&&slot<=14?0:slot>=0&&slot<=7?1:2;
+    return units.map((unit,index)=>({unit,index}))
+      .sort((a,z)=>rank(a.unit.boardSlot)-rank(z.unit.boardSlot)||
+        (Number.isFinite(a.unit.key)&&Number.isFinite(z.unit.key)?a.unit.key-z.unit.key:a.index-z.index))
+      .map(({unit})=>unit);
   }
 
   // v19.2: Level 0 intentionally has no tactical evaluator. It spends any available
@@ -5238,8 +5297,8 @@ body.etg-duel-paused{overflow:hidden}
     }
     steps.push(side+' Shard of Patience: +2/+2 (+5/+5 for flooded Water); no creature attacks.');return true;
   }
-  function classicEndPhase(b,side,steps){
-    for(const p of [...(b[side+'Permanents']||[])]){
+  function classicEndPhase(b,side,steps,upkeepAlreadyResolved=false){
+    if(!upkeepAlreadyResolved)for(const p of [...(b[side+'Permanents']||[])]){
       if(cardRule(BY_ID[p.id])?.effect!=='waterFlooding')continue;
       const pool=entropyPool(b,side);
       if((pool.Water||0)<1){
@@ -5253,11 +5312,14 @@ body.etg-duel-paused{overflow:hidden}
       .some(p=>cardRule(BY_ID[p.id])?.effect==='waterFlooding'));
     if(floodingActive){
       const drySlots=new Set(CREATURE_ROW_ORDER.slice(0,5));
-      for(const who of ['player','enemy'])for(const u of [...(b[who+'Creatures']||[])]){
-        if(drySlots.has(u.boardSlot))continue;
-        if(['Water','Other'].includes(BY_ID[u.id]?.element)||u.burrowed||u.abilities?.includes('immaterial'))continue;
-        deathKill(b,who,u,'flooding');
+      const doomed=[];
+      for(const who of ['player','enemy'])for(const unit of b[who+'Creatures']||[]){
+        if(drySlots.has(unit.boardSlot))continue;
+        if(['Water','Other'].includes(BY_ID[unit.id]?.element)||unit.burrowed||unit.abilities?.includes('immaterial'))continue;
+        doomed.push({side:who,unit});
       }
+      const removed=killCreatureBatch(b,doomed,'flooding');
+      if(removed)steps.push(`Flooding destroyed ${removed} creatures simultaneously.`);
     }
     for(const u of [...(b[side+'Creatures']||[])]){
       if(u.steamCharges>0){u.steamCharges--;u.atk--;}
@@ -5714,32 +5776,47 @@ body.etg-duel-paused{overflow:hidden}
     const ties=Object.keys(tally).filter(e=>tally[e]===best);
     return ties[Math.floor(Math.random()*ties.length)];
   }
+  // v20.64: Resource production processes STACKS in FIFO order, then each
+  // Pillar/Tower/Pendulum in its stack in FIFO order. Marks produce LAST.
   function productionForSide(b,side='player'){
-    const pool=side==='player'?b.quanta:b.enemyQuanta;
-    const before={...pool},permanents=b[side+'Permanents']||[];
-    // Light and Life Mark production; retain previously implemented behavior for other marks.
-    const mark=side==='player'?state.element:b.enemyMark;
-    if(['Light','Life'].includes(mark))gainForSide(b,side,mark,1);
-    // A brick-passed basic Pillar sleeps through its first production; Towers do not.
-    for(const p of permanents){
-      const c=BY_ID[p.id],r=cardRule(c);
-      if(!c||!['pillar','tower'].includes(r?.family))continue;
-      if(p.sleep){p.sleep=false;continue;}
-      gainForSide(b,side,c.element==='Other'?'Random':c.element,r.quantity||1);
+    const pool=entropyPool(b,side),before={...pool};
+    const permanents=b[side+'Permanents']||[];
+    const entries=permanents.map((p,index)=>({p,index,card:BY_ID[p.id],rule:cardRule(BY_ID[p.id])}))
+      .filter(x=>['pillar','tower','pendulum'].includes(x.rule?.family));
+    const groups=new Map();
+    for(const entry of entries){
+      const key=Number.isInteger(entry.p.reserveSlot)?'slot:'+entry.p.reserveSlot:'card:'+entry.p.id;
+      if(!groups.has(key))groups.set(key,[]);
+      groups.get(key).push(entry);
     }
-    // Pendulums produce after Pillars and Towers, using today's predominant element.
-    for(const p of permanents){
-      const c=BY_ID[p.id],r=cardRule(c);
-      if(r?.family!=='pendulum')continue;
-      const element=p.mode==='assigned'?c.element:(side==='player'?state.element:(b.enemyMark||c.element));
-      gainForSide(b,side,element,1);
-      p.mode=p.mode==='assigned'?'majority':'assigned';
+    const fifo=(a,z)=>Number.isFinite(a.p.key)&&Number.isFinite(z.p.key)?a.p.key-z.p.key:a.index-z.index;
+    const stacks=[...groups.values()].sort((a,z)=>fifo(a.slice().sort(fifo)[0],z.slice().sort(fifo)[0]));
+    const trace=[];
+    for(const stack of stacks){
+      for(const {p,card,rule} of stack.sort(fifo)){
+        if(p.sleep){p.sleep=false;trace.push({key:p.key,id:p.id,skipped:true});continue;}
+        let element=card.element;
+        if(rule.family==='pendulum'){
+          element=p.mode==='assigned'?card.element:(bestPillarElement(b,side)||
+            (side==='player'?state.element:b.enemyMark)||card.element);
+          p.mode=p.mode==='assigned'?'majority':'assigned';
+        }else if(card.element==='Other')element='Random';
+        gainForSide(b,side,element,rule.quantity||1);
+        trace.push({key:p.key,id:p.id,element});
+      }
     }
+    // Preserve ongoing creature quanta generation from previous Elementia builds.
     for(const u of b[side+'Creatures']||[]){
       if(u.abilities?.includes('airgen'))gainForSide(b,side,'Air',1);
       if(u.abilities?.includes('firegen'))gainForSide(b,side,'Fire',1);
     }
-    return Object.entries(pool).filter(([e,n])=>n>before[e]).map(([e,n])=>`${e} +${n-before[e]}`).join(', ')||'no quanta gained';
+    // All twelve elemental Marks make one of their own quanta, after the stacks.
+    const mark=side==='player'?state.element:b.enemyMark;
+    if(ELEMENT[mark]){gainForSide(b,side,mark,1);trace.push({mark,element:mark});}
+    b.lastProductionOrder ||= {};
+    b.lastProductionOrder[side]=trace;
+    return Object.entries(pool).filter(([e,n])=>n>before[e])
+      .map(([e,n])=>`${e} +${n-before[e]}`).join(', ')||'no quanta gained';
   }
   function production(b){return productionForSide(b,'player');}
   function drawDuel(b){if(b.hand.length>=GAME_RULES.maxHand)return 'Hand full (8): draw skipped.';if(!b.library.length)return 'Deck empty: no card drawn.';b.hand.push(b.library.shift());return `Drew 1 card (${b.library.length} left).`;}
@@ -6232,7 +6309,14 @@ body.etg-duel-paused{overflow:hidden}
     // Shields tick only when their owner actually received an enemy attack phase.
     for(const side of (defender?[defender]:['player','enemy'])){
       const shield=b[side+'Shield'];
-      if(!shield||shield.remaining==null)continue;
+      if(!shield)continue;
+      const currentRule=cardRule(BY_ID[shield.id]);
+      if(currentRule?.effect==='lightHope'){
+        shield.hopeBlock=(currentRule.block||0)+(b[side+'Creatures']||[])
+          .filter(u=>u.abilities?.includes('bioluminescence')).length;
+        steps.push(`${side} Hope shield recalculated: ${shield.hopeBlock} reduction.`);
+      }
+      if(shield.remaining==null)continue;
       shield.remaining--;
       if(shield.remaining<=0){
         const r=cardRule(BY_ID[shield.id]);
@@ -6242,55 +6326,84 @@ body.etg-duel-paused{overflow:hidden}
       }
     }
   }
+  // Each faction's end turn follows OG order: discard (handled before this),
+  // creatures & death triggers, resources, permanent upkeep, shields, weapons.
   function resolveActingSide(b,side,steps){
     const phases=(b.lastTurnPhases ||= []);
-    phases.push(`${side}:1-hero-poison`);
+    phases.push(`${side}:1-discard`);
+    phases.push(`${side}:2-creatures`);
     resolvePlayerPoison(b,side,steps);
-    phases.push(`${side}:1-creature-attacks`);
     entropySingularityPhase(b,side,steps);
     resolveCreatureCombat(b,side,steps);
     for(const u of b[side+'Creatures']||[])if(Number.isInteger(u.freezeTurns)&&u.freezeTurns>0){
       u.freezeTurns--;if(u.freezeTurns===0)u.frozen=false;
     }
-    for(const u of b[side+'Creatures']||[])if(u.delayTurns>0){u.delayTurns--;if(u.delayTurns===0)u.delayed=false;}
-    phases.push(`${side}:1-creature-poison`);
+    for(const u of b[side+'Creatures']||[])if(u.delayTurns>0){
+      u.delayTurns--;if(u.delayTurns===0)u.delayed=false;
+    }
     resolveCreaturePoisonBatch(b,side,steps);
-    // Preserve zero-HP creatures' initial attack before removing them.
     for(const u of [...b[side+'Creatures']])if(u.hp<=0)deathKill(b,side,u);
     refreshDarkAuras(b);
-    phases.push(`${side}:3-resource-production`);
+    phases.push(`${side}:3-quanta`);
     steps.push(`${side} production: ${productionForSide(b,side)}.`);
-    // Resolve each side's Darkness passives exactly once, on that side's resource phase.
+    phases.push(`${side}:4-permanents`);
     darkStartPhase(b,steps,side);
-    phases.push(`${side}:4-weapon`);
-    resolveWeaponCombat(b,side,steps);
-    phases.push(`${side}:5-permanent-timers`);
+    resolvePermanentEffects(b,side,steps);
+    // Flooding's board effect and existing creature regeneration live in this
+    // window; its individual Water upkeep was paid in FIFO above.
+    classicEndPhase(b,side,steps,true);
     advancePermanentTimers(b,side,steps);
-    phases.push(`${side}:6-life-healing`);
-    lifeEndPhase(b,side,steps);
-    lightEndPhase(b,side,steps);
-    classicEndPhase(b,side,steps);
+    phases.push(`${side}:5-shields`);
+    ageDefensiveShields(b,steps,side);
+    phases.push(`${side}:6-weapons`);
+    resolveWeaponCombat(b,side,steps);
     const defender=side==='player'?'enemy':'player';
     if(b[defender+'SacrificeTurns']>0)b[defender+'SacrificeTurns']--;
+    phases.push(`${side}:7-handoff`);
+  }
+  // A hand of eight MUST discard one before any attack, production or upkeep.
+  // This is an explicit player choice; AI discards one card from its own hand.
+  function discardHandCard(index){
+    const b=ensureBoard();
+    if(!b.pendingDiscard||b.ended||!Number.isInteger(index)||index<0||index>=b.hand.length)return false;
+    const [cardId]=b.hand.splice(index,1);
+    b.pendingDiscard=false;b.pendingTarget=null;b.selectedHand=-1;
+    b.chosenDiscardName=BY_ID[cardId]?.name||cardId;
+    endTurn();
+    return true;
+  }
+  function discardAiCard(b,steps){
+    if((b.enemyHand||[]).length<GAME_RULES.maxHand)return;
+    const i=Math.floor(Math.random()*b.enemyHand.length),[id]=b.enemyHand.splice(i,1);
+    steps.push(`enemy discarded ${BY_ID[id]?.name||id} before combat.`);
   }
   function endTurn(){
-    const b=ensureBoard();b.pendingTarget=null;
+    const b=ensureBoard();
     if(b.ended){logDuel(b,'This duel has ended; reset to play another.');render();return;}
-    const steps=[],brick=brickPass(b);
+    if(b.pendingDiscard){render();return;}
+    if(b.hand.length>=GAME_RULES.maxHand){
+      b.pendingDiscard=true;b.pendingTarget=null;b.selectedHand=-1;
+      render();return;
+    }
+    b.pendingTarget=null;
+    const steps=[];
+    if(b.chosenDiscardName){steps.push(`player discarded ${b.chosenDiscardName} before combat.`);b.chosenDiscardName='';}
+    const brick=brickPass(b);
     if(brick)steps.push(brick);
     b.lastTurnPhases=[];b.lastAttackOrders={};
     resolveActingSide(b,'player',steps);
-    ageDefensiveShields(b,steps,'enemy');
     finishDuel(b);
     if(!b.ended){
-      // The opponent plays real cards and abilities before its combat phases.
       if(b.aiLevel===0)aiTakeTurn(b,steps);
-      if(!b.ended){resolveActingSide(b,'enemy',steps);ageDefensiveShields(b,steps,'player');}
+      if(!b.ended){discardAiCard(b,steps);resolveActingSide(b,'enemy',steps);}
       finishDuel(b);
     }
     refreshDarkAuras(b);
-    if(!b.ended){b.turn++;b.played=false;b.enemyPlayed=false;b.selectedHand=-1;steps.push(drawDuel(b));if(b.aiLevel===0){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}}
-    else steps.push(b.winner==='player'?'Victory.':'Defeat.');
+    if(!b.ended){
+      b.turn++;b.played=false;b.enemyPlayed=false;b.selectedHand=-1;
+      steps.push(drawDuel(b));
+      if(b.aiLevel===0){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}
+    }else steps.push(b.winner==='player'?'Victory.':'Defeat.');
     logDuel(b,steps.join(' '));render();
   }
   function boardSymbol(entry){if(!entry)return '+';if(entry.id==='training-familiar')return '♟';const c=BY_ID[entry.id];return c?esc(c.symbol):'+';}
@@ -6494,7 +6607,7 @@ body.etg-duel-paused{overflow:hidden}
       const c=i<b.hand.length?BY_ID[b.hand[i]]:null;
       if(!c)return `<div class="etg-og-hand-card empty" style="--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-label="Your hand slot ${i+1}: empty"><span class="etg-og-empty-caption">EMPTY</span></div>`;
       const r=cardRule(c);
-      const allowed=desktopHandCardPlayable(b,c);
+      const allowed=!b.pendingDiscard&&desktopHandCardPlayable(b,c);
       const payment=paymentElement(c);
       const costLabel=r&&Number.isFinite(r.cost)&&r.cost>0?`${r.cost} ${ELEMENT[payment]?.symbol||payment}`:'';
       // A proper cropped card-art portrait fills the exposed square. Until
@@ -6507,11 +6620,11 @@ body.etg-duel-paused{overflow:hidden}
       // Casting cost belongs beside every card, even when that card is not yet playable.
       // The light beam itself only exists when canPlay is true.
       const handCost=costLabel?`<span class="etg-og-persistent-cost" aria-hidden="true">${r.cost}${costIcon}</span>`:'';
-      return `<button type="button" class="etg-og-hand-card ${allowed?'preview-ready':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" data-hover-card="${esc(c.id)}" style="${theme(c)};--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-pressed="${i===b.selectedHand}" aria-label="Hand slot ${i+1}: ${esc(c.name)}${costLabel?', cost '+esc(costLabel):''}${allowed?', playable':''}"><span class="etg-og-row-name">${esc(c.name)}</span><span class="etg-og-full-art">${portrait}</span>${allowed?'<span class="etg-og-action-strip is-ready" aria-hidden="true"></span>':''}${handCost}</button>`;
+      return `<button type="button" class="etg-og-hand-card ${allowed?'preview-ready':''} ${b.pendingDiscard?'discard-choice':''} ${i===b.selectedHand?'selected':''}" data-action="hand-card" data-id="${i}" data-hover-card="${esc(c.id)}" style="${theme(c)};--hand-index:${i};--hand-layer:${i+1};--hand-offset:${offset}" aria-pressed="${i===b.selectedHand}" aria-label="Hand slot ${i+1}: ${esc(c.name)}${costLabel?', cost '+esc(costLabel):''}${b.pendingDiscard?', select to discard':allowed?', playable':''}"><span class="etg-og-row-name">${esc(c.name)}</span><span class="etg-og-full-art">${portrait}</span>${allowed?'<span class="etg-og-action-strip is-ready" aria-hidden="true"></span>':''}${handCost}</button>`;
     }).join('');
   }
   function renderDesktopBattlefield(b){
-    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
+    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${b.pendingDiscard?'<div class="etg-discard-notice" role="alert"><strong>Hand full — discard one card</strong><span>Select a card in your hand before the attack phase can begin.</span></div>':''}${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
   }
   // Mouse-only delayed inspection, intentionally does not open a modal or pause the duel.
   // Original card art is shown in full where the archive has an actual artwork URL.
@@ -6569,6 +6682,7 @@ body.etg-duel-paused{overflow:hidden}
     return wrap(`${renderDesktopBattlefield(b)}`,true);
   }
   function playHand(targetCode=null){const b=ensureBoard(),i=b.selectedHand;
+    if(b.pendingDiscard)return;
     if(b.ended||i==null||i<0||i>=b.hand.length)return;
     const id=b.hand[i],c=BY_ID[id],r=cardRule(c);
     if(!c||!r){logDuel(b,'No game rule for this card; nothing spent.');render();return;}
@@ -6802,6 +6916,8 @@ body.etg-duel-paused{overflow:hidden}
     if(button.classList.contains('overlay') && event.target!==button)return;
     const action=button.dataset.action,id=button.dataset.id;
     if(state.scene==='duel'&&state.duelPaused&&!['pause-resume','pause-reset','pause-main-menu','fullscreen-toggle'].includes(action))return;
+    if(state.scene==='duel'&&state.duel?.pendingDiscard&&
+       !['hand-card','pause-resume','pause-reset','pause-main-menu','fullscreen-toggle'].includes(action))return;
     switch(action){
       case 'pause-resume':pauseDuel(false);break;
       case 'pause-reset':state.duelPaused=false;state.duel=newDuel(true);navigate('duel');break;
@@ -6831,6 +6947,7 @@ body.etg-duel-paused{overflow:hidden}
       case 'reset-duel':state.duel=newDuel(true);navigate('duel');break;
       case 'custom-duel':{const valid=countMap(state.deck)===60&&Object.entries(state.deck).every(([id,n])=>['pillar','tower'].includes(cardRule(BY_ID[id])?.family)||n<=6);if(!valid){state.deckTab='deck';state.scene='deck';state.notice='A custom deck needs exactly 60 cards and no more than six copies of non-Pillar/Tower cards.';render();}else{state.duel=newDuel(false);navigate('duel');}break;}
       case 'hand-card':if(state.duel){
+        if(state.duel.pendingDiscard){discardHandCard(Number(id));break;}
         state.duel.pendingTarget=null;state.duel.selectedHand=Number(id);
         if(state.displayMode==='desktop'){button.blur();playHand();}
         else render();
@@ -6923,10 +7040,10 @@ body.etg-duel-paused{overflow:hidden}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.63-aether-other-artwork',isDemo:demo,
+    version:'20.64-og-turn-sequence',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();

@@ -3327,7 +3327,7 @@ body.etg-duel-paused{overflow:hidden}
 
   // Verified against the pre-existing Elementia v0.4 Aether + Air approval build.
   // Abilities not in this milestone are intentionally not simulated.
-  const GAME_RULES=Object.freeze({maxQuanta:50,hitpoints:50,maxHand:8,maxMainBoard:15,creatureSlots:23,sharedPermanentSlots:7});
+  const GAME_RULES=Object.freeze({maxQuanta:50,hitpoints:50,maxHand:8,maxMainBoard:23,creatureSlots:23,sharedPermanentSlots:7});
   const RULES_BY_CARD={
     'air-pillar':{family:'pillar',cost:0},
     'opal-tower':{family:'tower',cost:0,playBonus:1},
@@ -3970,7 +3970,7 @@ body.etg-duel-paused{overflow:hidden}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.64 · OG Turn Sequence</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.65 · Numbered Creature Slots</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -4964,16 +4964,15 @@ body.etg-duel-paused{overflow:hidden}
   }
   function darkEndPhase(b,steps,side='player'){advancePermanentTimers(b,side,steps);}
 
-  // The original-looking board has middle (8..14), bottom (15..22), and
-  // top (0..7) creature rows. Each row shuffles independently every phase.
-  // OG FIFO attack queue: middle rank, upper rank, then lower rank. Within
-  // each rank the creature that entered the battlefield first attacks first.
-  // A snapshot means any Boneyard Skeletons born during combat cannot attack now.
+  // v20.65: The original Elements creature positions are numbered 1–23
+  // in a non-linear arrangement. Attack order is exactly this numeric slot
+  // order, NOT by row, summoning time, or array insertion order. Taking a
+  // snapshot before combat excludes creatures generated during combat (e.g.
+  // Boneyard Skeletons), while preserving normal death-trigger resolution.
   function orderedCreatureAttackers(b,side){
     const units=[...(b[side+'Creatures']||[])];
-    const rank=slot=>slot>=8&&slot<=14?0:slot>=0&&slot<=7?1:2;
     return units.map((unit,index)=>({unit,index}))
-      .sort((a,z)=>rank(a.unit.boardSlot)-rank(z.unit.boardSlot)||
+      .sort((a,z)=>creaturePositionNumber(a.unit.boardSlot)-creaturePositionNumber(z.unit.boardSlot)||
         (Number.isFinite(a.unit.key)&&Number.isFinite(z.unit.key)?a.unit.key-z.unit.key:a.index-z.index))
       .map(({unit})=>unit);
   }
@@ -5668,18 +5667,30 @@ body.etg-duel-paused{overflow:hidden}
       playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyMark:aiRandom(ELEMENTS)[0],enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
       playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
       selectedHand:-1,permanentPages:{player:0,enemy:0},permanentGeometryVersion:14,labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
-      history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2};
+      history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2,creaturePlacementVersion:23};
   }
-  // V12: 23 fixed creature spaces per side. Spawn priority: middle 7, lower 8, upper 8.
-  const CREATURE_ROW_ORDER=[...Array(7)].map((_,i)=>8+i)
-    .concat([...Array(8)].map((_,i)=>15+i),[...Array(8)].map((_,i)=>i));
+  // v20.65 — Original Elements numeric slot layout, independently for each
+  // player's battlefield (rows are stored left-to-right in the DOM):
+  // Top:    12,20,13,21,14,22,15,23
+  // Middle:  7, 3, 4, 1, 5, 2, 6
+  // Bottom: 16, 8,17, 9,18,10,19,11
+  // Physical boardSlot indices remain 0..7 top, 8..14 middle, 15..22 bottom.
+  // CREATURE_ROW_ORDER maps encounter numbers 1..23 to these zero-based slots.
+  const CREATURE_SLOT_NUMBERS=Object.freeze([
+    12,20,13,21,14,22,15,23,
+    7,3,4,1,5,2,6,
+    16,8,17,9,18,10,19,11
+  ]);
+  const CREATURE_ROW_ORDER=Object.freeze(
+    Array.from({length:GAME_RULES.creatureSlots},(_,i)=>CREATURE_SLOT_NUMBERS.indexOf(i+1)));
+  function creaturePositionNumber(boardSlot){
+    return Number.isInteger(boardSlot)&&boardSlot>=0&&boardSlot<CREATURE_SLOT_NUMBERS.length
+      ?CREATURE_SLOT_NUMBERS[boardSlot]:Number.MAX_SAFE_INTEGER;
+  }
   function chooseFreeCreatureSlot(b,side){
     const used=new Set((b[side+'Creatures']||[]).map(x=>x.boardSlot).filter(Number.isInteger));
-    for(const segment of [CREATURE_ROW_ORDER.slice(0,7),CREATURE_ROW_ORDER.slice(7,15),CREATURE_ROW_ORDER.slice(15)]){
-      const free=segment.filter(pos=>!used.has(pos));
-      if(free.length)return free[Math.floor(Math.random()*free.length)];
-    }
-    return -1;
+    // Deterministic: first unoccupied numbered space, starting at 1.
+    return CREATURE_ROW_ORDER.find(pos=>!used.has(pos)) ?? -1;
   }
   function ensureBoard(){
     if(!state.duel||![7,8,9,10,11,12].includes(state.duel.version))state.duel=newDuel();
@@ -5703,6 +5714,19 @@ body.etg-duel-paused{overflow:hidden}
       b.permanentGeometryVersion=14;
     }
     b.permanentPages ||= {player:0,enemy:0};
+    // One-time upgrade of saved battles: preserve their creatures, but place
+    // them in the new numeric order by original arrival key. Never reshuffle
+    // these slots again after the migration has completed.
+    if(b.creaturePlacementVersion!==23){
+      for(const side of ['player','enemy']){
+        const units=b[side+'Creatures']||[];
+        units.map((unit,index)=>({unit,index}))
+          .sort((a,z)=>(Number.isFinite(a.unit.key)?a.unit.key:1e12+a.index)-
+                       (Number.isFinite(z.unit.key)?z.unit.key:1e12+z.index))
+          .forEach(({unit},i)=>{unit.boardSlot=CREATURE_ROW_ORDER[i]??-1;});
+      }
+      b.creaturePlacementVersion=23;
+    }
     b.playerMaxHp ??= 50;b.enemyMaxHp ??= 50;b.playerPoison ??= 0;b.enemyPoison ??= 0;
     b.enemyQuanta ||= Object.fromEntries(ELEMENTS.map(([name])=>[name,2]));
     b.enemyMark ||= 'Gravity';
@@ -5912,7 +5936,7 @@ body.etg-duel-paused{overflow:hidden}
     if(r.activate==='lycanthropy'&&item.lycanUsed)return 'Lycanthropy can only be used once.';
     if(r.activate==='stoneForm'&&item.stoneUsed)return 'Stone Form can only be used once.';
     if((b.quanta[r.activateElement]||0)<r.activateCost)return `Need ${r.activateCost} ${r.activateElement} quanta.`;
-     if(['queen','summonGas','mitosis','timeClone','timeScarab'].includes(r.activate)&&mainCount(b)>=GAME_RULES.maxMainBoard)return 'The shared 15-object battlefield limit is reached.';
+     if(['queen','summonGas','mitosis','timeClone','timeScarab'].includes(r.activate)&&mainCount(b)>=GAME_RULES.maxMainBoard)return 'The shared 23-object battlefield limit is reached.';
     if(r.activate==='duality'&&b.hand.length>=GAME_RULES.maxHand)return 'Your hand is full (8).';
     if(r.activate==='duality'&&!b.enemyLibrary?.length)return 'Opponent deck is empty.';
     if(TARGET_ABILITIES.has(r.activate)){
@@ -6200,7 +6224,7 @@ body.etg-duel-paused{overflow:hidden}
     const patience=classicBeforeAttack(b,side,steps);
     if(stasis||patience){steps.push(side+' attacks prevented by Stasis or Patience.');return 0;}
     b.lastAttackOrders ||= {};
-    b.lastAttackOrders[side]=order.map(u=>({key:u.key,name:u.name,boardSlot:u.boardSlot}));
+    b.lastAttackOrders[side]=order.map(u=>({key:u.key,name:u.name,boardSlot:u.boardSlot,position:creaturePositionNumber(u.boardSlot)}));
     let dealt=0;
     for(const u of order){
       if(!b[side+'Creatures'].includes(u))continue;
@@ -6687,7 +6711,7 @@ body.etg-duel-paused{overflow:hidden}
     const id=b.hand[i],c=BY_ID[id],r=cardRule(c);
     if(!c||!r){logDuel(b,'No game rule for this card; nothing spent.');render();return;}
     if(!canAfford(b,c)){logDuel(b,`Need ${r.cost} ${paymentElement(c)} quanta for ${c.name}.`);render();return;}
-    if(['Creature','Permanent'].includes(c.type)&&mainCount(b)>=GAME_RULES.maxMainBoard&&!r.abilities?.includes('chimera')){logDuel(b,'The main battlefield is full (15 objects).');render();return;}
+    if(['Creature','Permanent'].includes(c.type)&&mainCount(b)>=GAME_RULES.maxMainBoard&&!r.abilities?.includes('chimera')){logDuel(b,'The main battlefield is full (23 objects).');render();return;}
     if(c.type==='Shield'&&r.effect==='dimensionalShield'&&b.turn<(b.shieldUnlockTurn||0)){logDuel(b,`${c.name}: shared Dimensional/Phase cooldown until turn ${b.shieldUnlockTurn}.`);render();return;}
     if(r.abilities?.includes('chimera')&&!b.playerCreatures.length){logDuel(b,'Chimera requires at least one creature to fuse.');render();return;}
     if(c.type==='Spell'&&r.effect==='clone'&&mainCount(b)>=GAME_RULES.maxMainBoard){logDuel(b,'Parallel Universe needs an open battlefield space.');render();return;}
@@ -7040,10 +7064,10 @@ body.etg-duel-paused{overflow:hidden}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.64-og-turn-sequence',isDemo:demo,
+    version:'20.65-numbered-creature-slots',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();

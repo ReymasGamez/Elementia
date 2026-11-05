@@ -3746,7 +3746,7 @@ body.etg-duel-paused{overflow:hidden}
     'other-hammer':'assets/cards/Other/Other_Hammer.png',
     'other-short-bow':'assets/cards/Other/Other_Short_Bow.png',
     'other-shield':'assets/cards/Other/Other_Shield.png',
-    'prisma-tower':'assets/cards/Other/Other_Quantum_Tower.png',
+    'quanta-pillar':'assets/cards/Other/Other_Quantum_Pillar.png',
     'death-malignant-cell':'assets/cards/Other/Other_Malignant_Cell.png'
   });
   // The existing Other resources and Malignant Cell already have IDs/rules.
@@ -3783,10 +3783,8 @@ body.etg-duel-paused{overflow:hidden}
       RULES_BY_CARD[info.id]=rule;
     }
   }
-  // The neutral upgraded resource previously used the Elementia display name
-  // Prisma Tower. Preserve its save/collection ID while matching uploaded art.
-  const quantumTowerCard=IMPORTED_CARDS.find(c=>c.id==='prisma-tower');
-  if(quantumTowerCard)quantumTowerCard.name='Quantum Tower';
+  // The uploaded Other_Quantum_Pillar.png is the basic Quanta Pillar (4sa),
+  // not its upgraded counterpart Prisma Tower (6qq). Preserve both card IDs.
 
   const elementiaAssetKey=(str)=>String(str||'').normalize('NFKD').toLowerCase().replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
   const CARDS = (fromExternal && fromExternal.length ? fromExternal : IMPORTED_CARDS).map((source,i)=>{
@@ -3970,7 +3968,7 @@ body.etg-duel-paused{overflow:hidden}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.65 · Numbered Creature Slots</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.66 · Quanta Pillar Art Fix</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }

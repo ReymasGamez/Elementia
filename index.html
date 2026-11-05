@@ -3275,6 +3275,32 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
   font-variant-numeric:tabular-nums;
 }
 </style>
+
+<style id="elementia-v20-72-ability-quanta-icons">
+/* 20.72: Inline official elemental glyphs within card rule text.  The existing
+   element-asset registry supplies the artwork; an actual character remains
+   visible when the optional assets/symbols directory is not installed. */
+.aether-authored-rule .etg-rule-quantum,
+.card-rules .etg-rule-quantum{
+  display:inline-grid;grid-template-areas:"glyph";place-items:center;
+  width:1.13em;height:1.13em;box-sizing:border-box;vertical-align:-.2em;
+  margin-inline:.045em;border-radius:50%;white-space:nowrap;
+  background:radial-gradient(circle at 32% 24%,#ffffff35,#111c20d9 68%);
+  border:1px solid #f3e7c265;
+  box-shadow:0 1px 2px #0007,inset 0 1px #ffffff35;
+  overflow:hidden;line-height:1;
+}
+.etg-rule-quantum .etg-rule-quantum-fallback{
+  grid-area:glyph;display:grid;place-items:center;
+  font:700 .83em/1 Georgia,serif;color:var(--etg-rule-quantum-color,#f1d8a0);
+  text-shadow:0 1px 2px #000,0 0 2px #000;
+}
+.etg-rule-quantum img.etg-rule-quantum-art{
+  grid-area:glyph;display:block;width:100%;height:100%;min-width:0;min-height:0;
+  object-fit:contain;position:relative;z-index:1;
+}
+#elementia-hover-inspect .etg-rule-quantum{width:1.16em;height:1.16em}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4077,14 +4103,55 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
     // Display approved plain-language card behavior rather than internal effect keys.
     return originalCardText(card);
   }
+  // v20.72 — show typed quanta as elemental symbols in full-art card rules.
+  // This transforms the visual HTML only; card mechanics and source text stay intact.
+  function ruleQuantumIcon(name){
+    const key=String(name).charAt(0).toUpperCase()+String(name).slice(1).toLowerCase();
+    const el=ELEMENT[key];
+    if(!el)return esc(name);
+    const url=ELEMENT_ICON_ASSETS[key];
+    return `<span class="etg-rule-quantum" role="img" aria-label="${esc(key)} quantum" title="${esc(key)} quantum" style="--etg-rule-quantum-color:${el.color}"><span class="etg-rule-quantum-fallback" aria-hidden="true">${esc(el.symbol)}</span>${url?`<img class="etg-rule-quantum-art" src="${esc(url)}" alt="" aria-hidden="true" onerror="this.remove()">`:''}</span>`;
+  }
+  function fullArtAbilityMarkup(card){
+    const rule=cardRule(card)||{};
+    let line=String(aetherEffectText(card)||'');
+    // The two Gnomes passively generate Earth; this is not an activation cost.
+    if(card?.type==='Creature'&&(card.legacyCode==='58u'||card.legacyCode==='77e')&&rule.abilities?.includes('earthgen')){
+      line='Generate 1 Earth quantum at the end of each turn.';
+    }
+    const fragments=[];
+    const insert=(name)=>{const ix=fragments.push(ruleQuantumIcon(name))-1;return '\uE100'+ix+'\uE101';};
+    // "quantum of Earth", "Earth quantum", "Water quanta".
+    line=line.replace(/\bquant(?:um|a)\s+of\s+(Aether|Air|Darkness|Death|Earth|Entropy|Fire|Gravity|Life|Light|Time|Water)\b/gi,
+      (_,name)=>insert(name));
+    line=line.replace(/\b(Aether|Air|Darkness|Death|Earth|Entropy|Fire|Gravity|Life|Light|Time|Water)\s+quant(?:um|a)\b/gi,
+      (_,name)=>insert(name));
+    // Earth Pendulum alternates its own resource with the player's Mark.
+    line=line.replace(/\b(Aether|Air|Darkness|Death|Earth|Entropy|Fire|Gravity|Life|Light|Time|Water)\b(?=\s+and\s+Mark\s+quanta\b)/gi,
+      (_,name)=>insert(name));
+    // Keep the exception named in a whole-quanta drain, e.g. Sacrifice.
+    line=line.replace(/\b(quanta\s+except\s+)(Aether|Air|Darkness|Death|Earth|Entropy|Fire|Gravity|Life|Light|Time|Water)\b/gi,
+      (_,prefix,name)=>prefix+insert(name));
+    // Paid abilities and grants also appear as "1 Time:", "2 Aether to",
+    // "six Fire", etc. Never replace the element in "Light Mark" or a card name.
+    line=line.replace(/\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s+(Aether|Air|Darkness|Death|Earth|Entropy|Fire|Gravity|Life|Light|Time|Water)\b(?=\s*(?::|[,;.)]|(?:and|or|to|for|per|when|at|from|each)\b)|$)/gi,
+      (_,number,name)=>number+' '+insert(name));
+    // The additional quantum granted when an upgraded Tower/Pendulum is
+    // placed always matches the permanent's own element (not its Mark).
+    if(rule.playBonus&&['pillar','tower','pendulum'].includes(rule.family)&&ELEMENT[card.element]){
+      line=line.replace(/\b(gain\s+(?:one|1)\s+extra)\s+quantum\b/gi,
+        (_,prefix)=>prefix+' '+insert(card.element));
+    }
+    return esc(line).replace(/\uE100(\d+)\uE101/g,(_,i)=>fragments[Number(i)]||'');
+  }
   function cardFace(card){
     if(card.cardFrameUrl){
       const rule=cardRule(card),cost=rule?.cost;
       const stats=Number.isFinite(rule?.atk)?` · ${rule.atk}/${rule.hp||0}`:'';
-      return `<span class="card-in aether-authored-face" style="background-image:url('${String(card.cardFrameUrl).replace(/'/g,'%27')}')"><span class="aether-authored-name">${esc(card.name)}</span>${cost>0?`<span class="aether-authored-cost">${cost}</span>`:''}<span class="aether-authored-description"><span class="aether-authored-meta">${esc(card.type)}${stats}</span><span class="aether-authored-rule">${esc(aetherEffectText(card))}</span></span></span>`;
+      return `<span class="card-in aether-authored-face" style="background-image:url('${String(card.cardFrameUrl).replace(/'/g,'%27')}')"><span class="aether-authored-name">${esc(card.name)}</span>${cost>0?`<span class="aether-authored-cost">${cost}</span>`:''}<span class="aether-authored-description"><span class="aether-authored-meta">${esc(card.type)}${stats}</span><span class="aether-authored-rule">${fullArtAbilityMarkup(card)}</span></span></span>`;
     }
     const art=card.artworkUrl?`<img src="${esc(card.artworkUrl)}" alt="${esc(card.name)} artwork" onerror="this.remove()">`:'';
-    return `<span class="card-in"><span class="card-header"><span class="card-name">${esc(card.name)}</span>${cardCostLabel(card)?`<span class="card-cost">${cardCostLabel(card)}</span>`:''}</span><span class="card-art">${art}${!card.artworkUrl?`<span class="card-glyph">${esc(card.symbol)}</span><span class="card-art-label">Card Art</span>`:''}${card.tier==='Upgraded'?'<em class="card-up">UP</em>':''}</span><span class="card-bottom"><span class="card-type">${esc(cardTypeLine(card))}</span><span class="card-rules">${esc(originalCardText(card))}</span></span></span>`;
+    return `<span class="card-in"><span class="card-header"><span class="card-name">${esc(card.name)}</span>${cardCostLabel(card)?`<span class="card-cost">${cardCostLabel(card)}</span>`:''}</span><span class="card-art">${art}${!card.artworkUrl?`<span class="card-glyph">${esc(card.symbol)}</span><span class="card-art-label">Card Art</span>`:''}${card.tier==='Upgraded'?'<em class="card-up">UP</em>':''}</span><span class="card-bottom"><span class="card-type">${esc(cardTypeLine(card))}</span><span class="card-rules">${fullArtAbilityMarkup(card)}</span></span></span>`;
   }
   function cardTile(card,quantity='',mode='detail',selected=false){
     return `<button type="button" class="card-tile ${card.cardFrameUrl?'has-aether-frame':''} ${card.cardFrameUrl&&['Air','Darkness','Death','Entropy','Gravity','Life','Earth','Fire','Water','Light','Time'].includes(card.element)||ENTROPY_CODE_TO_ART[card.legacyCode]?'has-elementia-frame frame-'+(ENTROPY_CODE_TO_ART[card.legacyCode]?'entropy':card.element.toLowerCase()):''} ${selected?'selected':''}" style="${theme(card)};--elementia-card-ratio:${card.cardFrameAspect}" data-action="${mode}" data-id="${esc(card.id)}" aria-label="${esc(card.name)} ${esc(card.tier)}, ${esc(card.element)}${quantity!==''?', quantity '+quantity:''}">${cardFace(card)}
@@ -7400,7 +7467,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.71-pillar-numerals',isDemo:demo,
+    version:'20.72-quanta-ability-symbols',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

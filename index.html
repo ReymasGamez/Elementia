@@ -3223,6 +3223,27 @@ body.etg-duel-paused{overflow:hidden}
 .etg-discard-notice strong{font-size:15px}
 @media(max-width:800px){.etg-discard-notice{font-size:10px;padding:7px 10px}.etg-discard-notice strong{font-size:12px}}
 </style>
+<style id="elementia-v20-67-permanent-zone-display">
+/* Permanent and equipment portraits show artwork only. Retain tooltips,
+   aria-labels, activation glows and targeting overlays. */
+.etg-permanent-lane .etg-slot.occupied .tinycard-title { display:none!important; }
+/* xN is a stack total, not an individual Bone Wall shield-charge count. */
+.etg-permanent-lane .etg-slot.occupied .stack-count,
+body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-slot.occupied .stack-count {
+  top:2px!important;left:2px!important;right:auto!important;bottom:auto!important;
+  z-index:12;min-width:0;padding:1px 3px;
+  font:700 clamp(9px,1.15dvh,12px)/1.05 Arial,sans-serif;
+  color:#fff0c1;background:rgba(10,20,20,.88);
+  border:1px solid rgba(221,196,141,.8);border-radius:2px;
+  box-shadow:0 1px 3px #000a;
+  pointer-events:none;
+}
+@media (max-height:650px) {
+  body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-slot.occupied .stack-count {
+    top:1px!important;left:1px!important;padding:0 2px;font-size:9px;
+  }
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -3968,7 +3989,7 @@ body.etg-duel-paused{overflow:hidden}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.66 · Quanta Pillar Art Fix</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.67 · Permanent Zone Display</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -6485,7 +6506,7 @@ body.etg-duel-paused{overflow:hidden}
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.abilities?.includes('immaterial')?' ◇':''}${entry.burrowed?' ⌄':''}${entry.poison?' ☣'+entry.poison:''}</span>`:'';
     const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
     return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
-      ${artMarkup}<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
+      ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
     const units=b[side+'Creatures']||[];
@@ -7062,7 +7083,7 @@ body.etg-duel-paused{overflow:hidden}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.65-numbered-creature-slots',isDemo:demo,
+    version:'20.67-permanent-zone-display',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

@@ -3301,6 +3301,104 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
 }
 #elementia-hover-inspect .etg-rule-quantum{width:1.16em;height:1.16em}
 </style>
+
+<style id="elementia-v20-73-creature-stat-hover">
+/* v20.73: independent OG-inspired creature tooltip. The card art remains
+   next to the pointer; this fixed-position summary follows its board card. */
+#elementia-creature-hover-stats{
+  position:fixed;z-index:9998;pointer-events:none;
+  box-sizing:border-box;width:min(418px,calc(100vw - 24px));height:180px;
+  padding:8px;border:1px solid #8d8876;border-radius:15px;
+  color:#f0ede5;background:linear-gradient(120deg,rgba(10,13,13,.97),rgba(31,35,36,.975) 53%,rgba(9,13,14,.98));
+  box-shadow:0 12px 25px #000b,inset 0 1px #ffffff25;
+  font:15px/1.28 Georgia,'Times New Roman',serif;overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+#elementia-creature-hover-stats .ec-stat-grid{
+  width:100%;height:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(2,minmax(0,1fr));position:relative;
+}
+#elementia-creature-hover-stats .ec-stat-grid::before{
+  content:'';position:absolute;left:50%;top:3px;bottom:3px;border-left:1px solid #c8c9c6b0;z-index:1;
+}
+#elementia-creature-hover-stats .ec-stat-grid::after{
+  content:'';position:absolute;top:50%;left:7px;right:7px;border-top:1px solid #b9c3bba8;z-index:1;
+}
+#elementia-creature-hover-stats .ec-stat-zone{
+  position:relative;min-width:0;min-height:0;display:flex;align-items:center;
+  padding:5px 12px;gap:9px;
+}
+#elementia-creature-hover-stats .ec-stat-zone:nth-child(2),
+#elementia-creature-hover-stats .ec-stat-zone:nth-child(4){padding-left:16px}
+#elementia-creature-hover-stats .ec-stat-label{
+  font:700 17px/1 Georgia,serif;letter-spacing:.04em;
+  writing-mode:vertical-rl;transform:rotate(180deg);flex:0 0 auto;
+}
+#elementia-creature-hover-stats .ec-stat-label.atk{color:#f1b9ad}
+#elementia-creature-hover-stats .ec-stat-label.hp{color:#a0e6cd}
+#elementia-creature-hover-stats .ec-stat-values{
+  display:flex;flex:1;flex-direction:column;gap:5px;min-width:0;
+  text-align:center;font-size:16px;white-space:nowrap;
+}
+#elementia-creature-hover-stats .ec-stat-values strong{font-weight:700;color:#fff6de}
+#elementia-creature-hover-stats .ec-stat-zone.hp .ec-stat-values strong{color:#c5ffe2}
+#elementia-creature-hover-stats .ec-stat-condition-zone{
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;
+}
+#elementia-creature-hover-stats .ec-condition-line{
+  display:flex;align-items:center;gap:8px;font-size:15px;white-space:nowrap;
+}
+#elementia-creature-hover-stats .ec-condition-line.frozen{color:#9ee9ff}
+#elementia-creature-hover-stats .ec-condition-line.delayed{color:#f2dc84}
+#elementia-creature-hover-stats .ec-condition-orb{
+  display:inline-grid;place-items:center;flex:0 0 26px;width:26px;height:26px;
+  border:1px solid #e2d9be96;border-radius:50%;background:#152126;
+  box-shadow:inset 0 1px 3px #ffffff2a,0 0 3px #000;
+}
+#elementia-creature-hover-stats .ec-condition-orb .etg-rule-quantum{
+  width:100%;height:100%;margin:0;border:0;background:transparent;vertical-align:middle;
+}
+#elementia-creature-hover-stats .ec-condition-orb .etg-rule-quantum-fallback{font-size:17px}
+#elementia-creature-hover-stats .ec-stat-passive-zone{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  text-align:center;
+}
+#elementia-creature-hover-stats .ec-stat-passive-title{color:#f5e8d2;font-size:15px}
+#elementia-creature-hover-stats .ec-stat-passive-list{
+  font-size:15px;line-height:1.25;color:#d2e7b4;overflow:auto;max-height:58px;
+  scrollbar-width:thin;scrollbar-color:#8e987d #222;
+  overflow-wrap:anywhere;
+}
+#elementia-creature-hover-stats .ec-stat-passive-list.empty{color:#9c9f9b;font-style:italic}
+/* The fifth region is a subtle central four-way junction, not an extra stat. */
+#elementia-creature-hover-stats .ec-stat-cross{
+  position:absolute;z-index:2;top:50%;left:50%;width:7px;height:7px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:#c2c5b4;border:1px solid #262c2d;box-shadow:0 0 3px #e0d8b260;
+}
+#app:fullscreen #elementia-creature-hover-stats,
+#app:-webkit-full-screen #elementia-creature-hover-stats,
+body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
+  position:fixed;z-index:9998;pointer-events:none;
+}
+@media(max-width:760px){
+  /* With a mouse on a narrow tablet, keep both previews side by side. */
+  #elementia-creature-hover-stats{width:min(310px,calc(51vw - 24px))}
+  body #elementia-hover-inspect{width:min(275px,calc(49vw - 24px))!important}
+}
+@media(max-width:560px){
+  #elementia-creature-hover-stats{height:152px;padding:6px;font-size:12px}
+  #elementia-creature-hover-stats .ec-stat-zone{padding:4px 7px;gap:4px}
+  #elementia-creature-hover-stats .ec-stat-zone:nth-child(2),
+  #elementia-creature-hover-stats .ec-stat-zone:nth-child(4){padding-left:10px}
+  #elementia-creature-hover-stats .ec-stat-label{font-size:13px}
+  #elementia-creature-hover-stats .ec-stat-values{font-size:12px}
+  #elementia-creature-hover-stats .ec-condition-line{font-size:12px;gap:5px}
+  #elementia-creature-hover-stats .ec-stat-passive-title,
+  #elementia-creature-hover-stats .ec-stat-passive-list{font-size:12px}
+  #elementia-creature-hover-stats .ec-condition-orb{width:21px;height:21px;flex-basis:21px}
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -7012,13 +7110,90 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
   function renderDesktopBattlefield(b){
     return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${b.pendingDiscard?'<div class="etg-discard-notice" role="alert"><strong>Hand full — discard one card</strong><span>Select a card in your hand before the attack phase can begin.</span></div>':''}${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
   }
-  // Mouse-only delayed inspection, intentionally does not open a modal or pause the duel.
-  // Original card art is shown in full where the archive has an actual artwork URL.
-  let hoverCardElement=null,hoverTimer=null,hoverPreview=null,hoverPoint={x:0,y:0};
+  // v20.73: full-art hover and independent live creature statistics.
+  // Stats are read from the actual board entity (key + side), never the
+  // collectible card's static stats, so buffs and condition timers are accurate.
+  let hoverCardElement=null,hoverTimer=null,hoverPreview=null,hoverStats=null,hoverPoint={x:0,y:0};
   function clearHoverCard(){
     if(hoverTimer!==null){clearTimeout(hoverTimer);hoverTimer=null;}
     hoverCardElement=null;
     if(hoverPreview){hoverPreview.remove();hoverPreview=null;}
+    if(hoverStats){hoverStats.remove();hoverStats=null;}
+  }
+  function hoveringBattleCreature(anchor){
+    if(!anchor||!anchor.classList.contains('og-creature-face'))return null;
+    const side=anchor.dataset.side;
+    if(side!=='player'&&side!=='enemy')return null;
+    const b=state.duel;
+    if(!b)return null;
+    const key=Number(anchor.dataset.key);
+    if(!Number.isFinite(key))return null;
+    const unit=(b[side+'Creatures']||[]).find(u=>u.key===key);
+    return unit?{unit,side,b}:null;
+  }
+  function statPassiveName(skill){
+    const names={
+      airborne:'Airborne',immaterial:'Immaterial',psion:'Psion',spellAttack:'Spell Attack',
+      airgen:'Air Quanta Generation',firegen:'Fire Quanta Generation',
+      earthgen:'Earth Quanta Generation',bioluminescence:'Bioluminescence',
+      incandescence:'Incandescence',burrowed:'Burrowed',salvaging:'Salvaging',
+      poison:'Poison',poisonous:'Poisonous',vampire:'Vampire',ranged:'Ranged',
+      momentum:'Momentum',venom:'Venom',deadlyVenom:'Deadly Venom',
+      neurotoxin:'Neurotoxin',regeneration:'Regeneration',regen:'Regeneration',
+      freedom:'Freedom',adrenaline:'Adrenaline',lobotomize:'Lobotomize',
+      divine:'Divine Shield',quintessence:'Quintessence',nightfall:'Nightfall'
+    };
+    return names[skill]||String(skill).replace(/([a-z])([A-Z])/g,'$1 $2').replace(/[-_]/g,' ').replace(/^./,v=>v.toUpperCase());
+  }
+  function renderCreatureHoverStats(card,{unit,b}){
+    const rule=cardRule(BY_ID[unit.id]||card)||{};
+    // Attack's Full stat is its card's unmodified attack. HP Full is the
+    // creature's tracked maximum, including permanent health modifications.
+    const fullAtk=Number.isFinite(unit.baseAtk)?unit.baseAtk:(Number.isFinite(rule.atk)?rule.atk:unit.atk);
+    const fullHp=Number.isFinite(unit.maxHp)?unit.maxHp:(Number.isFinite(rule.hp)?rule.hp:unit.hp);
+    const currentAtk=Number.isFinite(unit.atk)?unit.atk:0;
+    const currentHp=Number.isFinite(unit.hp)?unit.hp:0;
+    const frozen=Math.max(0,Number(unit.freezeTurns)||0,Number(unit.gravityFrozenTurns)||0,unit.frozen?1:0);
+    const delayed=Math.max(0,Number(unit.delayTurns)||0,unit.delayed?1:0);
+    const abilities=[...new Set(Array.isArray(unit.abilities)?unit.abilities:[])];
+    const active=new Set([rule.activate,unit.entropyActivate].filter(Boolean));
+    const passives=abilities.filter(skill=>!active.has(skill));
+    if(unit.burrowed&&!passives.includes('burrowed'))passives.push('burrowed');
+    if(unit.spellAttack&&!passives.includes('psion'))passives.push('psion');
+    const passiveHTML=passives.length?passives.map(statPassiveName).map(esc).join(' · '):'None';
+    const name=esc(unit.name||card.name);
+    return `<div class="ec-stat-grid" aria-label="${name} creature status">
+      <section class="ec-stat-zone atk" aria-label="Attack: full ${fullAtk}, current ${currentAtk}">
+        <span class="ec-stat-label atk">ATK</span><span class="ec-stat-values"><span>Full: <strong>${fullAtk}</strong></span><span>Current: <strong>${currentAtk}</strong></span></span>
+      </section>
+      <section class="ec-stat-zone hp" aria-label="Health: full ${fullHp}, current ${currentHp}">
+        <span class="ec-stat-label hp">HP</span><span class="ec-stat-values"><span>Full: <strong>${fullHp}</strong></span><span>Current: <strong>${currentHp}</strong></span></span>
+      </section>
+      <section class="ec-stat-zone ec-stat-condition-zone" aria-label="Frozen ${frozen} turns; delayed ${delayed} turns">
+        <span class="ec-condition-line frozen"><span class="ec-condition-orb">${ruleQuantumIcon('Water')}</span><span>Frozen: <strong>${frozen}</strong></span></span>
+        <span class="ec-condition-line delayed"><span class="ec-condition-orb">${ruleQuantumIcon('Time')}</span><span>Delayed: <strong>${delayed}</strong></span></span>
+      </section>
+      <section class="ec-stat-zone ec-stat-passive-zone" aria-label="Passive skills: ${esc(passives.map(statPassiveName).join(', ')||'none')}">
+        <span class="ec-stat-passive-title">Passive Skill:</span>
+        <span class="ec-stat-passive-list${passives.length?'':' empty'}">${passiveHTML}</span>
+      </section>
+      <span class="ec-stat-cross" aria-hidden="true"></span>
+    </div>`;
+  }
+  function positionHoverStats(){
+    if(!hoverStats||!hoverCardElement?.isConnected)return;
+    const anchor=hoverCardElement.getBoundingClientRect();
+    const w=hoverStats.offsetWidth,h=hoverStats.offsetHeight,pad=12;
+    let left=anchor.left+anchor.width/2-w/2;
+    let top=anchor.bottom+12;
+    left=Math.max(pad,Math.min(left,innerWidth-w-pad));
+    if(top+h>innerHeight-pad){
+      // Always prefer below the creature. If it cannot fit, place above;
+      // on short viewports clamp into the visible area without resizing the board.
+      if(anchor.top-h-12>=pad)top=anchor.top-h-12;
+      else top=Math.max(pad,innerHeight-h-pad);
+    }
+    hoverStats.style.left=left+'px';hoverStats.style.top=top+'px';
   }
   function positionHoverPreview(){
     if(!hoverPreview)return;
@@ -7027,19 +7202,55 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
     if(left+w>innerWidth-pad)left=hoverPoint.x-w-18;
     left=Math.max(pad,Math.min(left,innerWidth-w-pad));
     top=Math.max(pad,Math.min(top,innerHeight-h-pad));
+    if(hoverStats){
+      // Do not let the full-art card hide the four live stat quadrants.
+      const stats=hoverStats.getBoundingClientRect();
+      const overlap=(x,y)=>x<stats.right+9&&x+w>stats.left-9&&y<stats.bottom+9&&y+h>stats.top-9;
+      if(overlap(left,top)){
+        const leftSide=stats.left-w-15,rightSide=stats.right+15;
+        if(leftSide>=pad)left=leftSide;
+        else if(rightSide+w<=innerWidth-pad)left=rightSide;
+        else if(stats.top-h-12>=pad)top=stats.top-h-12;
+        else if(stats.bottom+h+12<innerHeight-pad)top=stats.bottom+12;
+      }
+    }
     hoverPreview.style.left=left+'px';hoverPreview.style.top=top+'px';
+  }
+  function positionHoverPanels(){
+    positionHoverStats();positionHoverPreview();
+    if(!hoverStats||!hoverPreview)return;
+    const s=hoverStats.getBoundingClientRect(),p=hoverPreview.getBoundingClientRect(),pad=12,gap=15;
+    // In short windows an enlarged card may be too tall to go above/below
+    // the stat box. Place them in adjacent columns when viewport width allows.
+    if(s.left<p.right+gap&&s.right+gap>p.left&&s.top<p.bottom+gap&&s.bottom+gap>p.top &&
+       s.width+p.width+gap+2*pad<=innerWidth){
+      const statsOnRight=hoverPoint.x>innerWidth/2;
+      hoverStats.style.left=(statsOnRight?pad+p.width+gap:pad)+'px';
+      hoverPreview.style.left=(statsOnRight?pad:pad+s.width+gap)+'px';
+    }
   }
   function showHoverCard(anchor){
     if(hoverCardElement!==anchor||state.scene!=='duel'||(state.displayMode!=='desktop'&&!fullscreenIsActive())||!anchor.isConnected)return;
     const card=BY_ID[anchor.dataset.hoverCard];if(!card)return;
+    const previewHost=nativeFullscreenElement()||(focusFullscreen?root:document.body);
     const preview=document.createElement('div');
     preview.id='elementia-hover-inspect';preview.setAttribute('role','tooltip');
     preview.setAttribute('aria-label',`${card.name} enlarged card preview`);
     preview.style.cssText=theme(card);
     preview.innerHTML=`<div class="card-tile ${card.cardFrameUrl?'has-aether-frame':''} ${card.cardFrameUrl&&['Air','Darkness','Death','Entropy','Gravity','Life','Earth','Fire','Water','Light','Time'].includes(card.element)||ENTROPY_CODE_TO_ART[card.legacyCode]?'has-elementia-frame frame-'+(ENTROPY_CODE_TO_ART[card.legacyCode]?'entropy':card.element.toLowerCase()):''}" style="--elementia-card-ratio:${card.cardFrameAspect}">${cardFace(card)}</div>`;
     applyPillarNumerals(preview);
-    const previewHost=nativeFullscreenElement()|| (focusFullscreen?root:document.body);
-    previewHost.appendChild(preview);hoverPreview=preview;positionHoverPreview();
+    previewHost.appendChild(preview);hoverPreview=preview;
+    const creature=hoveringBattleCreature(anchor);
+    if(creature){
+      const stats=document.createElement('div');
+      stats.id='elementia-creature-hover-stats';
+      stats.setAttribute('role','tooltip');
+      stats.setAttribute('aria-label',`${creature.unit.name||card.name}: current creature statistics`);
+      stats.innerHTML=renderCreatureHoverStats(card,creature);
+      applyPillarNumerals(stats);
+      previewHost.appendChild(stats);hoverStats=stats;
+    }
+    positionHoverPanels();
   }
   root.addEventListener('pointerover',event=>{
     if(state.scene!=='duel'||(state.displayMode!=='desktop'&&!fullscreenIsActive())||event.pointerType==='touch')return;
@@ -7047,7 +7258,6 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
     if(!anchor||anchor===hoverCardElement)return;
     clearHoverCard();hoverCardElement=anchor;
     hoverPoint={x:event.clientX,y:event.clientY};
-    // Suppress the browser's native tooltip, which would obscure the card preview.
     anchor.removeAttribute('title');
     hoverTimer=setTimeout(()=>{hoverTimer=null;showHoverCard(anchor);},1000);
   });
@@ -7060,8 +7270,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
   });
   root.addEventListener('pointermove',event=>{
     if(!hoverCardElement||event.pointerType==='touch')return;
-    hoverPoint={x:event.clientX,y:event.clientY};positionHoverPreview();
+    hoverPoint={x:event.clientX,y:event.clientY};positionHoverPanels();
   });
+  window.addEventListener('scroll',positionHoverPanels,{passive:true});
+  window.addEventListener('resize',positionHoverPanels,{passive:true});
   window.addEventListener('blur',clearHoverCard);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)clearHoverCard();});
   function renderDuel(){
@@ -7467,7 +7679,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.72-quanta-ability-symbols',isDemo:demo,
+    version:'20.73-creature-hover-stats',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

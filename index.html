@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.75</title>
+  <title>Elementia — The Return · v20.76</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -3461,6 +3461,17 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
   -webkit-text-stroke:0;
 }
 </style>
+<style id="elementia-v20-76-base-creature-board-white-names">
+/* v20.76 — The same white, subtly outlined base-card lettering from v20.75
+   now applies to the creature's name in both desktop and mobile battlefield
+   portraits. Do not change the elemental strip, ability icons or upgraded cards. */
+.etg-creature-row .etg-slot.occupied.og-creature-face.is-base-creature .tinycard-title,
+body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot.occupied.og-creature-face.is-base-creature .tinycard-title {
+  color:#ffffff!important;
+  -webkit-text-stroke:.28px rgba(0,0,0,.82);
+  text-shadow:0 1px 1px rgba(0,0,0,.94),0 0 2px rgba(0,0,0,.65)!important;
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4383,7 +4394,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.75 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.76 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -7007,7 +7018,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
     // A|H lives on the portrait, including in overlapping ranks.
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.abilities?.includes('immaterial')?' ◇':''}${entry.burrowed?' ⌄':''}${entry.poison?' ☣'+entry.poison:''}</span>`:'';
     const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
-    return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
+    return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
       ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
@@ -7300,7 +7311,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
     preview.id='elementia-hover-inspect';preview.setAttribute('role','tooltip');
     preview.setAttribute('aria-label',`${card.name} enlarged card preview`);
     preview.style.cssText=theme(card);
-    preview.innerHTML=`<div class="card-tile ${card.cardFrameUrl?'has-aether-frame':''} ${card.cardFrameUrl&&['Air','Darkness','Death','Entropy','Gravity','Life','Earth','Fire','Water','Light','Time'].includes(card.element)||ENTROPY_CODE_TO_ART[card.legacyCode]?'has-elementia-frame frame-'+(ENTROPY_CODE_TO_ART[card.legacyCode]?'entropy':card.element.toLowerCase()):''}" style="--elementia-card-ratio:${card.cardFrameAspect}">${cardFace(card)}</div>`;
+    preview.innerHTML=`<div class="card-tile ${card.tier==='Basic'?'is-base-card':''} ${card.cardFrameUrl?'has-aether-frame':''} ${card.cardFrameUrl&&['Air','Darkness','Death','Entropy','Gravity','Life','Earth','Fire','Water','Light','Time'].includes(card.element)||ENTROPY_CODE_TO_ART[card.legacyCode]?'has-elementia-frame frame-'+(ENTROPY_CODE_TO_ART[card.legacyCode]?'entropy':card.element.toLowerCase()):''}" style="--elementia-card-ratio:${card.cardFrameAspect}">${cardFace(card)}</div>`;
     applyPillarNumerals(preview);
     previewHost.appendChild(preview);hoverPreview=preview;
     const creature=hoveringBattleCreature(anchor);
@@ -7742,7 +7753,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.75-base-card-white-text',isDemo:demo,
+    version:'20.76-base-board-creature-white-text',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

@@ -3302,77 +3302,102 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
 #elementia-hover-inspect .etg-rule-quantum{width:1.16em;height:1.16em}
 </style>
 
-<style id="elementia-v20-73-creature-stat-hover">
-/* v20.73: independent OG-inspired creature tooltip. The card art remains
-   next to the pointer; this fixed-position summary follows its board card. */
+<style id="elementia-v20-74-creature-stat-hover">
+/* v20.74: a compact, four-quadrant inspection panel anchored BELOW its
+   battlefield creature. All condition glyphs use their own isolated grid. */
 #elementia-creature-hover-stats{
   position:fixed;z-index:9998;pointer-events:none;
-  box-sizing:border-box;width:min(418px,calc(100vw - 24px));height:180px;
-  padding:8px;border:1px solid #8d8876;border-radius:15px;
-  color:#f0ede5;background:linear-gradient(120deg,rgba(10,13,13,.97),rgba(31,35,36,.975) 53%,rgba(9,13,14,.98));
-  box-shadow:0 12px 25px #000b,inset 0 1px #ffffff25;
-  font:15px/1.28 Georgia,'Times New Roman',serif;overflow:hidden;
-  -webkit-font-smoothing:antialiased;
+  box-sizing:border-box;width:min(312px,calc(100vw - 18px));height:130px;
+  padding:6px;border:1px solid #8d8876;border-radius:11px;
+  color:#f0ede5;background:linear-gradient(120deg,rgba(10,13,13,.98),rgba(31,35,36,.985) 53%,rgba(9,13,14,.99));
+  box-shadow:0 7px 18px #000b,inset 0 1px #ffffff25;
+  font:12px/1.22 Georgia,'Times New Roman',serif;
+  overflow:hidden;-webkit-font-smoothing:antialiased;
 }
 #elementia-creature-hover-stats .ec-stat-grid{
-  width:100%;height:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  grid-template-rows:repeat(2,minmax(0,1fr));position:relative;
+  display:grid;position:relative;width:100%;height:100%;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(2,minmax(0,1fr));
 }
 #elementia-creature-hover-stats .ec-stat-grid::before{
-  content:'';position:absolute;left:50%;top:3px;bottom:3px;border-left:1px solid #c8c9c6b0;z-index:1;
+  content:'';position:absolute;left:50%;top:2px;bottom:2px;
+  border-left:1px solid #c8c9c6b0;z-index:1;
 }
 #elementia-creature-hover-stats .ec-stat-grid::after{
-  content:'';position:absolute;top:50%;left:7px;right:7px;border-top:1px solid #b9c3bba8;z-index:1;
+  content:'';position:absolute;top:50%;left:5px;right:5px;
+  border-top:1px solid #b9c3bba8;z-index:1;
 }
 #elementia-creature-hover-stats .ec-stat-zone{
   position:relative;min-width:0;min-height:0;display:flex;align-items:center;
-  padding:5px 12px;gap:9px;
+  padding:3px 7px;gap:6px;
 }
 #elementia-creature-hover-stats .ec-stat-zone:nth-child(2),
-#elementia-creature-hover-stats .ec-stat-zone:nth-child(4){padding-left:16px}
+#elementia-creature-hover-stats .ec-stat-zone:nth-child(4){padding-left:10px}
 #elementia-creature-hover-stats .ec-stat-label{
-  font:700 17px/1 Georgia,serif;letter-spacing:.04em;
+  font:700 13px/1 Georgia,serif;letter-spacing:.035em;
   writing-mode:vertical-rl;transform:rotate(180deg);flex:0 0 auto;
 }
 #elementia-creature-hover-stats .ec-stat-label.atk{color:#f1b9ad}
 #elementia-creature-hover-stats .ec-stat-label.hp{color:#a0e6cd}
 #elementia-creature-hover-stats .ec-stat-values{
-  display:flex;flex:1;flex-direction:column;gap:5px;min-width:0;
-  text-align:center;font-size:16px;white-space:nowrap;
+  display:flex;flex:1;flex-direction:column;gap:4px;min-width:0;
+  text-align:center;font-size:12px;white-space:nowrap;
 }
 #elementia-creature-hover-stats .ec-stat-values strong{font-weight:700;color:#fff6de}
 #elementia-creature-hover-stats .ec-stat-zone.hp .ec-stat-values strong{color:#c5ffe2}
 #elementia-creature-hover-stats .ec-stat-condition-zone{
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px;
+  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
+  gap:5px;min-width:0;
 }
 #elementia-creature-hover-stats .ec-condition-line{
-  display:flex;align-items:center;gap:8px;font-size:15px;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;font-size:12px;white-space:nowrap;
+  min-height:21px;min-width:0;line-height:1;
 }
 #elementia-creature-hover-stats .ec-condition-line.frozen{color:#9ee9ff}
 #elementia-creature-hover-stats .ec-condition-line.delayed{color:#f2dc84}
 #elementia-creature-hover-stats .ec-condition-orb{
-  display:inline-grid;place-items:center;flex:0 0 26px;width:26px;height:26px;
+  display:grid;position:relative;place-items:center;box-sizing:border-box;
+  flex:0 0 20px;width:20px;height:20px;min-width:20px;min-height:20px;
+  padding:0;margin:0;line-height:1;overflow:hidden;
   border:1px solid #e2d9be96;border-radius:50%;background:#152126;
   box-shadow:inset 0 1px 3px #ffffff2a,0 0 3px #000;
 }
-#elementia-creature-hover-stats .ec-condition-orb .etg-rule-quantum{
-  width:100%;height:100%;margin:0;border:0;background:transparent;vertical-align:middle;
+/* The rule glyph styles from v20.72 normally apply only to card text, so give
+   the inspection box an explicit grid. This prevents text/image displacement. */
+#elementia-creature-hover-stats .ec-condition-orb > .etg-rule-quantum{
+  position:absolute!important;inset:0!important;display:grid!important;
+  grid-template-areas:'glyph'!important;place-items:center!important;
+  box-sizing:border-box;width:100%!important;height:100%!important;
+  padding:0!important;margin:0!important;border:0!important;border-radius:50%;
+  background:transparent!important;box-shadow:none!important;overflow:hidden!important;
+  vertical-align:middle;line-height:1;
 }
-#elementia-creature-hover-stats .ec-condition-orb .etg-rule-quantum-fallback{font-size:17px}
+#elementia-creature-hover-stats .ec-condition-orb .etg-rule-quantum-fallback{
+  grid-area:glyph;display:grid;place-items:center;justify-self:center;align-self:center;
+  width:100%;height:100%;margin:0;line-height:1;font-size:15px;
+}
+#elementia-creature-hover-stats .ec-condition-orb img.etg-rule-quantum-art{
+  grid-area:glyph;display:block;position:relative;z-index:1;
+  box-sizing:border-box;width:90%;height:90%;max-width:90%;max-height:90%;
+  margin:auto;object-fit:contain;
+}
 #elementia-creature-hover-stats .ec-stat-passive-zone{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
-  text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;text-align:center;overflow:hidden;
 }
-#elementia-creature-hover-stats .ec-stat-passive-title{color:#f5e8d2;font-size:15px}
+#elementia-creature-hover-stats .ec-stat-passive-title{
+  color:#f5e8d2;font-size:12px;line-height:1.1;
+}
 #elementia-creature-hover-stats .ec-stat-passive-list{
-  font-size:15px;line-height:1.25;color:#d2e7b4;overflow:auto;max-height:58px;
-  scrollbar-width:thin;scrollbar-color:#8e987d #222;
-  overflow-wrap:anywhere;
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
+  max-width:100%;max-height:36px;padding:0;margin:0;
+  font-size:11px;line-height:1.15;color:#d2e7b4;
+  overflow:hidden!important;overflow-wrap:anywhere;
+  scrollbar-width:none; /* never create a scrollbar, even for long skill names */
 }
-#elementia-creature-hover-stats .ec-stat-passive-list.empty{color:#9c9f9b;font-style:italic}
-/* The fifth region is a subtle central four-way junction, not an extra stat. */
+#elementia-creature-hover-stats .ec-stat-passive-list::-webkit-scrollbar{display:none}
 #elementia-creature-hover-stats .ec-stat-cross{
-  position:absolute;z-index:2;top:50%;left:50%;width:7px;height:7px;
+  position:absolute;z-index:2;top:50%;left:50%;width:6px;height:6px;
   transform:translate(-50%,-50%);border-radius:50%;
   background:#c2c5b4;border:1px solid #262c2d;box-shadow:0 0 3px #e0d8b260;
 }
@@ -3381,22 +3406,22 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-permanent-lane .etg-sl
 body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
   position:fixed;z-index:9998;pointer-events:none;
 }
-@media(max-width:760px){
-  /* With a mouse on a narrow tablet, keep both previews side by side. */
-  #elementia-creature-hover-stats{width:min(310px,calc(51vw - 24px))}
+@media(max-width:900px){
+  #elementia-creature-hover-stats{width:min(290px,calc(52vw - 14px));height:126px}
   body #elementia-hover-inspect{width:min(275px,calc(49vw - 24px))!important}
 }
 @media(max-width:560px){
-  #elementia-creature-hover-stats{height:152px;padding:6px;font-size:12px}
-  #elementia-creature-hover-stats .ec-stat-zone{padding:4px 7px;gap:4px}
+  #elementia-creature-hover-stats{width:min(260px,calc(100vw - 20px));height:120px;padding:5px}
+  #elementia-creature-hover-stats .ec-stat-zone{padding:3px 4px;gap:3px}
   #elementia-creature-hover-stats .ec-stat-zone:nth-child(2),
-  #elementia-creature-hover-stats .ec-stat-zone:nth-child(4){padding-left:10px}
-  #elementia-creature-hover-stats .ec-stat-label{font-size:13px}
-  #elementia-creature-hover-stats .ec-stat-values{font-size:12px}
-  #elementia-creature-hover-stats .ec-condition-line{font-size:12px;gap:5px}
-  #elementia-creature-hover-stats .ec-stat-passive-title,
-  #elementia-creature-hover-stats .ec-stat-passive-list{font-size:12px}
-  #elementia-creature-hover-stats .ec-condition-orb{width:21px;height:21px;flex-basis:21px}
+  #elementia-creature-hover-stats .ec-stat-zone:nth-child(4){padding-left:8px}
+  #elementia-creature-hover-stats .ec-stat-label{font-size:11px}
+  #elementia-creature-hover-stats .ec-stat-values{font-size:10px}
+  #elementia-creature-hover-stats .ec-condition-line{gap:4px;font-size:10px}
+  #elementia-creature-hover-stats .ec-condition-orb{width:17px;height:17px;min-width:17px;min-height:17px;flex-basis:17px}
+  #elementia-creature-hover-stats .ec-condition-orb .etg-rule-quantum-fallback{font-size:13px}
+  #elementia-creature-hover-stats .ec-stat-passive-title{font-size:11px}
+  #elementia-creature-hover-stats .ec-stat-passive-list{font-size:10px;line-height:1.05}
 }
 </style>
 </head>
@@ -7110,7 +7135,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
   function renderDesktopBattlefield(b){
     return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${b.pendingDiscard?'<div class="etg-discard-notice" role="alert"><strong>Hand full — discard one card</strong><span>Select a card in your hand before the attack phase can begin.</span></div>':''}${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
   }
-  // v20.73: full-art hover and independent live creature statistics.
+  // v20.74: compact, beneath-creature live statistics and aligned quanta icons.
   // Stats are read from the actual board entity (key + side), never the
   // collectible card's static stats, so buffs and condition timers are accurate.
   let hoverCardElement=null,hoverTimer=null,hoverPreview=null,hoverStats=null,hoverPoint={x:0,y:0};
@@ -7160,7 +7185,10 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
     const passives=abilities.filter(skill=>!active.has(skill));
     if(unit.burrowed&&!passives.includes('burrowed'))passives.push('burrowed');
     if(unit.spellAttack&&!passives.includes('psion'))passives.push('psion');
-    const passiveHTML=passives.length?passives.map(statPassiveName).map(esc).join(' · '):'None';
+    const passiveNames=passives.map(statPassiveName);
+    const passiveHTML=passiveNames.length
+      ?`<span class="ec-stat-passive-list" title="${esc(passiveNames.join(', '))}">${passiveNames.map(esc).join(' · ')}</span>`
+      :'';
     const name=esc(unit.name||card.name);
     return `<div class="ec-stat-grid" aria-label="${name} creature status">
       <section class="ec-stat-zone atk" aria-label="Attack: full ${fullAtk}, current ${currentAtk}">
@@ -7175,7 +7203,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
       </section>
       <section class="ec-stat-zone ec-stat-passive-zone" aria-label="Passive skills: ${esc(passives.map(statPassiveName).join(', ')||'none')}">
         <span class="ec-stat-passive-title">Passive Skill:</span>
-        <span class="ec-stat-passive-list${passives.length?'':' empty'}">${passiveHTML}</span>
+        ${passiveHTML}
       </section>
       <span class="ec-stat-cross" aria-hidden="true"></span>
     </div>`;
@@ -7183,17 +7211,13 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
   function positionHoverStats(){
     if(!hoverStats||!hoverCardElement?.isConnected)return;
     const anchor=hoverCardElement.getBoundingClientRect();
-    const w=hoverStats.offsetWidth,h=hoverStats.offsetHeight,pad=12;
-    let left=anchor.left+anchor.width/2-w/2;
-    let top=anchor.bottom+12;
-    left=Math.max(pad,Math.min(left,innerWidth-w-pad));
-    if(top+h>innerHeight-pad){
-      // Always prefer below the creature. If it cannot fit, place above;
-      // on short viewports clamp into the visible area without resizing the board.
-      if(anchor.top-h-12>=pad)top=anchor.top-h-12;
-      else top=Math.max(pad,innerHeight-h-pad);
-    }
-    hoverStats.style.left=left+'px';hoverStats.style.top=top+'px';
+    const w=hoverStats.offsetWidth,pad=9;
+    // The inspector must always be BELOW its creature. In particular, do not
+    // clamp it back on top of the card on short viewports or lower rows.
+    const top=anchor.bottom+8;
+    const left=Math.max(pad,Math.min(anchor.left+anchor.width/2-w/2,innerWidth-w-pad));
+    hoverStats.style.left=Math.round(left)+'px';
+    hoverStats.style.top=Math.round(top)+'px';
   }
   function positionHoverPreview(){
     if(!hoverPreview)return;
@@ -7219,15 +7243,17 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
   function positionHoverPanels(){
     positionHoverStats();positionHoverPreview();
     if(!hoverStats||!hoverPreview)return;
-    const s=hoverStats.getBoundingClientRect(),p=hoverPreview.getBoundingClientRect(),pad=12,gap=15;
-    // In short windows an enlarged card may be too tall to go above/below
-    // the stat box. Place them in adjacent columns when viewport width allows.
-    if(s.left<p.right+gap&&s.right+gap>p.left&&s.top<p.bottom+gap&&s.bottom+gap>p.top &&
-       s.width+p.width+gap+2*pad<=innerWidth){
-      const statsOnRight=hoverPoint.x>innerWidth/2;
-      hoverStats.style.left=(statsOnRight?pad+p.width+gap:pad)+'px';
-      hoverPreview.style.left=(statsOnRight?pad:pad+s.width+gap)+'px';
-    }
+    const s=hoverStats.getBoundingClientRect(),p=hoverPreview.getBoundingClientRect();
+    const pad=9,gap=12;
+    const overlap=s.left<p.right+gap&&s.right+gap>p.left&&s.top<p.bottom+gap&&s.bottom+gap>p.top;
+    if(!overlap)return;
+    // Move only the enlarged art. The compact live stats stay directly below
+    // the hovered battlefield creature at all times.
+    const leftSide=s.left-p.width-gap,rightSide=s.right+gap;
+    if(leftSide>=pad)hoverPreview.style.left=Math.round(leftSide)+'px';
+    else if(rightSide+p.width<=innerWidth-pad)hoverPreview.style.left=Math.round(rightSide)+'px';
+    else if(s.top-p.height-gap>=pad)hoverPreview.style.top=Math.round(s.top-p.height-gap)+'px';
+    else hoverPreview.style.top=Math.round(s.bottom+gap)+'px';
   }
   function showHoverCard(anchor){
     if(hoverCardElement!==anchor||state.scene!=='duel'||(state.displayMode!=='desktop'&&!fullscreenIsActive())||!anchor.isConnected)return;
@@ -7679,7 +7705,7 @@ body[data-elementia-fullscreen="focus"] #app #elementia-creature-hover-stats{
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.73-creature-hover-stats',isDemo:demo,
+    version:'20.74-compact-creature-hover-stats',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

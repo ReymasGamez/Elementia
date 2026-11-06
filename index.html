@@ -3472,6 +3472,95 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   text-shadow:0 1px 1px rgba(0,0,0,.94),0 0 2px rgba(0,0,0,.65)!important;
 }
 </style>
+
+<style id="elementia-v20-77-status-quanta-indicators">
+/* Five fixed overlay sockets: Momentum, Adrenaline, Gravity Pull, Poison,
+   Immaterial. Empty sockets retain their slot but are visually invisible. */
+.etg-creature-row .etg-slot.og-creature-face .etg-creature-conditions{
+  --ec-condition-size:clamp(12px,1.85dvh,19px);
+  --ec-condition-step:calc(var(--ec-condition-size) * .72);
+  position:absolute;left:2px;bottom:2px;
+  width:calc(var(--ec-condition-size) + var(--ec-condition-step) * 4);
+  height:var(--ec-condition-size);z-index:12;
+  pointer-events:none;overflow:visible;
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-socket{
+  box-sizing:border-box;position:absolute;bottom:0;
+  left:calc(var(--ec-condition-order) * var(--ec-condition-step));
+  width:var(--ec-condition-size);height:var(--ec-condition-size);
+  border-radius:50%;visibility:hidden;
+  display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(circle at 35% 25%,#414341,#101719 80%);
+  border:1px solid #e0d6ab;box-shadow:0 1px 3px #000c,inset 0 1px 2px #fff4;
+  z-index:calc(15 - var(--ec-condition-order));
+  color:#f4ebd7;font:700 clamp(9px,1.35dvh,14px)/1 Georgia,serif;
+  text-shadow:0 1px 2px #000;
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-socket.is-active{visibility:visible}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-socket[data-condition="momentum"]{color:#ffdf8c}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-socket[data-condition="adrenaline"]{color:#a2f6bc}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-socket .etg-rule-quantum{
+  position:relative;display:grid;grid-template-areas:'glyph';place-items:center;
+  width:100%;height:100%;padding:0;margin:0;border:0;border-radius:50%;
+  background:none;box-shadow:none;overflow:hidden;
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-socket .etg-rule-quantum-fallback{
+  display:grid;grid-area:glyph;place-items:center;font-size:.85em;line-height:1
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-socket .etg-rule-quantum-art{
+  display:block;grid-area:glyph;position:relative;width:100%;height:100%;
+  object-fit:contain;z-index:1;
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-condition-poison-number{
+  position:absolute;right:-1px;bottom:-1px;z-index:4;
+  min-width:8px;padding:0 1px;border-radius:5px;
+  background:#1a1515f0;color:#fff;font:700 8px/1 Arial,sans-serif;
+  text-shadow:0 1px #000;border:1px solid #d9c38c;
+}
+/* Quanta-generation is shown as its elemental glyph beneath the square. */
+.etg-creature-row .etg-slot.og-creature-face .etg-ability-generation{
+  display:inline-flex;align-items:center;flex:0 0 auto;min-width:0;
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-ability-generation .etg-rule-quantum{
+  display:inline-grid;grid-template-areas:'glyph';place-items:center;
+  width:clamp(10px,1.4dvh,15px);height:clamp(10px,1.4dvh,15px);
+  flex:0 0 auto;box-sizing:border-box;border-radius:50%;overflow:hidden;
+  border:1px solid #e1d6a28c;background:#111b1acc;
+  vertical-align:middle;position:relative;box-shadow:0 1px 2px #0007;
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-ability-generation .etg-rule-quantum-fallback{
+  grid-area:glyph;display:grid;place-items:center;font-size:9px;line-height:1;
+}
+.etg-creature-row .etg-slot.og-creature-face .etg-ability-generation .etg-rule-quantum-art{
+  grid-area:glyph;display:block;width:100%;height:100%;object-fit:contain;z-index:1;
+}
+@media(max-width:650px){
+  .etg-creature-row .etg-slot.og-creature-face .etg-creature-conditions{
+    --ec-condition-size:clamp(6px,2.05vw,9px);--ec-condition-step:calc(var(--ec-condition-size) * .65);left:1px;bottom:1px
+  }
+  .etg-creature-row .etg-slot.og-creature-face .etg-condition-poison-number{font-size:6px;min-width:7px}
+  .etg-creature-row .etg-slot.og-creature-face .etg-ability-generation .etg-rule-quantum{width:9px;height:9px}
+}
+/* Player poison: replace the skull with the official Death emblem, preserving
+   the existing top-layer numeric counter and its stable HUD socket. */
+.etg-poison-marker .etg-poison-death-symbol{
+  position:absolute;inset:1px;display:grid;grid-template-areas:'glyph';place-items:center;
+  border-radius:50%;overflow:hidden;
+}
+.etg-poison-marker .etg-poison-death-symbol .etg-rule-quantum{
+  grid-area:glyph;display:grid;grid-template-areas:'glyph';place-items:center;
+  width:100%;height:100%;padding:0;margin:0;
+  border:0;border-radius:50%;background:transparent;box-shadow:none;
+}
+.etg-poison-marker .etg-poison-death-symbol .etg-rule-quantum-fallback{
+  grid-area:glyph;display:grid;place-items:center;font-size:19px;line-height:1
+}
+.etg-poison-marker .etg-poison-death-symbol .etg-rule-quantum-art{
+  grid-area:glyph;display:block;position:relative;z-index:1;
+  width:100%;height:100%;object-fit:contain;
+}
+.etg-poison-marker .etg-poison-count{z-index:3}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4286,6 +4375,19 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   function fullArtAbilityMarkup(card){
     const rule=cardRule(card)||{};
     let line=String(aetherEffectText(card)||'');
+    // Airborne is now inspected in the live battlefield stats box only. The
+    // original description data stays unchanged for rules and card indexing.
+    // Remove the *passive trait clause*, never an activated effect that grants
+    // or removes Airborne (and never rewrite spell text).
+    if(card?.type==='Creature'&&rule.abilities?.includes('airborne')){
+      line=line
+        .replace(/\bAirborne\s*:\s*(?:flies?[^.;]*|attacks over Wings[^.;]*|ignores? Wings[^.;]*)[.;]?\s*/gi,'')
+        .replace(/\bAirborne\s*[.;]\s*/gi,'')
+        .replace(/\bAirborne\s*,\s*/gi,'')
+        .replace(/\s*[.;,]\s*Airborne\s*[.;]?/gi,'.')
+        .replace(/\s{2,}/g,' ').replace(/^[,;:.\s]+|[,;:.\s]+$/g,'').trim();
+      if(line&&!/[.!?]$/.test(line))line+='.';
+    }
     // The two Gnomes passively generate Earth; this is not an activation cost.
     if(card?.type==='Creature'&&(card.legacyCode==='58u'||card.legacyCode==='77e')&&rule.abilities?.includes('earthgen')){
       line='Generate 1 Earth quantum at the end of each turn.';
@@ -6973,13 +7075,44 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   function crosshair(){return `<span class="etg-crosshair" aria-hidden="true"><svg viewBox="0 0 40 40" width="28" height="28" focusable="false"><circle cx="20" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M20 1v10 M20 29v10 M1 20h10 M29 20h10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>`;}
   // v20.37 — OG on-board creature footer. Draw the activation cost/element
   // from the live rule, followed by passive traits; never invent an ability.
+  // Elemental generators are read from the actual live creature ability list,
+  // including effects granted in battle, rather than from its printed element.
+  function creatureQuantaGeneration(entry){
+    const keys=new Set(Array.isArray(entry?.abilities)?entry.abilities:[]);
+    const mapping=[['airgen','Air'],['firegen','Fire'],['earthgen','Earth'],
+                   ['bioluminescence','Light'],['incandescence','Fire']];
+    return [...new Set(mapping.filter(([ability])=>keys.has(ability)).map(([,element])=>element))];
+  }
+  // Each creature always reserves five sockets, in this fixed order. The
+  // socket is invisible unless the matching condition is present in game state.
+  function creatureConditionSockets(entry){
+    const abilities=new Set(Array.isArray(entry?.abilities)?entry.abilities:[]);
+    const poison=Math.max(0,Math.trunc(Number(entry?.poison)||0));
+    const states=[
+      {name:'Momentum',key:'momentum',active:abilities.has('momentum'),symbol:'➤'},
+      {name:'Adrenaline',key:'adrenaline',active:!!(entry?.lifeAdrenaline||entry?.entropyAdrenaline),symbol:'✶'},
+      {name:'Gravity Pull',key:'gravity-pull',active:!!(entry?.gravityPull||entry?.entropyGravityPull),element:'Gravity'},
+      {name:'Poison',key:'poison',active:poison>0,element:'Death',count:poison},
+      {name:'Immaterial',key:'immaterial',active:abilities.has('immaterial'),element:'Time'}
+    ];
+    return `<span class="etg-creature-conditions" aria-label="Creature condition indicators">${states.map((v,i)=>{
+      const artwork=v.element?ruleQuantumIcon(v.element):`<span aria-hidden="true">${v.symbol}</span>`;
+      const badge=v.key==='poison'&&v.active?`<span class="etg-condition-poison-number">${v.count}</span>`:'';
+      return `<span class="etg-condition-socket ${v.active?'is-active':''}" data-condition="${v.key}" style="--ec-condition-order:${i}" aria-hidden="${v.active?'false':'true'}" ${v.active?`aria-label="${v.name}${v.count?' '+v.count:''}"`:''}>${v.active?artwork+badge:''}</span>`;
+    }).join('')}</span>`;
+  }
+  // v20.77: Paid abilities retain their name/cost; passive production is
+  // represented by the official ELEMENT icon under the on-board portrait.
   function creatureBoardAbility(entry,card){
     const r=entropyActiveRule(entry)||{};
     const active=String(r.activate||'').trim();
+    const generators=creatureQuantaGeneration(entry);
+    const hidden=new Set(['airborne','momentum','adrenaline','immaterial',
+                          'airgen','firegen','earthgen','bioluminescence','incandescence']);
     const passive=(Array.isArray(entry.abilities)?entry.abilities:[])
-      .map(x=>String(x)).filter(x=>x && x!==active);
+      .map(x=>String(x)).filter(x=>x&&x!==active&&!hidden.has(x));
     const readable=name=>({'lightLuciferin':'Luciferin','healCreature':'Heal','endow':'Endow','photosynthesis':'Photosynthesis','growth':'Growth','adrenaline':'Adrenaline','mitosis':'Mitosis','gravityPullSelf':'Gravity Pull','blackHole':'Black Hole','catapult':'Catapult','accretion':'Accretion','ablaze':'Ablaze','devour':'Devour'})[name]||name.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/[_-]/g,' ').replace(/^./,x=>x.toUpperCase());
-    const passiveNames={airborne:'Airborne',airgen:'+1 Air',bioluminescence:'+1 Light',incandescence:'+1 Fire',immaterial:'Immaterial',psion:'Spell attack',salvaging:'Salvage',ranged:'Ranged',burrowed:'Burrowed',vampire:'Vampire',poison:'Poison'};
+    const passiveNames={psion:'Spell attack',salvaging:'Salvage',ranged:'Ranged',burrowed:'Burrowed',vampire:'Vampire',poison:'Poison'};
     const passiveText=passive.map(name=>passiveNames[name]||readable(name)).join(' · ');
     const parts=[];
     if(active){
@@ -6991,8 +7124,11 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         : `<span class="etg-paid-orb" style="--etg-paid-color:${el.color}" aria-label="${esc(element)}">${esc(el.symbol)}</span>`;
       parts.push(`<span class="etg-ability-paid" title="${esc(cost)} ${esc(element)} quanta: ${esc(readable(active))}"><span class="etg-paid-number">${cost}</span>${paidIcon}<span class="etg-paid-name">: ${esc(readable(active))}</span></span>`);
     }
+    for(const element of generators){
+      parts.push(`<span class="etg-ability-generation" aria-label="Generates ${esc(element)} quantum" title="Generates ${esc(element)} quanta">${ruleQuantumIcon(element)}</span>`);
+    }
     if(passiveText)parts.push(`<span class="etg-ability-passives" title="${esc(passiveText)}">${esc(passiveText)}</span>`);
-    return parts.length?`<span class="tinycard-abilities" aria-label="${esc([active?`${r.activateCost||0} ${r.activateElement||card?.element||'Other'}: ${readable(active)}`:'',passiveText].filter(Boolean).join('; '))}">${parts.join('<span class="etg-ability-sep">; </span>')}</span>`:'';
+    return parts.length?`<span class="tinycard-abilities" aria-label="${esc([active?`${r.activateCost||0} ${r.activateElement||card?.element||'Other'}: ${readable(active)}`:'',...generators.map(x=>'Generates '+x),passiveText].filter(Boolean).join('; '))}">${parts.join('<span class="etg-ability-sep">; </span>')}</span>`:'';
   }
   function renderBattleSlot(b,entry,side,label,stackCount=1){
     if(!entry)return `<span class="etg-slot vacant" aria-label="${side} ${esc(label)}: empty"></span>`;
@@ -7016,10 +7152,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       ? Math.max(0,Number.isFinite(entry.bones)?entry.bones:(boneRule.boneCharges??7)) : null;
     const boneBadge=remainingBones===null?'':`<span class="bone-shield-count" aria-label="${remainingBones} bone shields remaining">x${remainingBones}</span>`;
     // A|H lives on the portrait, including in overlapping ranks.
-    const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.abilities?.includes('immaterial')?' ◇':''}${entry.burrowed?' ⌄':''}${entry.poison?' ☣'+entry.poison:''}</span>`:'';
+    const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.burrowed?' ⌄':''}</span>`:'';
     const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
     return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
-      ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
+      ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${creatureSlot&&creature&&!concealed?creatureConditionSockets(entry):''}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
     const units=b[side+'Creatures']||[];
@@ -7061,7 +7197,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     // its visibility, never the HP bar's dimensions or the layout of adjacent text.
     const poison=Math.max(0,Math.trunc(Number(b?.[side+'Poison'])||0));
     const active=poison>0;
-    return `<span class="etg-poison-slot" aria-hidden="${active?'false':'true'}"><span class="etg-poison-marker ${active?'':'is-off'}" data-digits="${String(poison).length}" ${active?`title="Poison ${poison}: ${poison} damage during the opponent's turn" role="img" aria-label="${poison} poison damage on each opposing turn"`:''}><span class="etg-poison-skull" aria-hidden="true">☠</span><span class="etg-poison-count" aria-hidden="true">${poison}</span></span></span>`;
+    return `<span class="etg-poison-slot" aria-hidden="${active?'false':'true'}"><span class="etg-poison-marker ${active?'':'is-off'}" data-digits="${String(poison).length}" ${active?`title="Poison ${poison}: ${poison} damage during the opponent's turn" role="img" aria-label="${poison} poison damage on each opposing turn"`:''}><span class="etg-poison-death-symbol" aria-hidden="true">${ruleQuantumIcon('Death')}</span><span class="etg-poison-count" aria-hidden="true">${poison}</span></span></span>`;
   }
   // v20.17 visual-only estimate. Never calls damage functions or changes the duel.
   // Models existing creature attack values, deterministic shields and average
@@ -7753,7 +7889,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.76-base-board-creature-white-text',isDemo:demo,
+    version:'20.77-creature-conditions-and-quanta',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.78</title>
+  <title>Elementia — The Return · v20.79</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -4508,7 +4508,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.78 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.79 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -4604,7 +4604,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   }
   function renderMenu(){
     const total=countMap(state.deck);
-    const levels=[['Level 0','level0',true],['Level 1','level1',false],['Level 2','level2',false],['Level 3','level3',false],['Level 4','level4',false],['False God','falsegod',false]];
+    const levels=[['Level 0','level0',true],['Level 1','level1',true],['Level 2','level2',false],['Level 3','level3',false],['Level 4','level4',false],['False God','falsegod',false]];
     const rows=[
       ['Cost',['-','-','5 ◈','10 ◈','15 ◈','30 ◈']],
       ['Reward',['1 ◈','≈ 5 ◈','≈ 10 ◈','≈ 20 ◈','≈ 30 ◈','≈ 60 ◈']],
@@ -4634,7 +4634,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       ${state.notice?`<div class="og-menu-notice" role="status">${esc(state.notice)}</div>`:''}
       <div class="og-menu-main">
         <div class="og-menu-intro"><h2>Start A New Game</h2><p>(pick your opponent level)</p></div>
-        <section class="og-level-panel" aria-label="Choose opponent level">${table}<div class="og-level-note"><span class="og-level-swipe">Swipe sideways to view all opponent levels →</span>Level 0 is ready. Other levels are planned.</div></section>
+        <section class="og-level-panel" aria-label="Choose opponent level">${table}<div class="og-level-note"><span class="og-level-swipe">Swipe sideways to view all opponent levels →</span>Levels 0 and 1 are ready. Higher levels are planned.</div></section>
       </div>
       <div class="og-menu-lower">
         <div class="og-menu-deckintro"><h2>Manage Your Deck</h2><p>(add, remove, buy or sell cards)</p></div>
@@ -5622,6 +5622,98 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
     return shuffle(deck);
   }
+  // v20.79 — Level 1 builds a real four-element 60-card deck rather than
+  // Level 0's 40 random-color basics. "Rare" means an individual rare CARD
+  // COPY; duplicates consume the six-card cap too. Other is neutral, not a
+  // fifth elemental color. No permanent player collection is modified.
+  function levelOneIsRare(card){
+    const rarity=String(cardRule(card)?.rarity||'').toLowerCase();
+    return rarity==='rare'||rarity==='ultra rare'||isClassicRare(card);
+  }
+  const LEVEL_ONE_UNSAFE_SPELLS=new Set(['fireImmolation','fireRage','waterDry']);
+  function levelOneEligible(card,elements){
+    const r=cardRule(card);
+    if(!r||card.tier!=='Basic'||r.cost==null||r.tokenOnly||r.generatedOnly||
+      (card.legacyCode&&OG_UNFINISHED.has(card.legacyCode)))return false;
+    if(card.element!=='Other'&&!elements.includes(card.element))return false;
+    if(!['Creature','Spell','Shield','Weapon','Permanent','Pendulum','Pillar'].includes(card.type))return false;
+    if(card.type==='Creature'&&(!Number.isFinite(r.atk)||!Number.isFinite(r.hp)))return false;
+    if(card.type==='Spell'&&(!AI_SPELL_EFFECTS.has(r.effect)||LEVEL_ONE_UNSAFE_SPELLS.has(r.effect)))return false;
+    if(card.type==='Spell'&&r.effect==='fireRage')return false;
+    // Avoid activated skills the deck will be unable to pay for.
+    if(r.activate&&r.activateCost>0&&r.activateElement&&!elements.includes(r.activateElement))return false;
+    const pay=paymentElement(card);
+    return r.cost===0||pay==='Random'||elements.includes(pay);
+  }
+  function levelOneDeck(){
+    const elements=shuffle(ELEMENTS.map(([element])=>element)).slice(0,4);
+    const mark=aiRandom(elements);
+    const deck=[],copies=Object.create(null);
+    let rareCount=0;
+    const rareBudget=Math.floor(Math.random()*7);
+    function add(card){
+      const r=cardRule(card);
+      if(!['pillar','tower'].includes(r?.family)&&copies[card.id]>=6)throw Error('Level 1 exceeded a six-copy cap.');
+      if(levelOneIsRare(card))rareCount++;
+      copies[card.id]=(copies[card.id]||0)+1;
+      deck.push(card.id);
+    }
+    function choose(pool,preferRare=false){
+      const available=pool.filter(c=>(['pillar','tower'].includes(cardRule(c)?.family)||!copies[c.id]||copies[c.id]<6)&&
+        (!levelOneIsRare(c)||rareCount<rareBudget));
+      if(!available.length)throw Error('Insufficient playable Level 1 cards for its four selected elements.');
+      const rareChoices=preferRare?available.filter(levelOneIsRare):[];
+      const options=rareChoices.length?rareChoices:available.filter(c=>!levelOneIsRare(c));
+      const finalPool=options.length?options:available;
+      // Favor affordable and varied cards without refusing expensive/rare cards.
+      const weighted=finalPool.flatMap(c=>Array(Math.max(1,9-Math.min(8,cardRule(c).cost||0)-Math.min(3,copies[c.id]||0))).fill(c));
+      return aiRandom(weighted);
+    }
+    // Exactly four colored pillar groups; resources always match the deck.
+    for(const element of elements){
+      const pillars=CARDS.filter(c=>c.element===element&&c.tier==='Basic'&&cardRule(c)?.family==='pillar');
+      if(!pillars.length)throw Error('Level 1 is missing '+element+' resource cards.');
+      for(let n=0;n<4;n++)add(aiRandom(pillars));
+    }
+    // Every deck includes six playable Other cards (neutral is not a fifth color).
+    const neutral=CARDS.filter(c=>c.element==='Other'&&levelOneEligible(c,elements)&&
+      !['pillar','tower'].includes(cardRule(c)?.family));
+    for(let n=0;n<6;n++)add(choose(neutral,n>2&&Math.random()<.25));
+    // 38 remaining slots, round-robin across all four selected colors.
+    for(let i=0;i<38;i++){
+      const element=elements[i%4];
+      const pool=CARDS.filter(c=>c.element===element&&levelOneEligible(c,elements)&&
+        !['pillar','tower'].includes(cardRule(c)?.family));
+      add(choose(pool,Math.random()<.23));
+    }
+    if(deck.length!==60||rareCount>6)throw Error('Level 1 deck invariants failed.');
+    return {cards:shuffle(deck),elements,mark,rareCount};
+  }
+
+  // Level 0 may target either side at random. Level 1 only aims harmful
+  // targeted spells/skills at the opponent, and helpful ones at itself.
+  const LEVEL_ONE_HELPFUL_TARGETS=new Set([
+    'clone','quintessence','fractal','wisdom','liquidShadow','earthPlateArmor',
+    'earthEnchantArtifact','entropyButterfly','gravityMomentum','gravityPull',
+    'gravityAcceleration','lifeAdrenaline','lifeMitosis','lightBlessing',
+    'timeReadiness','waterPurify','waterTears','adrenaline','endow','immortality','waterNymph'
+  ]);
+  const LEVEL_ONE_NO_FRIENDLY_SACRIFICE=new Set(['fireImmolation','catapult']);
+  function aiLevelOneTargetAllowed(b,r,target){
+    if((b.aiLevel||0)!==1)return true;
+    const effect=r?.effect||r?.activate||'';
+    if(LEVEL_ONE_NO_FRIENDLY_SACRIFICE.has(effect))return false;
+    if(effect==='lightHoly'){
+      // Holy Light damages Death/Darkness but heals everyone else.
+      const harmful=target.unit&&['Death','Darkness'].includes(BY_ID[target.unit.id]?.element);
+      return target.side===(harmful?'player':'enemy');
+    }
+    if(effect==='fireRage')return false; // It removes HP; don't harm allies.
+    if(r?.targetFriendly||LEVEL_ONE_HELPFUL_TARGETS.has(effect))return target.side==='enemy';
+    // Unknown targeted effects are treated as hostile rather than risking a
+    // detrimental hit on our creatures, permanents, or hero.
+    return target.side==='player';
+  }
   function aiRandom(items){return items[Math.floor(Math.random()*items.length)];}
   function aiOpponent(side){return side==='enemy'?'player':'enemy';}
 
@@ -6016,9 +6108,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         }
       }
     }
-    // Steal only moves an enemy permanent; if another rule truly allows self-
-    // targeting, the selection logic above intentionally retains it.
-    return choices;
+    // Level 1's target choice respects harmful/beneficial intent; Level 0
+    // preserves the original fully-random target selection.
+    return choices.filter(t=>aiLevelOneTargetAllowed(b,r,t));
   }
   function aiCanPlay(b,id){
     const c=BY_ID[id],r=cardRule(c);
@@ -6036,7 +6128,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   }
   function aiDraw(b){
     if(b.enemyHand.length>=GAME_RULES.maxHand||!b.enemyLibrary.length)return '';
-    b.enemyHand.push(b.enemyLibrary.shift());return 'Level 0 draws a card.';
+    b.enemyHand.push(b.enemyLibrary.shift());return `Level ${b.aiLevel||0} draws a card.`;
   }
   function aiBrickPass(b){
     if(b.enemyPlayed)return '';
@@ -6046,7 +6138,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const item=aiRandom(options),r=cardRule(item.card);
     b.enemyLibrary.splice(item.i,1);
     addPermanent(b,{id:item.id,key:b.nextKey++,mode:'assigned',sleep:r.family==='pillar'},'enemy');
-    return `Level 0 brick-passes ${item.card.name}.`;
+    return `Level ${b.aiLevel||0} brick-passes ${item.card.name}.`;
   }
   function aiResolveSpell(b,c,r,t){
     t=lifeReflectHeroSpell(b,'enemy',r,t);
@@ -6172,7 +6264,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         if(w&&lightEndowTarget(b,{kind:'permanent',side,unit:w,equipment:'weapon'}))candidates.push({kind:'permanent',side,unit:w,equipment:'weapon'});
         for(const u of b[side+'Creatures']||[])if(lightEndowTarget(b,{kind:'creature',side,unit:u}))candidates.push({kind:'creature',side,unit:u});
       }
-      return candidates;
+      return candidates.filter(t=>aiLevelOneTargetAllowed(b,{activate:r.activate},t));
     }
     if(['destroy','accretion'].includes(r.activate)||CLASSIC_TARGET_ABILITY_PERMANENT.has(r.activate)){
       for(const side of ['player','enemy']){
@@ -6186,7 +6278,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         }
         for(const type of ['Weapon','Shield','Magical'])if(!CLASSIC_TARGET_ABILITY_PERMANENT.has(r.activate)&&b[side+type]&&!lifeProtectedPermanent(b,{kind:'permanent',side,unit:b[side+type],equipment:type.toLowerCase()}))candidates.push({kind:'permanent',side,unit:b[side+type],equipment:type.toLowerCase()});
       }
-      return candidates;
+      return candidates.filter(t=>aiLevelOneTargetAllowed(b,{activate:r.activate},t));
     }
     for(const side of ['player','enemy']){
       if(side==='player'&&darkCloaked(b,'player'))continue;
@@ -6201,7 +6293,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         candidates.push({side,unit:u});
       }
     }
-    return candidates;
+    return candidates.filter(t=>aiLevelOneTargetAllowed(b,{activate:r.activate},t));
   }
   function aiAbilityReady(b,item){
     const r=entropyActiveRule(item);if(!r?.activate||!item.abilities?.includes(r.activate)||
@@ -6292,21 +6384,22 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       }
     }
     const brick=aiBrickPass(b);if(brick)events.push(brick);
-    steps.push('Level 0: '+(events.length?events.join('; '):'no playable cards or abilities.')+'.');
+    steps.push('Level '+(b.aiLevel||0)+': '+(events.length?events.join('; '):'no playable cards or abilities.')+'.');
     b.lastAiActions=events;
   }
 
-  function newDuel(useTraining=true){
+  function newDuel(useTraining=true,aiLevel=0){
     const entries=Object.entries(state.deck).filter(([id,qty])=>BY_ID[id]&&qty>0);
     const playerCards=useTraining?originalStarterForMark(state.element):entries.flatMap(([id,qty])=>Array(Math.min(qty,60)).fill(id));
     const cards=useTraining?playerCards:(playerCards.length>=30&&playerCards.length<=60?playerCards:originalStarterForMark(state.element));
     const library=shuffle(cards);
     const hand=library.splice(0,7);
-    const aiDeck=levelZeroDeck(),enemyLibrary=shuffle(aiDeck),enemyHand=enemyLibrary.splice(0,7);
-    return {version:12,aiLevel:0,enemyDeck:[...aiDeck],turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
-      playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyMark:aiRandom(ELEMENTS)[0],enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
+    const opponent=aiLevel===1?levelOneDeck():null;
+    const aiDeck=opponent?opponent.cards:levelZeroDeck(),enemyLibrary=shuffle(aiDeck),enemyHand=enemyLibrary.splice(0,7);
+    return {version:12,aiLevel:opponent?1:0,enemyElements:opponent?[...opponent.elements]:[],enemyRareCount:opponent?.rareCount||0,enemyDeck:[...aiDeck],turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
+      playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyMark:opponent?opponent.mark:aiRandom(ELEMENTS)[0],enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
       playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
-      selectedHand:-1,permanentPages:{player:0,enemy:0},permanentGeometryVersion:14,labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
+      selectedHand:-1,permanentPages:{player:0,enemy:0},permanentGeometryVersion:14,labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:opponent?`Level 1 AI — 60 cards, 4 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; ${opponent.rareCount} rare cards.`:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
       history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2,creaturePlacementVersion:23};
   }
   // v20.65 — Original Elements numeric slot layout, independently for each
@@ -7064,7 +7157,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     resolveActingSide(b,'player',steps);
     finishDuel(b);
     if(!b.ended){
-      if(b.aiLevel===0)aiTakeTurn(b,steps);
+      if(b.aiLevel===0||b.aiLevel===1)aiTakeTurn(b,steps);
       if(!b.ended){discardAiCard(b,steps);resolveActingSide(b,'enemy',steps);}
       finishDuel(b);
     }
@@ -7072,7 +7165,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(!b.ended){
       b.turn++;b.played=false;b.enemyPlayed=false;b.selectedHand=-1;
       steps.push(drawDuel(b));
-      if(b.aiLevel===0){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}
+      if(b.aiLevel===0||b.aiLevel===1){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}
     }else steps.push(b.winner==='player'?'Victory.':'Defeat.');
     logDuel(b,steps.join(' '));render();
   }
@@ -7266,7 +7359,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const creatures=creatureRows(b,side),permanents=permanentRow(b,side);
     return `<section class="etg-player ${own?'self':'enemy'}" aria-label="${own?'Your':'Opponent'} battlefield">
-      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level 0 AI')}</span><span class="etg-hp-hero-anchor" ${state.displayMode==='desktop'?'':heroTargetAnchorAttrs(b,side)}>${hudHealthBar(b,side)}${state.displayMode==='desktop'?'':heroTargetMarkup(b,side)}</span><span class="etg-hp-with-poison"><span class="hp">${hp} / ${maxHp} HP</span>${heroPoisonMarker(b,side)}</span></div>
+      <div class="etg-player-status"><span class="name">${esc(own?state.player:'Level '+(b.aiLevel||0)+' AI')}</span><span class="etg-hp-hero-anchor" ${state.displayMode==='desktop'?'':heroTargetAnchorAttrs(b,side)}>${hudHealthBar(b,side)}${state.displayMode==='desktop'?'':heroTargetMarkup(b,side)}</span><span class="etg-hp-with-poison"><span class="hp">${hp} / ${maxHp} HP</span>${heroPoisonMarker(b,side)}</span></div>
       ${own?`${creatures}${permanents}`:`${permanents}${creatures}`}
     </section>`;
   }
@@ -7797,7 +7890,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'music-play-pause':if(jukeboxTrack>=0)musicToggle(jukeboxTrack);break;
       case 'navigate':navigate(button.dataset.to);break;
       case 'element':if(ELEMENT[id]){state.element=id;state.duel=null;save();render();}break;
-      case 'starter-duel':state.duel=newDuel(true);navigate('duel');break;
+      case 'starter-duel':state.duel=newDuel(id!=='level1',id==='level1'?1:0);navigate('duel');break;
       case 'deck-tab':state.deckTab=id;render();break;
       case 'select-card':if(BY_ID[id]){state.selected=id;state.notice='';render();}break;
       case 'detail':if(BY_ID[id]){state.modal=id;render();}break;
@@ -7805,7 +7898,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'add-deck':changeDeck(id,1);render();break;
       case 'remove-deck':changeDeck(id,-1);render();break;
       case 'buy':buy(id);render();break;
-      case 'reset-duel':state.duel=newDuel(true);navigate('duel');break;
+      case 'reset-duel':state.duel=newDuel(state.duel?.training??true,state.duel?.aiLevel??0);navigate('duel');break;
       case 'custom-duel':{const valid=countMap(state.deck)===60&&Object.entries(state.deck).every(([id,n])=>['pillar','tower'].includes(cardRule(BY_ID[id])?.family)||n<=6);if(!valid){state.deckTab='deck';state.scene='deck';state.notice='A custom deck needs exactly 60 cards and no more than six copies of non-Pillar/Tower cards.';render();}else{state.duel=newDuel(false);navigate('duel');}break;}
       case 'hand-card':if(state.duel){
         if(state.duel.pendingDiscard){discardHandCard(Number(id));break;}
@@ -7901,10 +7994,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.77-creature-conditions-and-quanta',isDemo:demo,
+    version:'20.79-level-one-opponents',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelOneIsRare,aiLevelOneTargetAllowed,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();

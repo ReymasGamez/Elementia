@@ -770,7 +770,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.82</title>
+  <title>Elementia — The Return · v20.83</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -4508,7 +4508,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.82 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.83 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -4604,7 +4604,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   }
   function renderMenu(){
     const total=countMap(state.deck);
-    const levels=[['Level 0','level0',true],['Level 1','level1',true],['Level 2','level2',true],['Level 3','level3',false],['Level 4','level4',false],['False God','falsegod',false]];
+    const levels=[['Level 0','level0',true],['Level 1','level1',true],['Level 2','level2',true],['Level 3','level3',true],['Level 4','level4',false],['False God','falsegod',false]];
     const rows=[
       ['Cost',['-','-','5 ◈','10 ◈','15 ◈','30 ◈']],
       ['Reward',['1 ◈','≈ 5 ◈','≈ 10 ◈','≈ 20 ◈','≈ 30 ◈','≈ 60 ◈']],
@@ -5753,6 +5753,82 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     return {cards:shuffle(cards),elements,mark,rareCount:0,colors};
   }
 
+  // v20.83 — Level 3: two basic elements, a deliberately coherent 42-card list,
+  // with the main element also serving as the Mark. No neutral/Other cards.
+  // Resource production uses BOTH matching Pillars and matching Pendulums.
+  function levelThreeDeck(){
+    const selected=shuffle(ELEMENTS.map(([e])=>e)).slice(0,2);
+    const [main,secondary]=selected;
+    const elements=[main,secondary],cards=[],copies=Object.create(null);
+    const add=(c,n=1)=>{
+      if(!c||c.tier!=='Basic'||!elements.includes(c.element)||
+        !(c.type==='Weapon'?paymentElement(c)===c.element:levelOneEligible(c,elements)))
+        throw Error('Level 3 selected an ineligible or off-color card.');
+      for(let j=0;j<n;j++){
+        if(!['pillar','tower'].includes(cardRule(c)?.family)&&(copies[c.id]||0)>=6)
+          throw Error('Level 3 exceeded the six-copy limit.');
+        copies[c.id]=(copies[c.id]||0)+1;cards.push(c.id);
+      }
+    };
+    const choose=(pool)=>{
+      const allowed=pool.filter(c=>(copies[c.id]||0)<6);
+      if(!allowed.length)throw Error('Level 3 has no eligible cards in a required category.');
+      // Prefer a recognizable core and playable costs while retaining variety.
+      const bag=allowed.flatMap(c=>{
+        const r=cardRule(c),cost=Number(r?.cost||0);
+        return Array(Math.max(1,8-Math.min(6,cost)+Math.min(2,copies[c.id]||0))).fill(c);
+      });
+      return aiRandom(bag);
+    };
+    for(const [element,target,pillarCount,pendulumCount] of [[main,22,5,2],[secondary,20,4,2]]){
+      const base=CARDS.filter(c=>c.tier==='Basic'&&c.element===element&&levelOneEligible(c,elements));
+      const pillar=base.find(c=>cardRule(c)?.family==='pillar');
+      const pendulum=base.find(c=>cardRule(c)?.family==='pendulum');
+      if(!pillar||!pendulum)throw Error('Missing basic Level 3 Pillar/Pendulum for '+element);
+      add(pillar,pillarCount);add(pendulum,pendulumCount);
+      if(element===main){
+        const weapon=CARDS.find(c=>c.tier==='Basic'&&c.element===main&&c.type==='Weapon'&&
+          paymentElement(c)===main);
+        if(!weapon)throw Error('Missing basic elemental weapon for '+main);
+        add(weapon);
+      }
+      const creatures=base.filter(c=>c.type==='Creature');
+      const spells=base.filter(c=>c.type==='Spell');
+      if(creatures.length<2||spells.length<2)throw Error('Missing creatures/spells for Level 3 '+element);
+      // Two different creature and spell staples are ALWAYS duplicated, rather
+      // than relying on the random fill to create a consistent deck identity.
+      const creatureCore=shuffle(creatures).slice(0,2);
+      const spellCore=shuffle(spells).slice(0,2);
+      for(const c of [...creatureCore,...spellCore])add(c,2);
+      const fillers=base.filter(c=>!['Weapon','Pillar','Pendulum'].includes(c.type)&&
+        !['pillar','pendulum','tower'].includes(cardRule(c)?.family));
+      while(cards.filter(id=>BY_ID[id]?.element===element).length<target){
+        // Duplicates of the four core cards are relatively common. Other
+        // creatures, spells, shields and permanents can still appear.
+        const core=[...creatureCore,...spellCore].filter(c=>(copies[c.id]||0)<5);
+        const pick=core.length&&Math.random()<.55?choose(core):choose(fillers);
+        add(pick);
+      }
+    }
+    const mainCards=cards.filter(id=>BY_ID[id]?.element===main),offCards=cards.filter(id=>BY_ID[id]?.element===secondary);
+    const uniqueWeapons=cards.filter(id=>BY_ID[id]?.type==='Weapon');
+    const verifyColor=(e)=>{
+      const pool=cards.filter(id=>BY_ID[id]?.element===e).map(id=>BY_ID[id]);
+      for(const type of ['Creature','Spell']){
+        if(pool.filter(c=>c.type===type).length<4||
+          pool.filter(c=>c.type===type).filter(c=>pool.filter(x=>x.id===c.id).length>=2).length<4)return false;
+      }
+      return pool.some(c=>cardRule(c)?.family==='pillar')&&pool.some(c=>cardRule(c)?.family==='pendulum');
+    };
+    if(cards.length!==42||mainCards.length!==22||offCards.length!==20||
+      uniqueWeapons.length!==1||uniqueWeapons[0]!==mainCards.find(id=>BY_ID[id]?.type==='Weapon')||
+      cards.some(id=>BY_ID[id]?.tier!=='Basic'||BY_ID[id]?.element==='Other'||!elements.includes(BY_ID[id]?.element))||
+      !verifyColor(main)||!verifyColor(secondary)||Object.values(copies).some(n=>n>6))
+      throw Error('Level 3 deck invariants failed.');
+    return {cards:shuffle(cards),elements,mark:main,main,secondary,rareCount:cards.filter(id=>levelOneIsRare(BY_ID[id])).length,
+      colors:{[main]:22,[secondary]:20},weapon:BY_ID[uniqueWeapons[0]].name};
+  }
+
   // Level 0 may target either side at random. Level 1+ only aim harmful
   // targeted spells/skills at the opponent, and helpful ones at itself.
   const LEVEL_ONE_HELPFUL_TARGETS=new Set([
@@ -6291,7 +6367,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const id=b.enemyHand[index],c=BY_ID[id],r=cardRule(c);
     if(!aiCanPlay(b,id))return '';
     const candidates=r.targeting?aiLegalTargets(b,c):[];
-    const t=candidates.length?(b.aiLevel===2?aiLevelTwoChooseTarget(b,r,candidates):aiRandom(candidates)):null;
+    const t=candidates.length?(b.aiLevel>=3?aiLevelThreeChooseTarget(b,r,candidates):b.aiLevel===2?aiLevelTwoChooseTarget(b,r,candidates):aiRandom(candidates)):null;
     // The cost is only paid once a complete legal action is available.
     if(!aiSpend(b,c))return '';
     b.enemyHand.splice(index,1);b.enemyPlayed=true;
@@ -6376,7 +6452,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   function aiActivate(b,item){
     const c=BY_ID[item.id],r=entropyActiveRule(item),t=aiAbilityTargets(b,item,r);
     if(!aiAbilityReady(b,item))return '';
-    const target=t.length?(b.aiLevel===2?aiLevelTwoChooseTarget(b,{effect:r.activate,damage:r.abilityDamage},t):aiRandom(t)):null;
+    const target=t.length?(b.aiLevel>=3?aiLevelThreeChooseTarget(b,{effect:r.activate,damage:r.abilityDamage},t):b.aiLevel===2?aiLevelTwoChooseTarget(b,{effect:r.activate,damage:r.abilityDamage},t):aiRandom(t)):null;
     b.enemyQuanta[r.activateElement]-=r.activateCost;
     if(!lifeAbilityRepeatable(r))item.used=b.turn;
     if(item.readinessDoubleTurn===b.turn)item.readinessUsesThisTurn=(item.readinessUsesThisTurn||0)+1;
@@ -6625,7 +6701,232 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       (b.levelTwoPlan.held.length?'; held spells: '+b.levelTwoPlan.held.join(', '):'')+'.');
   }
 
+
+  // Level 3's threat evaluation is shared between target selection, cards and
+  // activated abilities. Target availability is still checked by the game
+  // engine before any resource is spent.
+  const LEVEL_THREE_URGENT_EFFECTS=new Set(['fireBolt','waterIceBolt','drainLife','lightning','shockwave',
+    'deathPoison','aflatoxin','waterFreeze','earthPetrify','timeReverse','steal','destroy','web','lobotomize',
+    'lightHoly','thunderstorm','fireRain','fireDeflagration','gravityBlackHole']);
+  function aiLevelThreeThreat(b,u){
+    if(!u)return 0;
+    const atk=Math.max(0,Number(u.atk||0)),hp=Math.max(0,Number(u.hp||0));
+    const skills=u.abilities||[];
+    let value=atk*2.8+Math.min(15,hp)*.65;
+    if(skills.includes('airborne'))value+=2;
+    if(skills.includes('poisonous')||skills.includes('deadlyVenom'))value+=7;
+    if(skills.includes('regenerate')||skills.includes('immaterial'))value+=5;
+    if(skills.includes('earthgen')||skills.includes('airgen')||skills.includes('firegen')||skills.includes('bioluminescence'))value+=4;
+    if(skills.includes('gravityPull'))value+=3;
+    if(u.frozen||u.freezeTurns>0||u.delayed||u.delayTurns>0)value*=.45;
+    return value;
+  }
+  function aiLevelThreePressure(b){
+    const enemyThreats=(b.playerCreatures||[]).reduce((sum,u)=>sum+aiLevelThreeThreat(b,u),0);
+    const incoming=(b.playerCreatures||[]).reduce((sum,u)=>sum+Math.max(0,Number(u.atk)||0),0)+
+      Math.max(0,Number(b.playerWeapon&&cardRule(BY_ID[b.playerWeapon.id])?.atk||0));
+    const ourThreats=(b.enemyCreatures||[]).reduce((sum,u)=>sum+aiLevelThreeThreat(b,u),0);
+    return {enemyThreats,incoming,ourThreats,emergency:incoming>=Math.max(1,b.enemyHp||1),
+      dangerous:incoming>=Math.max(5,(b.enemyHp||50)*.3)};
+  }
+  function aiLevelThreeChooseTarget(b,r,targets){
+    if(!targets?.length)return null;
+    const effect=r?.effect||r?.activate||'',helpful=r?.targetFriendly||LEVEL_ONE_HELPFUL_TARGETS.has(effect);
+    const pressure=aiLevelThreePressure(b);
+    const hit=aiLevelTwoEstimateDamage(b,r);
+    const score=(t)=>{
+      if(t.kind==='hero'){
+        if(t.side==='player')return hit>=b.playerHp?10000:(!helpful?12+Math.min(24,hit):0);
+        return helpful?90+Math.min(20,Math.max(0,b.enemyMaxHp-b.enemyHp)):0;
+      }
+      const u=t.unit||{},r2=cardRule(BY_ID[u.id]),isFriendly=t.side==='enemy';
+      if(t.kind==='permanent'||t.equipment){
+        const resource=['pillar','pendulum','tower'].includes(r2?.family);
+        return (isFriendly?10:35)+(resource?9:17)+(t.equipment==='shield'?20:0);
+      }
+      const threat=aiLevelThreeThreat(b,u),hp=Math.max(0,u.hp||0);
+      if(helpful){
+        let value=30+threat*.8+Math.max(0,(u.maxHp||hp)-hp)*1.6;
+        if(effect==='lifeAdrenaline'&&u.atk>4)value-=12;
+        if(effect==='gravityPull'&&isFriendly)value+=Math.max(0,pressure.incoming)*1.2;
+        return value;
+      }
+      let value=25+threat*1.8;
+      if(['fireBolt','waterIceBolt','lightning','sniper','shockwave'].includes(effect)&&hit>=hp&&hp>0)value+=48;
+      if(['waterFreeze','earthPetrify','web','lobotomize','timeReverse'].includes(effect))value+=threat*.55;
+      if((u.frozen||u.delayed)&&['waterFreeze','earthPetrify','web'].includes(effect))value-=33;
+      if(!isFriendly&&pressure.emergency)value+=threat*2;
+      return value;
+    };
+    return [...targets].sort((a,z)=>score(z)-score(a))[0];
+  }
+  function aiLevelThreeCardValue(b,c,turn){
+    const r=cardRule(c),p=aiLevelThreePressure(b),cost=Number(r?.cost||0);
+    if(!r)return -100;
+    const family=r.family||'';
+    if(['pillar','pendulum','tower'].includes(family)){
+      const count=(b.enemyPermanents||[]).filter(u=>BY_ID[u.id]?.element===c.element).length;
+      return 13+Math.max(0,2-turn)*4-Math.max(0,count-5)*3;
+    }
+    if(c.type==='Creature'){
+      const atk=Math.max(0,r.atk||0),hp=Math.max(0,r.hp||0);
+      const abilityBonus=(r.abilities||[]).some(a=>/gen|poison|vampire|airborne|immaterial|regenerate|scavenger/.test(a))?5:0;
+      return 12+atk*1.8+Math.min(14,hp)*.65+abilityBonus+(p.dangerous?5:0)-Math.max(0,cost-7)*1.8;
+    }
+    if(c.type==='Permanent')return 15+(r.effect==='cloak'?12:0)+(r.effect==='boneyard'?8:0)+(p.dangerous?3:0);
+    if(c.type==='Shield')return 9+(p.dangerous?30:Math.min(12,p.incoming))+Math.max(0,(r.block||0)*2)-(b.enemyShield?10:0);
+    if(c.type==='Weapon')return 12+Math.max(0,r.atk||0)*2.5-(b.enemyWeapon?11:0);
+    if(c.type!=='Spell')return 8;
+    if(r.targeting&&!aiLegalTargets(b,c).length)return -100;
+    const effect=r.effect||'';
+    const enemyUnits=(b.playerCreatures||[]),friendly=(b.enemyCreatures||[]);
+    const damage=aiLevelTwoEstimateDamage(b,r);
+    const isDamage=['fireBolt','waterIceBolt','lightning','drainLife','shockwave'].includes(effect);
+    if(isDamage){
+      if(['fireBolt','waterIceBolt','lightning','drainLife'].includes(effect)&&damage>=b.playerHp)return 600;
+      const strongest=Math.max(0,...enemyUnits.map(u=>aiLevelThreeThreat(b,u)));
+      const canKill=enemyUnits.some(u=>u.hp<=damage&&aiLevelThreeThreat(b,u)>=8);
+      return 9+Math.min(12,damage)*2+(canKill?36:0)+Math.min(25,strongest)*.3+
+        (p.emergency&&canKill?65:0)-(enemyUnits.length===0&&b.playerHp>20?9:0);
+    }
+    if(['waterFreeze','earthPetrify','deathPoison','aflatoxin','timeReverse','steal','thunderstorm','fireRain',
+      'fireDeflagration','gravityBlackHole','lightHoly'].includes(effect)){
+      const highest=Math.max(0,...enemyUnits.map(u=>aiLevelThreeThreat(b,u)));
+      if(enemyUnits.length===0&&['waterFreeze','earthPetrify','deathPoison','aflatoxin','timeReverse'].includes(effect))return -40;
+      return 5+highest*.8+enemyUnits.length*7+(p.emergency?48:0)-(enemyUnits.length===0?13:0);
+    }
+    if(effect==='lifeHeal')return 3+Math.min(45,b.enemyMaxHp-b.enemyHp)*1.7+(p.emergency?8:0);
+    if(LEVEL_ONE_HELPFUL_TARGETS.has(effect))return 4+friendly.length*4+p.ourThreats*.25;
+    if(LEVEL_THREE_URGENT_EFFECTS.has(effect))return 8+Math.min(30,p.enemyThreats);
+    return 10+(p.dangerous?3:0);
+  }
+  function aiLevelThreeBeamPlan(b){
+    // Look ahead up to three quanta-production phases using the actual known
+    // hand and its casting costs. This is a bounded beam search (not a full
+    // simulation of hidden draws, probability or combat). Replanning happens
+    // after every real play, so targets and board state remain authoritative.
+    const hand=(b.enemyHand||[]).slice(0,8).map((id,index)=>({index,c:BY_ID[id]}));
+    if(!hand.length)return {index:-1,score:0,path:[]};
+    const production=aiLevelTwoForecast(b).production,cap=GAME_RULES.maxQuanta;
+    const init={pool:{...b.enemyQuanta},bonus:{},mask:0,first:-1,path:[],score:0,boardAdd:0};
+    const rating=s=>s.score+(s.first>=0?.05:0);
+    const key=s=>s.mask+'|'+Object.keys(s.bonus).map(k=>k+':'+s.bonus[k]).sort().join(',')+'|'+Object.entries(s.pool).filter(([,v])=>v>0).map(([k,v])=>k+':'+v).sort().join(',');
+    const prune=(list,limit=32)=>{
+      const unique=new Map();
+      for(const s of list){const k=key(s);if(!unique.has(k)||rating(unique.get(k))<rating(s))unique.set(k,s);}
+      return [...unique.values()].sort((a,z)=>rating(z)-rating(a)).slice(0,limit);
+    };
+    const afford=(pool,c)=>{
+      const r=cardRule(c),e=paymentElement(c),count=Number(r?.cost||0);
+      if(e==='Random')return Object.values(pool).reduce((a,z)=>a+z,0)>=count;
+      return (pool[e]||0)>=count;
+    };
+    const spend=(pool,c)=>{
+      const r=cardRule(c),e=paymentElement(c),out={...pool};let n=r.cost||0;
+      if(e==='Random')while(n-->0){const colors=Object.keys(out).filter(k=>out[k]>0).sort((a,z)=>out[z]-out[a]);if(colors.length)out[colors[0]]--;}
+      else out[e]-=n;
+      return out;
+    };
+    let states=[init];
+    for(let turn=0;turn<3;turn++){
+      let frontier=states,ended=[];
+      for(let action=0;action<Math.min(hand.length,5);action++){
+        ended.push(...frontier);
+        const next=[];
+        for(const s of frontier){
+          for(let i=0;i<hand.length;i++){
+            if(s.mask&(1<<i))continue;
+            const c=hand[i].c,r=cardRule(c);
+            if(!c||!r||!afford(s.pool,c))continue;
+            if(['Creature','Permanent'].includes(c.type)&&!isResourcePermanent(c)&&
+              mainCount(b,'enemy')+s.boardAdd>=GAME_RULES.maxMainBoard)continue;
+            // Validity and protection are rechecked when executing real cards.
+            if(c.type==='Spell'&&(!AI_SPELL_EFFECTS.has(r.effect)||
+              r.targeting&&!aiLegalTargets(b,c).length))continue;
+            const value=aiLevelThreeCardValue(b,c,turn);
+            if(value<=0)continue;
+            const bonus={...s.bonus};
+            if(['pillar','pendulum','tower'].includes(r.family)){
+              const e=c.element==='Other'?b.enemyMark:c.element;
+              bonus[e]=(bonus[e]||0)+(r.quantity||1);
+            }
+            next.push({pool:spend(s.pool,c),bonus,mask:s.mask|(1<<i),
+              first:s.first>=0?s.first:turn===0?hand[i].index:-1,
+              path:[...s.path,{turn,card:c.name,index:hand[i].index}],
+              score:s.score+value*(turn===0?1:turn===1?.74:.54),
+              boardAdd:s.boardAdd+(['Creature','Permanent'].includes(c.type)&&!isResourcePermanent(c)?1:0)});
+          }
+        }
+        frontier=prune(next);
+        if(!frontier.length)break;
+      }
+      ended.push(...frontier);
+      states=prune(ended).map(s=>{
+        const pool={...s.pool};
+        for(const [element,amount] of Object.entries(production)){
+          if(element in pool)pool[element]=Math.min(cap,(pool[element]||0)+amount+(s.bonus[element]||0));
+        }
+        return {...s,pool};
+      });
+    }
+    const best=states.sort((a,z)=>rating(z)-rating(a))[0]||init;
+    return {index:best.first,score:best.score,path:best.path};
+  }
+  function aiLevelThreeAbilityWorth(b,item){
+    if(!aiAbilityReady(b,item)||!aiLevelTwoAbilityWorth(b,item))return false;
+    const r=entropyActiveRule(item),effect=r.activate||'',cost=Number(r.activateCost||0),e=r.activateElement;
+    if(['dive','burrow','stoneForm'].includes(effect))return aiLevelTwoAbilityWorth(b,item);
+    const pressure=aiLevelThreePressure(b),targets=aiAbilityTargets(b,item,r);
+    if(TARGET_ABILITIES.has(effect)&&!targets.length)return false;
+    const useful=['sniper','web','lobotomize','destroy','accretion','earthGuard','waterFreeze','waterPoison'].includes(effect);
+    if(useful&&pressure.enemyThreats===0&&['sniper','web','lobotomize','waterFreeze','waterPoison'].includes(effect))return false;
+    if(cost>0&&e&&!pressure.dangerous){
+      const future=aiLevelTwoForecast(b).pool;
+      const desirable=b.enemyHand.map(id=>BY_ID[id]).filter(Boolean).filter(c=>paymentElement(c)===e&&
+        (cardRule(c)?.cost||0)>(b.enemyQuanta[e]||0)&&
+        (cardRule(c)?.cost||0)<=(future[e]||0)+Math.max(1,aiLevelTwoForecast(b).production[e]||0)*2)
+        .sort((a,z)=>aiLevelThreeCardValue(b,z,1)-aiLevelThreeCardValue(b,a,1))[0];
+      if(desirable&&(future[e]||0)-cost<(cardRule(desirable)?.cost||0))return false;
+    }
+    return true;
+  }
+  function aiLevelThreeTakeTurn(b,steps){
+    const events=[];b.enemyPlayed=false;
+    b.levelThreePlan={horizon:3,held:[],planned:[]};
+    for(let i=0;i<70&&!b.ended;i++){
+      const plan=aiLevelThreeBeamPlan(b);
+      b.levelThreePlan.planned=plan.path.map(a=>`${a.card} (turn +${a.turn})`);
+      if(plan.index<0){
+        b.levelThreePlan.held=b.enemyHand.map(id=>BY_ID[id]?.name||id);
+        break;
+      }
+      const id=b.enemyHand[plan.index];
+      if(!aiCanPlay(b,id)){b.levelThreePlan.held.push(BY_ID[id]?.name||id);break;}
+      const action=aiPlayCard(b,plan.index);
+      if(!action)break;
+      events.push('played '+action);finishDuel(b);
+    }
+    // A later card or a generated creature can change legal targets. Re-check
+    // all skills after the card phase and conserve quanta for planned hand cards.
+    const active=shuffle([...b.enemyCreatures,...b.enemyPermanents,b.enemyWeapon,b.enemyShield]
+      .filter(Boolean));
+    for(const item of active){
+      if(b.ended)break;
+      const r=entropyActiveRule(item),repeat=lifeAbilityRepeatable(r)?Math.min(30,b.enemyQuanta.Light||0):1;
+      for(let n=0;n<repeat&&!b.ended&&aiLevelThreeAbilityWorth(b,item);n++){
+        if(lifeAbilityRepeatable(r)&&(b.enemyQuanta.Life||0)>=GAME_RULES.maxQuanta)break;
+        const result=aiActivate(b,item);if(result)events.push('used '+result);
+        finishDuel(b);
+      }
+    }
+    const brick=aiBrickPass(b);if(brick)events.push(brick);
+    b.lastAiActions=events;
+    steps.push('Level 3: '+(events.length?events.join('; '):'held cards for later opportunities')+
+      (b.levelThreePlan.held.length?'; reserved: '+b.levelThreePlan.held.slice(0,4).join(', '):'')+'.');
+  }
+
   function aiTakeTurn(b,steps){
+    if(b.aiLevel===3)return aiLevelThreeTakeTurn(b,steps);
     if(b.aiLevel===2)return aiLevelTwoTakeTurn(b,steps);
     const events=[];b.enemyPlayed=false;
     // It never plans: randomly pick from all currently affordable actions until
@@ -6659,12 +6960,12 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const cards=useTraining?playerCards:(playerCards.length>=30&&playerCards.length<=60?playerCards:originalStarterForMark(state.element));
     const library=shuffle(cards);
     const hand=library.splice(0,7);
-    const opponent=aiLevel===1?levelOneDeck():aiLevel===2?levelTwoDeck():null;
+    const opponent=aiLevel===1?levelOneDeck():aiLevel===2?levelTwoDeck():aiLevel===3?levelThreeDeck():null;
     const aiDeck=opponent?opponent.cards:levelZeroDeck(),enemyLibrary=shuffle(aiDeck),enemyHand=enemyLibrary.splice(0,7);
     return {version:12,aiLevel:opponent?aiLevel:0,enemyElements:opponent?[...opponent.elements]:[],enemyRareCount:opponent?.rareCount||0,enemyDeck:[...aiDeck],turn:1,hand,library,training:useTraining,quanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),
       playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyMark:opponent?opponent.mark:aiRandom(ELEMENTS)[0],enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
       playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
-      selectedHand:-1,permanentPages:{player:0,enemy:0},permanentGeometryVersion:14,labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:opponent?aiLevel===2?`Level 2 AI — 37 cards, 3 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; 18 Mark cards, 1 Quantum Pillar, 1 Other weapon; no rares.`:`Level 1 AI — 60 cards, 4 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; ${opponent.rareCount} rare cards.`:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
+      selectedHand:-1,permanentPages:{player:0,enemy:0},permanentGeometryVersion:14,labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:opponent?aiLevel===3?`Level 3 AI — 42 cards, 2 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; 22 main and 20 secondary, dual Pillars/Pendulums, ${opponent.weapon}; 3-turn tactical planning.`:aiLevel===2?`Level 2 AI — 37 cards, 3 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; 18 Mark cards, 1 Quantum Pillar, 1 Other weapon; no rares.`:`Level 1 AI — 60 cards, 4 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; ${opponent.rareCount} rare cards.`:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
       history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2,creaturePlacementVersion:23};
   }
   // v20.82 — A rematch must retain the currently selected opponent difficulty.
@@ -7428,7 +7729,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     resolveActingSide(b,'player',steps);
     finishDuel(b);
     if(!b.ended){
-      if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2)aiTakeTurn(b,steps);
+      if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2||b.aiLevel===3)aiTakeTurn(b,steps);
       if(!b.ended){discardAiCard(b,steps);resolveActingSide(b,'enemy',steps);}
       finishDuel(b);
     }
@@ -7436,7 +7737,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(!b.ended){
       b.turn++;b.played=false;b.enemyPlayed=false;b.selectedHand=-1;
       steps.push(drawDuel(b));
-      if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}
+      if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2||b.aiLevel===3){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}
     }else steps.push(b.winner==='player'?'Victory.':'Defeat.');
     logDuel(b,steps.join(' '));render();
   }
@@ -8161,7 +8462,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'music-play-pause':if(jukeboxTrack>=0)musicToggle(jukeboxTrack);break;
       case 'navigate':navigate(button.dataset.to);break;
       case 'element':if(ELEMENT[id]){state.element=id;state.duel=null;save();render();}break;
-      case 'starter-duel':state.duel=newDuel(true,id==='level1'?1:id==='level2'?2:0);navigate('duel');break;
+      case 'starter-duel':state.duel=newDuel(true,id==='level1'?1:id==='level2'?2:id==='level3'?3:0);navigate('duel');break;
       case 'deck-tab':state.deckTab=id;render();break;
       case 'select-card':if(BY_ID[id]){state.selected=id;state.notice='';render();}break;
       case 'detail':if(BY_ID[id]){state.modal=id;render();}break;
@@ -8265,10 +8566,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.82-rematch-level-preservation',isDemo:demo,
+    version:'20.83-level-three-ai',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelOneIsRare,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();

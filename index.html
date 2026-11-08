@@ -779,7 +779,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.86</title>
+  <title>Elementia — The Return · v20.87</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -3652,6 +3652,60 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
 @media(max-width:760px){.quests-banner{padding:13px}.quests-banner h1{font-size:29px}.quest-map{zoom:.77}.quest-details{padding:18px 14px}.quest-map-wrap{max-height:none}.quest-node .quest-node-name{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.quest-node[data-status="claimable"] .quest-ring{animation:none}}
 </style>
+
+<style id="elementia-v20-87-quest-viewport">
+/* v20.87: no scrolling the Quests page itself; pan only inside the quest canvas. */
+html:has(body.etg-quests-active){overflow:hidden;overscroll-behavior:none}
+body.etg-quests-active{height:100dvh;min-height:0;overflow:hidden;overscroll-behavior:none}
+body.etg-quests-active #app{height:100dvh;min-height:0;overflow:hidden}
+body.etg-quests-active .shell.quests-shell{height:100dvh;max-width:none;display:flex;flex-direction:column;overflow:hidden;padding:12px clamp(9px,2vw,22px) 10px}
+body.etg-quests-active .quests-shell #main{display:flex;flex:1;min-height:0;min-width:0;overflow:hidden}
+body.etg-quests-active .quests-page{height:100%;min-height:0;display:flex;flex-direction:column;gap:9px;overflow:hidden}
+body.etg-quests-active .quests-banner{flex:none;margin:0;padding:11px 17px}
+body.etg-quests-active .quests-banner h1{font-size:clamp(24px,3vw,32px)}
+body.etg-quests-active .quests-banner p{margin:3px 0 0}
+body.etg-quests-active .quest-map-wrap{flex:1;min-height:0;height:auto;max-height:none;overflow:auto;cursor:grab;touch-action:none;overscroll-behavior:contain;scrollbar-width:thin;position:relative}
+body.etg-quests-active .quest-map-wrap.quest-is-dragging{cursor:grabbing}
+body.etg-quests-active .quest-map{user-select:none;-webkit-user-select:none}
+body.etg-quests-active .quest-node{user-select:none;-webkit-user-select:none;touch-action:none}
+/* The global button:active translateY(1px) overwrote translate(-50%,-50%) and displaced nodes. */
+body.etg-quests-active .quest-node:active:not(:disabled),body.etg-quests-active .quest-node:hover,body.etg-quests-active .quest-node:focus-visible{transform:translate(-50%,-50%)}
+body.etg-quests-active .quest-node:hover .quest-ring,body.etg-quests-active .quest-node[aria-pressed="true"] .quest-ring,body.etg-quests-active .quest-node:focus-visible .quest-ring{transform:none}
+body.etg-quests-active .quest-node:hover .quest-ring{filter:brightness(1.25)}
+body.etg-quests-active .quest-legend{flex:none;margin:2px auto 1px;gap:12px}
+body.etg-quests-active #quest-details-slot{flex:none;min-height:0;max-height:min(31dvh,218px);overflow-y:auto;scrollbar-width:thin}
+body.etg-quests-active .quest-details{min-height:0;margin:0 auto;padding:12px 17px}
+body.etg-quests-active .quest-details h2{font-size:clamp(19px,2.1vw,24px)}
+body.etg-quests-active .quest-details .quest-desc{margin:7px 0;font-size:14px;line-height:1.3}
+body.etg-quests-active .quest-details .quest-note{margin:4px 0}
+body.etg-quests-active .quest-progress-track{margin:7px 0}
+body.etg-quests-active .quest-details-footer{margin-top:5px}
+body.etg-quests-active .quest-details .button{min-height:35px}
+body.etg-quests-active .quests-banner-actions{justify-content:flex-end}
+body.etg-quests-active .quests-back-button{white-space:nowrap}
+.quest-hover-tip{position:fixed;z-index:400;pointer-events:none;opacity:0;visibility:hidden;max-width:min(310px,calc(100vw - 22px));min-width:190px;padding:13px 15px;border:1px solid #c8a96c;border-radius:4px;background:linear-gradient(140deg,#293333,#101719 75%);color:#ede1be;box-shadow:0 10px 25px #000c,0 0 15px #e7c47830;font:13px/1.45 Georgia,serif;transition:opacity .1s ease}
+.quest-hover-tip.is-visible{visibility:visible;opacity:1}
+.quest-hover-tip strong{display:block;font:small-caps 18px/1.15 Georgia,serif;color:#f8dca0;margin-bottom:6px}
+.quest-hover-tip .quest-tip-goal{display:block;color:#e3dfd1}
+.quest-hover-tip .quest-tip-progress{display:block;margin-top:7px;font-weight:bold;color:#f1d496}
+.quest-hover-tip .quest-tip-state{display:block;margin-top:4px;color:#b4c6bc;font-style:italic;font-size:12px}
+@media(max-width:760px){
+ body.etg-quests-active .shell.quests-shell{padding:8px 8px 8px}
+ body.etg-quests-active .quests-banner{padding:9px 10px}
+ body.etg-quests-active .quests-banner p{font-size:11px}
+ body.etg-quests-active .quests-banner-actions{gap:5px}
+ body.etg-quests-active .quests-tally{font-size:12px}
+ body.etg-quests-active .quests-back-button{font-size:12px;padding:5px 8px;min-height:36px}
+ body.etg-quests-active .quest-legend{font-size:10px;gap:7px;flex-wrap:nowrap}
+ body.etg-quests-active #quest-details-slot{max-height:min(34dvh,210px)}
+ body.etg-quests-active .quest-details{padding:9px 10px}
+ body.etg-quests-active .quest-details .quest-eyebrow{font-size:10px}
+ body.etg-quests-active .quest-details h2{font-size:19px}
+ body.etg-quests-active .quest-details .quest-desc{font-size:12px}
+ body.etg-quests-active .quest-details .button{min-height:32px;font-size:11px}
+}
+@media(max-height:580px){body.etg-quests-active #quest-details-slot{max-height:170px}body.etg-quests-active .quests-banner p{display:none}body.etg-quests-active .quest-legend{margin:0 auto}}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4413,7 +4467,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     Q018:'Freeze 15 creatures.'
   });
   const QUEST_UNAVAILABLE=Object.freeze({Q001:'Email verification is not implemented for local-only accounts.',Q002:'The tutorial completion event is not yet implemented.',Q003:'Confirmed referrals require a future referral system.'});
-  let selectedQuestId='Q000',questScrollX=null;
+  let selectedQuestId='Q000',questScrollX=null,questScrollY=null;
+  let questDrag=null,questSuppressClick=false;
   function questInitializeAccount(){
     if(!state.quests||typeof state.quests!=='object'||Array.isArray(state.quests))state.quests={};
     const first=state.quests.Q000;
@@ -4507,10 +4562,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const claimed=QUESTS.filter(q=>questEntry(q.id)?.claimed).length;
     const ready=QUESTS.filter(q=>questStatus(q.id)==='claimable').length;
     return wrap(`<div class="quests-page">
-      <div class="quests-banner"><div><h1>Quests</h1><p>The Elements reward perseverance. Complete a quest to unlock its descendants.</p></div>
-        <div class="quests-banner-actions"><span class="quests-tally">${claimed} / ${QUESTS.length} claimed · ${ready} rewards ready</span>
-        <span class="quests-tally">${electrumAmount(state.credits)}</span><button type="button" class="button secondary" data-action="navigate" data-to="menu">Main Menu</button></div></div>
-      <div class="quest-map-wrap" id="quest-map-scroller" role="region" aria-label="Scrollable quest tree; select a circle to view its objectives" tabindex="0">
+      <div class="quests-banner"><div><h1>Quests</h1><p>${claimed} / ${QUESTS.length} claimed · ${ready} rewards ready · Drag the tree to explore.</p></div>
+        <div class="quests-banner-actions"><button type="button" class="button secondary quests-back-button" data-action="navigate" data-to="menu">← Back to Main Menu</button></div></div>
+      <div class="quest-map-wrap" id="quest-map-scroller" role="region" aria-label="Draggable quest tree. Drag to pan; hover or focus a circle for details; select a circle for its reward." tabindex="0">
         <div class="quest-map"><svg class="quest-map-svg" viewBox="0 0 1560 1060" aria-hidden="true">${questConnectors()}</svg>
           <span class="quest-map-heading masteries">Elemental Masteries</span>
           <span class="quest-map-heading gameplay">The Three Paths</span>
@@ -4519,8 +4573,31 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
           ${QUESTS.map(questNode).join('')}
         </div></div>
       <div class="quest-legend"><span class="locked"><i></i> Locked</span><span class="available"><i></i> In progress</span><span class="claimable"><i></i> Reward ready</span><span class="claimed"><i></i> Claimed</span></div>
-      ${questDetails()}
-    </div>`);
+      <div id="quest-details-slot">${questDetails()}</div>
+    </div><aside id="quest-hover-tip" class="quest-hover-tip" role="tooltip" aria-hidden="true"></aside>`);
+  }
+  function questSelect(id){
+    if(!QUEST_BY_ID[id]||state.scene!=='quests')return;
+    selectedQuestId=id;
+    const slot=root.querySelector('#quest-details-slot');
+    if(slot)slot.innerHTML=questDetails();
+    root.querySelectorAll('.quest-node').forEach(node=>node.setAttribute('aria-pressed',String(node.dataset.id===id)));
+  }
+  function questHideTooltip(){const tooltip=root.querySelector('#quest-hover-tip');if(tooltip){tooltip.classList.remove('is-visible');tooltip.setAttribute('aria-hidden','true');}}
+  function questShowTooltip(node){
+    if(state.scene!=='quests'||questDrag?.moved)return;
+    const q=QUEST_BY_ID[node?.dataset?.id],tip=root.querySelector('#quest-hover-tip');if(!q||!tip)return;
+    const count=questProgressNum(q.id),goal=q.objective.target,status=questStatus(q.id);
+    const locked=q.prerequisites.length?`Requires: ${q.prerequisites.map(id=>QUEST_BY_ID[id].name).join(' and ')}`:'';
+    const stateText={locked:locked||'Locked',available:'In progress',claimable:'Reward ready to collect',claimed:'Reward collected'}[status];
+    tip.innerHTML=`<strong>${esc(q.name)}</strong><span class="quest-tip-goal">${esc(QUEST_OBJECTIVES[q.id])}</span><span class="quest-tip-progress">Progress: ${count} / ${goal}</span><span class="quest-tip-state">${esc(stateText)}</span>`;
+    tip.classList.add('is-visible');tip.setAttribute('aria-hidden','false');
+    const rect=node.getBoundingClientRect(),tipRect=tip.getBoundingClientRect(),vw=window.innerWidth,vh=window.innerHeight;
+    let x=rect.right+12;if(x+tipRect.width>vw-10)x=rect.left-tipRect.width-12;
+    x=Math.max(10,Math.min(x,vw-tipRect.width-10));
+    let y=rect.top+rect.height/2-tipRect.height/2;
+    y=Math.max(8,Math.min(y,vh-tipRect.height-8));
+    tip.style.left=x+'px';tip.style.top=y+'px';
   }
   let activeAccountKey = null;
   let authBusy = false;
@@ -4855,7 +4932,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.86 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.87 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -4863,8 +4940,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
     <nav class="nav" aria-label="Primary navigation">${[['menu','Main Menu'],['deck','Deck'],['shop','Bazaar'],['quests','Quests'],['duel','Duel']].map(([id,label])=>`<button class="nav-button" data-action="navigate" data-to="${id}" ${state.scene===id?'aria-current="page"':''}>${label}</button>`).join('')}</nav></header><div class="ornament-line"></div>`;}
   function footer(){return `<footer class="footer">ELEMENTIA · THE RETURN</footer>`;}
-  function wrap(content,battle=false){const classicMenu=state.scene==='menu';const paused=battle&&state.duelPaused;
-    return `<div class="shell ${battle?'battle-page':''}"${paused?' inert aria-hidden="true"':''}>${classicMenu||battle?'':nav()}<main id="main">${content}</main>${classicMenu||battle?'':footer()}</div>${paused?duelPauseMenu(state.duel):''}${!paused&&state.modal?modal():''}`;
+  function wrap(content,battle=false){const classicMenu=state.scene==='menu',questPage=state.scene==='quests';const paused=battle&&state.duelPaused;
+    return `<div class="shell ${battle?'battle-page':''} ${questPage?'quests-shell':''}"${paused?' inert aria-hidden="true"':''}>${classicMenu||battle||questPage?'':nav()}<main id="main">${content}</main>${classicMenu||battle||questPage?'':footer()}</div>${paused?duelPauseMenu(state.duel):''}${!paused&&state.modal?modal():''}`;
   }
   function title(main,description,side=''){return `<div class="page-title"><div><h1>${main}</h1><p>${description}</p></div>${side}</div>`;}
   // v20.85: Electrum uses its official coin artwork only in currency displays;
@@ -8817,10 +8894,15 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     clearHoverCard();
     document.body.dataset.elementiaDisplay='desktop';
     document.body.classList.toggle('etg-duel-paused',state.scene==='duel'&&state.duelPaused);
+    document.body.classList.toggle('etg-quests-active',state.scene==='quests');
     if(!activeAccountKey&&!['login','register'].includes(state.scene))state.scene='login';
     root.innerHTML=state.scene==='login'?renderLogin():state.scene==='register'?renderRegister():state.scene==='menu'?renderMenu():state.scene==='music'?renderJukebox():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():state.scene==='quests'?renderQuests():renderDuel();
     applyPillarNumerals(root);
-    if(state.scene==='quests'){const scroller=root.querySelector('#quest-map-scroller');if(scroller)scroller.scrollLeft=questScrollX===null?Math.max(0,(scroller.scrollWidth-scroller.clientWidth)/2):questScrollX;}
+    if(state.scene==='quests'){const scroller=root.querySelector('#quest-map-scroller');if(scroller){
+      const zoom=Number.parseFloat(getComputedStyle(scroller.querySelector('.quest-map')).zoom)||1;
+      scroller.scrollLeft=questScrollX===null?Math.max(0,(scroller.scrollWidth-scroller.clientWidth)/2):questScrollX;
+      scroller.scrollTop=questScrollY===null?Math.max(0,(643*zoom-scroller.clientHeight/2)):questScrollY;
+    }}
     document.title=`${state.scene==='login'?'Log In':state.scene==='register'?'Register':state.scene.charAt(0).toUpperCase()+state.scene.slice(1)} — Elementia: The Return`;
     if(state.duel)state.duel.lastPlacedKey=null; // Animate only newly dealt cards, never the whole board on every update.
     syncFullscreenUI();
@@ -8828,7 +8910,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(activeAccountKey)scheduleLocalSave();
     requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();});
   }
-  function navigate(to){if(!['menu','deck','shop','quests','duel','login','music'].includes(to))return;if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();if(to==='quests'&&state.scene!=='quests'){selectedQuestId=QUESTS.find(q=>questStatus(q.id)==='claimable')?.id||'Q000';questScrollX=null;}state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
+  function navigate(to){if(!['menu','deck','shop','quests','duel','login','music'].includes(to))return;if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();if(to==='quests'&&state.scene!=='quests'){selectedQuestId=QUESTS.find(q=>questStatus(q.id)==='claimable')?.id||'Q000';questScrollX=null;questScrollY=null;}state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
     if(delta>0&&(current>=(state.inventory[id]||0)||countMap(state.deck)>=60||(!unlimited&&current>=6))){state.notice='Card unavailable, six-copy limit reached, or the deck is full (60).';return;}
     state.deck[id]=Math.max(0,current+delta);state.duel=null;save();}
@@ -8836,6 +8918,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     state.credits-=c.price;state.inventory[id]=(state.inventory[id]||0)+1;state.notice=`Added one ${c.name} to your local collection.`;save();}
   root.addEventListener('submit',(event)=>{if(event.target?.id==='login-form'){event.preventDefault();void loginLocalAccount(event.target);}else if(event.target?.id==='register-form'){event.preventDefault();void registerLocalAccount(event.target);}});
   root.addEventListener('click',(event)=>{
+    if(questSuppressClick&&state.scene==='quests'){questSuppressClick=false;event.preventDefault();return;}
     const button=event.target.closest('[data-action]');if(!button)return;
     if(!activeAccountKey&&!['show-register','show-login'].includes(button.dataset.action))return;
     if(button.classList.contains('overlay') && event.target!==button)return;
@@ -8862,7 +8945,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'music-toggle':musicToggle(Number(id));break;
       case 'music-play-pause':if(jukeboxTrack>=0)musicToggle(jukeboxTrack);break;
       case 'navigate':navigate(button.dataset.to);break;
-      case 'quest-select':if(QUEST_BY_ID[id]){selectedQuestId=id;render();}break;
+      case 'quest-select':questSelect(id);break;
       case 'quest-claim':if(questClaim(id)){selectedQuestId=id;render();}break;
       case 'element':if(ELEMENT[id]){state.element=id;state.duel=null;save();render();}break;
       case 'starter-duel':state.duel=newDuel(true,id==='level1'?1:id==='level2'?2:id==='level3'?3:0);navigate('duel');break;
@@ -8900,7 +8983,38 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'lab-enemy-destroy':labEnemyDestroy();break;
     }
   });
-  root.addEventListener('scroll',e=>{if(e.target?.id==='quest-map-scroller')questScrollX=e.target.scrollLeft;},true);
+  root.addEventListener('scroll',e=>{if(e.target?.id==='quest-map-scroller'){questScrollX=e.target.scrollLeft;questScrollY=e.target.scrollTop;}},true);
+  // Pan the tree without moving its absolutely positioned nodes or stealing ordinary clicks.
+  root.addEventListener('pointerdown',e=>{
+    const viewport=e.target.closest?.('#quest-map-scroller');
+    if(!viewport||state.scene!=='quests'||(e.pointerType==='mouse'&&e.button!==0))return;
+    questDrag={pointerId:e.pointerId,viewport,startX:e.clientX,startY:e.clientY,left:viewport.scrollLeft,top:viewport.scrollTop,moved:false};
+  });
+  window.addEventListener('pointermove',e=>{
+    if(!questDrag||e.pointerId!==questDrag.pointerId||state.scene!=='quests')return;
+    const dx=e.clientX-questDrag.startX,dy=e.clientY-questDrag.startY;
+    if(!questDrag.moved&&Math.hypot(dx,dy)<6)return;
+    questDrag.moved=true;
+    questDrag.viewport.classList.add('quest-is-dragging');
+    questHideTooltip();
+    questDrag.viewport.scrollLeft=questDrag.left-dx;
+    questDrag.viewport.scrollTop=questDrag.top-dy;
+    questScrollX=questDrag.viewport.scrollLeft;questScrollY=questDrag.viewport.scrollTop;
+    if(e.cancelable)e.preventDefault();
+  },{passive:false});
+  function questFinishDrag(e){
+    if(!questDrag||e.pointerId!==questDrag.pointerId)return;
+    const dragged=questDrag.moved;
+    questDrag.viewport.classList.remove('quest-is-dragging');questDrag=null;
+    if(dragged){questSuppressClick=true;setTimeout(()=>{questSuppressClick=false;},0);}
+  }
+  window.addEventListener('pointerup',questFinishDrag);
+  window.addEventListener('pointercancel',questFinishDrag);
+  root.addEventListener('pointerover',e=>{const node=e.target.closest?.('.quest-node');if(node&&node.closest('#quest-map-scroller'))questShowTooltip(node);});
+  root.addEventListener('pointerout',e=>{const node=e.target.closest?.('.quest-node');if(node&&!node.contains(e.relatedTarget))questHideTooltip();});
+  root.addEventListener('focusin',e=>{const node=e.target.closest?.('.quest-node');if(node)questShowTooltip(node);});
+  root.addEventListener('focusout',e=>{if(e.target.closest?.('.quest-node'))questHideTooltip();});
+
   root.addEventListener('change',e=>{
     if(e.target.id==='import-local-save'){void importLocalProgress(e.target.files?.[0]);return;}
     if(e.target.id==='deck-filter'){state.filter=e.target.value;render();}
@@ -8971,7 +9085,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.86-quest-tree',isDemo:demo,
+    version:'20.87-quest-pan-tooltip',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

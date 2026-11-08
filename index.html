@@ -779,7 +779,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.85</title>
+  <title>Elementia — The Return · v20.86</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -3591,6 +3591,67 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
 .shop-credit .etg-electrum-value{margin-top:2px}
 @media(max-width:760px){.og-menu-info .etg-electrum-icon{width:1.35em;height:1.35em}}
 </style>
+
+<style id="elementia-v20-86-quest-tree">
+/* v20.86 / Unified Quest Tree. CSS decorations never count toward objectives. */
+@media(min-width:1100px){
+ .quests-page{width:min(96vw,1530px);max-width:none;position:relative;left:50%;transform:translateX(-50%)}
+ .quest-map{zoom:.82}
+}
+@media(min-width:1500px){.quest-map{zoom:.96}}
+@media(min-width:1100px) and (max-width:1280px){.quest-map{zoom:.70}}
+
+.og-menu-reserved.quest-menu-panel{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:14px;background:radial-gradient(ellipse at 50% 25%,#41432a,#1b2427 72%);border:1px solid #867551}
+.quest-menu-button{width:min(100%,280px);min-height:62px;font-family:Georgia,serif!important;font-variant:small-caps;letter-spacing:.1em;font-size:clamp(17px,2vw,25px)!important;color:#ffe6a2!important;border:1px solid #d5ac66!important;background:linear-gradient(155deg,#6c522e,#242727 50%,#191b1c)!important;box-shadow:0 0 20px #ba8a323e,inset 0 0 14px #e4ac3628!important;white-space:normal!important}
+.quest-menu-button:hover,.quest-menu-button:focus-visible{filter:brightness(1.2);box-shadow:0 0 30px #cfab64a0!important}
+.quest-menu-hint{font:12px Georgia,serif;color:#c3b8a1;text-align:center}
+.quests-page{max-width:1480px;margin:0 auto;color:#eee3c7}
+.quests-banner{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:6px 0 16px;padding:18px 21px;border:1px solid #867451;background:linear-gradient(112deg,#212b2e,#171c20)}
+.quests-banner h1{margin:0;font:small-caps 35px Georgia,serif;color:#f2dba2;letter-spacing:.06em}
+.quests-banner p{margin:6px 0 0;font:13px Georgia,serif;color:#c8bfac}
+.quests-banner-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.quests-tally{font:15px Georgia,serif;color:#dfc894}
+.quest-map-wrap{border:1px solid #6e6654;background:radial-gradient(ellipse at 51% 53%,#263239 0,#151d22 53%,#101518 100%);box-shadow:inset 0 0 60px #050809e0;overflow-x:auto;overflow-y:hidden;max-width:100%;scrollbar-color:#9a7f4d #17191b}
+.quest-map{position:relative;width:1560px;height:1060px;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 50% 58%,#e0b95c08 0,transparent 33%)}
+.quest-map:before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.14;background-image:radial-gradient(#e8c181 1px,transparent 1px);background-size:27px 27px}
+.quest-map-svg{position:absolute;inset:0;z-index:1;pointer-events:none;width:100%;height:100%}
+.quest-line{fill:none;stroke:#5d6359;stroke-width:2.25;stroke-linecap:round;stroke-linejoin:round;opacity:.72}
+.quest-line.unlocked{stroke:#bca36a;stroke-width:2.6;opacity:.78;filter:drop-shadow(0 0 3px #deb35e55)}
+.quest-map-heading{position:absolute;z-index:2;font:small-caps 15px Georgia,serif;color:#b7a27d;letter-spacing:.18em;white-space:nowrap;transform:translateX(-50%);pointer-events:none}
+.quest-map-heading.masteries{left:780px;top:29px}
+.quest-map-heading.gameplay{left:780px;top:276px}
+.quest-map-heading.origin{left:780px;top:580px}
+.quest-map-heading.community{left:780px;top:766px}
+.quest-node{position:absolute;z-index:3;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:9px;width:132px;background:none;border:0;padding:0;color:#b5b2ac;cursor:pointer;font-family:Georgia,serif;touch-action:manipulation}
+.quest-ring{width:56px;height:56px;flex:none;display:flex;align-items:center;justify-content:center;border:3px solid #5e6767;border-radius:50%;background:radial-gradient(circle at 34% 28%,#354044,#161c21 65%);box-shadow:0 3px 13px #000e,inset 0 0 0 4px #11191dbb;transition:border-color .15s,transform .15s,box-shadow .15s;color:#e5cb8c;font-size:24px}
+.quest-node .quest-node-name{text-align:center;line-height:1.15;font-size:12px;max-width:130px;text-shadow:0 2px 5px #000c}
+.quest-node .quest-node-count{font:11px Georgia,serif;color:#b9ae95;background:#131b20a9;padding:2px 6px;border-radius:8px}
+.quest-node[data-status="locked"]{opacity:.55}
+.quest-node[data-status="available"] .quest-ring{border-color:#8aa59e;box-shadow:0 0 12px #6ab9a133,inset 0 0 15px #a0d8bd1b}
+.quest-node[data-status="available"] .quest-node-name{color:#d8e3dd}
+.quest-node[data-status="claimable"] .quest-ring{border-color:#fbe2a0;background:radial-gradient(circle,#65502c,#2f261b 68%);box-shadow:0 0 9px #f9ce8dcc,0 0 29px #f9cb6d7e,inset 0 0 20px #ffe9a64a;animation:quest-claim-glow 1.8s ease-in-out infinite}
+.quest-node[data-status="claimable"] .quest-node-name{color:#ffe2a1}
+.quest-node[data-status="claimed"] .quest-ring{border-color:#d4bf87;background:radial-gradient(circle,#3d4530,#171e20 70%);box-shadow:0 0 9px #d7bf764b;color:#e9d8a3}
+.quest-node[aria-pressed="true"] .quest-ring,.quest-node:focus-visible .quest-ring{outline:2px solid #fff5cc;outline-offset:6px;transform:scale(1.09)}
+.quest-node:hover .quest-ring{transform:scale(1.09)}
+@keyframes quest-claim-glow{0%,100%{box-shadow:0 0 10px #f9ce8d99,0 0 20px #f9cb6d66,inset 0 0 20px #ffe9a63a}50%{box-shadow:0 0 15px #ffe8acff,0 0 40px #f9cb6dbb,inset 0 0 25px #ffe9a666}}
+.quest-legend{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;margin:13px auto 20px;font:12px Georgia,serif;color:#d9cdb3}
+.quest-legend>span{display:inline-flex;align-items:center;gap:6px}
+.quest-legend i{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid #606b6a}
+.quest-legend .available i{border-color:#8aa59e}.quest-legend .claimable i{border-color:#f1d89b;box-shadow:0 0 10px #ffe3a4}.quest-legend .claimed i{border-color:#d2be85;background:#52593b}
+.quest-details{max-width:800px;margin:0 auto 28px;padding:22px 25px;border:1px solid #89785a;background:linear-gradient(125deg,#2a302e,#171f24);box-shadow:0 8px 21px #0006;min-height:174px}
+.quest-details-top{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.quest-details h2{font:small-caps 26px Georgia,serif;color:#f0d5a0;margin:0}
+.quest-details .quest-eyebrow{font:small-caps 13px Georgia,serif;letter-spacing:.13em;color:#b6ab91;margin:0 0 8px}
+.quest-details .quest-desc{font:15px/1.5 Georgia,serif;color:#e4dac4;margin:12px 0}
+.quest-details .quest-note{font:12px/1.45 Georgia,serif;color:#d3bfa0;margin:10px 0}
+.quest-progress-track{height:8px;border:1px solid #5f604f;background:#111819;overflow:hidden;border-radius:6px;margin:12px 0}
+.quest-progress-fill{height:100%;background:linear-gradient(90deg,#6e998f,#e5c879);transition:width .2s}
+.quest-details-footer{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:13px}
+.quest-details .button{min-width:156px}
+@media(max-width:760px){.quests-banner{padding:13px}.quests-banner h1{font-size:29px}.quest-map{zoom:.77}.quest-details{padding:18px 14px}.quest-map-wrap{max-height:none}.quest-node .quest-node-name{font-size:13px}}
+@media(prefers-reduced-motion:reduce){.quest-node[data-status="claimable"] .quest-ring{animation:none}}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4319,11 +4380,148 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const initialInventory = demo ? Object.fromEntries(CARDS.filter(c=>!cardRule(c)?.tokenOnly).map(c=>[c.id,Math.max(initialDeck[c.id]||0, c.tier==='Upgraded'?1:2)])) : {};
     return { scene:'login',player:'',element:'Air',credits:900,deck:initialDeck,inventory:initialInventory,
       deckTab:'collection',filter:'All',search:'',shopFilter:'All',selected:CARDS[0]?.id || '',
-      duel:null,modal:null,notice:'',displayMode:'desktop',duelPaused:false };
+      duel:null,quests:{},modal:null,notice:'',displayMode:'desktop',duelPaused:false };
   };
   // A local account is unlocked only in memory after explicit password verification.
   // Never persist an authenticated session: every reload returns to the login screen.
   let state = defaultState();
+
+  // v20.86 — Unified Quest Tree, sourced from the supplied JSON file.
+  // Each local account has isolated quest progress; only claimed rewards change Electrum.
+  const QUEST_CONFIG={"game":"Elementia: The Return","system":"Unified Quest Tree","version":1,"currency":"electrum","electrumPerQuest":50,"questCount":19,"maxOneTimeElectrumFromCurrentQuests":950,"layout":{"origin":"Q000","upward":["Q004","Q005","Q006"],"downward":["Q001","Q002","Q003"],"elementMastery":{"Q004":["Q018","Q008","Q013","Q011"],"Q005":["Q010","Q015","Q016","Q009"],"Q006":["Q014","Q017","Q007","Q012"]}},"progressRules":{"availability":"A quest is available once all prerequisites are complete. Every quest is attainable; there are no exclusive choices.","completion":"All listed quests are one-time. When objective reaches target, complete quest and grant 50 Electrum exactly once.","firstLogin":"Q000 completes automatically upon the first successful login of a newly registered account. Its 50-Electrum reward is earned once; collection UI can be added later.","eventScope":"All gameplay counters are cumulative across matches, not per match, except Fire Mastery I, which counts qualifying individual turns.","count":"Increment once per qualified event.","sum":"Add objective.valueField numeric amount on each qualified event.","threshold_count":"Increment by 1 per matching event where valueField meets comparison against threshold.","unlockTiming":"Only record progress on quests once they become available (may be adjusted later if retroactive tracking is desired).","rewardClaim":"Every completed quest earns 50 Electrum. Reward collection/claim timing is not specified yet and can be implemented later. Prevent duplicate payouts per quest.","pending":"Quest reward values are finalized here. Additional mastery nodes, other branches and detailed qualifying-event semantics can be expanded later."},"eventNotes":{"creature_attacked":"One attack by a player-controlled creature = 1 (not damage from a weapon or spell).","opponent_creature_killed":"Count opposing creature deaths attributed to the player (combat, spells, poison, effects).","creature_copied":"Count a creature copy created by the player.","airborne_damage_dealt":"Use actual damage dealt by a player-controlled airborne creature.","life_gained":"Use actual life restored/gained by the player, not attempted healing beyond limits.","creature_poisoned":"Count each qualifying application of poison, not poison ticks.","damage_prevented":"Use actual points of incoming damage reduced or prevented.","creature_randomly_affected":"Count creatures affected by a random-effect result; refine qualifying effects during implementation.","turn_ended":"Supply the total damage dealt during the finished turn; 16+ qualifies, exactly 15 does not. Count at most once per turn.","gravity_pull_applied":"Count each creature granted Gravity Pull.","non_airborne_creature_summoned":"Count player-controlled creatures summoned without airborne.","light_quanta_generated":"Count actual Light Quanta generated, not spent or already present.","card_drawn":"Count player card draws, not cards merely added to hand by non-draw effects.","creature_frozen":"Count successful applications of Freeze, not frozen turns.","email_verified":"Requires verified email confirmation; do not grant for entering an unverified address.","referral_confirmed":"Requires a confirmed new-player referral, not simply sharing or entering a code."},"quests":[{"id":"Q000","name":"Return to the Elements","branch":"origin","prerequisites":[],"objective":{"event":"new_account_first_login","mode":"count","target":1},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":true},{"id":"Q001","name":"Account Security","branch":"intro_email","prerequisites":["Q000"],"objective":{"event":"email_verified","mode":"count","target":1},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q002","name":"Learning the Elements","branch":"intro_tutorial","prerequisites":["Q000"],"objective":{"event":"tutorial_completed","mode":"count","target":1},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q003","name":"Spread the Word","branch":"intro_referral","prerequisites":["Q000"],"objective":{"event":"referral_confirmed","mode":"count","target":1},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q004","name":"Beasts of Your Will","branch":"gameplay_main","prerequisites":["Q000"],"objective":{"event":"creature_attacked","mode":"count","target":25},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q005","name":"A Culling Balance","branch":"gameplay_main","prerequisites":["Q000"],"objective":{"event":"opponent_creature_killed","mode":"count","target":15},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q006","name":"Bizarre Magics","branch":"gameplay_main","prerequisites":["Q000"],"objective":{"event":"game_won","mode":"count","target":5},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q007","name":"Aether Mastery I","branch":"mastery_aether","prerequisites":["Q006"],"objective":{"event":"creature_copied","mode":"count","target":10},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q008","name":"Air Mastery I","branch":"mastery_air","prerequisites":["Q004"],"objective":{"event":"airborne_damage_dealt","mode":"sum","target":50,"valueField":"damage"},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q009","name":"Darkness Mastery I","branch":"mastery_darkness","prerequisites":["Q005"],"objective":{"event":"life_gained","mode":"sum","target":25,"valueField":"amount"},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q010","name":"Death Mastery I","branch":"mastery_death","prerequisites":["Q005"],"objective":{"event":"creature_poisoned","mode":"count","target":15},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q011","name":"Earth Mastery I","branch":"mastery_earth","prerequisites":["Q004"],"objective":{"event":"damage_prevented","mode":"sum","target":20,"valueField":"amount"},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q012","name":"Entropy Mastery I","branch":"mastery_entropy","prerequisites":["Q006"],"objective":{"event":"creature_randomly_affected","mode":"count","target":10},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q013","name":"Fire Mastery I","branch":"mastery_fire","prerequisites":["Q004"],"objective":{"event":"turn_ended","mode":"threshold_count","target":5,"valueField":"damageDealtThisTurn","comparison":">","threshold":15},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q014","name":"Gravity Mastery I","branch":"mastery_gravity","prerequisites":["Q006"],"objective":{"event":"gravity_pull_applied","mode":"count","target":10},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q015","name":"Life Mastery I","branch":"mastery_life","prerequisites":["Q005"],"objective":{"event":"non_airborne_creature_summoned","mode":"count","target":15},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q016","name":"Light Mastery I","branch":"mastery_light","prerequisites":["Q005"],"objective":{"event":"light_quanta_generated","mode":"sum","target":50,"valueField":"amount"},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q017","name":"Time Mastery I","branch":"mastery_time","prerequisites":["Q006"],"objective":{"event":"card_drawn","mode":"count","target":25},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false},{"id":"Q018","name":"Water Mastery I","branch":"mastery_water","prerequisites":["Q004"],"objective":{"event":"creature_frozen","mode":"count","target":15},"reward":{"currency":"electrum","amount":50},"repeatable":false,"autoComplete":false}]};
+  const QUESTS=Object.freeze(QUEST_CONFIG.quests);
+  const QUEST_BY_ID=Object.freeze(Object.fromEntries(QUESTS.map(q=>[q.id,q])));
+  const QUEST_OBJECTIVES=Object.freeze({
+    Q000:'Log into your newly registered Elementia account.',
+    Q001:'Verify the email address associated with your account.',
+    Q002:'Complete the Elements tutorial.',
+    Q003:'Refer another player and receive confirmation.',
+    Q004:'Attack with your creatures 25 times.',
+    Q005:'Defeat 15 opposing creatures.',
+    Q006:'Win 5 duels.',
+    Q007:'Create 10 copies of creatures.',
+    Q008:'Deal 50 damage using airborne creatures.',
+    Q009:'Restore a total of 25 life.',
+    Q010:'Apply poison to 15 creatures.',
+    Q011:'Prevent or reduce 20 damage.',
+    Q012:'Randomly affect 10 creatures.',
+    Q013:'Deal more than 15 damage during a turn, on 5 separate turns.',
+    Q014:'Give Gravity Pull to 10 creatures.',
+    Q015:'Summon 15 non-airborne creatures.',
+    Q016:'Generate 50 Light quanta.',
+    Q017:'Draw 25 cards.',
+    Q018:'Freeze 15 creatures.'
+  });
+  const QUEST_UNAVAILABLE=Object.freeze({Q001:'Email verification is not implemented for local-only accounts.',Q002:'The tutorial completion event is not yet implemented.',Q003:'Confirmed referrals require a future referral system.'});
+  let selectedQuestId='Q000',questScrollX=null;
+  function questInitializeAccount(){
+    if(!state.quests||typeof state.quests!=='object'||Array.isArray(state.quests))state.quests={};
+    const first=state.quests.Q000;
+    if(!first||typeof first!=='object')state.quests.Q000={progress:1,completed:true,claimed:false};
+    else {first.progress=1;first.completed=true;first.claimed=first.claimed===true;}
+  }
+  function questEntry(id){return state.quests?.[id]||null;}
+  function questCompleted(id){return !!questEntry(id)?.completed;}
+  function questStatus(id){
+    const q=QUEST_BY_ID[id];if(!q)return 'locked';
+    if(!q.prerequisites.every(questCompleted))return 'locked';
+    if(questEntry(id)?.claimed)return 'claimed';
+    if(questCompleted(id))return 'claimable';
+    return 'available';
+  }
+  function questRecord(event,data={}){
+    if(!activeAccountKey||!state.quests||state.duel?.questSuppress)return false;
+    let updated=false;
+    for(const q of QUESTS){
+      if(q.objective.event!==event||questStatus(q.id)!=='available'||QUEST_UNAVAILABLE[q.id])continue;
+      const o=q.objective;
+      let delta=0;
+      if(o.mode==='count')delta=Number.isFinite(data.count)?Math.max(0,Math.floor(data.count)):1;
+      else if(o.mode==='sum')delta=Math.max(0,Number(data[o.valueField])||0);
+      else if(o.mode==='threshold_count'){
+        const amount=Number(data[o.valueField]);
+        const comparisons={'>':amount>o.threshold,'>=':amount>=o.threshold,'<':amount<o.threshold,'<=':amount<=o.threshold,'==':amount===o.threshold};
+        delta=Number.isFinite(amount)&&comparisons[o.comparison]?1:0;
+      }
+      if(!Number.isFinite(delta)||delta<=0)continue;
+      const entry=state.quests[q.id]||{progress:0,completed:false,claimed:false};
+      entry.progress=Math.min(o.target,Math.max(0,Number(entry.progress)||0)+delta);
+      if(entry.progress>=o.target)entry.completed=true;
+      state.quests[q.id]=entry;updated=true;
+    }
+    if(updated)scheduleLocalSave();
+    return updated;
+  }
+  function questClaim(id){
+    const q=QUEST_BY_ID[id];if(!q||!activeAccountKey||questStatus(id)!=='claimable')return false;
+    const reward=q.reward;
+    if(reward.currency!=='electrum'||reward.amount!==50)return false;
+    const record=state.quests[id];
+    if(record.claimed)return false;
+    record.claimed=true;
+    state.credits=Math.min(999999999,Math.max(0,state.credits)+reward.amount);
+    state.notice=`Collected 50 Electrum for ${q.name}.`;
+    save();return true;
+  }
+  function questProgressNum(id){const q=QUEST_BY_ID[id];return Math.min(q.objective.target,Math.max(0,Number(questEntry(id)?.progress)||0));}
+  const QUEST_POINTS={
+    Q000:[780,643],Q004:[270,384],Q005:[780,384],Q006:[1290,384],
+    Q018:[90,133],Q008:[210,133],Q013:[330,133],Q011:[450,133],
+    Q010:[600,133],Q015:[720,133],Q016:[840,133],Q009:[960,133],
+    Q014:[1110,133],Q017:[1230,133],Q007:[1350,133],Q012:[1470,133],
+    Q001:[350,899],Q002:[780,899],Q003:[1210,899]
+  };
+  function questConnectors(){
+    return QUESTS.flatMap(q=>q.prerequisites.map(prereq=>{
+      const [x1,y1]=QUEST_POINTS[prereq],[x2,y2]=QUEST_POINTS[q.id];
+      const middle=(y1+y2)/2;
+      const d=`M ${x1} ${y1} V ${middle} H ${x2} V ${y2}`;
+      const lit=questCompleted(prereq)&&questStatus(q.id)!=='locked';
+      return `<path class="quest-line ${lit?'unlocked':''}" d="${d}"/>`;
+    })).join('');
+  }
+  function questNode(q){
+    const [x,y]=QUEST_POINTS[q.id],status=questStatus(q.id),progress=questProgressNum(q.id),goal=q.objective.target;
+    const icon=status==='claimed'?'✓':status==='claimable'?'✦':'';
+    return `<button class="quest-node" type="button" data-action="quest-select" data-id="${q.id}" data-status="${status}" aria-pressed="${selectedQuestId===q.id}" aria-label="${esc(q.name)}: ${status}, ${progress} of ${goal}" style="left:${x}px;top:${y}px"><span class="quest-ring" aria-hidden="true">${icon}</span><span class="quest-node-name">${esc(q.name)}</span><span class="quest-node-count">${progress} / ${goal}</span></button>`;
+  }
+  function questDetails(){
+    const q=QUEST_BY_ID[selectedQuestId]||QUEST_BY_ID.Q000,status=questStatus(q.id);
+    const progress=questProgressNum(q.id),goal=q.objective.target;
+    const parents=q.prerequisites.map(id=>QUEST_BY_ID[id]?.name).join(' and ');
+    const statusText={locked:'Locked',available:'In Progress',claimable:'Reward Ready',claimed:'Reward Collected'}[status];
+    const requires=QUEST_UNAVAILABLE[q.id]?`<p class="quest-note">${esc(QUEST_UNAVAILABLE[q.id])}</p>`:'';
+    return `<section class="quest-details" aria-label="Selected quest details" aria-live="polite">
+      <p class="quest-eyebrow">${esc(q.branch.replaceAll('_',' '))} · ${esc(q.id)} · ${statusText}</p>
+      <div class="quest-details-top"><h2>${esc(q.name)}</h2><span class="quests-tally">Reward: ${electrumAmount(q.reward.amount)}</span></div>
+      <p class="quest-desc">${esc(QUEST_OBJECTIVES[q.id])}</p>
+      ${status==='locked'?`<p class="quest-note">Complete ${esc(parents)} to unlock this quest. Progress starts once unlocked.</p>`:''}
+      ${requires}
+      <div class="quest-progress-track" role="progressbar" aria-label="Quest progress" aria-valuemin="0" aria-valuemax="${goal}" aria-valuenow="${progress}"><div class="quest-progress-fill" style="width:${Math.min(100,progress/goal*100)}%"></div></div>
+      <div class="quest-details-footer"><span>${progress} / ${goal} ${status==='claimed'?'· Claimed':status==='claimable'?'· Objective complete':''}</span>
+        ${status==='claimable'?`<button type="button" class="button" data-action="quest-claim" data-id="${q.id}">Collect 50 Electrum</button>`:status==='claimed'?'<span>✓ Reward claimed</span>':`<button type="button" class="button secondary" disabled>${status==='locked'?'Locked':'Not yet complete'}</button>`}
+      </div>
+    </section>`;
+  }
+  function renderQuests(){
+    const claimed=QUESTS.filter(q=>questEntry(q.id)?.claimed).length;
+    const ready=QUESTS.filter(q=>questStatus(q.id)==='claimable').length;
+    return wrap(`<div class="quests-page">
+      <div class="quests-banner"><div><h1>Quests</h1><p>The Elements reward perseverance. Complete a quest to unlock its descendants.</p></div>
+        <div class="quests-banner-actions"><span class="quests-tally">${claimed} / ${QUESTS.length} claimed · ${ready} rewards ready</span>
+        <span class="quests-tally">${electrumAmount(state.credits)}</span><button type="button" class="button secondary" data-action="navigate" data-to="menu">Main Menu</button></div></div>
+      <div class="quest-map-wrap" id="quest-map-scroller" role="region" aria-label="Scrollable quest tree; select a circle to view its objectives" tabindex="0">
+        <div class="quest-map"><svg class="quest-map-svg" viewBox="0 0 1560 1060" aria-hidden="true">${questConnectors()}</svg>
+          <span class="quest-map-heading masteries">Elemental Masteries</span>
+          <span class="quest-map-heading gameplay">The Three Paths</span>
+          <span class="quest-map-heading origin">Your Return</span>
+          <span class="quest-map-heading community">First Steps</span>
+          ${QUESTS.map(questNode).join('')}
+        </div></div>
+      <div class="quest-legend"><span class="locked"><i></i> Locked</span><span class="available"><i></i> In progress</span><span class="claimable"><i></i> Reward ready</span><span class="claimed"><i></i> Claimed</span></div>
+      ${questDetails()}
+    </div>`);
+  }
   let activeAccountKey = null;
   let authBusy = false;
   let autoSaveTimer = null;
@@ -4365,7 +4563,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     // Limit stored combat log size so long sessions do not fill browser storage.
     const duel=state.duel?JSON.parse(JSON.stringify(state.duel)):null;
     if(duel&&Array.isArray(duel.history)&&duel.history.length>200)duel.history=duel.history.slice(-200);
-    return {player:state.player,credits:state.credits,element:state.element,deck:state.deck,inventory:state.inventory,duel};
+    return {player:state.player,credits:state.credits,element:state.element,deck:state.deck,inventory:state.inventory,duel,quests:state.quests};
   }
   function restoreProgress(data,username){
     const defaults=defaultState(),d=data&&typeof data==='object'&&!Array.isArray(data)?data:{};
@@ -4375,7 +4573,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       deck:d.deck?sanitizeCounts(d.deck):defaults.deck,
       inventory:d.inventory?sanitizeCounts(d.inventory):defaults.inventory,
       duel:d.duel&&typeof d.duel==='object'&&!Array.isArray(d.duel)&&[7,8,9,10,11,12].includes(d.duel.version)?d.duel:null,
-      displayMode:'desktop',duelPaused:false};
+      displayMode:'desktop',duelPaused:false,quests:d.quests&&typeof d.quests==='object'&&!Array.isArray(d.quests)?d.quests:{}};
+    questInitializeAccount();
     if(state.duel){state.duel.pendingTarget=null;state.duel.selectedHand=-1;}
   }
   function save(){
@@ -4445,7 +4644,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }catch(err){authFailure(err.message||'Unable to create a local account. Check browser storage and try again.',username);}
     finally{authBusy=false;}
   }
-  function initialProgressFor(username){const d=defaultState();return {player:username,credits:d.credits,element:d.element,deck:d.deck,inventory:d.inventory,duel:null};}
+  function initialProgressFor(username){const d=defaultState();return {player:username,credits:d.credits,element:d.element,deck:d.deck,inventory:d.inventory,duel:null,quests:{}};}
   function exportLocalProgress(){
     if(!activeAccountKey)return;
     if(!save()){state.notice='Could not save your progress in this browser. Check storage permissions.';render();return;}
@@ -4466,6 +4665,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       if(!window.confirm('Replace the current progress for '+state.player+' with this backup? This cannot be undone.')){state.modal=null;render();return;}
       const previous=state;
       restoreProgress(bundle.data,previous.player);
+      for(const [id,record] of Object.entries(previous.quests||{}))if(record?.claimed&&QUEST_BY_ID[id]){state.quests[id]={...(state.quests[id]||{}),progress:QUEST_BY_ID[id].objective.target,completed:true,claimed:true};}
       if(!save()){state=previous;throw Error('Could not save imported progress. Check browser storage permissions.');}
       state.notice='Backup imported successfully into '+state.player+'.';render();
     }catch(err){state.notice=err.message||'Unable to import the save file.';state.modal='account-panel';render();}
@@ -4655,13 +4855,13 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.85 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.86 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
   function nav(){return `<header class="topbar"><button type="button" class="brand" data-action="navigate" data-to="menu" aria-label="Go to main menu">
     <span class="brandcrest"><span>✧</span></span><span><span class="brandname">ELEMENTIA</span><span class="brandsub">The Return</span></span></button>
-    <nav class="nav" aria-label="Primary navigation">${[['menu','Main Menu'],['deck','Deck'],['shop','Bazaar'],['duel','Duel']].map(([id,label])=>`<button class="nav-button" data-action="navigate" data-to="${id}" ${state.scene===id?'aria-current="page"':''}>${label}</button>`).join('')}</nav></header><div class="ornament-line"></div>`;}
+    <nav class="nav" aria-label="Primary navigation">${[['menu','Main Menu'],['deck','Deck'],['shop','Bazaar'],['quests','Quests'],['duel','Duel']].map(([id,label])=>`<button class="nav-button" data-action="navigate" data-to="${id}" ${state.scene===id?'aria-current="page"':''}>${label}</button>`).join('')}</nav></header><div class="ornament-line"></div>`;}
   function footer(){return `<footer class="footer">ELEMENTIA · THE RETURN</footer>`;}
   function wrap(content,battle=false){const classicMenu=state.scene==='menu';const paused=battle&&state.duelPaused;
     return `<div class="shell ${battle?'battle-page':''}"${paused?' inert aria-hidden="true"':''}>${classicMenu||battle?'':nav()}<main id="main">${content}</main>${classicMenu||battle?'':footer()}</div>${paused?duelPauseMenu(state.duel):''}${!paused&&state.modal?modal():''}`;
@@ -4808,7 +5008,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       <div class="og-menu-lower">
         <div class="og-menu-deckintro"><h2>Manage Your Deck</h2><p>(add, remove, buy or sell cards)</p></div>
         <section class="og-menu-deckpanel" aria-label="Deck actions">${deckActions}</section>
-        <div class="og-menu-reserved" aria-label="Reserved space for future features"></div>
+        <div class="og-menu-reserved quest-menu-panel" aria-label="Quest tree"><button type="button" class="button secondary quest-menu-button" data-action="navigate" data-to="quests">✦ Quests</button><span class="quest-menu-hint">${QUESTS.filter(q=>questStatus(q.id)==='claimable').length} rewards ready to collect</span></div>
       </div>
       <section class="og-menu-mark-section" aria-label="Choose your element mark">
         <div class="og-menu-mark-label">Choose Your Mark<small>Starter deck selection</small></div>
@@ -4881,6 +5081,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   function enterCreature(b,unit,side='player'){
     if(!unit)return null;
     b[side+'Creatures'].push(unit);
+    if(side==='player'&&!unit.abilities?.includes('airborne'))questRecord('non_airborne_creature_summoned');
     refreshDarkAuras(b);
     b.lastPlacedKey=unit.key;
     return unit;
@@ -4929,7 +5130,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         const daughter=makeCreature(b,id,side);
         if(!daughter)return 'board full';
         enterCreature(b,daughter,side);
-        return item.name+' cloned an original '+card.name;
+        if(side==='player')questRecord('creature_copied');return item.name+' cloned an original '+card.name;
       }
     }
     return null;
@@ -5173,8 +5374,12 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const other=entropyOther(side),target=t?.unit,ts=t?.side;
     switch(r.effect){
       case 'entropyAntimatter':return target?'inverted '+target.name+' ATK to '+entropyAntimatter(target):'no target';
-      case 'entropyMutation':case 'entropyImprovedMutation':
-        return target?entropyTransform(b,ts,target,r.effect==='entropyMutation'?'mutation':'improved'):'no target';
+      case 'entropyMutation':case 'entropyImprovedMutation':{
+        if(!target)return 'no target';
+        const result=entropyTransform(b,ts,target,r.effect==='entropyMutation'?'mutation':'improved');
+        if(side==='player')questRecord('creature_randomly_affected');
+        return result;
+      }
       case 'entropyButterfly':{
         if(!target)return 'no target';
         target.abilities=(target.abilities||[]).filter(a=>!REMOVABLE_ABILITIES.has(a)&&
@@ -5185,7 +5390,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       }
       case 'entropyChaosPower':{
         const atk=1+Math.floor(Math.random()*5),hp=1+Math.floor(Math.random()*5);
-        entropyBuff(target,atk,hp);return target.name+' gained +'+atk+'/+'+hp;
+        if(target)entropyBuff(target,atk,hp);
+        if(target&&side==='player')questRecord('creature_randomly_affected');
+        return target?target.name+' gained +'+atk+'/+'+hp:'no target';
       }
       case 'entropyChaosSeed':return entropyRandomEffect(b,side,t);
       case 'entropyPandemonium':{
@@ -5237,7 +5444,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   }
   function entropyRandomEffect(b,caster,t){
     const effect=ENTROPY_RANDOM_EFFECTS[Math.floor(Math.random()*ENTROPY_RANDOM_EFFECTS.length)];
-    const u=t.unit,side=t.side;
+    const u=t?.unit,side=t?.side;
+    let questEffectApplied=true;
     if(!u)return 'no target';
     const casterPool=entropyPool(b,caster);
     switch(effect){
@@ -5246,18 +5454,18 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'iceBolt':{
         const damage=2*Math.max(1,Math.floor((casterPool.Water||0)/10));
         darkDamageCreature(b,side,u,damage);
-        if(Math.random()<(0.3+0.05*damage))u.frozen=true;
+        if(Math.random()<(0.3+0.05*damage)){if(caster==='player'&&!u.frozen&&!u.freezeTurns)questRecord('creature_frozen');u.frozen=true;}
         break;
       }
       case 'fireBolt':darkDamageCreature(b,side,u,3*Math.max(1,Math.floor((casterPool.Fire||0)/10)));break;
-      case 'freeze':u.frozen=true;u.freezeTurns=3;break;
+      case 'freeze':if(caster==='player'&&!u.frozen&&!u.freezeTurns)questRecord('creature_frozen');u.frozen=true;u.freezeTurns=3;break;
       case 'parallelUniverse':{
-        if(mainCount(b,caster)>=GAME_RULES.maxMainBoard)break;
+        if(mainCount(b,caster)>=GAME_RULES.maxMainBoard){questEffectApplied=false;break;}
         const slot=chooseFreeCreatureSlot(b,caster);
-        if(slot<0)break;
+        if(slot<0){questEffectApplied=false;break;}
         const cloned={...u,key:b.nextKey++,boardSlot:slot,born:b.turn,used:-1,
           abilities:[...(u.abilities||[])],statuses:[...(u.statuses||[])]};
-        enterCreature(b,cloned,caster);break;
+        enterCreature(b,cloned,caster);if(caster==='player')questRecord('creature_copied');break;
       }
       case 'lobotomize':
         u.abilities=(u.abilities||[]).filter(a=>!REMOVABLE_ABILITIES.has(a));
@@ -5273,8 +5481,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         entropyRemoveUnit(b,side,u);if(BY_ID[u.id]&&!cardRule(BY_ID[u.id])?.tokenOnly)lib.unshift(u.id);
         break;
       }
-      case 'gravityPull':u.entropyGravityPull=true;break;
+      case 'gravityPull':if(caster==='player'&&!u.gravityPull&&!u.entropyGravityPull)questRecord('gravity_pull_applied');u.entropyGravityPull=true;break;
     }
+    if(caster==='player'&&questEffectApplied)questRecord('creature_randomly_affected');
     return 'random '+effect+' on '+u.name;
   }
   // Elements 1.327 Gravity mechanics: player and level-zero AI use this same engine.
@@ -5286,6 +5495,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     darkHeal(b,caster,gained);return gained;
   }
   function gravityAssignPull(b,side,u){
+    if(b.questActor==='player'&&!u.gravityPull&&!u.entropyGravityPull)questRecord('gravity_pull_applied');
     for(const other of b[side+'Creatures']||[])other.gravityPull=false;
     u.gravityPull=true;u.entropyGravityPull=false;
   }
@@ -5367,7 +5577,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(damage<=0||spellAttack(attacker)||attacker.abilities?.includes('momentum'))return false;
     const target=(b[side+'Creatures']||[]).find(u=>u.gravityPull||u.entropyGravityPull);
     if(!target)return false;
-    darkDamageCreature(b,side,target,damage);
+    const redirected=darkDamageCreature(b,side,target,damage);
+    if(side==='enemy'&&attacker.abilities?.includes('airborne')&&redirected>0)questRecord('airborne_damage_dealt',{damage:redirected});
     steps.push('Gravity Pull redirected '+damage+' damage to '+target.name+'.');
     return true;
   }
@@ -5454,7 +5665,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     return before-b[side+'Permanents'].length;
   }
   function darkCloakProtected(b,side,entry){return darkCloaked(b,side)&&darkRule(entry)?.effect!=='cloak';}
-  function darkHeal(b,side,amount){const k=side==='player'?'playerHp':'enemyHp',mx=side==='player'?'playerMaxHp':'enemyMaxHp';if(b[side+'SacrificeTurns']>0){b[k]=Math.max(0,b[k]-Math.max(0,amount));return;}b[k]=Math.min(b[mx]||50,b[k]+Math.max(0,amount));}
+  function darkHeal(b,side,amount){const k=side==='player'?'playerHp':'enemyHp',mx=side==='player'?'playerMaxHp':'enemyMaxHp',before=b[k];if(b[side+'SacrificeTurns']>0){b[k]=Math.max(0,b[k]-Math.max(0,amount));return;}b[k]=Math.min(b[mx]||50,b[k]+Math.max(0,amount));if(side==='player'&&b[k]>before)questRecord('life_gained',{amount:b[k]-before});}
   // Death event engine: any genuine creature death emits once, regardless of cause.
   // Triggering is independent of turn side and all battlefield effects use this hook.
   function deathOnKill(b,side,u,{poison=false,transformed=false}={}){
@@ -5486,6 +5697,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     const units=b[side+'Creatures']||[];
     if(!units.includes(u))return false;
     b[side+'Creatures']=units.filter(x=>x!==u);
+    if(side==='enemy'&&(b.questActor==='player'||u.questPoisonByPlayer&&reason==='poison'))questRecord('opponent_creature_killed');
     deathOnKill(b,side,u,{poison:reason==='poison'});refreshDarkAuras(b);return true;
   }
   // Remove all simultaneous casualties BEFORE firing their on-death effects.
@@ -5504,6 +5716,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     let removed=0;
     for(const side of ['player','enemy'])for(const unit of batches[side]){
       removed++;
+      if(side==='enemy'&&(b.questActor==='player'||unit.questPoisonByPlayer&&reason==='poison'))questRecord('opponent_creature_killed');
       deathOnKill(b,side,unit,{poison:reason==='poison'});
     }
     if(removed)refreshDarkAuras(b);
@@ -5553,14 +5766,16 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     return amount;
   }
 
-  function darkDamageHero(b,side,amount){const k=side==='player'?'playerHp':'enemyHp';if(b[side+'SacrificeTurns']>0){const gain=Math.min((b[side+'MaxHp']||50)-b[k],Math.max(0,amount));b[k]+=gain;return gain;}const done=Math.min(b[k],Math.max(0,amount));b[k]-=done;return done;}
+  function darkDamageHero(b,side,amount){const k=side==='player'?'playerHp':'enemyHp';if(b[side+'SacrificeTurns']>0){const gain=Math.min((b[side+'MaxHp']||50)-b[k],Math.max(0,amount));b[k]+=gain;return gain;}const done=Math.min(b[k],Math.max(0,amount));b[k]-=done;if(side==='enemy'&&b.questActor==='player')b.questDamageThisTurn=(b.questDamageThisTurn||0)+done;return done;}
   function darkDamageCreature(b,side,u,amount){
     const hit=Math.max(0,Math.min(Math.max(u.hp,0),amount));u.hp-=Math.max(0,amount);
+    if(side==='enemy'&&b.questActor==='player')b.questDamageThisTurn=(b.questDamageThisTurn||0)+hit;
     if(u.abilities?.includes('voodoo')&&u.hp>0){darkDamageHero(b,side==='player'?'enemy':'player',Math.max(0,amount));}
     if(u.hp<=0)deathKill(b,side,u);
     return hit;
   }
   function darkPoison(b,side,u,amount=1){u.poison=(u.poison||0)+amount;
+    if(b.questActor==='player'&&amount>0){if(side==='enemy')u.questPoisonByPlayer=true;questRecord('creature_poisoned');}
     if(u.abilities?.includes('voodoo')&&u.hp>0){const key=side==='player'?'enemyPoison':'playerPoison';b[key]=(b[key]||0)+amount;}
   }
   function darkVampirize(u){
@@ -6033,12 +6248,14 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   const CLASSIC_TARGET_ABILITY_PERMANENT=new Set(['waterTsunami','waterNymph']);
   function classicFrozen(u,n){
     if(!u)return;
+    const board=state.duel;
+    if(board?.questActor==='player'&&board.enemyCreatures?.includes(u)&&!u.frozen&&!u.freezeTurns)questRecord('creature_frozen');
     u.frozen=true;u.freezeTurns=Math.max(u.freezeTurns||0,n||3);
   }
   function classicDraw(b,side){
     const hand=side==='player'?b.hand:b.enemyHand,lib=side==='player'?b.library:b.enemyLibrary;
     if(hand.length>=GAME_RULES.maxHand||!lib.length)return false;
-    hand.push(lib.shift());return true;
+    hand.push(lib.shift());if(side==='player')questRecord('card_drawn');return true;
   }
   function classicFamiliarNymphId(element){
     const code={Aether:'80s',Air:'5p0',Darkness:'5vo',Death:'534',Earth:'59c',Entropy:'4vu',Fire:'5fk',
@@ -6285,7 +6502,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         u.statuses=Array.isArray(item.statuses)?[...item.statuses]:[];
         u.abilities=(item.abilities||[]).filter(x=>x!=='timeClone');
         item.abilities=(item.abilities||[]).filter(x=>x!=='timeClone');
-        enterCreature(b,u,caster);return 'split '+item.name+' into two buffed creatures (no further Deja Vu)';
+        enterCreature(b,u,caster);if(caster==='player')questRecord('creature_copied');return 'split '+item.name+' into two buffed creatures (no further Deja Vu)';
       }
       case 'timeHatch':{
         const old=BY_ID[item.id];
@@ -7251,7 +7468,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     assignPermanentSlot(b,entry,side);b[side+'Permanents'].push(entry);b.lastPlacedKey=entry.key;return entry;
   }
   function logDuel(b,message){b.log=message;b.history.unshift(`Turn ${b.turn}: ${message}`);b.history.length=Math.min(b.history.length,40);}
-  function gain(b,element,qty=1){const amount=Math.max(0,qty|0);for(let i=0;i<amount;i++){const type=element==='Random'?ELEMENTS[Math.floor(Math.random()*ELEMENTS.length)][0]:element;b.quanta[type]=Math.min(GAME_RULES.maxQuanta,(b.quanta[type]||0)+1);}}
+  function gain(b,element,qty=1){const before=b.quanta.Light||0;const amount=Math.max(0,qty|0);for(let i=0;i<amount;i++){const type=element==='Random'?ELEMENTS[Math.floor(Math.random()*ELEMENTS.length)][0]:element;b.quanta[type]=Math.min(GAME_RULES.maxQuanta,(b.quanta[type]||0)+1);}if((b.quanta.Light||0)>before)questRecord('light_quanta_generated',{amount:b.quanta.Light-before});}
   function canAfford(b,card){return canPay(b,card);}
   function spend(b,card){return pay(b,card);}
   function gainForSide(b,side,element,qty=1){
@@ -7322,7 +7539,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       .map(([e,n])=>`${e} +${n-before[e]}`).join(', ')||'no quanta gained';
   }
   function production(b){return productionForSide(b,'player');}
-  function drawDuel(b){if(b.hand.length>=GAME_RULES.maxHand)return 'Hand full (8): draw skipped.';if(!b.library.length)return 'Deck empty: no card drawn.';b.hand.push(b.library.shift());return `Drew 1 card (${b.library.length} left).`;}
+  function drawDuel(b){if(b.hand.length>=GAME_RULES.maxHand)return 'Hand full (8): draw skipped.';if(!b.library.length)return 'Deck empty: no card drawn.';b.hand.push(b.library.shift());questRecord('card_drawn');return `Drew 1 card (${b.library.length} left).`;}
   function brickPass(b){if(b.played)return '';
     const eligible=b.library.map((id,i)=>({id,i,c:BY_ID[id]})).filter(x=>['pillar','tower'].includes(cardRule(x.c)?.family));
     if(!eligible.length)return 'No Pillar/Tower available for brick pass.';
@@ -7330,7 +7547,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     b.library.splice(pick.i,1);addPermanent(b,{id:pick.id,key:b.nextKey++,mode:'assigned',sleep:rule.family==='pillar'});
     return `Brick pass: ${card.name}${rule.family==='pillar'?' (first production skipped)':' (produces this turn)'}.`;
   }
-  function finishDuel(b){if(b.enemyHp<=0||b.playerHp<=0){b.ended=true;b.winner=b.enemyHp<=0?'player':'enemy';}}
+  function finishDuel(b){if(b.ended)return;if(b.enemyHp<=0||b.playerHp<=0){b.ended=true;b.winner=b.enemyHp<=0?'player':'enemy';if(b.winner==='player')questRecord('game_won');}}
   // Approved Shard passives persist in the lower permanent zone. Multiple copies add +25%, capped at 100%.
   // Wisdom's spell attack is set when its target was ALREADY Immaterial on cast.
   function shardBonuses(b,side='player'){
@@ -7549,6 +7766,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   }
   function abilityLabel(item){const c=BY_ID[item.id],r=entropyActiveRule(item);return `${c.name} — ${r.activate} (${r.activateCost} ${r.activateElement})`;}
   function useAbility(){const b=ensureBoard(),item=sourceByKey(b,b.abilitySource),reason=abilityReason(b,item);
+    b.questActor='player';
     if(reason){logDuel(b,reason);render();return false;}
     const c=BY_ID[item.id],r=entropyActiveRule(item),target=potentialTarget(b,b.abilityTarget);
     // No quanta removed if a target, timing restriction, or slot check failed above.
@@ -7664,8 +7882,10 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(b.ended||!LAB_IDS.includes(id)||b.hand.length>=GAME_RULES.maxHand){logDuel(b,'Ability Lab: cannot add card (duel over, invalid card, or hand is full).');render();return;}
     b.hand.push(id);logDuel(b,`Ability Lab adds ${BY_ID[id].name} to your hand; normal play costs and ability delays still apply.`);render();}
   function labCharge(){const b=ensureBoard();if(b.ended)return;
+    b.questSuppress=true;
     gain(b,'Air',10);gain(b,'Aether',10);gain(b,'Fire',10);gain(b,'Life',5);gain(b,'Entropy',10);gain(b,'Darkness',5);
     gain(b,'Water',10);gain(b,'Time',10);gain(b,'Earth',5);gain(b,'Gravity',5);gain(b,'Light',5);gain(b,'Death',5);
+    b.questSuppress=false;
     logDuel(b,'Ability Lab: +10 Air, +10 Aether, +5 Fire, +5 Life (50 cap).');render();}
   // Trigger when the opponent destroys our non-resource Permanent.
   // Salvaging is a passive: the permanent goes back to hand if capacity allows.
@@ -7730,9 +7950,11 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         if(u.entropyAdrenaline&&amount>0)amount+=Math.max(1,Math.floor(amount/2));
         const critical=amount>0&&u.abilities?.includes('airborne')&&Math.random()<bonuses.criticalChance;
         if(critical)amount=Math.ceil(amount*bonuses.criticalMultiplier);
+        if(side==='player'&&base>0&&!(u.frozen||u.delayed))questRecord('creature_attacked');
         if(gravityRedirect(b,opponent,u,amount,steps)){
           attacks.push(u.name+' → Gravity Pull');continue;
         }
+        const questRelevantDamage=Math.min(amount,Math.max(0,b[opponent+'Hp']||0));
         const shield=b[opponent+'Shield'];
         if(shield){
           const r=cardRule(BY_ID[shield.id]);
@@ -7752,7 +7974,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         amount=lightShieldHit(b,opponent,amount,physical);
         amount=classicShieldHit(b,opponent,side,u,amount,physical);
         const damage=darkDamageHero(b,opponent,amount);
+        if(opponent==='player'&&questRelevantDamage>damage)questRecord('damage_prevented',{amount:questRelevantDamage-damage});
         dealt+=damage;
+        if(side==='player'&&damage>0&&u.abilities?.includes('airborne'))questRecord('airborne_damage_dealt',{damage});
         if(damage>0){
           if(u.abilities?.includes('deadlyVenom'))b[opponent+'Poison']=(b[opponent+'Poison']||0)+2;
           if(u.abilities?.includes('venom'))b[opponent+'Poison']=(b[opponent+'Poison']||0)+1;
@@ -7833,6 +8057,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   // Each faction's end turn follows OG order: discard (handled before this),
   // creatures & death triggers, resources, permanent upkeep, shields, weapons.
   function resolveActingSide(b,side,steps){
+    b.questActor=side;
     const phases=(b.lastTurnPhases ||= []);
     phases.push(`${side}:1-discard`);
     phases.push(`${side}:2-creatures`);
@@ -7882,7 +8107,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     steps.push(`enemy discarded ${BY_ID[id]?.name||id} before combat.`);
   }
   function endTurn(){
-    const b=ensureBoard();
+    const b=ensureBoard();b.questActor='player';
     if(b.ended){logDuel(b,'This duel has ended; reset to play another.');render();return;}
     if(b.pendingDiscard){render();return;}
     if(b.hand.length>=GAME_RULES.maxHand){
@@ -7896,6 +8121,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(brick)steps.push(brick);
     b.lastTurnPhases=[];b.lastAttackOrders={};
     resolveActingSide(b,'player',steps);
+    questRecord('turn_ended',{damageDealtThisTurn:b.questDamageThisTurn||0});b.questDamageThisTurn=0;
     finishDuel(b);
     if(!b.ended){
       if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2||b.aiLevel===3)aiTakeTurn(b,steps);
@@ -8337,6 +8563,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     return wrap(`${renderDesktopBattlefield(b)}`,true);
   }
   function playHand(targetCode=null){const b=ensureBoard(),i=b.selectedHand;
+    b.questActor='player';
     if(b.pendingDiscard)return;
     if(b.ended||i==null||i<0||i>=b.hand.length)return;
     const id=b.hand[i],c=BY_ID[id],r=cardRule(c);
@@ -8436,7 +8663,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
           message=`${c.name} fills ${n} enemy hand slots with ${unit.name}, draining ${n*2} HP.`;break;
         }
         case 'lightning':{
-          if(t.kind==='player'){if(side==='enemy')b.enemyHp=Math.max(0,b.enemyHp-r.damage);else b.playerHp=Math.max(0,b.playerHp-r.damage);}
+          if(t.kind==='player'){if(side==='enemy'){const actual=Math.min(b.enemyHp,r.damage);b.enemyHp-=actual;if(b.questActor==='player')b.questDamageThisTurn=(b.questDamageThisTurn||0)+actual;}else b.playerHp=Math.max(0,b.playerHp-r.damage);}
           else darkDamageCreature(b,side,unit,r.damage);
           message=`${c.name} deals ${r.damage} spell damage to ${t.kind==='player'?(side==='enemy'?'opponent':'you'):unit.name}.`;break;}
         case 'shockwave':{
@@ -8452,7 +8679,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
           const slot=chooseFreeCreatureSlot(b,'player');if(slot<0){message='No creature slot available.';break;}
           const cloned={...unit,key:b.nextKey++,boardSlot:slot,born:b.turn,used:-1,
             abilities:[...(unit.abilities||[])],statuses:[...(unit.statuses||[])],dive:false,diveBaseAtk:null};
-          enterCreature(b,cloned);
+          enterCreature(b,cloned);questRecord('creature_copied');
           message=`${c.name} copied ${unit.name} (${cloned.atk}/${cloned.hp}) to your battlefield.`;break;}
         case 'quintessence':{
           if(!unit.abilities?.includes('immaterial'))unit.abilities.push('immaterial');
@@ -8591,8 +8818,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     document.body.dataset.elementiaDisplay='desktop';
     document.body.classList.toggle('etg-duel-paused',state.scene==='duel'&&state.duelPaused);
     if(!activeAccountKey&&!['login','register'].includes(state.scene))state.scene='login';
-    root.innerHTML=state.scene==='login'?renderLogin():state.scene==='register'?renderRegister():state.scene==='menu'?renderMenu():state.scene==='music'?renderJukebox():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():renderDuel();
+    root.innerHTML=state.scene==='login'?renderLogin():state.scene==='register'?renderRegister():state.scene==='menu'?renderMenu():state.scene==='music'?renderJukebox():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():state.scene==='quests'?renderQuests():renderDuel();
     applyPillarNumerals(root);
+    if(state.scene==='quests'){const scroller=root.querySelector('#quest-map-scroller');if(scroller)scroller.scrollLeft=questScrollX===null?Math.max(0,(scroller.scrollWidth-scroller.clientWidth)/2):questScrollX;}
     document.title=`${state.scene==='login'?'Log In':state.scene==='register'?'Register':state.scene.charAt(0).toUpperCase()+state.scene.slice(1)} — Elementia: The Return`;
     if(state.duel)state.duel.lastPlacedKey=null; // Animate only newly dealt cards, never the whole board on every update.
     syncFullscreenUI();
@@ -8600,7 +8828,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(activeAccountKey)scheduleLocalSave();
     requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();});
   }
-  function navigate(to){if(!['menu','deck','shop','duel','login','music'].includes(to))return;if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
+  function navigate(to){if(!['menu','deck','shop','quests','duel','login','music'].includes(to))return;if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();if(to==='quests'&&state.scene!=='quests'){selectedQuestId=QUESTS.find(q=>questStatus(q.id)==='claimable')?.id||'Q000';questScrollX=null;}state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
     if(delta>0&&(current>=(state.inventory[id]||0)||countMap(state.deck)>=60||(!unlimited&&current>=6))){state.notice='Card unavailable, six-copy limit reached, or the deck is full (60).';return;}
     state.deck[id]=Math.max(0,current+delta);state.duel=null;save();}
@@ -8625,7 +8853,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'logout':logoutLocalAccount();break;
       case 'open-settings':state.modal='settings-panel';render();break;
       case 'confirm-reset':state.modal='reset-panel';render();break;
-      case 'do-reset':{const username=state.player;restoreProgress(initialProgressFor(username),username);state.notice='Your progress was reset. Your local account is still registered.';save();render();break;}
+      case 'do-reset':{const username=state.player,claimedQuests=state.quests;restoreProgress(initialProgressFor(username),username);state.quests=claimedQuests;state.notice='Your collection and duel progress were reset. Quest rewards remain one-time per account.';save();render();break;}
       case 'account-info':state.modal='account-panel';state.notice='';render();break;
       case 'export-save':exportLocalProgress();break;
       case 'redeem-code':state.modal='redeem-panel';render();break;
@@ -8634,6 +8862,8 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'music-toggle':musicToggle(Number(id));break;
       case 'music-play-pause':if(jukeboxTrack>=0)musicToggle(jukeboxTrack);break;
       case 'navigate':navigate(button.dataset.to);break;
+      case 'quest-select':if(QUEST_BY_ID[id]){selectedQuestId=id;render();}break;
+      case 'quest-claim':if(questClaim(id)){selectedQuestId=id;render();}break;
       case 'element':if(ELEMENT[id]){state.element=id;state.duel=null;save();render();}break;
       case 'starter-duel':state.duel=newDuel(true,id==='level1'?1:id==='level2'?2:id==='level3'?3:0);navigate('duel');break;
       case 'deck-tab':state.deckTab=id;render();break;
@@ -8670,6 +8900,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'lab-enemy-destroy':labEnemyDestroy();break;
     }
   });
+  root.addEventListener('scroll',e=>{if(e.target?.id==='quest-map-scroller')questScrollX=e.target.scrollLeft;},true);
   root.addEventListener('change',e=>{
     if(e.target.id==='import-local-save'){void importLocalProgress(e.target.files?.[0]);return;}
     if(e.target.id==='deck-filter'){state.filter=e.target.value;render();}
@@ -8740,9 +8971,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.85-electrum-coin',isDemo:demo,
+    version:'20.86-quest-tree',isDemo:demo,
     navigate:scene=>navigate(scene),
-    getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
+    getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();

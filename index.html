@@ -66,7 +66,16 @@ button:active:not(:disabled){ transform:translateY(1px) }
 .field{display:block;text-align:left;margin:0 0 15px;}
 .field span{display:block;font-size:12px;color:var(--gold);margin-bottom:6px;}
 .field input,.field select,.search-input{border:1px solid #6c674e;border-radius:2px;background:#101718;color:#f5ecd0;padding:12px 13px;min-height:43px;width:100%;font-size:16px;outline-offset:1px;}
-.login-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 0;}
+.login-actions{display:grid;grid-template-columns:1fr;gap:10px;margin:10px 0 0;}
+.auth-divider{display:flex;align-items:center;gap:13px;color:#b3a98a;margin:15px 0 4px;font:11px Arial,sans-serif;}
+.auth-divider::before,.auth-divider::after{content:"";flex:1;height:1px;background:#625638;}
+.auth-extra{display:grid;justify-items:center;gap:7px;margin-top:10px;}
+.auth-extra .button{width:100%;}
+.auth-info{font:12px/1.55 Arial,sans-serif;color:#b6b9b1;text-align:center;margin:16px 0 0;}
+.auth-error{border:1px solid #b66c59;background:#48241f66;color:#ffd3c9;padding:10px 12px;margin:0 0 16px;font:13px/1.45 Arial,sans-serif;text-align:left;}
+.auth-checkbox{display:flex;align-items:flex-start;gap:10px;text-align:left;font:12px/1.45 Arial,sans-serif;color:#dbcaa2;margin:12px 0 16px;}
+.auth-checkbox input{width:18px;height:18px;flex:0 0 18px;accent-color:#ba9a57;}
+.auth-success{color:#c0deaf;}
 .notice { font:12px/1.55 Arial,sans-serif;color:#b6b9b1; }
 .notice strong{color:#efdbab}
 .notice-box{border:1px solid #66553a;background:#0b1011a6;padding:12px 14px;line-height:1.55;margin-top:15px;font:12px Arial,sans-serif;color:#d9c9a8;}
@@ -770,7 +779,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.83</title>
+  <title>Elementia — The Return · v20.84</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -3587,7 +3596,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
 (() => {
   'use strict';
 
-  const STORE_KEY = 'elementia-interface-preview-v1';
+  const STORE_KEY = 'elementia-interface-preview-v1'; // Legacy single-player save (import only).
+  const ACCOUNT_STORE_KEY = 'elementia-local-accounts-v1';
+  const PASSWORD_ITERATIONS = 210000;
   const ELEMENTS = [
     ['Air', '◈', '#7baec6'], ['Darkness', '☾', '#786394'],
     ['Fire', '♨', '#b96b3c'], ['Water', '≈', '#4f92c9'],
@@ -4301,30 +4312,157 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       deckTab:'collection',filter:'All',search:'',shopFilter:'All',selected:CARDS[0]?.id || '',
       duel:null,modal:null,notice:'',displayMode:'desktop',duelPaused:false };
   };
+  // A local account is unlocked only in memory after explicit password verification.
+  // Never persist an authenticated session: every reload returns to the login screen.
   let state = defaultState();
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
-    if(saved && typeof saved === 'object' && saved.version===1){
-      const d=saved.data||{};
-      state={...state,player:typeof d.player==='string'?d.player.slice(0,24):'',credits:Number.isFinite(d.credits)?Math.max(0,d.credits):900,
-        element:ELEMENT[d.element]?d.element:'Air',
-        deck:sanitizeCounts(d.deck), inventory:sanitizeCounts(d.inventory),
-        displayMode:'desktop',duelPaused:false};
-      if (state.player) state.scene='menu';
-    }
-  } catch (_) { /* Browser storage may be disabled; preview still works. */ }
+  let activeAccountKey = null;
+  let authBusy = false;
+  let autoSaveTimer = null;
   const root = document.getElementById('app');
 
   function sanitizeCounts(source){
     const output={};
-    if(!source||typeof source!=='object')return output;
+    if(!source||typeof source!=='object'||Array.isArray(source))return output;
     for(const [id,value] of Object.entries(source)) if(BY_ID[id] && Number.isFinite(value)) output[id]=Math.max(0,Math.min(99,Math.floor(value)));
     return output;
   }
-  function save(){
-    try{localStorage.setItem(STORE_KEY,JSON.stringify({version:1,data:{player:state.player,credits:state.credits,
-      element:state.element,deck:state.deck,inventory:state.inventory}}));}catch(_){}
+  function readLocalAccounts(){
+    const raw=localStorage.getItem(ACCOUNT_STORE_KEY);
+    if(!raw)return {version:1,accounts:{}};
+    const parsed=JSON.parse(raw);
+    if(parsed?.version!==1||!parsed.accounts||typeof parsed.accounts!=='object'||Array.isArray(parsed.accounts))throw Error('The local account database cannot be read. Do not clear your browser data; back it up before continuing.');
+    return parsed;
   }
+  function writeLocalAccounts(db){localStorage.setItem(ACCOUNT_STORE_KEY,JSON.stringify(db));}
+  function legacySaveData(){
+    try{
+      const stored=JSON.parse(localStorage.getItem(STORE_KEY)||'null');
+      return stored?.version===1&&stored.data&&typeof stored.data==='object'&&!Array.isArray(stored.data)?stored.data:null;
+    }catch(_){return null;}
+  }
+  function localNameKey(name){return name.trim().toLowerCase();}
+  function passwordToolsAvailable(){return !!(window.crypto?.subtle&&window.crypto?.getRandomValues&&window.TextEncoder);}
+  function bytesAsHex(bytes){return Array.from(bytes,v=>v.toString(16).padStart(2,'0')).join('');}
+  function hexAsBytes(hex){if(typeof hex!=='string'||!/^(?:[a-f0-9]{2})+$/i.test(hex))throw Error('Invalid stored password information.');return new Uint8Array(hex.match(/../g).map(v=>parseInt(v,16)));}
+  async function deriveLocalPassword(password,saltHex,iterations=PASSWORD_ITERATIONS){
+    if(!passwordToolsAvailable())throw Error('This browser cannot use secure password hashing. Open Elementia over HTTPS (for example, GitHub Pages) or localhost.');
+    const key=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),{name:'PBKDF2'},false,['deriveBits']);
+    const hash=await crypto.subtle.deriveBits({name:'PBKDF2',salt:hexAsBytes(saltHex),iterations,hash:'SHA-256'},key,256);
+    return bytesAsHex(new Uint8Array(hash));
+  }
+  function sameHash(a,b){if(typeof a!=='string'||typeof b!=='string'||a.length!==b.length)return false;let diff=0;for(let i=0;i<a.length;i++)diff|=a.charCodeAt(i)^b.charCodeAt(i);return diff===0;}
+  function progressData(){
+    // Save the current duel as well as the collection, deck, element and currency.
+    // Limit stored combat log size so long sessions do not fill browser storage.
+    const duel=state.duel?JSON.parse(JSON.stringify(state.duel)):null;
+    if(duel&&Array.isArray(duel.history)&&duel.history.length>200)duel.history=duel.history.slice(-200);
+    return {player:state.player,credits:state.credits,element:state.element,deck:state.deck,inventory:state.inventory,duel};
+  }
+  function restoreProgress(data,username){
+    const defaults=defaultState(),d=data&&typeof data==='object'&&!Array.isArray(data)?data:{};
+    state={...defaults,scene:'menu',player:username,
+      credits:Number.isFinite(d.credits)?Math.min(999999999,Math.max(0,Math.floor(d.credits))):defaults.credits,
+      element:ELEMENT[d.element]?d.element:defaults.element,
+      deck:d.deck?sanitizeCounts(d.deck):defaults.deck,
+      inventory:d.inventory?sanitizeCounts(d.inventory):defaults.inventory,
+      duel:d.duel&&typeof d.duel==='object'&&!Array.isArray(d.duel)&&[7,8,9,10,11,12].includes(d.duel.version)?d.duel:null,
+      displayMode:'desktop',duelPaused:false};
+    if(state.duel){state.duel.pendingTarget=null;state.duel.selectedHand=-1;}
+  }
+  function save(){
+    if(!activeAccountKey)return false;
+    try{
+      const db=readLocalAccounts(),account=db.accounts[activeAccountKey];
+      if(!account)return false;
+      account.data=progressData();account.savedAt=new Date().toISOString();
+      writeLocalAccounts(db);
+      return true;
+    }catch(_){return false;}
+  }
+  function scheduleLocalSave(){
+    if(!activeAccountKey)return;
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer=setTimeout(()=>{autoSaveTimer=null;save();},200);
+  }
+  function logoutLocalAccount(){
+    if(activeAccountKey)save();
+    clearTimeout(autoSaveTimer);autoSaveTimer=null;
+    activeAccountKey=null;authBusy=false;
+    state=defaultState();render();window.scrollTo({top:0,behavior:'instant'});
+  }
+  function authFailure(message,username=''){
+    state.authError=String(message);state.authDraftUsername=username;render();
+    root.querySelector(state.scene==='register'?'#register-password':'#login-password')?.focus();
+  }
+  async function loginLocalAccount(form){
+    if(authBusy)return;
+    const username=(form.querySelector('#login-username')?.value||'').trim();
+    const password=form.querySelector('#login-password')?.value||'';
+    authBusy=true;
+    try{
+      const db=readLocalAccounts(),key=localNameKey(username),account=Object.prototype.hasOwnProperty.call(db.accounts,key)?db.accounts[key]:null;
+      if(!account){authFailure('Username or password is incorrect.',username);return;}
+      const calculated=await deriveLocalPassword(password,account.salt,account.iterations);
+      if(!sameHash(calculated,account.hash)){authFailure('Username or password is incorrect.',username);return;}
+      activeAccountKey=key;restoreProgress(account.data,account.username);
+      render();
+    }catch(err){authFailure(err.message||'Unable to access local account storage.',username);}
+    finally{authBusy=false;}
+  }
+  async function registerLocalAccount(form){
+    if(authBusy)return;
+    const username=(form.querySelector('#register-username')?.value||'').trim();
+    const password=form.querySelector('#register-password')?.value||'';
+    const confirm=form.querySelector('#register-confirm')?.value||'';
+    const migrate=!!form.querySelector('#migrate-previous-save')?.checked;
+    if(!/^[A-Za-z0-9_-]{3,24}$/.test(username)||['__proto__','constructor','prototype'].includes(localNameKey(username))){authFailure('Choose a username of 3–24 letters, numbers, underscores or hyphens.',username);return;}
+    if(password.length<8||password.length>128){authFailure('Passwords must contain 8–128 characters.',username);return;}
+    if(password!==confirm){authFailure('The passwords do not match.',username);return;}
+    authBusy=true;
+    try{
+      const db=readLocalAccounts(),key=localNameKey(username);
+      if(Object.prototype.hasOwnProperty.call(db.accounts,key)){authFailure('That username already exists on this browser.',username);return;}
+      const oldSave=migrate?legacySaveData():null;
+      const salt=bytesAsHex(crypto.getRandomValues(new Uint8Array(16)));
+      const hash=await deriveLocalPassword(password,salt);
+      db.accounts[key]={username,salt,hash,iterations:PASSWORD_ITERATIONS,
+        createdAt:new Date().toISOString(),savedAt:new Date().toISOString(),
+        data:oldSave?{...oldSave,player:username}:initialProgressFor(username)};
+      writeLocalAccounts(db);
+      if(oldSave){try{localStorage.removeItem(STORE_KEY);}catch(_){/* The new account has the copied progress. */}}
+      activeAccountKey=key;restoreProgress(db.accounts[key].data,username);
+      if(oldSave)state.notice='Previous local save was imported into this account.';
+      render();
+    }catch(err){authFailure(err.message||'Unable to create a local account. Check browser storage and try again.',username);}
+    finally{authBusy=false;}
+  }
+  function initialProgressFor(username){const d=defaultState();return {player:username,credits:d.credits,element:d.element,deck:d.deck,inventory:d.inventory,duel:null};}
+  function exportLocalProgress(){
+    if(!activeAccountKey)return;
+    if(!save()){state.notice='Could not save your progress in this browser. Check storage permissions.';render();return;}
+    const bundle={format:'elementia-local-save',version:1,player:state.player,exportedAt:new Date().toISOString(),data:progressData()};
+    const blob=new Blob([JSON.stringify(bundle,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob),anchor=document.createElement('a');
+    anchor.href=url;anchor.download='Elementia_Save_'+state.player.replace(/[^A-Za-z0-9_-]/g,'_')+'.json';
+    document.body.appendChild(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    state.notice='Local save exported. Store your JSON backup somewhere safe.';render();
+  }
+  async function importLocalProgress(file){
+    if(!activeAccountKey||!file)return;
+    if(file.size>2*1024*1024){state.notice='Save file is too large (maximum 2 MB).';render();return;}
+    try{
+      const bundle=JSON.parse(await file.text());
+      if(bundle?.format!=='elementia-local-save'||bundle.version!==1||!bundle.data||typeof bundle.data!=='object'||Array.isArray(bundle.data))throw Error('This is not a valid Elementia local save backup.');
+      if(!bundle.data.deck||!bundle.data.inventory||!ELEMENT[bundle.data.element]||!Number.isFinite(bundle.data.credits))throw Error('The save file is missing essential progress data.');
+      if(!window.confirm('Replace the current progress for '+state.player+' with this backup? This cannot be undone.')){state.modal=null;render();return;}
+      const previous=state;
+      restoreProgress(bundle.data,previous.player);
+      if(!save()){state=previous;throw Error('Could not save imported progress. Check browser storage permissions.');}
+      state.notice='Backup imported successfully into '+state.player+'.';render();
+    }catch(err){state.notice=err.message||'Unable to import the save file.';state.modal='account-panel';render();}
+  }
+  window.addEventListener('pagehide',()=>{if(activeAccountKey)save();});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&activeAccountKey)save();});
   function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function countMap(map){return Object.values(map).reduce((a,b)=>a+b,0);}
   function selectedCard(){return BY_ID[state.selected] || CARDS[0];}
@@ -4508,7 +4646,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.83 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.84 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -4593,10 +4731,24 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     if(event.target?.id==='elementia-music-seek' && jukeboxTrack>=0 && audio.readyState>=1){audio.currentTime=Number(event.target.value);updateMusicControls();}
   });
 
-  function renderLogin(){return `<main class="login"><section class="panel login-card" aria-label="Elementia entry screen"><div class="eyebrow">A realm of twelve elements</div><div class="login-sigil" aria-hidden="true">✥</div>
-    <h1 class="hero-title">ELEMENTIA</h1><p class="hero-sub">The Return</p><div class="ornament-line" style="margin-bottom:24px"></div>
-    <form id="entry-form"><label class="field"><span>Player name</span><input autocomplete="nickname" required maxlength="24" id="playername" placeholder="Choose a name" value="${esc(state.player)}"></label>
-    <div class="login-actions"><button class="button" type="submit">Enter Realm</button><button class="button secondary" data-action="guest" type="button">Play Now!</button></div></form>
+  function authHeader(){return `<div class="eyebrow">A realm of twelve elements</div><div class="login-sigil" aria-hidden="true">✥</div><h1 class="hero-title">ELEMENTIA</h1><p class="hero-sub">The Return</p><div class="ornament-line" style="margin-bottom:24px"></div>`;}
+  function renderLogin(){return `<main class="login"><section class="panel login-card" aria-label="Elementia login screen">${authHeader()}
+    <h2 class="section-title">Log In</h2>${state.authError?`<p class="auth-error" role="alert">${esc(state.authError)}</p>`:''}
+    <form id="login-form"><label class="field"><span>Username</span><input id="login-username" name="username" autocomplete="username" required maxlength="24" placeholder="Your username" value="${esc(state.authDraftUsername||'')}"></label>
+    <label class="field"><span>Password</span><input id="login-password" name="password" type="password" autocomplete="current-password" required placeholder="Your password"></label>
+    <div class="login-actions"><button class="button" type="submit">Enter Realm</button></div></form>
+    <div class="auth-divider">New adventurer?</div><div class="auth-extra"><button class="button secondary" data-action="show-register" type="button">Register an Account</button></div>
+    <p class="auth-info">Accounts and saves are stored only in this browser. Log in again on each visit. No online synchronization or password recovery.</p>
+    </section></main>`;}
+  function renderRegister(){const legacy=legacySaveData();return `<main class="login"><section class="panel login-card" aria-label="Elementia account registration">${authHeader()}
+    <h2 class="section-title">Register an Account</h2>${state.authError?`<p class="auth-error" role="alert">${esc(state.authError)}</p>`:''}
+    <form id="register-form"><label class="field"><span>Username</span><input id="register-username" name="username" autocomplete="username" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_-]{3,24}" title="3–24 letters, numbers, underscores, or hyphens" placeholder="3–24 characters" value="${esc(state.authDraftUsername||'')}"></label>
+    <label class="field"><span>Password</span><input id="register-password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="At least 8 characters"></label>
+    <label class="field"><span>Confirm password</span><input id="register-confirm" name="confirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Repeat your password"></label>
+    ${legacy?`<label class="auth-checkbox"><input type="checkbox" id="migrate-previous-save" checked><span>Import the previous local save from this browser${legacy.player?' ('+esc(legacy.player)+')':''} into my new account</span></label>`:''}
+    <div class="login-actions"><button class="button" type="submit">Create Account</button></div></form>
+    <div class="auth-extra"><button class="linklike" type="button" data-action="show-login">Already registered? Return to login</button></div>
+    <p class="auth-info">Local accounts stay on this browser and website only. Clearing site data will erase them unless you export a backup. Passwords cannot be recovered.</p>
     </section></main>`;}
 
   function menuLevelCell(label,id,ready){
@@ -4627,14 +4779,14 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
         <button type="button" class="button secondary" data-action="logout">Logout</button>
         <h1 class="og-main-title">MAIN MENU</h1>
         <button type="button" class="button secondary" data-action="open-settings">Setting</button>
-        <button type="button" class="button secondary" data-action="confirm-reset">Reset Account</button>
+        <button type="button" class="button secondary" data-action="confirm-reset">Reset Progress</button>
         <button type="button" class="button secondary" data-action="account-info">Account Info</button>
       </div>
       <div class="og-menu-info"><span>Welcome, <b>${esc(state.player)}</b></span><span>Your Mark: <b>${esc(state.element)}</b></span><span>Deck: <b>${total} / 60</b></span><span>Electrum: <b>◈ ${state.credits}</b></span></div>
       ${state.notice?`<div class="og-menu-notice" role="status">${esc(state.notice)}</div>`:''}
       <div class="og-menu-main">
         <div class="og-menu-intro"><h2>Start A New Game</h2><p>(pick your opponent level)</p></div>
-        <section class="og-level-panel" aria-label="Choose opponent level">${table}<div class="og-level-note"><span class="og-level-swipe">Swipe sideways to view all opponent levels →</span>Levels 0, 1 and 2 are ready. Higher levels are planned.</div></section>
+        <section class="og-level-panel" aria-label="Choose opponent level">${table}<div class="og-level-note"><span class="og-level-swipe">Swipe sideways to view all opponent levels →</span>Levels 0–3 are ready. Higher levels are planned.</div></section>
       </div>
       <div class="og-menu-lower">
         <div class="og-menu-deckintro"><h2>Manage Your Deck</h2><p>(add, remove, buy or sell cards)</p></div>
@@ -8311,9 +8463,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
   function modal(){
     if(state.modal==='unavailable-level')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Unfinished opponent level"><h2 class="section-title">Oops! This isn't ready yet!</h2><div class="modal-actions"><button type="button" class="button" data-action="close-modal">OK</button></div></section></div>`;
     if(state.modal==='settings-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Settings"><h2 class="section-title">Settings</h2><p class="notice">The battlefield now uses one desktop layout. Press M during a duel for the pause menu and Full Screen control.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
-    if(state.modal==='account-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Account Information"><h2 class="section-title">Account Info</h2><p><strong>Player:</strong> ${esc(state.player)}<br><strong>Mark:</strong> ${esc(state.element)}<br><strong>Deck:</strong> ${countMap(state.deck)} / 60 cards<br><strong>Electrum:</strong> ◈ ${state.credits}</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="navigate" data-to="deck">Manage Deck</button></div></section></div>`;
+    if(state.modal==='account-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Account Information"><h2 class="section-title">Account Info</h2><p><strong>Player:</strong> ${esc(state.player)}<br><strong>Mark:</strong> ${esc(state.element)}<br><strong>Deck:</strong> ${countMap(state.deck)} / 60 cards<br><strong>Electrum:</strong> ◈ ${state.credits}</p><p class="notice">Progress is saved automatically to this browser. Export a JSON backup before clearing site data, changing browsers or devices. Import restores progress into your currently logged-in local account; it does not transfer your password.</p>${state.notice?`<div class="notice-box" role="status">${esc(state.notice)}</div>`:''}<div class="modal-actions"><button class="button secondary" data-action="export-save">Export Save</button><label class="button secondary" style="cursor:pointer;position:relative;overflow:hidden">Import Save<input id="import-local-save" type="file" accept="application/json,.json" aria-label="Import Elementia save JSON" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label><button class="button" data-action="close-modal">Close</button></div></section></div>`;
     if(state.modal==='redeem-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Redeem Code"><h2 class="section-title">Redeem Code</h2><p class="notice">Reward codes are not active in this build yet.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
-    if(state.modal==='reset-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Reset Account"><h2 class="section-title">Reset Account</h2><p class="notice">This will clear your saved deck, collection, mark, and credits from this browser.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Cancel</button><button class="button" data-action="do-reset">Reset Account</button></div></section></div>`;
+    if(state.modal==='reset-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Reset Progress"><h2 class="section-title">Reset Progress</h2><p class="notice">This resets your collection, deck, Mark, Electrum, and current duel to defaults. Your local login account and password remain. Export a backup first if needed.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Cancel</button><button class="button danger" data-action="do-reset">Reset Progress</button></div></section></div>`;
     const c=BY_ID[state.modal];if(!c)return '';return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Card details"><h2 class="section-title">Card Details</h2>${renderDetail(c)}
     <div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="add-deck" data-id="${esc(c.id)}" ${(state.deck[c.id]||0)>=(state.inventory[c.id]||0)?'disabled':''}>Add to Deck</button></div></section></div>`;}
   function fitClassicMainMenu(){
@@ -8421,24 +8573,26 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     clearHoverCard();
     document.body.dataset.elementiaDisplay='desktop';
     document.body.classList.toggle('etg-duel-paused',state.scene==='duel'&&state.duelPaused);
-    root.innerHTML=state.scene==='login'?renderLogin():state.scene==='menu'?renderMenu():state.scene==='music'?renderJukebox():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():renderDuel();
+    if(!activeAccountKey&&!['login','register'].includes(state.scene))state.scene='login';
+    root.innerHTML=state.scene==='login'?renderLogin():state.scene==='register'?renderRegister():state.scene==='menu'?renderMenu():state.scene==='music'?renderJukebox():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():renderDuel();
     applyPillarNumerals(root);
-    document.title=`${state.scene==='login'?'Welcome':state.scene.charAt(0).toUpperCase()+state.scene.slice(1)} — Elementia: The Return`;
+    document.title=`${state.scene==='login'?'Log In':state.scene==='register'?'Register':state.scene.charAt(0).toUpperCase()+state.scene.slice(1)} — Elementia: The Return`;
     if(state.duel)state.duel.lastPlacedKey=null; // Animate only newly dealt cards, never the whole board on every update.
     syncFullscreenUI();
     if(state.scene==='duel'&&state.duelPaused)root.querySelector('[data-action="pause-resume"]')?.focus({preventScroll:true});
+    if(activeAccountKey)scheduleLocalSave();
     requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();});
   }
-  function enter(name){state.duelPaused=false;state.player=(name||'Guest').trim().slice(0,24)||'Guest';state.scene='menu';save();render();}
-  function navigate(to){if(!['menu','deck','shop','duel','login','music'].includes(to))return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
+  function navigate(to){if(!['menu','deck','shop','duel','login','music'].includes(to))return;if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
     if(delta>0&&(current>=(state.inventory[id]||0)||countMap(state.deck)>=60||(!unlimited&&current>=6))){state.notice='Card unavailable, six-copy limit reached, or the deck is full (60).';return;}
     state.deck[id]=Math.max(0,current+delta);state.duel=null;save();}
   function buy(id){const c=BY_ID[id];if(!c)return;if(state.credits<c.price){state.notice='Not enough demo electrum.';return;}
     state.credits-=c.price;state.inventory[id]=(state.inventory[id]||0)+1;state.notice=`Added one ${c.name} to your local collection.`;save();}
-  root.addEventListener('submit',(event)=>{if(event.target?.id==='entry-form'){event.preventDefault();enter(document.getElementById('playername').value);}});
+  root.addEventListener('submit',(event)=>{if(event.target?.id==='login-form'){event.preventDefault();void loginLocalAccount(event.target);}else if(event.target?.id==='register-form'){event.preventDefault();void registerLocalAccount(event.target);}});
   root.addEventListener('click',(event)=>{
     const button=event.target.closest('[data-action]');if(!button)return;
+    if(!activeAccountKey&&!['show-register','show-login'].includes(button.dataset.action))return;
     if(button.classList.contains('overlay') && event.target!==button)return;
     const action=button.dataset.action,id=button.dataset.id;
     if(state.scene==='duel'&&state.duelPaused&&!['pause-resume','pause-reset','pause-main-menu','fullscreen-toggle'].includes(action))return;
@@ -8448,13 +8602,15 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
       case 'pause-resume':pauseDuel(false);break;
       case 'pause-reset':state.duelPaused=false;state.duel=newDuelAgainstCurrentOpponent();navigate('duel');break;
       case 'pause-main-menu':state.duelPaused=false;navigate('menu');break;
-      case 'guest':enter('Guest');break;
-      case 'save-game':save();state.notice='Game saved in this browser.';render();break;
-      case 'logout':save();state.scene='login';state.notice='';render();window.scrollTo({top:0,behavior:'instant'});break;
+      case 'show-register':state=defaultState();state.scene='register';render();break;
+      case 'show-login':state=defaultState();render();break;
+      case 'save-game':state.notice=save()?'Game saved to your local account in this browser.':'Unable to save. Check browser storage settings.';render();break;
+      case 'logout':logoutLocalAccount();break;
       case 'open-settings':state.modal='settings-panel';render();break;
       case 'confirm-reset':state.modal='reset-panel';render();break;
-      case 'do-reset':try{localStorage.removeItem(STORE_KEY);}catch(_){} state=defaultState(); render(); break;
-      case 'account-info':state.modal='account-panel';render();break;
+      case 'do-reset':{const username=state.player;restoreProgress(initialProgressFor(username),username);state.notice='Your progress was reset. Your local account is still registered.';save();render();break;}
+      case 'account-info':state.modal='account-panel';state.notice='';render();break;
+      case 'export-save':exportLocalProgress();break;
       case 'redeem-code':state.modal='redeem-panel';render();break;
       case 'not-ready':state.modal='unavailable-level';render();break;
       case 'fullscreen-toggle':toggleFullscreen();break;
@@ -8498,6 +8654,7 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
   });
   root.addEventListener('change',e=>{
+    if(e.target.id==='import-local-save'){void importLocalProgress(e.target.files?.[0]);return;}
     if(e.target.id==='deck-filter'){state.filter=e.target.value;render();}
     if(e.target.id==='ability-lab-card'&&state.duel){state.duel.labCard=e.target.value;}
     if(e.target.id==='ability-source'&&state.duel){state.duel.abilitySource=e.target.value;state.duel.targetChosen=false;render();}
@@ -8566,9 +8723,9 @@ body[data-elementia-display="desktop"] .etg-og-field .etg-creature-row .etg-slot
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.83-level-three-ai',isDemo:demo,
+    version:'20.84-local-accounts',isDemo:demo,
     navigate:scene=>navigate(scene),
-    getSnapshot:()=>({player:state.player,mark:state.element,deck:{...state.deck},inventory:{...state.inventory},cards:CARDS.length,duel:state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
+    getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();

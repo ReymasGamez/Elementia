@@ -779,7 +779,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.88</title>
+  <title>Elementia — The Return · v20.89</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -2387,6 +2387,20 @@ body[data-elementia-display="desktop"] .etg-og-rail .etg-og-vitals{overflow:visi
 }
 </style>
 
+<style id="elementia-v20-89-menu-cleanup">
+/* Starter selection is an account-onboarding decision, not a main-menu setting. */
+.og-main-menu .og-menu-info{justify-content:flex-end;min-height:36px;padding-block:5px}
+.og-main-menu .og-menu-starter{padding-top:7px}
+.og-menu-notice,.elementia-dismissible-notice{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.elementia-notice-message{min-width:0;flex:1 1 auto}
+.elementia-notice-close{display:inline-grid;place-items:center;flex:0 0 22px;width:22px;height:22px;min-width:22px;min-height:22px;padding:0;border:1px solid #ad9468;border-radius:4px;background:linear-gradient(180deg,#4a4032,#201d1b);color:#f4e0b1;font:19px/1 Arial,sans-serif;cursor:pointer}
+.elementia-notice-close:hover,.elementia-notice-close:focus-visible{border-color:#ffe0a0;color:#fff;background:#6e5331}
+.elementia-settings-panel{max-width:440px}
+.elementia-settings-options{display:grid;gap:10px;margin:16px 0 12px}
+.elementia-settings-options>.button{width:100%;min-height:42px;text-align:center;justify-content:center}
+.elementia-settings-hint{font:12px/1.55 Arial,sans-serif;color:#cabf9e;margin:0 0 14px}
+@media(max-width:760px){.og-main-menu .og-menu-info{font-size:12px}}
+</style>
 <style id="elementia-v20-25-og-layered-board">
 /* v20.25 — OG tabletop proportions: compact, SQUARE lower permanents/equipment
    and overlapping 8 / 7 / 8 creature ranks. Visual-only: all slot identities,
@@ -4076,7 +4090,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
       const c=BY_ID[OG_ORIGINAL_CARD_ID[code]],ready=!!cardRule(c)&&!OG_UNFINISHED.has(code);
       return `<div class="og-starter-row"><span>${esc(c?.name||OG_CARD_INFO[code].name)}</span><span class="og-starter-qty">x${number}</span>${ready?'':`<span class="og-starter-pending" title="Ability effects are still being implemented">○</span>`}</div>`;
     }).join('');
-    return `<div class="og-starter-block" aria-label="Selected Mark starter deck"><div class="og-starter-actions"><button type="button" class="button" data-action="starter-duel">Play ${esc(element)} Starter Deck</button><details class="og-starter-details"><summary class="button secondary">View Original Starter Deck</summary><div class="og-starter-grid">${rows}</div><div class="og-starter-legend">40 original cards · ○ Cards with unfinished effects</div></details></div><button type="button" class="button secondary og-music-entry" data-action="navigate" data-to="music">♫ Music of Elementia</button></div>`;
+    return `<div class="og-starter-block" aria-label="Selected Mark starter deck"><div class="og-starter-actions"><button type="button" class="button" data-action="starter-duel">Play ${esc(element)} Starter Deck</button><details class="og-starter-details"><summary class="button secondary">View Original Starter Deck</summary><div class="og-starter-grid">${rows}</div><div class="og-starter-legend">40 original cards · ○ Cards with unfinished effects</div></details></div></div>`;
   }
 
 
@@ -4969,7 +4983,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.88 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.89 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -5081,7 +5095,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
     state.starterChoice=null;
     state.duel=null;
     state.scene='menu';
-    state.notice='Your '+chosen+' starter deck is ready.';
+    state.notice='';
     if(!save()){state.starterChosen=false;state.starterChoice=chosen;state.scene='starter';state.notice='Could not save your selection. Check that browser storage is available.';}
     render();
   }
@@ -5148,12 +5162,12 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
         <button type="button" class="button secondary" data-action="save-game">Save Game</button>
         <button type="button" class="button secondary" data-action="logout">Logout</button>
         <h1 class="og-main-title">MAIN MENU</h1>
-        <button type="button" class="button secondary" data-action="open-settings">Setting</button>
+        <button type="button" class="button secondary" data-action="open-settings">Settings</button>
         <button type="button" class="button secondary" data-action="confirm-reset">Reset Progress</button>
         <button type="button" class="button secondary" data-action="account-info">Account Info</button>
       </div>
-      <div class="og-menu-info"><span>Welcome, <b>${esc(state.player)}</b></span><span>Your Mark: <b>${esc(state.element)}</b></span><span>Deck: <b>${total} / 60</b></span><span>Electrum: <b>${electrumAmount(state.credits)}</b></span></div>
-      ${state.notice?`<div class="og-menu-notice" role="status">${esc(state.notice)}</div>`:''}
+      <div class="og-menu-info"><span>Electrum: <b>${electrumAmount(state.credits)}</b></span></div>
+      ${state.notice?`<div class="og-menu-notice" role="status"><span class="elementia-notice-message">${esc(state.notice)}</span><button type="button" class="elementia-notice-close" data-action="dismiss-notice" aria-label="Dismiss notification" title="Dismiss notification">×</button></div>`:''}
       <div class="og-menu-main">
         <div class="og-menu-intro"><h2>Start A New Game</h2><p>(pick your opponent level)</p></div>
         <section class="og-level-panel" aria-label="Choose opponent level">${table}<div class="og-level-note"><span class="og-level-swipe">Swipe sideways to view all opponent levels →</span>Levels 0–3 are ready. Higher levels are planned.</div></section>
@@ -5163,10 +5177,6 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
         <section class="og-menu-deckpanel" aria-label="Deck actions">${deckActions}</section>
         <div class="og-menu-reserved quest-menu-panel" aria-label="Quest tree"><button type="button" class="button secondary quest-menu-button" data-action="navigate" data-to="quests">✦ Quests</button><span class="quest-menu-hint">${QUESTS.filter(q=>questStatus(q.id)==='claimable').length} rewards ready to collect</span></div>
       </div>
-      <section class="og-menu-mark-section" aria-label="Choose your element mark">
-        <div class="og-menu-mark-label">Choose Your Mark<small>Starter deck selection</small></div>
-        <div class="og-menu-mark-grid">${ELEMENTS.map(([name])=>`<button type="button" class="og-menu-mark" data-action="element" data-id="${name}" aria-pressed="${name===state.element}" title="${esc(name)}">${orb(name)}<small>${esc(name)}</small></button>`).join('')}</div>
-      </section>
       <div class="og-menu-starter">${originalStarterDisplay(state.element)}</div>
     </section></div>`);
   }
@@ -5189,7 +5199,8 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
     ${renderDetail(selectedCard())}</section>`;}
   function deckList(){const lines=Object.entries(state.deck).filter(([id,num])=>BY_ID[id]&&num>0).sort(([a],[b])=>BY_ID[a].name.localeCompare(BY_ID[b].name)); const total=countMap(state.deck);
     return `<aside class="panel" id="deck-panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><h2 class="section-title small">Current Deck</h2><span class="sandbox-label">${total} cards</span></div>
-    <div class="notice">${state.notice?`<strong>${esc(state.notice)}</strong> · `:''}Elementia deck size: exactly 60 cards. ${total<60?`<strong>${60-total} more needed for a valid deck.</strong>`:total>60?'Over maximum.':'Ready for a 60-card duel.'}</div>
+    <div class="notice">Elementia deck size: exactly 60 cards. ${total<60?`<strong>${60-total} more needed for a valid deck.</strong>`:total>60?'Over maximum.':'Ready for a 60-card duel.'}</div>
+    ${state.notice?`<div class="notice-box elementia-dismissible-notice" role="status"><span class="elementia-notice-message">${esc(state.notice)}</span><button type="button" class="elementia-notice-close" data-action="dismiss-notice" aria-label="Dismiss notification" title="Dismiss notification">×</button></div>`:''}
     <div class="deck-list">${lines.length?lines.map(([id,num])=>`<div class="deck-line"><div><span class="name">${esc(BY_ID[id].name)} ${BY_ID[id].tier==='Upgraded'?'✦':''}</span><small>${esc(BY_ID[id].element)} · ${esc(BY_ID[id].type)}</small></div><div class="actions"><button class="square-button" aria-label="Remove ${esc(BY_ID[id].name)}" data-action="remove-deck" data-id="${esc(id)}">−</button><span class="count">${num}</span><button class="square-button" aria-label="Add ${esc(BY_ID[id].name)}" data-action="add-deck" data-id="${esc(id)}" ${num>=(state.inventory[id]||0)||total>=60||(!['pillar','tower'].includes(cardRule(BY_ID[id])?.family)&&num>=6)?'disabled':''}>+</button></div></div>`).join(''):'<div class="empty">Your deck is empty.</div>'}</div>
     <button class="button wide" data-action="navigate" data-to="duel">Try This Deck</button></aside>`;}
   function renderDeck(){return wrap(`${title('Manage Your Deck','Build your deck.',`<span class="sandbox-label">${countMap(state.deck)} / 60</span>`)}
@@ -5202,7 +5213,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
     <aside class="panel shop-summary"><h2 class="section-title small">Selected Card</h2>${card?`${cardTile(card,'','select-card')}<h3 style="font-weight:normal;color:var(--gold);margin:0">${esc(card.name)}</h3>
     <p class="shop-card-text">${esc(card.element)} · ${esc(card.type)}<br>${esc(card.tier)} · Owned: ${state.inventory[card.id]||0}</p><div class="menu-stat"><span>Price</span><b>${electrumAmount(card.price)}</b></div>
     <button class="button wide" data-action="buy" data-id="${esc(card.id)}" ${state.credits<card.price?'disabled':''}>Purchase Card</button>`:'<p>No cards selected.</p>'}
-    ${state.notice?`<div class="notice-box" role="status">${esc(state.notice)}</div>`:''}<div class="rule"></div><button class="button secondary wide" data-action="navigate" data-to="deck">Manage Your Deck</button></aside></div>`);}
+    ${state.notice?`<div class="notice-box elementia-dismissible-notice" role="status"><span class="elementia-notice-message">${esc(state.notice)}</span><button type="button" class="elementia-notice-close" data-action="dismiss-notice" aria-label="Dismiss notification" title="Dismiss notification">×</button></div>`:''}<div class="rule"></div><button class="button secondary wide" data-action="navigate" data-to="deck">Manage Your Deck</button></aside></div>`);}
   // Rules milestone v12 — synced to approved v0.4's training-duel phase order.
   // V12: 23 creature positions, seven shared lower slots (stacking resources, paginated overflow), and three reserved equipment positions.
 
@@ -8859,8 +8870,8 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
   }
   function modal(){
     if(state.modal==='unavailable-level')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Unfinished opponent level"><h2 class="section-title">Oops! This isn't ready yet!</h2><div class="modal-actions"><button type="button" class="button" data-action="close-modal">OK</button></div></section></div>`;
-    if(state.modal==='settings-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Settings"><h2 class="section-title">Settings</h2><p class="notice">The battlefield now uses one desktop layout. Press M during a duel for the pause menu and Full Screen control.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
-    if(state.modal==='account-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Account Information"><h2 class="section-title">Account Info</h2><p><strong>Player:</strong> ${esc(state.player)}<br><strong>Mark:</strong> ${esc(state.element)}<br><strong>Deck:</strong> ${countMap(state.deck)} / 60 cards<br><strong>Electrum:</strong> ${electrumAmount(state.credits)}</p><p class="notice">Progress is saved automatically to this browser. Export a JSON backup before clearing site data, changing browsers or devices. Import restores progress into your currently logged-in local account; it does not transfer your password.</p>${state.notice?`<div class="notice-box" role="status">${esc(state.notice)}</div>`:''}<div class="modal-actions"><button class="button secondary" data-action="export-save">Export Save</button><label class="button secondary" style="cursor:pointer;position:relative;overflow:hidden">Import Save<input id="import-local-save" type="file" accept="application/json,.json" aria-label="Import Elementia save JSON" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label><button class="button" data-action="close-modal">Close</button></div></section></div>`;
+    if(state.modal==='settings-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal elementia-settings-panel" role="dialog" aria-modal="true" aria-label="Settings"><h2 class="section-title">Settings</h2><div class="elementia-settings-options"><button type="button" class="button secondary" data-action="fullscreen-toggle" aria-pressed="${fullscreenIsActive()}">⛶ ${fullscreenIsActive()?'Exit Full Screen':'Full Screen'}</button><button type="button" class="button secondary" data-action="navigate" data-to="music">♫ Music of Elementia</button></div><p class="elementia-settings-hint">Full Screen uses your browser’s immersive mode when supported. On unsupported devices, it uses a full-window focus view.</p><div class="modal-actions"><button type="button" class="button" data-action="close-modal">Close</button></div></section></div>`;
+    if(state.modal==='account-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Account Information"><h2 class="section-title">Account Info</h2><p><strong>Player:</strong> ${esc(state.player)}<br><strong>Mark:</strong> ${esc(state.element)}<br><strong>Deck:</strong> ${countMap(state.deck)} / 60 cards<br><strong>Electrum:</strong> ${electrumAmount(state.credits)}</p><p class="notice">Progress is saved automatically to this browser. Export a JSON backup before clearing site data, changing browsers or devices. Import restores progress into your currently logged-in local account; it does not transfer your password.</p>${state.notice?`<div class="notice-box elementia-dismissible-notice" role="status"><span class="elementia-notice-message">${esc(state.notice)}</span><button type="button" class="elementia-notice-close" data-action="dismiss-notice" aria-label="Dismiss notification" title="Dismiss notification">×</button></div>`:''}<div class="modal-actions"><button class="button secondary" data-action="export-save</button><label class="button secondary" style="cursor:pointer;position:relative;overflow:hidden">Import Save<input id="import-local-save" type="file" accept="application/json,.json" aria-label="Import Elementia save JSON" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label><button class="button" data-action="close-modal">Close</button></div></section></div>`;
     if(state.modal==='redeem-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Redeem Code"><h2 class="section-title">Redeem Code</h2><p class="notice">Reward codes are not active in this build yet.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
     if(state.modal==='reset-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Reset Progress"><h2 class="section-title">Reset Progress</h2><p class="notice">This resets your collection, deck, Mark, Electrum, and current duel. You will choose a new elemental starter deck. Your local login account and password remain. Export a backup first if needed.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Cancel</button><button class="button danger" data-action="do-reset">Reset Progress</button></div></section></div>`;
     const c=BY_ID[state.modal];if(!c)return '';return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Card details"><h2 class="section-title">Card Details</h2>${renderDetail(c)}
@@ -9012,6 +9023,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
       case 'save-game':state.notice=save()?'Game saved to your local account in this browser.':'Unable to save. Check browser storage settings.';render();break;
       case 'logout':logoutLocalAccount();break;
       case 'open-settings':state.modal='settings-panel';render();break;
+      case 'dismiss-notice':state.notice='';render();break;
       case 'confirm-reset':state.modal='reset-panel';render();break;
       case 'do-reset':{const username=state.player,claimedQuests=state.quests;restoreProgress(initialProgressFor(username),username);state.quests=claimedQuests;state.notice='';state.scene='starter';save();render();break;}
       case 'account-info':state.modal='account-panel';state.notice='';render();break;
@@ -9026,7 +9038,6 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
       case 'quest-claim':if(questClaim(id)){selectedQuestId=id;render();}break;
       case 'starter-pick':if(state.scene==='starter'&&ELEMENT[id]){state.starterChoice=id;state.notice='';render();}break;
       case 'starter-confirm':if(state.scene==='starter')confirmStarterChoice();break;
-      case 'element':if(ELEMENT[id]){state.element=id;state.duel=null;save();render();}break;
       case 'starter-duel':state.duel=newDuel(true,id==='level1'?1:id==='level2'?2:id==='level3'?3:0);navigate('duel');break;
       case 'deck-tab':state.deckTab=id;render();break;
       case 'select-card':if(BY_ID[id]){state.selected=id;state.notice='';render();}break;
@@ -9164,7 +9175,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.88-starter-element-onboarding',isDemo:demo,
+    version:'20.89-menu-settings-cleanup',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

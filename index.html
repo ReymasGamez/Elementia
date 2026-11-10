@@ -779,7 +779,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.90</title>
+  <title>Elementia — The Return · v20.91</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -3775,6 +3775,65 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
 @media(max-width:760px){.starter-screen{align-items:flex-start}.starter-layout{grid-template-columns:minmax(0,1fr)}.starter-list{gap:6px}.starter-pair{gap:7px;padding-bottom:5px}.starter-element{min-height:64px;padding:6px}.starter-orb{width:51px;height:51px}.starter-preview{padding:17px;gap:12px}.starter-preview-top{min-height:145px}.starter-preview-orb{height:94px;width:94px}.starter-future-cards{min-height:100px}}
 @media(max-width:380px){.starter-shell{padding:9px}.starter-element{min-height:55px;gap:5px;font-size:12px}.starter-orb{width:42px;height:42px}.starter-head h1{font-size:30px}}
 </style>
+
+<style id="elementia-v20-91-menu-and-quest-pan">
+/* v20.91: The menu's existing panels grow to fill unused viewport space,
+   without adding controls or changing the six-level table's columns. */
+@media (min-width:1000px) and (min-height:680px) {
+  .og-menu-viewport .og-main-menu{display:flex;flex-direction:column;gap:clamp(12px,1.6dvh,19px)}
+  .og-main-menu .og-menu-top{flex:none;min-height:64px;padding:8px 14px}
+  .og-main-menu .og-menu-top>.button{min-height:39px;padding:8px 12px;font-size:clamp(12px,.9vw,15px)}
+  .og-main-menu .og-menu-info{flex:none;min-height:52px;padding-inline:21px;font-size:15px}
+  .og-main-menu .og-menu-notice{flex:none}
+  .og-main-menu .og-menu-main{flex:1.2 1 0;min-height:310px;gap:clamp(13px,1.4vw,22px)}
+  .og-main-menu .og-menu-lower{flex:1 1 0;min-height:245px;gap:clamp(13px,1.4vw,22px)}
+  .og-main-menu .og-menu-intro,.og-main-menu .og-menu-deckintro{padding-inline:20px}
+  .og-main-menu .og-menu-intro h2,.og-main-menu .og-menu-deckintro h2{font-size:clamp(28px,2.25vw,34px)}
+  .og-main-menu .og-menu-intro p,.og-main-menu .og-menu-deckintro p{font-size:clamp(13px,1.1vw,16px)}
+  .og-main-menu .og-level-panel{display:flex;flex-direction:column;justify-content:center;padding:18px 14px}
+  .og-main-menu .og-level-table>.rowlabel,.og-main-menu .og-level-table>.cell{min-height:clamp(51px,6dvh,67px)}
+  .og-main-menu .og-level-btn{min-height:clamp(36px,4.6dvh,53px);font-size:clamp(12px,.97vw,16px)}
+  .og-main-menu .og-level-note{font-size:12px;padding-top:11px}
+  .og-main-menu .og-menu-deckpanel{display:flex;align-items:center;padding:18px clamp(16px,1.8vw,28px)}
+  .og-main-menu .og-menu-deckpanel .og-manage-grid{grid-template-columns:minmax(170px,35%) minmax(0,1fr);row-gap:clamp(12px,2.25dvh,25px);column-gap:clamp(14px,1.5vw,24px);font-size:clamp(12px,1vw,16px)}
+  .og-main-menu .og-manage-grid .button{min-height:clamp(44px,5.8dvh,63px);font-size:clamp(13px,1.08vw,17px)}
+  .og-main-menu .quest-menu-panel{gap:clamp(13px,2dvh,20px)}
+  .og-main-menu .quest-menu-button{min-height:clamp(79px,11.5dvh,125px);font-size:clamp(21px,2vw,30px)!important}
+  .og-main-menu .quest-menu-hint{font-size:13px}
+}
+/* Tablet's two-column deck section should also expand within available height. */
+@media (min-width:761px) and (max-width:999px) and (min-height:800px) {
+  .og-main-menu{display:flex;flex-direction:column;min-height:calc(100dvh - 30px);gap:14px}
+  .og-main-menu .og-menu-main{flex:1.12 1 0;min-height:305px}
+  .og-main-menu .og-menu-lower{flex:1 1 0;min-height:248px}
+  .og-main-menu .og-menu-deckpanel,.og-main-menu .og-menu-reserved{height:100%;min-height:0}
+  .og-main-menu .og-menu-deckpanel{display:flex;align-items:center}
+  .og-main-menu .og-menu-deckpanel .og-manage-grid{width:100%;row-gap:14px}
+  .og-main-menu .og-manage-grid .button{min-height:43px}
+  .og-main-menu .quest-menu-button{min-height:91px;font-size:23px!important}
+  .og-main-menu .og-level-panel{display:flex;flex-direction:column;justify-content:center}
+  .og-main-menu .og-level-table>.rowlabel,.og-main-menu .og-level-table>.cell{min-height:49px}
+  .og-main-menu .og-level-btn{min-height:36px}
+}
+@media (max-width:760px) {
+  .og-main-menu .og-menu-top>.button{min-height:40px;padding:8px 9px;font-size:12px}
+  .og-main-menu .og-menu-info{min-height:43px}
+  .og-main-menu .og-level-btn{min-height:38px}
+  .og-main-menu .og-menu-deckpanel .og-manage-grid{row-gap:11px}
+  .og-main-menu .og-manage-grid .button{min-height:42px;font-size:13px}
+  .og-main-menu .quest-menu-button{min-height:80px}
+  .og-main-menu .quest-menu-panel{gap:12px}
+}
+/* The quest canvas retains programmatic overflow for pointer dragging, but
+   offers no visible scrollbar or wheel/trackpad-scrolling affordance. */
+body.etg-quests-active .quest-map-wrap{
+  overflow:auto!important;
+  scrollbar-width:none!important;
+  -ms-overflow-style:none;
+  overscroll-behavior:none;
+}
+body.etg-quests-active .quest-map-wrap::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4993,7 +5052,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.90 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.91 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -5108,6 +5167,8 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
     state.notice='';
     if(!save()){state.starterChosen=false;state.starterChoice=chosen;state.scene='starter';state.notice='Could not save your selection. Check that browser storage is available.';}
     render();
+    // Starting on the main menu must not inherit the long onboarding page's scroll offset.
+    window.scrollTo({left:0,top:0,behavior:'instant'});
   }
   function renderStarterSelection(){
     const choice=ELEMENT[state.starterChoice]?state.starterChoice:null;
@@ -8891,14 +8952,22 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
     const menu=viewport.querySelector('.og-main-menu');
     if(!menu)return;
     // Reset first so zoom never accumulates on re-render or resize.
-    menu.style.zoom='1';menu.style.width='';
+    menu.style.zoom='1';menu.style.width='';menu.style.minHeight='';
     if(window.innerWidth>=1000){
       const available=viewport.clientWidth;
-      // 1336px is the verified screenshot design width. Scale the ENTIRE
-      // main menu, not its separate columns, when the window is narrower.
+      // Preserve the six-column comparison on narrower laptop displays.
+      let scale=1;
       if(available<1336){
+        scale=available/1336;
         menu.style.width='1336px';
-        menu.style.zoom=String(available/1336);
+        menu.style.zoom=String(scale);
+      }
+      // Account for the menu's zoom when filling the actual visible height.
+      // This is a minimum, so smaller/shorter windows can still scroll normally.
+      if(window.innerHeight>=680){
+        const top=viewport.getBoundingClientRect().top;
+        const freeHeight=Math.max(0,window.innerHeight-top-14);
+        menu.style.minHeight=Math.ceil(freeHeight/scale)+'px';
       }
     }
   }
@@ -9082,6 +9151,16 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
       case 'lab-enemy-destroy':labEnemyDestroy();break;
     }
   });
+  // Quest tree moves only by pointer/touch dragging. The overflow remains
+  // available to the drag handler, but wheel and scroll-key input cannot pan it.
+  root.addEventListener('wheel',e=>{
+    if(state.scene==='quests'&&e.target.closest?.('#quest-map-scroller')&&e.cancelable)e.preventDefault();
+  },{passive:false});
+  root.addEventListener('keydown',e=>{
+    if(state.scene!=='quests'||!e.target.closest?.('#quest-map-scroller'))return;
+    if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','PageUp','PageDown','Home','End'].includes(e.key))e.preventDefault();
+    else if((e.key===' '||e.key==='Spacebar')&&!e.target.closest('button'))e.preventDefault();
+  });
   root.addEventListener('scroll',e=>{if(e.target?.id==='quest-map-scroller'){questScrollX=e.target.scrollLeft;questScrollY=e.target.scrollTop;}},true);
   // Pan the tree without moving its absolutely positioned nodes or stealing ordinary clicks.
   root.addEventListener('pointerdown',e=>{
@@ -9184,7 +9263,7 @@ body.etg-quests-active .quests-back-button{white-space:nowrap}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.90-menu-starter-controls-removed',isDemo:demo,
+    version:'20.91-menu-fit-quest-drag-only',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

@@ -779,7 +779,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.92</title>
+  <title>Elementia — The Return · v20.93</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -4612,6 +4612,483 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
     const extras=uploaded||external||life||gravity||entropy||aether||added;
     return normalizeCard(extras?{...source,artworkUrl:extras.art,cardFrameUrl:extras.frame,cardFrameAspect:extras.aspect||'1000 / 1536'}:source,i);
   });
+
+  // v20.93: Original Elements rarity classification, one explicit classification
+  // per game card (normal & upgraded). Upgraded status is NOT itself a rarity.
+  // Source: https://elementscommunity.org/wiki/Category:Rares
+  // See the 12 element pages and Other page for exact Common/Rare/Ultra Rare/
+  // Unobtainable labels; the Chimera (Foil) is Rare, ordinary Chimera is Common.
+  // This map is deliberately exhaustive so a new unknown card is not silently
+  // sold as a Common before its rarity is reviewed.
+  const ORIGINAL_ELEMENTS_RARITY = Object.freeze({
+  "entropy-pillar": "Common",
+  "entropy-tower": "Common",
+  "entropy-pendulum": "Common",
+  "entropy-pendulum-upgraded": "Common",
+  "death-pillar": "Common",
+  "death-tower": "Common",
+  "death-pendulum": "Common",
+  "death-pendulum-upgraded": "Common",
+  "gravity-pillar": "Common",
+  "gravity-tower": "Common",
+  "gravity-pendulum": "Common",
+  "gravity-pendulum-upgraded": "Common",
+  "earth-pillar": "Common",
+  "earth-tower": "Common",
+  "earth-pendulum": "Common",
+  "earth-pendulum-upgraded": "Common",
+  "life-pillar": "Common",
+  "life-tower": "Common",
+  "life-pendulum": "Common",
+  "life-pendulum-upgraded": "Common",
+  "fire-pillar": "Common",
+  "fire-tower": "Common",
+  "fire-pendulum": "Common",
+  "fire-pendulum-upgraded": "Common",
+  "water-pillar": "Common",
+  "water-tower": "Common",
+  "water-pendulum": "Common",
+  "water-pendulum-upgraded": "Common",
+  "light-pillar": "Common",
+  "light-tower": "Common",
+  "light-pendulum": "Common",
+  "light-pendulum-upgraded": "Common",
+  "air-pillar": "Common",
+  "opal-tower": "Common",
+  "air-pendulum": "Common",
+  "air-pendulum-u": "Common",
+  "time-pillar": "Common",
+  "time-tower": "Common",
+  "time-pendulum": "Common",
+  "time-pendulum-upgraded": "Common",
+  "dark-pillar": "Common",
+  "darkness-tower": "Common",
+  "dark-pendulum": "Common",
+  "darkness-pendulum-upgraded": "Common",
+  "aether-pillar": "Common",
+  "aether-tower": "Common",
+  "aether-pendulum": "Common",
+  "aether-pendulum-upgraded": "Common",
+  "quanta-pillar": "Common",
+  "prisma-tower": "Common",
+  "aether-spark": "Common",
+  "aether-spark-upgraded": "Common",
+  "aether-lightning": "Common",
+  "aether-lightning-upgraded": "Common",
+  "aether-parallel-universe": "Common",
+  "aether-parallel-universe-upgraded": "Common",
+  "aether-immortal": "Common",
+  "aether-immortal-upgraded": "Common",
+  "aether-dimensional-shield": "Common",
+  "aether-dimensional-shield-upgraded": "Common",
+  "aether-phase-spider": "Common",
+  "aether-phase-spider-upgraded": "Common",
+  "aether-quintessence": "Common",
+  "aether-quintessence-upgraded": "Common",
+  "aether-fractal": "Common",
+  "aether-fractal-upgraded": "Common",
+  "aether-mindgate": "Common",
+  "aether-mindgate-upgraded": "Common",
+  "aether-psion": "Common",
+  "aether-psion-upgraded": "Common",
+  "aether-phase-salvager": "Common",
+  "aether-phase-salvager-upgraded": "Common",
+  "aether-lobotomizer": "Rare",
+  "aether-lobotomizer-upgraded": "Rare",
+  "aether-phase-dragon": "Common",
+  "aether-phase-dragon-upgraded": "Common",
+  "aether-nymph": "Ultra Rare",
+  "aether-nymph-upgraded": "Ultra Rare",
+  "aether-wisdom": "Rare",
+  "aether-wisdom-upgraded": "Rare",
+  "air-dragonfly": "Common",
+  "air-damselfly": "Common",
+  "air-wyrm": "Common",
+  "air-elite-wyrm": "Common",
+  "air-fog": "Common",
+  "air-fog-upgraded": "Common",
+  "air-wings": "Common",
+  "air-wings-upgraded": "Common",
+  "air-storm": "Common",
+  "air-storm-upgraded": "Common",
+  "air-flying-weapon": "Common",
+  "air-flying-weapon-upgraded": "Common",
+  "air-queen": "Common",
+  "air-queen-upgraded": "Common",
+  "air-firefly": "Common",
+  "air-elite-firefly": "Common",
+  "air-eyes": "Rare",
+  "air-eyes-upgraded": "Rare",
+  "air-unstable-gas": "Common",
+  "air-unstable-gas-upgraded": "Common",
+  "shockwave": "Common",
+  "shockwave-u": "Common",
+  "sky-blitz": "Common",
+  "sky-blitz-u": "Common",
+  "azure-dragon": "Common",
+  "sky-dragon": "Common",
+  "blue-nymph": "Ultra Rare",
+  "air-nymph": "Ultra Rare",
+  "shard-freedom": "Rare",
+  "shard-freedom-u": "Rare",
+  "og-590": "Common",
+  "og-591": "Common",
+  "og-592": "Common",
+  "og-593": "Common",
+  "og-4t3": "Common",
+  "og-4vd": "Common",
+  "og-4ve": "Common",
+  "og-4vf": "Common",
+  "og-4vg": "Common",
+  "og-4vh": "Common",
+  "og-4vi": "Common",
+  "og-4vj": "Common",
+  "og-4vk": "Common",
+  "og-52h": "Common",
+  "og-52i": "Common",
+  "og-52j": "Common",
+  "og-52k": "Common",
+  "og-52m": "Common",
+  "og-52n": "Common",
+  "og-52o": "Common",
+  "og-52p": "Common",
+  "og-52r": "Common",
+  "og-55l": "Common",
+  "og-55m": "Common",
+  "og-55n": "Common",
+  "og-55o": "Common",
+  "og-55p": "Common",
+  "og-55q": "Common",
+  "og-55r": "Common",
+  "og-55t": "Common",
+  "og-58p": "Common",
+  "og-58q": "Common",
+  "og-58r": "Common",
+  "og-58s": "Common",
+  "og-58t": "Common",
+  "og-58u": "Common",
+  "og-5bt": "Common",
+  "og-5bu": "Common",
+  "og-5bv": "Common",
+  "og-5c0": "Common",
+  "og-5c1": "Common",
+  "og-5c2": "Common",
+  "og-5c3": "Common",
+  "og-5c4": "Common",
+  "og-5c6": "Common",
+  "og-5f1": "Common",
+  "og-5f2": "Common",
+  "og-5f3": "Common",
+  "og-5f4": "Common",
+  "og-5f5": "Common",
+  "og-5f6": "Common",
+  "og-5f8": "Common",
+  "og-5f9": "Common",
+  "og-5i5": "Common",
+  "og-5i6": "Common",
+  "og-5i7": "Common",
+  "og-5i8": "Common",
+  "og-5i9": "Common",
+  "og-5ia": "Common",
+  "og-5id": "Common",
+  "og-5l9": "Common",
+  "og-5la": "Common",
+  "og-5lb": "Common",
+  "og-5lc": "Common",
+  "og-5ld": "Common",
+  "og-5le": "Common",
+  "og-5lf": "Common",
+  "og-5lg": "Common",
+  "og-5rh": "Common",
+  "og-5ri": "Common",
+  "og-5rj": "Common",
+  "og-5rk": "Common",
+  "og-5rl": "Common",
+  "og-5rm": "Common",
+  "og-5rn": "Common",
+  "og-5ul": "Common",
+  "og-5um": "Common",
+  "og-5un": "Common",
+  "og-5uo": "Common",
+  "og-5up": "Common",
+  "og-5uq": "Common",
+  "og-5us": "Common",
+  "earth-779": "Common",
+  "earth-77a": "Common",
+  "earth-77b": "Common",
+  "earth-77c": "Common",
+  "earth-77d": "Common",
+  "earth-77e": "Common",
+  "earth-77g": "Common",
+  "earth-77h": "Common",
+  "earth-77i": "Common",
+  "earth-77j": "Common",
+  "earth-594": "Common",
+  "earth-77k": "Common",
+  "earth-595": "Common",
+  "earth-77l": "Common",
+  "earth-596": "Common",
+  "earth-77m": "Common",
+  "earth-597": "Unobtainable",
+  "earth-77n": "Unobtainable",
+  "earth-58v": "Rare",
+  "earth-77f": "Rare",
+  "earth-59m": "Rare",
+  "earth-786": "Rare",
+  "earth-59c": "Ultra Rare",
+  "earth-77s": "Ultra Rare",
+  "og-7t5": "Common",
+  "og-7t6": "Common",
+  "og-7t7": "Common",
+  "og-7t8": "Common",
+  "og-7t9": "Common",
+  "og-7ta": "Common",
+  "og-5ur": "Rare",
+  "og-7tb": "Rare",
+  "og-7tc": "Common",
+  "og-5ut": "Common",
+  "og-7td": "Common",
+  "og-5uu": "Common",
+  "og-7te": "Common",
+  "og-5uv": "Common",
+  "og-7tf": "Common",
+  "og-5v0": "Common",
+  "og-7tg": "Common",
+  "og-5v1": "Common",
+  "og-7th": "Common",
+  "og-5v2": "Common",
+  "og-7ti": "Common",
+  "og-5v8": "Ultra Rare",
+  "og-7to": "Ultra Rare",
+  "og-5vi": "Rare",
+  "og-7u2": "Rare",
+  "death-534": "Ultra Rare",
+  "death-711": "Common",
+  "death-712": "Common",
+  "death-713": "Common",
+  "death-714": "Common",
+  "death-715": "Common",
+  "death-716": "Common",
+  "death-717": "Common",
+  "death-718": "Common",
+  "death-719": "Common",
+  "death-52l": "Common",
+  "death-52q": "Rare",
+  "death-71a": "Rare",
+  "death-71b": "Common",
+  "death-52s": "Common",
+  "death-71c": "Common",
+  "death-52t": "Common",
+  "death-71d": "Common",
+  "death-52u": "Common",
+  "death-71e": "Common",
+  "death-52v": "Common",
+  "death-71f": "Common",
+  "death-71k": "Ultra Rare",
+  "death-53e": "Rare",
+  "death-71u": "Rare",
+  "death-malignant-cell": "Unobtainable",
+  "life-7ad": "Common",
+  "life-7ae": "Common",
+  "life-7af": "Common",
+  "life-7ag": "Common",
+  "life-7ah": "Common",
+  "life-7ai": "Common",
+  "life-7aj": "Common",
+  "life-7ak": "Common",
+  "life-5c5": "Rare",
+  "life-7al": "Rare",
+  "life-7am": "Common",
+  "life-5c7": "Common",
+  "life-7an": "Common",
+  "life-5c8": "Common",
+  "life-7ao": "Common",
+  "life-5c9": "Common",
+  "life-7ap": "Common",
+  "life-5cg": "Ultra Rare",
+  "life-7b0": "Ultra Rare",
+  "life-5cq": "Rare",
+  "life-7ba": "Rare",
+  "og-6tt": "Common",
+  "og-6tu": "Common",
+  "og-6tv": "Common",
+  "og-6u1": "Common",
+  "og-4vm": "Common",
+  "og-6u6": "Common",
+  "og-4vq": "Common",
+  "og-6ua": "Common",
+  "og-500": "Ultra Rare",
+  "og-6ug": "Ultra Rare",
+  "og-6u0": "Common",
+  "og-4vl": "Rare",
+  "og-6u5": "Rare",
+  "og-6u2": "Common",
+  "og-6u3": "Common",
+  "og-6u4": "Common",
+  "og-4vn": "Common",
+  "og-6u7": "Common",
+  "og-4vo": "Common",
+  "og-6u8": "Common",
+  "og-4vp": "Common",
+  "og-6u9": "Common",
+  "og-50a": "Rare",
+  "og-6uq": "Rare",
+  "entropy-singularity": "Unobtainable",
+  "entropy-singularity-upgraded": "Unobtainable",
+  "gravity-55s": "Rare",
+  "gravity-55u": "Common",
+  "gravity-55v": "Common",
+  "gravity-560": "Common",
+  "gravity-561": "Common",
+  "gravity-562": "Common",
+  "gravity-563": "Common",
+  "gravity-568": "Ultra Rare",
+  "gravity-745": "Common",
+  "gravity-746": "Common",
+  "gravity-747": "Common",
+  "gravity-748": "Common",
+  "gravity-749": "Common",
+  "gravity-752": "Rare",
+  "gravity-74a": "Common",
+  "gravity-74b": "Common",
+  "gravity-74c": "Rare",
+  "gravity-74d": "Common",
+  "gravity-74e": "Common",
+  "gravity-74f": "Common",
+  "gravity-74g": "Common",
+  "gravity-74h": "Common",
+  "gravity-74i": "Common",
+  "gravity-74j": "Common",
+  "gravity-74o": "Ultra Rare",
+  "gravity-56i": "Rare",
+  "light-7jp": "Common",
+  "light-7jq": "Common",
+  "light-7jr": "Common",
+  "light-7js": "Common",
+  "light-7jt": "Common",
+  "light-7ju": "Common",
+  "light-7jv": "Common",
+  "light-7k0": "Common",
+  "light-5lh": "Rare",
+  "light-7k1": "Rare",
+  "light-5li": "Rare",
+  "light-7k2": "Rare",
+  "light-5lj": "Common",
+  "light-7k3": "Common",
+  "light-5lk": "Common",
+  "light-7k4": "Common",
+  "light-5ll": "Common",
+  "light-7k5": "Common",
+  "light-5lm": "Common",
+  "light-7k6": "Common",
+  "light-5ls": "Ultra Rare",
+  "light-7kc": "Ultra Rare",
+  "light-5m6": "Rare",
+  "light-7km": "Rare",
+  "fire-7dh": "Common",
+  "fire-7di": "Common",
+  "fire-7dj": "Common",
+  "fire-7dk": "Common",
+  "fire-7dl": "Common",
+  "fire-7dm": "Common",
+  "fire-5f7": "Rare",
+  "fire-7dn": "Rare",
+  "fire-7do": "Common",
+  "fire-7dp": "Common",
+  "fire-5fa": "Common",
+  "fire-7dq": "Common",
+  "fire-5fb": "Common",
+  "fire-7dr": "Common",
+  "fire-5fc": "Common",
+  "fire-7ds": "Common",
+  "fire-5fe": "Common",
+  "fire-7du": "Common",
+  "fire-5fk": "Ultra Rare",
+  "fire-7e4": "Ultra Rare",
+  "fire-5fu": "Rare",
+  "fire-7ee": "Rare",
+  "water-7gl": "Common",
+  "water-7gm": "Common",
+  "water-7gn": "Common",
+  "water-7go": "Common",
+  "water-7gp": "Common",
+  "water-7gq": "Common",
+  "water-5ib": "Rare",
+  "water-7gr": "Rare",
+  "water-5ic": "Rare",
+  "water-7gs": "Rare",
+  "water-7gt": "Common",
+  "water-5ie": "Common",
+  "water-7gu": "Common",
+  "water-5if": "Common",
+  "water-7gv": "Common",
+  "water-5ig": "Common",
+  "water-7h0": "Common",
+  "water-5ih": "Common",
+  "water-7h1": "Common",
+  "water-5ii": "Common",
+  "water-7h2": "Common",
+  "water-5ij": "Common",
+  "water-7h3": "Common",
+  "water-5io": "Ultra Rare",
+  "water-7h8": "Ultra Rare",
+  "water-5j2": "Rare",
+  "water-7hi": "Rare",
+  "time-7q1": "Common",
+  "time-7q2": "Common",
+  "time-7q3": "Common",
+  "time-7q4": "Common",
+  "time-7q5": "Common",
+  "time-7q6": "Common",
+  "time-7q7": "Common",
+  "time-5ro": "Rare",
+  "time-7q8": "Rare",
+  "time-5rp": "Common",
+  "time-7q9": "Common",
+  "time-5rq": "Common",
+  "time-7qa": "Common",
+  "time-5rr": "Common",
+  "time-7qb": "Common",
+  "time-5rs": "Rare",
+  "time-7qc": "Rare",
+  "time-5rt": "Common",
+  "time-7qd": "Common",
+  "time-5ru": "Common",
+  "time-7qe": "Common",
+  "time-5s4": "Ultra Rare",
+  "time-7qk": "Ultra Rare",
+  "time-5se": "Rare",
+  "time-7qu": "Rare",
+  "fire-ash": "Unobtainable",
+  "fire-ash-upgraded": "Unobtainable",
+  "other-short-sword": "Common",
+  "other-hammer": "Common",
+  "other-short-bow": "Common",
+  "other-shield": "Common",
+  "other-dirk": "Common",
+  "other-long-sword": "Common",
+  "other-gavel": "Common",
+  "other-long-bow": "Common",
+  "other-tower-shield": "Common",
+  "other-relic": "Rare",
+  "other-relic-upgraded": "Rare",
+  "other-malignant-cell-upgraded": "Unobtainable"
+});
+  function originalElementsRarity(card) {
+    return card ? (ORIGINAL_ELEMENTS_RARITY[card.id] || 'Unclassified') : 'Unclassified';
+  }
+  for (const card of CARDS) {
+    const rarity = ORIGINAL_ELEMENTS_RARITY[card.id];
+    if (!rarity) throw Error('Missing original rarity classification: '+card.id);
+    card.rarity = rarity;
+    const rule = RULES_BY_CARD[card.id];
+    if (rule) rule.rarity = rarity;
+  }
+  function bazaarCanBuy(card) {
+    return !!card && card.tier === 'Basic' && originalElementsRarity(card) === 'Common' &&
+      !cardRule(card)?.tokenOnly && !cardRule(card)?.generatedOnly;
+  }
+
   const BY_ID = Object.fromEntries(CARDS.map(c=>[c.id,c]));
   const demo = !fromExternal;
   const starterDeck = Object.fromEntries(Object.entries(trainingDeck().reduce((m,id)=>(m[id]=(m[id]||0)+1,m),{})));
@@ -5119,7 +5596,7 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.92 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.93 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -5358,7 +5835,7 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
   }
   function bazaarSorted(cards){return [...cards].sort((a,b)=>a.name.localeCompare(b.name,undefined,{sensitivity:'base'}) || (a.tier==='Basic'?-1:1));}
   function bazaarElement(){return BAZAAR_ELEMENTS.includes(state.shopFilter)?state.shopFilter:'Other';}
-  function bazaarCards(){const element=bazaarElement();return bazaarSorted(CARDS.filter(c=>c.element===element&&!cardRule(c)?.tokenOnly));}
+  function bazaarCards(){const element=bazaarElement();return bazaarSorted(CARDS.filter(c=>c.element===element&&bazaarCanBuy(c)));}
   function bazaarSalePrice(card){return Math.max(1,Math.floor(Number(card.price||1)/2));}
   function bazaarThumb(card){const img=card.cardFrameUrl||card.artworkUrl;
     return img?`<span class="bazaar-mini-art" style="background-image:url('${String(img).replace(/'/g,'%27')}')" aria-hidden="true"></span>`:
@@ -5371,13 +5848,13 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
     const cost=area==='sale'?card.price:bazaarSalePrice(card);
     return `<button type="button" class="bazaar-card-row ${card.id===state.selected?'selected':''}"
        data-action="bazaar-${area==='sale'?'buy':'sell'}" data-id="${esc(card.id)}" data-bazaar-card="${esc(card.id)}" data-bazaar-area="${area}"
-       title="${esc(verb+' '+card.name+' · '+cost+' Electrum'+(area==='owned'&&!sellable?' · Remove from deck before selling':''))}"
+       title="${esc(verb+' '+card.name+' ('+originalElementsRarity(card)+') · '+cost+' Electrum'+(area==='owned'&&!sellable?' · Remove from deck before selling':''))}"
        aria-label="${esc(verb+' '+card.name+', '+cost+' Electrum'+(area==='owned'?', owned '+owned+', in deck '+inDeck:''))}">
        ${bazaarThumb(card)}<span class="bazaar-row-name">${esc(card.name)}</span>${card.tier==='Upgraded'?'<span class="bazaar-upgraded" aria-label="Upgraded">✦</span>':''}${area==='owned'?`<span class="bazaar-owned-count">×${owned}</span>`:''}
        </button>`;
   }
   function bazaarSections(cards,area){
-    if(!cards.length)return `<div class="bazaar-empty">${area==='sale'?'No catalogue entries.':'No cards owned in this catalogue yet.'}</div>`;
+    if(!cards.length)return `<div class="bazaar-empty">${area==='sale'?'No basic Common cards available.':'No cards owned in this catalogue yet.'}</div>`;
     return BAZAAR_SECTIONS.map(([id,label])=>{
       const matching=cards.filter(c=>bazaarSection(c)===id);
       return matching.length?`<section class="bazaar-card-group" aria-label="${esc(label)}"><h3>${esc(label)}</h3><div class="bazaar-card-grid">${matching.map(c=>bazaarRow(c,area)).join('')}</div></section>`:'';
@@ -5388,9 +5865,9 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
     const owned=Number(state.inventory[card.id]||0),available=Math.max(0,owned-(state.deck[card.id]||0));
     const isOwned=area==='owned',price=isOwned?bazaarSalePrice(card):card.price;
     return `<div class="bazaar-preview-body"><div class="bazaar-preview-card">${cardTile(card,'','select-card')}</div>
-      <div class="bazaar-preview-details"><strong>${esc(card.name)}${card.tier==='Upgraded'?' ✦':''}</strong><span>${esc(card.element)} · ${esc(card.type)} · ${esc(card.tier)}</span><span>Owned: ${owned} · In deck: ${Number(state.deck[card.id]||0)}</span></div>
+      <div class="bazaar-preview-details"><strong>${esc(card.name)}${card.tier==='Upgraded'?' ✦':''}</strong><span>${esc(card.element)} · ${esc(card.type)} · ${esc(originalElementsRarity(card))}${card.tier==='Upgraded'?' · Upgraded':''}</span><span>Owned: ${owned} · In deck: ${Number(state.deck[card.id]||0)}</span></div>
       <div class="bazaar-preview-price"><span>${isOwned?'Sell price:':'Buy price:'}</span>${electrumAmount(price,true)}</div>
-      <button type="button" class="button secondary bazaar-preview-action" data-action="bazaar-${isOwned?'sell':'buy'}" data-id="${esc(card.id)}" ${(isOwned?available<1:state.credits<card.price)?'disabled':''}>${isOwned?'Sell spare card':'Buy card'}</button>
+      <button type="button" class="button secondary bazaar-preview-action" data-action="bazaar-${isOwned?'sell':'buy'}" data-id="${esc(card.id)}" ${(isOwned?available<1:!bazaarCanBuy(card)||state.credits<card.price)?'disabled':''}>${isOwned?'Sell spare card':bazaarCanBuy(card)?'Buy card':'Not for sale'}</button>
       ${isOwned&&available<1?'<small class="bazaar-preview-hint">All copies are in your deck. Remove one before selling.</small>':''}</div>`;
   }
   function bazaarPreviewSelected(card,area='sale'){
@@ -5415,7 +5892,7 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
         <div class="bazaar-wallet"><span>You have:</span><strong id="bazaar-credits">${electrumAmount(state.credits,true)}</strong></div>
         <button type="button" class="bazaar-show-all" data-action="bazaar-owned-toggle" aria-pressed="${bazaarShowAllOwned}">${bazaarShowAllOwned?'Show Selected':'Show All'}</button>
       </aside>
-      <section class="bazaar-sale" aria-label="Cards for sale in ${esc(element)}"><div class="bazaar-pane-title">${esc(element==='Other'?'Others':element)} · For Sale <span>${filtered.length} cards</span></div><div class="bazaar-pane-scroll">${bazaarSections(filtered,'sale')}</div></section>
+      <section class="bazaar-sale" aria-label="Cards for sale in ${esc(element)}"><div class="bazaar-pane-title">${esc(element==='Other'?'Others':element)} · For Sale <span>${filtered.length} Common cards</span></div><div class="bazaar-pane-scroll">${bazaarSections(filtered,'sale')}</div></section>
       <aside class="bazaar-price" aria-label="Hovered card preview"><h2>Price</h2><div id="bazaar-preview-slot" aria-live="polite">${bazaarPreview(activeCard,initialArea)}</div></aside>
       <section class="bazaar-owned" aria-label="Your owned cards"><div class="bazaar-pane-title">Your Cards · ${bazaarShowAllOwned?'All Elements':esc(element==='Other'?'Others':element)} <span>${owned.reduce((n,c)=>n+(state.inventory[c.id]||0),0)} owned</span></div>
       <div class="bazaar-pane-scroll">${bazaarSections(owned,'owned')}</div></section></div>
@@ -6284,71 +6761,10 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
     'lifeHeal','lifeAdrenaline','lifeMitosis',
     'lightHoly','lightBlessing','lightLuciferin','lightMiracle','lightDivinity',
     ...['fireBolt','fireDeflagration','fireRain','fireImmolation','fireRage','fireBravery','waterFreeze','waterIceBolt','waterPurify','waterTears','waterDry','timeReverse','timePrecognition','timeReadiness']]);
-  // Classic Elements rarity reference, not Elementia Bazaar prices.
-  // Source: https://elementscommunity.org/wiki/Category:Rares
-  // Original wiki records 53 Rare / Ultra Rare card-family pages.
-  // The normal card in every listed family is excluded from Level 0; the
-  // existing no-upgrades rule also rejects every upgraded version.
-  const CLASSIC_RARE_FAMILIES=new Set(
-[
-    "Amber Nymph",
-    "Arctic Squid",
-    "Arsenic",
-    "Auburn Nymph",
-    "Black Nymph",
-    "Blue Nymph",
-    "Chimera (Foil)",
-    "Discord",
-    "Druidic Staff",
-    "Eternity",
-    "Fahrenheit",
-    "Golden Nymph",
-    "Green Nymph",
-    "Grey Nymph",
-    "Light Nymph",
-    "Lobotomizer",
-    "Mark of Aether",
-    "Mark of Air",
-    "Mark of Darkness",
-    "Mark of Death",
-    "Mark of Earth",
-    "Mark of Entropy",
-    "Mark of Fire",
-    "Mark of Gravity",
-    "Mark of Life",
-    "Mark of Light",
-    "Mark of Time",
-    "Mark of Water",
-    "Miracle",
-    "Morning Star",
-    "Nymph Queen",
-    "Owl's Eye",
-    "Pharaoh",
-    "Pulverizer",
-    "Purple Nymph",
-    "Red Nymph",
-    "Relic",
-    "Shard of Bravery",
-    "Shard of Divinity",
-    "Shard of Focus",
-    "Shard of Freedom",
-    "Shard of Gratitude",
-    "Shard of Integrity",
-    "Shard of Patience",
-    "Shard of Readiness",
-    "Shard of Sacrifice",
-    "Shard of Serendipity",
-    "Shard of Void",
-    "Shard of Wisdom",
-    "Titan",
-    "Trident",
-    "Turquoise Nymph",
-    "Vampire Stiletto"
-].map(name=>name.toLowerCase()));
+  // Original Elements card rarities are resolved from ORIGINAL_ELEMENTS_RARITY,
+  // not from a partial category list or a card's upgraded status.
   function isClassicRare(card){
-    if(!card)return false;
-    const name=String(card.name||'').normalize('NFKC').replace(/[’‘]/g,"'").replace(/\s+/g,' ').trim().toLowerCase();
-    return CLASSIC_RARE_FAMILIES.has(name);
+    return card ? ['Rare','Ultra Rare'].includes(originalElementsRarity(card)) : false;
   }
   function levelZeroDeck(){
     // Level 0 is a tutorial bot, not a deck builder: no upgraded cards and no
@@ -6382,10 +6798,7 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
   // Level 0's 40 random-color basics. "Rare" means an individual rare CARD
   // COPY; duplicates consume the six-card cap too. Other is neutral, not a
   // fifth elemental color. No permanent player collection is modified.
-  function levelOneIsRare(card){
-    const rarity=String(cardRule(card)?.rarity||'').toLowerCase();
-    return rarity==='rare'||rarity==='ultra rare'||isClassicRare(card);
-  }
+  function levelOneIsRare(card){return isClassicRare(card);}
   const LEVEL_ONE_UNSAFE_SPELLS=new Set(['fireImmolation','fireRage','waterDry']);
   function levelOneEligible(card,elements){
     const r=cardRule(card);
@@ -9219,7 +9632,7 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
     if(delta>0&&(current>=(state.inventory[id]||0)||countMap(state.deck)>=60||(!unlimited&&current>=6))){state.notice='Card unavailable, six-copy limit reached, or the deck is full (60).';return;}
     state.deck[id]=Math.max(0,current+delta);state.duel=null;save();}
-  function buy(id){const c=BY_ID[id];if(!c||cardRule(c)?.tokenOnly)return;if(state.credits<c.price){state.notice='Not enough Electrum.';return;}
+  function buy(id){const c=BY_ID[id];if(!bazaarCanBuy(c)){state.notice='Only basic Common cards are available for purchase in the Bazaar.';return;}if(state.credits<c.price){state.notice='Not enough Electrum.';return;}
     state.credits-=c.price;state.inventory[id]=(state.inventory[id]||0)+1;state.notice=`Purchased one ${c.name} for ${c.price} Electrum.`;save();}
   function sell(id){const c=BY_ID[id];if(!c||cardRule(c)?.tokenOnly)return;
     const owned=state.inventory[id]||0,inDeck=state.deck[id]||0;
@@ -9422,10 +9835,10 @@ body.etg-bazaar-active #main{width:100%;max-width:none;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.92-oracle-bazaar-catalogues',isDemo:demo,
+    version:'20.93-original-rarity-common-only-bazaar',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();

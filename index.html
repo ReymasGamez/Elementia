@@ -778,6 +778,14 @@ button:active:not(:disabled){ transform:translateY(1px) }
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
+
+/* v20.96: Enchant Artifact's visible Immaterial status on protected permanents. */
+.etg-slot .etg-artifact-immaterial{position:absolute;z-index:5;right:2px;bottom:2px;
+ width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+ border-radius:50%;background:rgba(12,13,24,.72);box-shadow:0 0 7px rgba(168,193,248,.7);
+ pointer-events:none}
+.etg-slot .etg-artifact-immaterial .etg-rule-quantum{width:17px;height:17px;display:inline-flex}
+.etg-slot .etg-artifact-immaterial img{width:100%;height:100%;object-fit:contain}
 </style>
   <title>Elementia — The Return · v20.95</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
@@ -4720,6 +4728,12 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     return normalizeCard(extras?{...source,artworkUrl:extras.art,cardFrameUrl:extras.frame,cardFrameAspect:extras.aspect||'1000 / 1536'}:source,i);
   });
 
+  // v20.96: Original 1.327 identity is Black Nymph (5v8, basic), Dark Nymph (7to, upgrade).
+  for(const card of CARDS){
+    if(card.legacyCode==='5v8'||card.id==='og-5v8')card.name='Black Nymph';
+    if(card.legacyCode==='7to'||card.id==='og-7to')card.name='Dark Nymph';
+  }
+
   // v20.94: Original Elements rarity classification, one explicit classification
   // per game card (normal & upgraded). Upgraded status is NOT itself a rarity.
   // Source: https://elementscommunity.org/wiki/Category:Rares
@@ -5703,7 +5717,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.95 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.96 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -5813,6 +5827,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     for(const [id,n] of Object.entries(newDeck))state.inventory[id]=Math.max(state.inventory[id]||0,n);
     state.starterChosen=true;
     state.starterChoice=null;
+    questInitializeAccount();
     state.duel=null;
     state.scene='menu';
     state.notice='';
@@ -6144,6 +6159,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         if(!card||card.type!=='Creature')return 'no original creature';
         const daughter=makeCreature(b,id,side);
         if(!daughter)return 'board full';
+        daughter.mutant=false; // Base printed form, never the parent's mutation.
         enterCreature(b,daughter,side);
         if(side==='player')questRecord('creature_copied');return item.name+' cloned an original '+card.name;
       }
@@ -6268,7 +6284,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     return !cardRule(card)?.indestructible&&!t.unit.abilities?.includes('immaterial')&&!t.unit.burrowed;
   }
   function lightAbilityEffect(b,side,item,r,target){
-    if(r.activate==='healCreature'){
+    if(r.activate==='healCreature'||r.activate==='heal'){
       if(!target?.unit)return 'no creature target';
       const u=target.unit,before=u.hp;
       u.hp=Math.min(u.maxHp??u.hp,u.hp+5);
@@ -6318,7 +6334,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   const ENTROPY_RANDOM_EFFECTS=['infect','lightning','iceBolt','fireBolt','freeze','parallelUniverse',
     'lobotomize','drainLife','sniper','shockwave','reverseTime','gravityPull'];
   const ENTROPY_MUTANT_SKILLS=['dive','burrow','paradox','lycanthropy','infection','lobotomize',
-    'immaterial','scavenger','momentum','destroy','freeze','gravityPull','mutation','heal'];
+    'immaterial','scavenger','momentum','destroy','freeze','gravityPull','mutation','healCreature','timeHatch','mitosis'];
   function entropyActiveRule(item){
     const rule=cardRule(BY_ID[item?.id]);
     if(!rule)return null;
@@ -6336,6 +6352,42 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     u.atk+=atk;u.hp+=hp;u.maxHp=(u.maxHp??u.hp)+hp;
   }
   function entropyAntimatter(u){u.atk=-(u.atk||0);return u.atk;}
+  // Base mutant identity and its random modifier are two separate properties.
+  // Rehatching selects a NEW mutant form, while Parallel Universe duplicates the
+  // printed creature card shown by the mutant and rerolls its altered stats/skill.
+  function entropyMutantCandidates(){
+    return CARDS.filter(c=>c.tier==='Basic'&&c.type==='Creature'&&!cardRule(c)?.tokenOnly&&
+      !cardRule(c)?.generatedOnly&&Number.isFinite(cardRule(c)?.atk)&&
+      Number.isFinite(cardRule(c)?.hp)&&cardRule(c)?.hp>0&&
+      !['Immortal','Fate Egg','Chimera','Devonian Dragon','Scarab','Shard Golem',
+        'Singularity','Malignant Cell','Ash'].includes(c.name));
+  }
+  function entropyApplyMutant(b,side,u,form){
+    const r=cardRule(form);
+    if(!r||!Number.isFinite(r.atk)||!Number.isFinite(r.hp))return false;
+    const atkBoost=Math.floor(Math.random()*5),hpBoost=Math.floor(Math.random()*5);
+    const skill=ENTROPY_MUTANT_SKILLS[Math.floor(Math.random()*ENTROPY_MUTANT_SKILLS.length)];
+    u.id=form.id;u.name=form.name;
+    u.atk=r.atk+atkBoost;u.hp=r.hp+hpBoost;u.maxHp=u.hp;
+    u.abilities=[skill];u.entropyActivate=null;u.entropyActivateCost=null;
+    u.entropyActivateElement=null;u.lifeMitosisId=null;
+    u.poison=0;u.statuses=[];u.frozen=false;u.freezeTurns=0;
+    u.delayed=false;u.delayTurns=0;u.born=b.turn;u.used=-1;
+    u.darkAuraAtk=0;u.darkAuraHp=0;u.mutant=true;
+    u.mutantAtkBoost=atkBoost;u.mutantHpBoost=hpBoost;u.mutantSkill=skill;
+    if(!['immaterial','scavenger','momentum'].includes(skill)){
+      u.entropyActivate=skill;u.entropyActivateCost=1+Math.floor(Math.random()*2);
+      u.entropyActivateElement=form.element;
+    }
+    refreshDarkAuras(b);
+    return true;
+  }
+  function entropyRandomMutant(b,side,u,form=null){
+    const forms=entropyMutantCandidates();
+    const chosen=form||forms[Math.floor(Math.random()*forms.length)];
+    if(!chosen||!entropyApplyMutant(b,side,u,chosen))return 'mutation could not find a valid creature';
+    return 'mutated into '+chosen.name+' +'+u.mutantAtkBoost+'/+'+u.mutantHpBoost+' ('+u.mutantSkill+')';
+  }
   function entropyTransform(b,side,u,mode='mutation'){
     if(!u)return 'no target';
     const roll=Math.random();
@@ -6344,31 +6396,28 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       const id=ENTROPY_CLASSIC_BY_CODE['4ve'],r=cardRule(BY_ID[id]);
       u.id=id;u.name=BY_ID[id].name;u.atk=r.atk;u.hp=r.hp;u.maxHp=r.hp;
       u.abilities=[...(r.abilities||[])];u.entropyActivate=null;
-      u.entropyActivateCost=null;u.entropyActivateElement=null;
-      u.poison=0;u.statuses=[];u.born=b.turn;u.used=-1;
+      u.entropyActivateCost=null;u.entropyActivateElement=null;u.lifeMitosisId=null;
+      u.poison=0;u.statuses=[];u.frozen=false;u.freezeTurns=0;
+      u.delayed=false;u.delayTurns=0;u.born=b.turn;u.used=-1;
       u.darkAuraAtk=0;u.darkAuraHp=0;u.mutant=false;
+      delete u.mutantAtkBoost;delete u.mutantHpBoost;delete u.mutantSkill;
       refreshDarkAuras(b);return 'became an Abomination (50%)';
     }
-    // Mutant outcome uses a random existing collectible basic creature as its form.
-    // Stat bonuses are independently 0..4. Unsupported original mutant skills are
-    // deliberately limited to the subset implemented by Elementia's engine.
-    const candidates=CARDS.filter(c=>c.tier==='Basic'&&c.type==='Creature'&&!cardRule(c)?.tokenOnly&&
-      Number.isFinite(cardRule(c)?.atk)&&Number.isFinite(cardRule(c)?.hp)&&cardRule(c)?.hp>0&&
-      !['Immortal','Fate Egg','Chimera','Devonian Dragon','Scarab'].includes(c.name));
-    if(!candidates.length)return 'mutation could not find a valid creature';
-    const form=candidates[Math.floor(Math.random()*candidates.length)],r=cardRule(form);
-    const atkBoost=Math.floor(Math.random()*5),hpBoost=Math.floor(Math.random()*5);
-    const skill=ENTROPY_MUTANT_SKILLS[Math.floor(Math.random()*ENTROPY_MUTANT_SKILLS.length)];
-    u.id=form.id;u.name=form.name;u.atk=r.atk+atkBoost;u.hp=r.hp+hpBoost;u.maxHp=u.hp;
-    u.abilities=[skill];u.entropyActivate=null;u.entropyActivateCost=null;
-    u.entropyActivateElement=null;u.poison=0;u.statuses=[];u.born=b.turn;u.used=-1;
-    u.darkAuraAtk=0;u.darkAuraHp=0;u.mutant=true;
-    if(!['immaterial','scavenger','momentum'].includes(skill)){
-      u.entropyActivate=skill;u.entropyActivateCost=1+Math.floor(Math.random()*2);
-      u.entropyActivateElement=form.element;
+    return entropyRandomMutant(b,side,u);
+  }
+  function cloneCreatureForParallelUniverse(b,side,source){
+    if(!source||!BY_ID[source.id]||BY_ID[source.id].type!=='Creature')return null;
+    const daughter=makeCreature(b,source.id,side);
+    if(!daughter)return null;
+    if(source.mutant){
+      // The clone is the creature CARD, not a copied mutation: same base form,
+      // new random mutation stats and activated/passive ability.
+      entropyRandomMutant(b,side,daughter,BY_ID[source.id]);
+    }else{
+      Object.assign(daughter,{...source,key:daughter.key,boardSlot:daughter.boardSlot,
+        born:b.turn,used:-1,abilities:[...(source.abilities||[])],statuses:[...(source.statuses||[])]});
     }
-    refreshDarkAuras(b);
-    return 'mutated into '+form.name+' +'+atkBoost+'/+'+hpBoost+' ('+skill+')';
+    return daughter;
   }
   function earthArtifactProtected(t){return !!(t?.kind==='permanent'&&t.unit?.earthEnchanted);}
   function entropyDestroyPermanent(b,target,actingSide){
@@ -6467,9 +6516,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       case 'infect':darkPoison(b,side,u,1);break;
       case 'lightning':darkDamageCreature(b,side,u,5);break;
       case 'iceBolt':{
-        const damage=2*Math.max(1,Math.floor((casterPool.Water||0)/10));
+        const damage=classicIceBoltDamage(casterPool.Water||0);
         darkDamageCreature(b,side,u,damage);
-        if(Math.random()<(0.3+0.05*damage)){if(caster==='player'&&!u.frozen&&!u.freezeTurns)questRecord('creature_frozen');u.frozen=true;}
+        if((b[side+'Creatures']||[]).includes(u)&&Math.random()<classicIceBoltFreezeChance(damage)){
+          if(caster==='player'&&!u.frozen&&!u.freezeTurns)questRecord('creature_frozen');
+          u.frozen=true;u.freezeTurns=Math.max(u.freezeTurns||0,3);}
         break;
       }
       case 'fireBolt':darkDamageCreature(b,side,u,3*Math.max(1,Math.floor((casterPool.Fire||0)/10)));break;
@@ -6478,8 +6529,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         if(mainCount(b,caster)>=GAME_RULES.maxMainBoard){questEffectApplied=false;break;}
         const slot=chooseFreeCreatureSlot(b,caster);
         if(slot<0){questEffectApplied=false;break;}
-        const cloned={...u,key:b.nextKey++,boardSlot:slot,born:b.turn,used:-1,
-          abilities:[...(u.abilities||[])],statuses:[...(u.statuses||[])]};
+        const cloned=cloneCreatureForParallelUniverse(b,caster,u);
+        if(!cloned){questEffectApplied=false;break;}
         enterCreature(b,cloned,caster);if(caster==='player')questRecord('creature_copied');break;
       }
       case 'lobotomize':
@@ -6667,9 +6718,9 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       }
       case 'antimatter':return 'Antimatter inverted '+target.unit.name+' to '+entropyAntimatter(target.unit)+' ATK';
       case 'destroy':return entropyDestroyPermanent(b,target,side)?'Destroyed '+(BY_ID[target.unit.id]?.name||'permanent'):'Invalid target';
-      case 'freeze':target.unit.frozen=true;target.unit.freezeTurns=3;return 'Froze '+target.unit.name;
+      case 'freeze':classicFrozen(target.unit,3);return 'Froze '+target.unit.name;
       case 'gravityPull':target.unit.entropyGravityPull=true;return 'Gravity Pull on '+target.unit.name;
-      case 'heal':item.hp=Math.min(item.maxHp,item.hp+5);return 'Healed 5';
+      case 'heal':return lightAbilityEffect(b,side,item,{activate:'healCreature'},target);
       default:return null;
     }
   }
@@ -7170,7 +7221,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     'clone','quintessence','fractal','wisdom','liquidShadow','earthPlateArmor',
     'earthEnchantArtifact','entropyButterfly','gravityMomentum','gravityPull',
     'gravityAcceleration','lifeAdrenaline','lifeMitosis','lightBlessing',
-    'timeReadiness','waterPurify','waterTears','adrenaline','endow','immortality','waterNymph'
+    'timeReadiness','waterPurify','waterTears','adrenaline','healCreature','heal','endow','immortality','waterNymph'
   ]);
   const LEVEL_ONE_NO_FRIENDLY_SACRIFICE=new Set(['fireImmolation','catapult']);
   function aiLevelOneTargetAllowed(b,r,target){
@@ -7209,7 +7260,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     hand.push(lib.shift());if(side==='player')questRecord('card_drawn');return true;
   }
   function classicFamiliarNymphId(element){
-    const code={Aether:'80s',Air:'5p0',Darkness:'5vo',Death:'534',Earth:'59c',Entropy:'4vu',Fire:'5fk',
+    const code={Aether:'80s',Air:'5p0',Darkness:'5v8',Death:'534',Earth:'59c',Entropy:'4vu',Fire:'5fk',
       Gravity:'56e',Life:'5cg',Light:'5ls',Time:'5s4',Water:'5io'}[element];
     const direct=code&&OG_BY_CODE[code];
     const candidates=CARDS.filter(x=>x.element===element&&x.tier==='Basic'&&/nymph|nymph queen/i.test(x.name)&&cardRule(x)?.family==='creature');
@@ -7337,16 +7388,22 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
     return null;
   }
+  function classicIceBoltDamage(waterBeforePayment){
+    return Math.min(16,2*(1+Math.floor(Math.max(0,Number(waterBeforePayment)||0)/10)));
+  }
+  function classicIceBoltFreezeChance(damage){return Math.min(1,.30+.05*Math.max(0,damage));}
   function classicSpellEffect(b,caster,r,t){
     const other=entropyOther(caster),target=t?.unit,owner=t?.side;
     switch(r.effect){
       case 'fireBolt':case 'waterIceBolt':{
         const element=r.effect==='fireBolt'?'Fire':'Water',perTen=element==='Fire'?3:2;
-        const damage=perTen*(1+Math.floor(((entropyPool(b,caster)[element]||0)+r.cost)/10));
+        const quantaBefore=(entropyPool(b,caster)[element]||0)+(r.cost||0);
+        const damage=element==='Water'?classicIceBoltDamage(quantaBefore):perTen*(1+Math.floor(quantaBefore/10));
         const dealt=target?darkDamageCreature(b,owner,target,damage):darkDamageHero(b,owner,damage);
-        if(element==='Water'&&Math.random()<Math.min(1,.30+.05*damage)){
-          if(target)classicFrozen(target,3);
-          else if(b[owner+'Weapon'] && !b[owner+'Weapon'].abilities?.includes('immaterial'))
+        if(element==='Water'&&Math.random()<classicIceBoltFreezeChance(damage)){
+          if(target&&(b[owner+'Creatures']||[]).includes(target))classicFrozen(target,3);
+          else if(!target&&b[owner+'Weapon']&&!b[owner+'Weapon'].earthEnchanted&&
+                  !b[owner+'Weapon'].abilities?.includes('immaterial'))
             b[owner+'Weapon'].gravityFrozenTurns=Math.max(b[owner+'Weapon'].gravityFrozenTurns||0,3);
         }
         return 'dealt '+dealt+' '+element+' spell damage';
@@ -7416,7 +7473,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const card=BY_ID[newId],r=cardRule(card);
     if(!card||!r)return false;
     item.id=newId;item.name=card.name;item.atk=r.atk;item.hp=r.hp;item.maxHp=r.hp;
-    item.abilities=[...(r.abilities||[])];item.entropyActivate=null;item.frozen=false;item.freezeTurns=0;
+    item.abilities=[...(r.abilities||[])];item.entropyActivate=null;item.mutant=false;
+    item.lifeMitosisId=null;delete item.mutantSkill;delete item.mutantAtkBoost;delete item.mutantHpBoost;item.frozen=false;item.freezeTurns=0;
     item.born=b.turn;item.used=b.turn;item.steamCharges=0;
     return true;
   }
@@ -7456,6 +7514,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         enterCreature(b,u,caster);if(caster==='player')questRecord('creature_copied');return 'split '+item.name+' into two buffed creatures (no further Deja Vu)';
       }
       case 'timeHatch':{
+        if(item.mutant)return entropyRandomMutant(b,caster,item);
         const old=BY_ID[item.id];
         const excluded=new Set(['Ash','Chimera','Devonian Dragon','Silurian Dragon','Immortal',
           'Malignant Cell','Scarab','Elite Scarab','Shard Golem','Singularity','Shard of Focus']);
@@ -7673,8 +7732,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       case 'clone':{
         if(t.kind!=='creature')return 'failed to clone';
         const pos=chooseFreeCreatureSlot(b,'enemy');
-        if(pos>=0)enterCreature(b,{...u,key:b.nextKey++,boardSlot:pos,born:b.turn,used:-1,
-          abilities:[...(u.abilities||[])],statuses:[...(u.statuses||[])],dive:false,diveBaseAtk:null},'enemy');
+        if(pos>=0){const copy=cloneCreatureForParallelUniverse(b,'enemy',u);
+          if(copy)enterCreature(b,copy,'enemy');}
         return `copied ${u.name} (${side})`;
       }
       case 'quintessence':{
@@ -7693,7 +7752,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       }
       case 'animateWeapon':{
         const weapon=b.enemyWeapon,unit=makeCreature(b,weapon.id,'enemy');
-        if(unit){enterCreature(b,unit,'enemy');b.enemyWeapon=null;}
+        if(unit){unit.abilities=[...new Set([...(cardRule(BY_ID[weapon.id])?.abilities||[]),'airborne'])];unit.animatedWeapon=true;enterCreature(b,unit,'enemy');b.enemyWeapon=null;}
         return `animated ${BY_ID[weapon.id]?.name||'weapon'}`;
       }
       case 'skyBlitz':b.enemySkyBlitz=true;b.enemyQuanta.Air=0;return 'activated Sky Blitz';
@@ -7869,7 +7928,9 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     return {pool,production};
   }
   function aiLevelTwoEstimateDamage(b,r){
-    if(['fireBolt','waterIceBolt','drainLife'].includes(r?.effect))return 2+2*Math.floor(((b.enemyQuanta[paymentElement({element:r.costElement||'Fire',id:'__unknown'})]||0)+Number(r.cost||0))/10);
+    if(r?.effect==='waterIceBolt')return classicIceBoltDamage((b.enemyQuanta.Water||0)+(r.cost||0));
+    if(r?.effect==='fireBolt')return 3*(1+Math.floor(((b.enemyQuanta.Fire||0)+(r.cost||0))/10));
+    if(r?.effect==='drainLife')return 2+2*Math.floor(((b.enemyQuanta.Darkness||0)+(r.cost||0))/10);
     return Math.max(1,Number(r?.damage??r?.abilityDamage??r?.poison??3));
   }
   function aiLevelTwoChooseTarget(b,r,targets){
@@ -8554,7 +8615,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
     return [...creatures,...perms,...(r?.targeting==='creatureOrPlayer'?['enemy:hero','player:hero']:[])].filter(code=>validSpellTarget(b,card,code));}
   // Paid abilities: OG summoning delay (born < turn), once per turn, payable only when legal.
-  const TARGET_ABILITIES=new Set(['fireRage','waterPoison','waterFreeze','waterNymph','waterTsunami','timeReverse','web','sniper','immortality','lobotomize','infection','liquidShadow','infect','aflatoxin','paradox','mutation','improvedMutation','antimatter','destroy','freeze','gravityPull','devour','catapult','accretion','adrenaline','healCreature','endow','earthGuard','earthPetrify']);
+  const TARGET_ABILITIES=new Set(['fireRage','waterPoison','waterFreeze','waterNymph','waterTsunami','timeReverse','web','sniper','immortality','lobotomize','infection','liquidShadow','infect','aflatoxin','paradox','mutation','improvedMutation','antimatter','destroy','freeze','gravityPull','devour','catapult','accretion','adrenaline','healCreature','heal','endow','earthGuard','earthPetrify']);
   const REMOVABLE_ABILITIES=new Set(['fireRage','waterPoison','waterFreeze','waterNymph','waterTsunami','timeReverse','timeClone','timeHatch','timeHasten','timeScarab','timePrecognition','fireRebirth','divineShield','waterSteam','waterRelease','web','duality','sniper','immortality','lobotomize','dive','queen','summonGas','ignite','infection','stoneForm','burrow','liquidShadow','infect','viralPlague','aflatoxin','paradox','mutation','improvedMutation','antimatter','deadAlive','lycanthropy','destroy','freeze','gravityPull','gravityPullSelf','devour','catapult','ablaze','blackHole','accretion','photosynthesis','growth','adrenaline','mitosis','healCreature','endow','lightLuciferin','earthEvolve','earthGuard','earthPetrify']);
   function abilityEntries(b){
     return [...b.playerCreatures,...b.playerPermanents.filter(x=>!isResourcePermanent(BY_ID[x.id])),...(b.playerWeapon?[b.playerWeapon]:[]),...(b.playerShield?[b.playerShield]:[])].filter(item=>{const ability=entropyActiveRule(item)?.activate;return !!ability&&item.abilities?.includes(ability);});
@@ -8959,7 +9020,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(r?.effect==='lifeRegenerate'){const before=b[side+'Hp'];darkHeal(b,side,r.heal||5);
       steps.push(side+' '+BY_ID[weapon.id]?.name+' regenerated '+(b[side+'Hp']-before)+' HP.');}
     if(!r?.atk)return 0;
-    if(weapon.gravityFrozenTurns>0){weapon.gravityFrozenTurns--;steps.push(side+' weapon frozen by Catapult.');return 0;}
+    if(weapon.gravityFrozenTurns>0){weapon.gravityFrozenTurns--;steps.push(side+' weapon frozen; unable to attack.');return 0;}
     let damage=r.atk+(r.effect==='fireFahrenheit'?Math.floor((entropyPool(b,side).Fire||0)/5):0);
     const mark=side==='player'?state.element:b.enemyMark;
     if((r.effect==='otherDagger'&&['Death','Darkness'].includes(mark))||
@@ -9173,12 +9234,14 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const boneRule=cardRule(card);
     const remainingBones=boneRule?.effect==='boneWall'&&!concealed
       ? Math.max(0,Number.isFinite(entry.bones)?entry.bones:(boneRule.boneCharges??7)) : null;
+    const enchantedBadge=entry.earthEnchanted&&!concealed&&!creatureSlot
+      ? `<span class="etg-artifact-immaterial" title="Immaterial: protected by Enchant Artifact" aria-label="Immaterial permanent">${ruleQuantumIcon('Time')}</span>`:'';
     const boneBadge=remainingBones===null?'':`<span class="bone-shield-count" aria-label="${remainingBones} bone shields remaining">x${remainingBones}</span>`;
     // A|H lives on the portrait, including in overlapping ranks.
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.burrowed?' ⌄':''}</span>`:'';
     const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
     return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
-      ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${creatureSlot&&creature&&!concealed?creatureConditionSockets(entry):''}${countText}${boneBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
+      ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${creatureSlot&&creature&&!concealed?creatureConditionSockets(entry):''}${countText}${boneBadge}${enchantedBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
     const units=b[side+'Creatures']||[];
@@ -9628,8 +9691,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
           message=`${c.name} strikes enemy creatures for 2 area damage; ${kills} destroyed.`;break;}
         case 'clone':{
           const slot=chooseFreeCreatureSlot(b,'player');if(slot<0){message='No creature slot available.';break;}
-          const cloned={...unit,key:b.nextKey++,boardSlot:slot,born:b.turn,used:-1,
-            abilities:[...(unit.abilities||[])],statuses:[...(unit.statuses||[])],dive:false,diveBaseAtk:null};
+          const cloned=cloneCreatureForParallelUniverse(b,'player',unit);
+          if(!cloned){message='No creature slot available.';break;}
           enterCreature(b,cloned);questRecord('creature_copied');
           message=`${c.name} copied ${unit.name} (${cloned.atk}/${cloned.hp}) to your battlefield.`;break;}
         case 'quintessence':{
@@ -9645,7 +9708,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
           message=`${c.name} grants ${unit.name} +${add} ATK${already?' and spell-damage attacks':''}.`;break;}
         case 'animateWeapon':{
           const weapon=b.playerWeapon,old=BY_ID[weapon.id];const animated=makeCreature(b,weapon.id);
-          if(animated){animated.abilities=[...(cardRule(old)?.abilities||[])];enterCreature(b,animated);b.playerWeapon=null;}
+          if(animated){animated.abilities=[...new Set([...(cardRule(old)?.abilities||[]),'airborne'])];animated.animatedWeapon=true;enterCreature(b,animated);b.playerWeapon=null;}
           message=`${old.name} animated into a ${animated?.atk}/${animated?.hp} creature; Weapon slot freed.`;break;}
         case 'deathPoison':case 'deathPlague':case 'aflatoxin':case 'shardSacrifice':{message=`${c.name}: ${deathResolveSpell(b,'player',r,t)}.`;break;}
         case 'skyBlitz':{b.skyBlitz=true;b.quanta.Air=0;message='Sky Blitz doubles Airborne attack this phase and consumes remaining Air quanta.';break;}
@@ -9660,7 +9723,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(state.modal==='settings-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal elementia-settings-panel" role="dialog" aria-modal="true" aria-label="Settings"><h2 class="section-title">Settings</h2><div class="elementia-settings-options"><button type="button" class="button secondary" data-action="fullscreen-toggle" aria-pressed="${fullscreenIsActive()}">⛶ ${fullscreenIsActive()?'Exit Full Screen':'Full Screen'}</button><button type="button" class="button secondary" data-action="navigate" data-to="music">♫ Music of Elementia</button></div><p class="elementia-settings-hint">Full Screen uses your browser’s immersive mode when supported. On unsupported devices, it uses a full-window focus view.</p><div class="modal-actions"><button type="button" class="button" data-action="close-modal">Close</button></div></section></div>`;
     if(state.modal==='account-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Account Information"><h2 class="section-title">Account Info</h2><p><strong>Player:</strong> ${esc(state.player)}<br><strong>Mark:</strong> ${esc(state.element)}<br><strong>Deck:</strong> ${countMap(state.deck)} / 60 cards<br><strong>Electrum:</strong> ${electrumAmount(state.credits)}</p><p class="notice">Progress is saved automatically to this browser. Export a JSON backup before clearing site data, changing browsers or devices. Import restores progress into your currently logged-in local account; it does not transfer your password.</p>${state.notice?`<div class="notice-box elementia-dismissible-notice" role="status"><span class="elementia-notice-message">${esc(state.notice)}</span><button type="button" class="elementia-notice-close" data-action="dismiss-notice" aria-label="Dismiss notification" title="Dismiss notification">×</button></div>`:''}<div class="modal-actions"><button class="button secondary" data-action="export-save</button><label class="button secondary" style="cursor:pointer;position:relative;overflow:hidden">Import Save<input id="import-local-save" type="file" accept="application/json,.json" aria-label="Import Elementia save JSON" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></label><button class="button" data-action="close-modal">Close</button></div></section></div>`;
     if(state.modal==='redeem-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Redeem Code"><h2 class="section-title">Redeem Code</h2><p class="notice">Reward codes are not active in this build yet.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button></div></section></div>`;
-    if(state.modal==='reset-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Reset Progress"><h2 class="section-title">Reset Progress</h2><p class="notice">This resets your collection, deck, Mark, Electrum, and current duel. You will choose a new elemental starter deck. Your local login account and password remain. Export a backup first if needed.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Cancel</button><button class="button danger" data-action="do-reset">Reset Progress</button></div></section></div>`;
+    if(state.modal==='reset-panel')return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Reset Progress"><h2 class="section-title">Reset Progress</h2><p class="notice">This resets your collection, deck, Mark, Electrum, quests (including claimed rewards), and current duel. You will choose a new elemental starter deck. Your local login account and password remain. Export a backup first if needed.</p><div class="modal-actions"><button class="button secondary" data-action="close-modal">Cancel</button><button class="button danger" data-action="do-reset">Reset Progress</button></div></section></div>`;
     const c=BY_ID[state.modal];if(!c)return '';return `<div class="overlay" role="presentation" data-action="close-modal"><section class="panel modal" role="dialog" aria-modal="true" aria-label="Card details"><h2 class="section-title">Card Details</h2>${renderDetail(c)}
     <div class="modal-actions"><button class="button secondary" data-action="close-modal">Close</button><button class="button" data-action="add-deck" data-id="${esc(c.id)}" ${(state.deck[c.id]||0)>=(state.inventory[c.id]||0)?'disabled':''}>Add to Deck</button></div></section></div>`;}
   function fitClassicMainMenu(){
@@ -9841,7 +9904,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       case 'open-settings':state.modal='settings-panel';render();break;
       case 'dismiss-notice':state.notice='';render();break;
       case 'confirm-reset':state.modal='reset-panel';render();break;
-      case 'do-reset':{const username=state.player,claimedQuests=state.quests;restoreProgress(initialProgressFor(username),username);state.quests=claimedQuests;state.notice='';state.scene='starter';save();render();break;}
+      case 'do-reset':{const username=state.player;restoreProgress(initialProgressFor(username),username);state.quests={};selectedQuestId='Q000';state.notice='';state.scene='starter';save();render();break;}
       case 'account-info':state.modal='account-panel';state.notice='';render();break;
       case 'export-save':exportLocalProgress();break;
       case 'redeem-code':state.modal='redeem-panel';render();break;
@@ -10008,10 +10071,10 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.95-deck-preview-layout',isDemo:demo,
+    version:'20.96-combat-rules-audit',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();

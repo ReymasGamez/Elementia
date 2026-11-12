@@ -779,7 +779,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison{gap:5px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-marker{width:23px;height:23px;flex-basis:23px}
 body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{font-size:18px}
 </style>
-  <title>Elementia — The Return · v20.94</title>
+  <title>Elementia — The Return · v20.95</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -3968,6 +3968,46 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
 .deck-preview-picture{border:1px solid #bb965c;background:linear-gradient(160deg,#2b2d29,#131815)}
 @media(min-width:781px){.deck-classic-board{grid-template-rows:minmax(265px,49%) minmax(230px,51%)}.deck-classic-bottom .deck-classic-side{padding-top:7px;gap:3px}.deck-classic-bottom .deck-classic-count{margin:0 0 3px}.deck-element-button{min-height:19px;max-height:22px;padding:0 4px}.deck-classic-elements{gap:2px}.deck-element-button img,.deck-element-button .bazaar-other-orb{width:16px;height:16px}}
 </style>
+
+<style id="elementia-v20-95-deck-polish">
+/* v20.95: The Magical Item belongs to the active deck, not the image preview. */
+.deck-classic-deck-area{display:grid;grid-template-columns:minmax(0,1fr) clamp(112px,19%,156px);min-width:0;min-height:0;overflow:hidden}
+.deck-classic-deck-area>.deck-classic-cardspace{min-width:0;min-height:0}
+.deck-classic-deck-area>.deck-magical-wrapper{align-self:start;justify-self:stretch;padding:13px 7px;min-width:0;overflow:hidden;gap:6px}
+.deck-classic-deck-area .deck-magical-slot{width:min(100%,136px);box-sizing:border-box}
+.deck-classic-deck-area .deck-magical-subtitle{font-size:11px;line-height:1.25}
+/* The preview rail contains only the full card, no secondary item slot or description labels. */
+.deck-classic-preview-rail{display:flex;align-items:center;justify-content:center;padding:8px;border-left:1px solid #cfac65;overflow:hidden}
+.deck-preview-area{border:0!important;box-shadow:none!important;background:transparent!important;padding:0!important;display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:0;min-width:0;overflow:hidden}
+#deck-hover-preview{width:100%;height:100%;min-height:0;min-width:0;display:flex;align-items:center;justify-content:center;overflow:hidden;gap:0}
+.deck-preview-picture{width:min(100%,252px,calc((100dvh - 94px)*.32));height:auto;max-height:100%;max-width:100%;aspect-ratio:1000/1536;display:flex;justify-content:center;align-items:center;overflow:hidden;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.deck-preview-picture .card-tile,.deck-preview-picture .card-tile.has-aether-frame{width:100%!important;height:100%!important;max-height:100%;min-height:0!important;aspect-ratio:var(--elementia-card-ratio,1000 / 1536)!important;border:0!important;border-radius:0!important;padding:0!important;background:transparent!important;box-shadow:none!important;outline:0!important;transform:none!important;pointer-events:none!important}
+.deck-preview-picture .card-tile .card-in{border:0!important;box-shadow:none!important}
+.deck-preview-picture .card-tile:hover{border:0!important;transform:none!important}
+.deck-preview-hint{margin:auto 5px}
+@media(max-height:760px) and (min-width:781px){
+ .deck-classic-deck-area{grid-template-columns:minmax(0,1fr) 118px}
+ .deck-classic-deck-area>.deck-magical-wrapper{padding:8px 5px}
+ .deck-classic-deck-area .deck-magical-slot{width:min(100%,110px)}
+ .deck-preview-picture{width:min(100%,222px,calc((100dvh - 94px)*.32))}
+}
+@media(max-width:1050px) and (min-width:781px){
+ .deck-classic-deck-area{grid-template-columns:minmax(0,1fr) 116px}
+ .deck-classic-deck-area .deck-magical-slot{width:min(100%,108px)}
+ .deck-classic-preview-rail{padding:5px}
+}
+@media(max-width:780px){
+ .deck-classic-deck-area{grid-template-columns:minmax(0,1fr) 91px}
+ .deck-classic-deck-area>.deck-magical-wrapper{padding:8px 3px;gap:4px}
+ .deck-classic-deck-area .deck-magical-slot{width:min(100%,84px);padding:3px;gap:2px}
+ .deck-classic-deck-area .deck-magical-slot::before{font-size:27px}
+ .deck-classic-deck-area .deck-magical-slot span{font-size:10px}
+ .deck-classic-deck-area .deck-magical-subtitle{font-size:9px}
+ .deck-classic-preview-rail{display:flex;justify-content:center;align-items:center;gap:0;padding:7px;min-height:255px;max-height:300px}
+ .deck-preview-area{width:100%;height:100%}
+ .deck-preview-picture{width:min(100%,180px);max-height:282px}
+}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -5663,7 +5703,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.94 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.95 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -5877,7 +5917,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   // v20.94 — classic two-storey deck editor. A miniature represents ONE copy.
   // Every column fills top-down, then the next column begins; filtering affects
   // only owned spare cards, never the active deck or card inventory.
-  const DECK_EDITOR_ELEMENTS=['All','Other','Entropy','Death','Gravity','Earth','Life','Fire','Water','Light','Air','Time','Darkness','Aether'];
+  const DECK_EDITOR_ELEMENTS=['Other','Entropy','Death','Gravity','Earth','Life','Fire','Water','Light','Air','Time','Darkness','Aether'];
   let deckPreviewId=null;
   let deckUpperX=0,deckUpperY=0,deckLowerX=0,deckLowerY=0;
   function deckEditorCards(){
@@ -5890,7 +5930,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }).flatMap(([id,n])=>Array(Math.max(0,Math.min(60,n))).fill(BY_ID[id]));
   }
   function deckEditorOwned(){
-    const filter=DECK_EDITOR_ELEMENTS.includes(state.filter)?state.filter:'All';
+    const filter=DECK_EDITOR_ELEMENTS.includes(state.filter)?state.filter:'Other';
     return bazaarSorted(CARDS.filter(card=>!cardRule(card)?.tokenOnly&&
       (filter==='All'||card.element===filter)&&
       (state.inventory[card.id]||0)>(state.deck[card.id]||0)))
@@ -5910,7 +5950,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   }
   function deckEditorPreview(card){
     if(!card)return `<p class="deck-preview-hint">Hover over a miniature card in Your Deck or Your Cards to view the full artwork.</p>`;
-    return `<div class="deck-preview-picture">${cardTile(card,'','detail')}</div><strong class="deck-preview-title">${esc(card.name)}</strong><span class="deck-preview-meta">${esc(card.element)} · ${esc(originalElementsRarity(card))} · ${esc(card.tier)}</span>`;
+    return `<div class="deck-preview-picture">${cardTile(card,'','detail')}</div>`;
   }
   function deckEditorShowPreview(card){
     if(state.scene!=='deck'||!card)return;
@@ -5919,21 +5959,24 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(target){target.innerHTML=deckEditorPreview(card);applyPillarNumerals(target);}
   }
   function deckEditorElementIcon(name){
-    return name==='All'?'<span class="bazaar-other-orb" aria-hidden="true"></span>':name==='Other'?'<span class="bazaar-other-orb" aria-hidden="true"></span>':
+    return name==='Other'?'<span class="bazaar-other-orb" aria-hidden="true"></span>':
       `<img src="${STARTER_EMBLEMS[name]}" alt="" draggable="false" decoding="async">`;
   }
   function renderDeck(){
     const total=countMap(state.deck),owned=deckEditorOwned(),deckCards=deckEditorCards();
     const allSpare=CARDS.reduce((sum,card)=>sum+Math.max(0,(state.inventory[card.id]||0)-(state.deck[card.id]||0)),0);
     const shown=deckPreviewId&&BY_ID[deckPreviewId]?BY_ID[deckPreviewId]:null;
-    const filter=DECK_EDITOR_ELEMENTS.includes(state.filter)?state.filter:'All';
+    const filter=DECK_EDITOR_ELEMENTS.includes(state.filter)?state.filter:'Other';
     return wrap(`<div class="deck-v2094" aria-label="Manage Your Deck">
       <header class="deck-classic-bar"><button type="button" class="bazaar-top-button" data-action="navigate" data-to="menu">Menu</button><button type="button" class="bazaar-top-button" data-action="navigate" data-to="shop">Bazaar</button><span class="deck-classic-tip">Your deck must contain 30–60 cards. Maximum 6 copies per card, except Pillars. Click a card to move one copy.</span></header>
       <div class="deck-classic-board">
         <section class="deck-classic-top" aria-label="Active deck and magical item">
           <aside class="deck-classic-side"><h2>Your Deck &gt;</h2><div class="deck-classic-count">( ${total} cards )</div><button type="button" class="deck-classic-side-button" data-action="deck-clear" ${total?'':'disabled'}>Remove All</button><button type="button" class="deck-classic-side-button" data-action="account-info">Import / Export</button></aside>
-          <div class="deck-classic-cardspace" id="deck-classic-deck-scroll" aria-label="Deck cards, arranged top to bottom"><div class="deck-classic-minis ${deckCards.length?'':'is-empty'}">${deckCards.length?deckCards.map(c=>deckEditorMini(c,'deck')).join(''):'<p class="deck-classic-empty">Your deck is empty. Select cards from Your Cards below to add them.</p>'}</div></div>
-          <aside class="deck-classic-preview-rail" aria-label="Magical item and card preview"><div class="deck-magical-wrapper"><div class="deck-magical-slot" aria-label="Magical Item slot (coming soon)"><span>Magical Item</span></div><div class="deck-magical-subtitle">Coming in a future update</div></div><div class="deck-preview-area"><h3>Card Preview</h3><div id="deck-hover-preview" aria-live="polite">${deckEditorPreview(shown)}</div></div></aside>
+          <div class="deck-classic-deck-area" aria-label="Deck cards and Magical Item slot">
+            <div class="deck-classic-cardspace" id="deck-classic-deck-scroll" aria-label="Deck cards, arranged top to bottom"><div class="deck-classic-minis ${deckCards.length?'':'is-empty'}">${deckCards.length?deckCards.map(c=>deckEditorMini(c,'deck')).join(''):'<p class="deck-classic-empty">Your deck is empty. Select cards from Your Cards below to add them.</p>'}</div></div>
+            <div class="deck-magical-wrapper"><div class="deck-magical-slot" aria-label="Magical Item slot (coming soon)"><span>Magical Item</span></div><div class="deck-magical-subtitle">Coming in a future update</div></div>
+          </div>
+          <aside class="deck-classic-preview-rail" aria-label="Full card hover preview"><div class="deck-preview-area"><div id="deck-hover-preview" aria-live="polite">${deckEditorPreview(shown)}</div></div></aside>
         </section>
         <section class="deck-classic-bottom" aria-label="Your spare cards">
           <aside class="deck-classic-side"><h2>Your Cards &gt;</h2><div class="deck-classic-count">( ${allSpare} cards )</div><nav class="deck-classic-elements" aria-label="Filter cards by element">${DECK_EDITOR_ELEMENTS.map(name=>`<button type="button" class="deck-element-button" data-action="deck-element" data-id="${esc(name)}" aria-pressed="${filter===name}">${deckEditorElementIcon(name)}<span>${name==='Other'?'Others':esc(name)}</span></button>`).join('')}</nav></aside>
@@ -9965,7 +10008,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.94-classic-deck-editor',isDemo:demo,
+    version:'20.95-deck-preview-layout',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

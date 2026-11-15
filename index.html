@@ -788,7 +788,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{
 .etg-slot .etg-artifact-immaterial img{width:100%;height:100%;object-fit:contain}
 .etg-slot .etg-timed-count{position:absolute;z-index:7;left:1px;bottom:1px;min-width:16px;padding:1px 3px;border:1px solid #d9c07c;border-radius:3px;background:#081320e8;color:#fff0b7;font:700 11px/1.1 Arial,sans-serif;text-shadow:0 1px #000;pointer-events:none;}
 </style>
-  <title>Elementia — The Return · v20.98</title>
+  <title>Elementia — The Return · v20.99</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -5718,7 +5718,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v20.98 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v20.99 · Pillar Numerals</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -6146,7 +6146,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     switch(r.activate){
       case 'photosynthesis':{
         const pool=entropyPool(b,side);
-        const before=pool.Life||0;gainForSide(b,side,'Life',2);
+        const before=pool.Life||0;gainForSide(b,side,'Life',2,item);
         return item.name+' converted 1 Light into '+(pool.Life-before)+' Life quanta';
       }
       case 'growth':entropyBuff(item,2,2);return item.name+' gained +2/+2';
@@ -6320,7 +6320,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       block=Number.isFinite(equipped?.hopeBlock)?equipped.hopeBlock:glowing+(r.block||0);
     }else if(['lightSolarShield','lightMirrorShield'].includes(r.effect))block=r.block||0;
     const absorbed=Math.min(Math.max(0,amount),Math.max(0,block));
-    if(r.effect==='lightSolarShield'&&absorbed>0)gainForSide(b,defender,'Light',absorbed);
+    if(r.effect==='lightSolarShield'&&absorbed>0)gainForSide(b,defender,'Light',absorbed,b[defender+'Shield']);
     return Math.max(0,amount-absorbed);
   }
   function lightEndPhase(b,side,steps){
@@ -6700,7 +6700,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
           break;
         }
         case 'chaosPower':{u.atk-=Math.floor(Math.random()*5)+1;u.hp-=Math.floor(Math.random()*5)+1;break;}
-        case 'nova':for(const [e] of ELEMENTS)gainForSide(b,side,e,1);break;
+        case 'nova':for(const [e] of ELEMENTS)gainForSide(b,side,e,1,u);break;
       }
       steps.push(side+' Singularity: '+effect+'.');
       if(u.hp<=0)deathKill(b,side,u,'singularity');
@@ -6746,7 +6746,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       for(const v of [...(b[who+'Creatures']||[])])if(v.abilities?.includes('scavenger')&&v!==u){v.atk++;v.hp++;v.maxHp=(v.maxHp||v.hp)+1;}
       for(const p of [...(b[who+'Permanents']||[])]){
         const r=cardRule(BY_ID[p.id]);
-        if(r?.effect==='soulCatcher')gainForSide(b,who,'Death',r.deathQuanta||2);
+        if(r?.effect==='soulCatcher')gainForSide(b,who,'Death',r.deathQuanta||2,p);
         if(r?.effect==='boneyard'||r?.effect==='graveyard'){
           const id=r.effect==='graveyard'?'death-716':(OG_BY_CODE['52m']||'og-52m');
           const made=makeCreature(b,id,who);if(made)enterCreature(b,made,who);
@@ -6861,7 +6861,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       const eligible=Object.keys(pool||{}).filter(e=>pool[e]>0);
       if(!eligible.length)continue;
       const stolen=eligible[Math.floor(Math.random()*eligible.length)];pool[stolen]--;
-      if(side==='player')gain(b,'Darkness',1);else b.enemyQuanta.Darkness=Math.min(50,(b.enemyQuanta.Darkness||0)+1);
+      gainForSide(b,side,'Darkness',1,u);
       steps.push(`${u.name}: stole 1 ${stolen}; gained 1 Darkness.`);
     }
   }
@@ -7803,8 +7803,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     b.enemyHand.splice(index,1);b.enemyPlayed=true;
     if(b.enemyNeurotoxin)b.enemyPoison=(b.enemyPoison||0)+1;
     if(isResourcePermanent(c)){
-      addPermanent(b,{id,key:b.nextKey++,mode:'assigned',sleep:false},'enemy');
-      if(r.playBonus)gainForSide(b,'enemy',c.element==='Other'?'Random':c.element,r.playBonus);
+      const producer=addPermanent(b,{id,key:b.nextKey++,mode:'assigned',sleep:false},'enemy');
+      if(r.playBonus)gainForSide(b,'enemy',c.element==='Other'?'Random':c.element,r.playBonus,producer);
     }else if(c.type==='Creature'){
       if(r.abilities?.includes('chimera')){
         const unit=makeCreature(b,id,'enemy',true);if(unit){gravityChimeraFusion(b,'enemy',unit);enterCreature(b,unit,'enemy');}
@@ -8514,15 +8514,173 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     assignPermanentSlot(b,entry,side);b[side+'Permanents'].push(entry);b.lastPlacedKey=entry.key;return entry;
   }
   function logDuel(b,message){b.log=message;b.history.unshift(`Turn ${b.turn}: ${message}`);b.history.length=Math.min(b.history.length,40);}
+  // v20.99: Visual-only OG Elements quanta gain shimmer. This is the supplied
+  // playQuantaGainShimmer ES-module function adapted to the game's single-file IIFE
+  // (the exports are removed, but its animation, timing and geometry are retained).
+  const QUANTA_COLORS = {
+    Aether:   "#70e4d9",
+    Air:      "#badfff",
+    Darkness: "#b397ed",
+    Death:    "#bbc5d0",
+    Earth:    "#ceb581",
+    Entropy:  "#cc96da",
+    Fire:     "#f48156",
+    Gravity:  "#e9a27a",
+    Life:     "#6dd68b",
+    Light:    "#ffe38b",
+    Time:     "#f3cc73",
+    Water:    "#59baff"
+  };
+
+  /** Animated, mirrored pixel equalizer at both outer edges of an on-board card.
+   * @param {HTMLElement} card Rendered creature or permanent (including equipment).
+   * @param {Object} options Element, color override, optional duration.
+   * @returns {Function|null} Cancel/cleanup function.
+   */
+  function playQuantaGainShimmer(card, {element = "Water", color = null, duration = 720} = {}) {
+    if (!card || !card.isConnected) return null;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return null;
+
+    const shimmerColor = color || QUANTA_COLORS[element] || "#ffffff";
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+
+    Object.assign(canvas.style, {
+      position: "fixed",
+      pointerEvents: "none",
+      zIndex: "9999",
+      background: "transparent"
+    });
+    canvas.className = "etg-quanta-gain-shimmer";
+    // Outside clipped board cells: both waves may extend freely into the lanes.
+    document.body.appendChild(canvas);
+
+    const FRAME_COUNT = 13;
+    let startTime = null;
+    let animationId = null;
+    let cancelled = false;
+
+    function cleanup() {
+      cancelled = true;
+      if (animationId !== null) cancelAnimationFrame(animationId);
+      canvas.remove();
+    }
+
+    function animate(timestamp) {
+      if (cancelled) return;
+      if (!card.isConnected) { cleanup(); return; }
+      if (startTime === null) startTime = timestamp;
+      const progress = Math.min(1, (timestamp - startTime) / duration);
+      // Flash-like frames: movement updates only on the 13 integer steps.
+      const frame = Math.floor(progress * FRAME_COUNT);
+      const phase = frame / FRAME_COUNT;
+      const envelope = Math.pow(Math.max(0, Math.sin(phase * Math.PI)), 0.52);
+      const rect = card.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      if (width <= 0 || height <= 0) { cleanup(); return; }
+      const cardSize = Math.min(width, height);
+      const blockSize = Math.max(3, Math.round(cardSize * 0.035));
+      const gap = 2;
+      const stride = blockSize + gap;
+      const rows = Math.max(1, Math.floor((height - 8) / stride));
+      const columns = Math.max(4, Math.round((cardSize * 0.26) / stride));
+      const reach = columns * stride;
+      const canvasWidth = width + reach * 2;
+      const canvasHeight = height;
+
+      canvas.style.left = `${rect.left - reach}px`;
+      canvas.style.top = `${rect.top}px`;
+      canvas.style.width = `${canvasWidth}px`;
+      canvas.style.height = `${canvasHeight}px`;
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 3);
+      const pixelWidth = Math.ceil(canvasWidth * dpr);
+      const pixelHeight = Math.ceil(canvasHeight * dpr);
+      if (canvas.width !== pixelWidth || canvas.height !== pixelHeight) {
+        canvas.width = pixelWidth;
+        canvas.height = pixelHeight;
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      ctx.fillStyle = shimmerColor;
+      const top = (height - ((rows - 1) * stride + blockSize)) / 2;
+      for (let row = 0; row < rows; row++) {
+        const wave = 0.52 + 0.48 * Math.sin(row * 0.87 + frame * 0.91);
+        const vibration = Math.sin(row * 2.6 + frame * 1.8);
+        const activeColumns = Math.max(0, Math.min(columns,
+          Math.round((2 + columns * 0.75 * wave + vibration * 0.35) * envelope)));
+        for (let col = 0; col < activeColumns; col++) {
+          const flicker = 0.5 + 0.5 * Math.sin(row * 9.7 + col * 5.3 + frame * 18);
+          const fade = 1 - col / (columns + 2);
+          ctx.globalAlpha = (0.35 + 0.65 * flicker) * fade * envelope;
+          const y = top + row * stride;
+          // Col zero touches each outer edge exactly; mirrored geometry and alpha.
+          const leftX = reach - blockSize - col * stride;
+          const rightX = reach + width + col * stride;
+          ctx.fillRect(leftX, y, blockSize, blockSize);
+          ctx.fillRect(rightX, y, blockSize, blockSize);
+        }
+      }
+      ctx.globalAlpha = 1;
+      if (progress < 1) animationId = requestAnimationFrame(animate);
+      else cleanup();
+    }
+    animationId = requestAnimationFrame(animate);
+    return cleanup;
+  }
+
+  // Quanta can be generated before the battlefield finishes a full render.
+  // Preserve just the visual requests (never gameplay state) until card DOM exists.
+  const pendingQuantaGainShimmers = [];
+  function queueQuantaGainShimmer(b, side, source, element, actualGained) {
+    if (!actualGained || !source || !Number.isFinite(Number(source.key)) || !QUANTA_COLORS[element]) return;
+    pendingQuantaGainShimmers.push({battle: b, side, key: Number(source.key),
+      slot: Number.isInteger(source.reserveSlot) ? source.reserveSlot : null,
+      id: source.id, element});
+  }
+  function flushQuantaGainShimmers() {
+    if (!pendingQuantaGainShimmers.length) return;
+    const events = pendingQuantaGainShimmers.splice(0);
+    if (state.scene !== 'duel' || !state.duel) return;
+    // The same physical card can produce several quanta in one action; show
+    // one shimmer per source and generated color, not one canvas per quantum.
+    const seen = new Set();
+    for (const event of events) {
+      if (event.battle !== state.duel) continue;
+      const side = event.side === 'enemy' ? 'enemy' : 'player';
+      const anchor = [...root.querySelectorAll('.etg-slot.occupied[data-side]')].find(node =>
+        node.dataset.side === side && Number(node.dataset.key) === event.key) ||
+        (event.slot !== null ? [...root.querySelectorAll('.etg-slot.occupied[data-side][data-resource-slot]')].find(node =>
+          node.dataset.side === side && Number(node.dataset.resourceSlot) === event.slot) : null);
+      if (!anchor) continue; // A generated card died, or its resource page is hidden.
+      const identity = `${side}:${anchor.dataset.key}:${event.element}`;
+      if (seen.has(identity)) continue;
+      seen.add(identity);
+      playQuantaGainShimmer(anchor, {element:event.element});
+    }
+  }
+
   function gain(b,element,qty=1){const before=b.quanta.Light||0;const amount=Math.max(0,qty|0);for(let i=0;i<amount;i++){const type=element==='Random'?ELEMENTS[Math.floor(Math.random()*ELEMENTS.length)][0]:element;b.quanta[type]=Math.min(GAME_RULES.maxQuanta,(b.quanta[type]||0)+1);}if((b.quanta.Light||0)>before)questRecord('light_quanta_generated',{amount:b.quanta.Light-before});}
   function canAfford(b,card){return canPay(b,card);}
   function spend(b,card){return pay(b,card);}
-  function gainForSide(b,side,element,qty=1){
-    if(side==='player'){gain(b,element,qty);return;}
-    const amount=Math.max(0,qty|0);
-    for(let i=0;i<amount;i++){
-      const type=element==='Random'?ELEMENTS[Math.floor(Math.random()*ELEMENTS.length)][0]:element;
-      b.enemyQuanta[type]=Math.min(GAME_RULES.maxQuanta,(b.enemyQuanta[type]||0)+1);
+  function gainForSide(b,side,element,qty=1,source=null){
+    // Snapshot solely for visual detection. No arithmetic, caps, or RNG changes.
+    const pool=side==='player'?b.quanta:b.enemyQuanta;
+    const before=source&&Number.isFinite(Number(source.key))
+      ? Object.fromEntries(ELEMENTS.map(([name])=>[name,pool[name]||0])) : null;
+    if(side==='player')gain(b,element,qty);
+    else{
+      const amount=Math.max(0,qty|0);
+      for(let i=0;i<amount;i++){
+        const type=element==='Random'?ELEMENTS[Math.floor(Math.random()*ELEMENTS.length)][0]:element;
+        b.enemyQuanta[type]=Math.min(GAME_RULES.maxQuanta,(b.enemyQuanta[type]||0)+1);
+      }
+    }
+    if(before)for(const [name] of ELEMENTS){
+      const actual=(pool[name]||0)-before[name];
+      if(actual>0)queueQuantaGainShimmer(b,side,source,name,actual);
     }
   }
   function bestPillarElement(b,side='player'){
@@ -8562,18 +8720,18 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
             (side==='player'?state.element:b.enemyMark)||card.element);
           p.mode=p.mode==='assigned'?'majority':'assigned';
         }else if(card.element==='Other')element='Random';
-        gainForSide(b,side,element,rule.quantity||1);
+        gainForSide(b,side,element,rule.quantity||1,p);
         trace.push({key:p.key,id:p.id,element});
       }
     }
     // Preserve ongoing creature quanta generation from previous Elementia builds.
     for(const u of b[side+'Creatures']||[]){
-      if(u.abilities?.includes('airgen'))gainForSide(b,side,'Air',1);
-      if(u.abilities?.includes('firegen'))gainForSide(b,side,'Fire',1);
-      if(u.abilities?.includes('earthgen'))gainForSide(b,side,'Earth',1);
+      if(u.abilities?.includes('airgen'))gainForSide(b,side,'Air',1,u);
+      if(u.abilities?.includes('firegen'))gainForSide(b,side,'Fire',1,u);
+      if(u.abilities?.includes('earthgen'))gainForSide(b,side,'Earth',1,u);
       if(!u.frozen&&!u.delayed&&!(u.freezeTurns>0)&&!(u.delayTurns>0)){
-        if(u.abilities?.includes('bioluminescence'))gainForSide(b,side,'Light',1);
-        if(u.abilities?.includes('incandescence'))gainForSide(b,side,'Fire',1);
+        if(u.abilities?.includes('bioluminescence'))gainForSide(b,side,'Light',1,u);
+        if(u.abilities?.includes('incandescence'))gainForSide(b,side,'Fire',1,u);
       }
     }
     // All twelve elemental Marks make one of their own quanta, after the stacks.
@@ -9275,7 +9433,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     // A|H lives on the portrait, including in overlapping ranks.
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.burrowed?' ⌄':''}</span>`:'';
     const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
-    return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
+    return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${Number.isInteger(entry.reserveSlot)?`data-resource-slot="${entry.reserveSlot}"`:``} ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
       ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${creatureSlot&&creature&&!concealed?creatureConditionSockets(entry):''}${countText}${boneBadge}${timerBadge}${enchantedBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
@@ -9641,8 +9799,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(b.playerNeurotoxin)b.playerPoison=(b.playerPoison||0)+1;
     let message='';
     if(isResourcePermanent(c)){
-      addPermanent(b,{id,key:b.nextKey++,mode:'assigned',sleep:false});
-      if(r.playBonus)gain(b,c.element==='Other'?'Random':c.element,r.playBonus);
+      const producer=addPermanent(b,{id,key:b.nextKey++,mode:'assigned',sleep:false});
+      if(r.playBonus)gainForSide(b,'player',c.element==='Other'?'Random':c.element,r.playBonus,producer);
       message=`Played ${c.name}${r.playBonus?'; gained '+r.playBonus+' entry quanta':''}.`;
     }else if(c.type==='Creature'){
       const arriving=makeCreature(b,id,'player',r.abilities?.includes('chimera'));
@@ -9895,7 +10053,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     syncFullscreenUI();
     if(state.scene==='duel'&&state.duelPaused)root.querySelector('[data-action="pause-resume"]')?.focus({preventScroll:true});
     if(activeAccountKey)scheduleLocalSave();
-    requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();});
+    requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();flushQuantaGainShimmers();});
   }
   function navigate(to){if(!['menu','deck','shop','quests','duel','login','music'].includes(to))return;if(activeAccountKey&&!state.starterChosen){state.scene='starter';render();return;}if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();if(to==='deck'&&state.scene!=='deck'){deckUpperX=deckUpperY=deckLowerX=deckLowerY=0;deckPreviewId=null;}if(to==='quests'&&state.scene!=='quests'){selectedQuestId=QUESTS.find(q=>questStatus(q.id)==='claimable')?.id||'Q000';questScrollX=null;questScrollY=null;}state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
@@ -10109,10 +10267,10 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'20.98-owner-end-effect-timers',isDemo:demo,
+    version:'20.99-quanta-gain-shimmer',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();

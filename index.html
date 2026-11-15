@@ -3265,6 +3265,23 @@ body.etg-duel-paused{overflow:hidden}
 .etg-pause-history-list ol{padding-left:22px;margin:0}.etg-pause-history-list li{margin:0 0 7px}.etg-pause-history-list p{margin:0}
 .etg-pause-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:17px;padding-top:13px;border-top:1px solid #62573d;color:#adab9c;font:11px/1.3 Arial,sans-serif;text-align:left}
 @media(max-width:550px){.etg-pause-buttons{grid-template-columns:1fr}.etg-pause-dialog{max-height:95dvh}.etg-pause-overlay{padding:8px}}
+/* Dev Project 4: three independent visual pacing choices; no gameplay modifiers. */
+.etg-duel-menu-open{position:absolute;top:4px;right:4px;z-index:95;min-height:26px;min-width:51px;padding:3px 7px;background:#16221ee8;border:1px solid #c9ad74;border-radius:3px;color:#ffe9ac;font:11px Georgia,serif;box-shadow:0 1px 5px #000b}
+.etg-duel-menu-open:hover,.etg-duel-menu-open:focus-visible{border-color:#f8df9f;background:#423a27}
+
+.etg-speed-panel{margin:16px 0 0;padding:12px;border:1px solid #8c774f;border-radius:5px;background:#101b19;text-align:left}
+.etg-speed-heading{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#f4dfb0;font:15px Georgia,serif;margin-bottom:10px}
+.etg-speed-heading span{color:#bfc9b8;font:12px Arial,sans-serif}
+.etg-speed-choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.etg-speed-choice{min-height:42px;padding:8px 5px;border:1px solid #857654;border-radius:4px;background:linear-gradient(#38463e,#182421);color:#e7d9bd;font:14px Georgia,serif}
+.etg-speed-choice[aria-pressed="true"]{border-color:#f2d38b;background:linear-gradient(#8d7348,#3e3325);box-shadow:inset 0 1px #fff4be77;color:#fff4cb}
+.etg-speed-choice:focus-visible{outline:2px solid #f8da91;outline-offset:2px}
+.etg-speed-panel p{font:11px/1.4 Arial,sans-serif;color:#aeb9ab;margin:10px 0 0}
+.etg-og-frame{position:relative}
+.etg-duel-speed-event{position:absolute;z-index:80;pointer-events:none;top:8px;left:50%;transform:translateX(-50%);max-width:65%;min-width:150px;padding:6px 12px;border:1px solid #c4ab72;border-radius:4px;background:#101c1bf0;color:#fff1c7;box-shadow:0 2px 10px #000b;text-align:center;font:12px/1.3 Georgia,serif;white-space:normal}
+.etg-slot.occupied.duel-speed-source{z-index:9!important;outline:2px solid #fff0ab!important;outline-offset:1px;box-shadow:0 0 9px #ffda8d,0 0 18px #e2be7d88!important;filter:brightness(1.18)}
+.etg-slot.newly-placed{animation-duration:calc(.27s * var(--etg-speed-scale,1))}
+@media(max-width:600px){.etg-duel-speed-event{max-width:76%;padding:3px 6px;font-size:10px;top:3px}}
 </style>
 
 <style id="elementia-v20-64-turn-sequence">
@@ -5694,13 +5711,19 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   }
   document.addEventListener('fullscreenchange',()=>{syncFullscreenUI();requestAnimationFrame(()=>{fitDesktopDuel();syncPermanentSquareSlots();});});
   document.addEventListener('webkitfullscreenchange',()=>{syncFullscreenUI();requestAnimationFrame(()=>{fitDesktopDuel();syncPermanentSquareSlots();});});
-  // Desktop-only duels: M opens a modal pause menu without changing the duel.
+  // M or the touch-friendly Menu control opens the duel pause menu.
   // This is separate from card details so it also works during native fullscreen.
   function pauseDuel(open=!state.duelPaused){
     if(state.scene!=='duel')return;
     state.duelPaused=!!open;
-    if(state.duelPaused){state.modal=null;clearHoverCard();}
+    if(state.duelPaused){
+      if(duelPlayback?.timer!==null&&duelPlayback?.timer!==undefined){clearTimeout(duelPlayback.timer);duelPlayback.timer=null;}
+      state.modal=null;clearHoverCard();
+    }
     render();
+    if(!state.duelPaused&&duelPlayback&&duelPlayback.timer===null){
+      duelPlayback.timer=setTimeout(advanceDuelPlayback,DUEL_SPEED_OPTIONS[duelSpeed].delay);
+    }
   }
   function duelPauseMenu(b){
     const full=fullscreenIsActive();
@@ -5714,6 +5737,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
           <button type="button" class="etg-pause-button" data-action="pause-reset">New Duel</button>
           <button type="button" class="etg-pause-button" data-action="pause-main-menu">Main Menu</button>
           <button type="button" class="etg-pause-button" data-action="fullscreen-toggle" aria-pressed="${full}">${full?'⛶ Exit Full Screen':'⛶ Full Screen'}</button>
+        </div>
+        <div class="etg-speed-panel" role="group" aria-labelledby="etg-speed-label">
+          <div class="etg-speed-heading"><strong id="etg-speed-label">Game Speed</strong><span>${esc(duelSpeed.charAt(0).toUpperCase()+duelSpeed.slice(1))}</span></div>
+          <div class="etg-speed-choices">${[['slow','Slow'],['normal','Normal'],['fast','Fast']].map(([id,name])=>`<button type="button" class="etg-speed-choice" data-action="pause-game-speed" data-id="${id}" aria-pressed="${duelSpeed===id}">${name}</button>`).join('')}</div>
+          <p>Adjusts the pacing of attacks, quanta generation and duel effects. Game rules are unchanged.</p>
         </div>
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
@@ -8386,7 +8414,67 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     b.lastAiActions=events;
   }
 
+  // DP4: full turn calculations stay synchronous and deterministic. Only the
+  // presentation of their recorded, ordered results is paced.
+  const DUEL_SPEED_OPTIONS=Object.freeze({
+    slow:Object.freeze({delay:560,effectScale:1.55}),
+    normal:Object.freeze({delay:240,effectScale:1}),
+    fast:Object.freeze({delay:85,effectScale:.55})
+  });
+  let duelSpeed='normal';
+  let duelPlayback=null;
+  let duelViewFrame=null;
+  let duelViewEvent=null;
+  let duelTurnCapture=null;
+  function stopDuelPlayback(){
+    if(duelPlayback?.timer!==null&&duelPlayback?.timer!==undefined)clearTimeout(duelPlayback.timer);
+    duelPlayback=null;duelViewFrame=null;duelViewEvent=null;duelTurnCapture=null;
+  }
+  function captureTurnFrame(b,event){
+    if(duelTurnCapture?.battle!==b)return;
+    // Skip empty phases: advancing an empty board must not consume several
+    // seconds in Slow mode. Individual attacks still play even when blocked.
+    const signature=JSON.stringify([b.turn,b.playerHp,b.enemyHp,b.playerPoison,b.enemyPoison,
+      b.quanta,b.enemyQuanta,b.hand,b.enemyHand,b.library?.length,b.enemyLibrary?.length,
+      b.playerCreatures,b.enemyCreatures,b.playerPermanents,b.enemyPermanents,
+      b.playerWeapon,b.enemyWeapon,b.playerShield,b.enemyShield]);
+    const shimmers=pendingQuantaGainShimmers.splice(0);
+    const previous=duelTurnCapture.frames.at(-1);
+    const attemptedAttack=event?.kind==='creature'||(event?.kind==='weapon'&&Number.isFinite(event?.key));
+    if(previous&&previous.signature===signature&&!shimmers.length&&!attemptedAttack)return;
+    // No game functions are executed using this copy: it is render-only.
+    const snapshot=JSON.parse(JSON.stringify(b));
+    snapshot.lastPlacedKey=null;
+    duelTurnCapture.frames.push({board:snapshot,event,shimmers,signature});
+  }
+  function advanceDuelPlayback(){
+    const sequence=duelPlayback;
+    if(!sequence||sequence.battle!==state.duel||state.scene!=='duel'){
+      stopDuelPlayback();return;
+    }
+    if(state.duelPaused)return;
+    sequence.timer=null;
+    sequence.index++;
+    if(sequence.index>=sequence.frames.length){stopDuelPlayback();render();return;}
+    const frame=sequence.frames[sequence.index];
+    duelViewFrame=frame.board;
+    duelViewEvent=frame.event;
+    if(frame.shimmers.length)pendingQuantaGainShimmers.push(...frame.shimmers);
+    render();
+    // Read the CURRENT setting for every next step, including mid-replay changes.
+    sequence.timer=setTimeout(advanceDuelPlayback,DUEL_SPEED_OPTIONS[duelSpeed].delay);
+  }
+  function startDuelPlayback(b,frames){
+    if(!frames.length){render();return;}
+    stopDuelPlayback();
+    duelPlayback={battle:b,frames,index:-1,timer:null};
+    advanceDuelPlayback();
+  }
   function newDuel(useTraining=true,aiLevel=0){
+    // A new duel or rematch must start at Normal, never inherit a past choice.
+    stopDuelPlayback();duelSpeed='normal';
+    pendingQuantaGainShimmers.length=0;
+    document.querySelectorAll('.etg-quanta-gain-shimmer').forEach(canvas=>canvas.remove());
     const entries=Object.entries(state.deck).filter(([id,qty])=>BY_ID[id]&&qty>0);
     const playerCards=useTraining?originalStarterForMark(state.element):entries.flatMap(([id,qty])=>Array(Math.min(qty,60)).fill(id));
     const cards=useTraining?playerCards:(playerCards.length>=30&&playerCards.length<=60?playerCards:originalStarterForMark(state.element));
@@ -8658,7 +8746,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       const identity = `${side}:${anchor.dataset.key}:${event.element}`;
       if (seen.has(identity)) continue;
       seen.add(identity);
-      playQuantaGainShimmer(anchor, {element:event.element});
+      playQuantaGainShimmer(anchor, {element:event.element,duration:720*DUEL_SPEED_OPTIONS[duelSpeed].effectScale});
     }
   }
 
@@ -9145,7 +9233,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         if(base<0){
           if(!u.frozen&&!u.delayed){const amount=Math.abs(base);darkHeal(b,opponent,amount);
             if(u.abilities?.includes('vampire'))darkDamageHero(b,side,amount);
-            attacks.push(u.name+' heals '+opponent+' '+amount+' (Antimatter)');}
+            attacks.push(u.name+' heals '+opponent+' '+amount+' (Antimatter)');
+            captureTurnFrame(b,{side,key:u.key,kind:'creature',label:`${u.name} heals ${opponent} ${amount} HP`});}
           continue;
         }
         let amount=u.burrowed?Math.floor(Math.max(0,base)/2):Math.max(0,base);
@@ -9156,7 +9245,9 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         if(critical)amount=Math.ceil(amount*bonuses.criticalMultiplier);
         if(side==='player'&&base>0&&!(u.frozen||u.delayed))questRecord('creature_attacked');
         if(gravityRedirect(b,opponent,u,amount,steps)){
-          attacks.push(u.name+' → Gravity Pull');continue;
+          attacks.push(u.name+' → Gravity Pull');
+          captureTurnFrame(b,{side,key:u.key,kind:'creature',label:`${u.name} redirected by Gravity Pull`});
+          continue;
         }
         const questRelevantDamage=Math.min(amount,Math.max(0,b[opponent+'Hp']||0));
         const shield=b[opponent+'Shield'];
@@ -9193,6 +9284,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         if(u.lifeAdrenaline&&strike<strikes.length-1){
           if((u.poison||0)>0){darkDamageCreature(b,side,u,u.poison);}
         }
+        captureTurnFrame(b,{side,key:u.key,kind:'creature',
+          label:`${u.name}: ${damage>0?damage+' damage':base>0?'blocked or missed':u.frozen||u.delayed?'frozen or delayed':'no damage'}${strikes.length>1?' · strike '+(strike+1):''}`});
       }
       if(u.entropyAdrenaline)u.entropyAdrenaline=false;
       if(u.dive){u.atk=Number.isFinite(u.diveBaseAtk)?u.diveBaseAtk:Math.ceil(u.atk/2);u.diveBaseAtk=null;u.dive=false;}
@@ -9275,8 +9368,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     resolveCreaturePoisonBatch(b,side,steps);
     for(const u of [...b[side+'Creatures']])if(u.hp<=0)deathKill(b,side,u);
     refreshDarkAuras(b);
+    captureTurnFrame(b,{side,kind:'phase',label:`${side==='player'?'Your':'Opponent'} creature phase`});
     phases.push(`${side}:3-quanta`);
-    steps.push(`${side} production: ${productionForSide(b,side)}.`);
+    const productionResult=productionForSide(b,side);
+    steps.push(`${side} production: ${productionResult}.`);
+    captureTurnFrame(b,{side,kind:'quanta',label:`${side==='player'?'Your':'Opponent'} quanta generation`});
     phases.push(`${side}:4-permanents`);
     darkStartPhase(b,steps,side);
     resolvePermanentEffects(b,side,steps);
@@ -9284,11 +9380,14 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     // window; its individual Water upkeep was paid in FIFO above.
     classicEndPhase(b,side,steps,true);
     advancePermanentTimers(b,side,steps);
+    captureTurnFrame(b,{side,kind:'permanent',label:`${side==='player'?'Your':'Opponent'} permanent effects`});
     phases.push(`${side}:5-shields`);
     ageDefensiveShields(b,steps,side);
     phases.push(`${side}:6-weapons`);
     resolveWeaponCombat(b,side,steps);
     advanceWeaponFreeze(b,side,steps);
+    captureTurnFrame(b,{side,kind:'weapon',key:b[side+'Weapon']?.key,
+      label:`${side==='player'?'Your':'Opponent'} shield and weapon phase`});
     const defender=side==='player'?'enemy':'player';
     if(b[defender+'SacrificeTurns']>0)b[defender+'SacrificeTurns']--;
     phases.push(`${side}:7-handoff`);
@@ -9318,6 +9417,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       render();return;
     }
     b.pendingTarget=null;
+    duelTurnCapture={battle:b,frames:[]};
+    captureTurnFrame(b,{kind:'phase',label:'Resolving turn'});
     const steps=[];
     if(b.chosenDiscardName){steps.push(`player discarded ${b.chosenDiscardName} before combat.`);b.chosenDiscardName='';}
     const brick=brickPass(b);
@@ -9328,6 +9429,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     finishDuel(b);
     if(!b.ended){
       if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2||b.aiLevel===3)aiTakeTurn(b,steps);
+      captureTurnFrame(b,{side:'enemy',kind:'phase',label:'Opponent plays cards and abilities'});
       if(!b.ended){discardAiCard(b,steps);resolveActingSide(b,'enemy',steps);}
       finishDuel(b);
     }
@@ -9337,7 +9439,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       steps.push(drawDuel(b));
       if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2||b.aiLevel===3){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}
     }else steps.push(b.winner==='player'?'Victory.':'Defeat.');
-    logDuel(b,steps.join(' '));render();
+    logDuel(b,steps.join(' '));
+    captureTurnFrame(b,{kind:'phase',label:b.ended?(b.winner==='player'?'Victory':'Defeat'):`Turn ${b.turn}: draw phase`});
+    const frames=duelTurnCapture.frames;
+    duelTurnCapture=null;
+    startDuelPlayback(b,frames);
   }
   function boardSymbol(entry){if(!entry)return '+';if(entry.id==='training-familiar')return '♟';const c=BY_ID[entry.id];return c?esc(c.symbol):'+';}
   // Compatibility helper for existing v11 diagnostic tools.
@@ -9410,6 +9516,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const card=BY_ID[entry.id],c=card||entry,concealed=side==='enemy'&&darkCloakProtected(b,side,entry);
     const creature=Number.isFinite(entry.atk),creatureSlot=label.includes('creature slot'),targetable=isTargetCandidate(b,side,entry);
     const ready=side==='player'&&sourceByKey(b,entry.key)&&readyToGlow(b,entry)&&!b.pendingTarget;
+    const speedSource=!!(duelViewEvent&&duelViewEvent.key===entry.key&&duelViewEvent.side===side);
     const isOngoing=card?.type==='Permanent';
     const active=side==='player'&&!!cardRule(card)?.activate;
     const action=targetable?'select-crosshair':b.pendingTarget?'blocked-target':active?'tap-ability':creature?'choose-target':'detail';
@@ -9433,7 +9540,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     // A|H lives on the portrait, including in overlapping ranks.
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.burrowed?' ⌄':''}</span>`:'';
     const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
-    return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${Number.isInteger(entry.reserveSlot)?`data-resource-slot="${entry.reserveSlot}"`:``} ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
+    return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${speedSource?'duel-speed-source':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${Number.isInteger(entry.reserveSlot)?`data-resource-slot="${entry.reserveSlot}"`:``} ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
       ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${creatureSlot&&creature&&!concealed?creatureConditionSockets(entry):''}${countText}${boneBadge}${timerBadge}${enchantedBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
@@ -9528,8 +9635,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const barColor=BATTLE_ELEMENT_COLORS[name]||color;
     return `<div class="${desktop?'etg-og-quantum':'etg-resource'} etg-hud-quantum" data-element="${esc(name)}" title="${esc(name)}: ${amount} of 50 quanta" style="--quanta-hue:${barColor}"><span class="etg-quanta-fill" style="width:${percent}%" aria-hidden="true"></span><span class="etg-resource-icon ${ELEMENT_ICON_ASSETS[name]?'official-icon':'placeholder-icon'}" aria-label="${esc(name)} element ${ELEMENT_ICON_ASSETS[name]?'official symbol':'placeholder'}" style="background:${ELEMENT_ICON_ASSETS[name]?'transparent':color}">${elementIconMarkup(name,symbol,true)}</span><span class="etg-resource-num">${amount}</span></div>`;
   }
-  function boardPlayer(side){
-    const b=state.duel,own=side==='player';
+  function boardPlayer(side,b=state.duel){
+    const own=side==='player';
     const hp=own?b.playerHp:b.enemyHp,maxHp=own?(b.playerMaxHp||50):(b.enemyMaxHp||50);
     const creatures=creatureRows(b,side),permanents=permanentRow(b,side);
     return `<section class="etg-player ${own?'self':'enemy'}" aria-label="${own?'Your':'Opponent'} battlefield">
@@ -9596,7 +9703,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }).join('');
   }
   function renderDesktopBattlefield(b){
-    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame"><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${b.pendingDiscard?'<div class="etg-discard-notice" role="alert"><strong>Hand full — discard one card</strong><span>Select a card in your hand before the attack phase can begin.</span></div>':''}${boardPlayer('enemy')}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player')}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
+    const caption=duelViewEvent?.label?`<div class="etg-duel-speed-event" role="status" aria-live="off">${esc(duelViewEvent.label)}</div>`:'';
+    return `<div class="elementia-display-stage" aria-label="Scrollable classic desktop battlefield when needed"><div class="etg-frame etg-og-frame">${caption}<button type="button" class="etg-duel-menu-open" data-action="pause-open" aria-label="Open Duel Menu">Menu</button><div class="etg-og-arena"><div class="etg-og-tophand-wrap"><div class="etg-og-opponent-hand">${renderDesktopOpponentHand(b)}</div></div>${renderDesktopQuantaRail(b,'enemy')}${renderDesktopQuantaRail(b,'player')}<div class="etg-battlefield etg-og-field">${b.pendingDiscard?'<div class="etg-discard-notice" role="alert"><strong>Hand full — discard one card</strong><span>Select a card in your hand before the attack phase can begin.</span></div>':''}${boardPlayer('enemy',b)}<div class="etg-divider">✧ · TURN ${b.turn} · ✧</div>${boardPlayer('player',b)}${targetPrompt(b)}</div><div class="etg-og-bottomhand-wrap"><div class="etg-og-player-hand">${renderDesktopPlayerHand(b)}</div></div></div></div></div>`;
   }
   // v20.74: compact, beneath-creature live statistics and aligned quanta icons.
   // Stats are read from the actual board entity (key + side), never the
@@ -9766,7 +9874,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   window.addEventListener('blur',clearHoverCard);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)clearHoverCard();});
   function renderDuel(){
-    const b=ensureBoard();
+    const actual=ensureBoard();
+    const b=duelPlayback?.battle===actual&&duelViewFrame?duelViewFrame:actual;
     return wrap(`${renderDesktopBattlefield(b)}`,true);
   }
   function playHand(targetCode=null){const b=ensureBoard(),i=b.selectedHand;
@@ -10034,6 +10143,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   function render(){
     clearHoverCard();
     document.body.dataset.elementiaDisplay='desktop';
+    document.body.dataset.elementiaSpeed=duelSpeed;
+    document.body.style.setProperty('--etg-speed-scale',String(DUEL_SPEED_OPTIONS[duelSpeed].effectScale));
     document.body.classList.toggle('etg-duel-paused',state.scene==='duel'&&state.duelPaused);
     document.body.classList.toggle('etg-quests-active',state.scene==='quests');
     document.body.classList.toggle('etg-bazaar-active',state.scene==='shop');
@@ -10052,10 +10163,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(state.duel)state.duel.lastPlacedKey=null; // Animate only newly dealt cards, never the whole board on every update.
     syncFullscreenUI();
     if(state.scene==='duel'&&state.duelPaused)root.querySelector('[data-action="pause-resume"]')?.focus({preventScroll:true});
-    if(activeAccountKey)scheduleLocalSave();
+    if(activeAccountKey&&!duelPlayback)scheduleLocalSave();
     requestAnimationFrame(()=>{fitClassicMainMenu();fitDesktopDuel();syncPermanentSquareSlots();flushQuantaGainShimmers();});
   }
-  function navigate(to){if(!['menu','deck','shop','quests','duel','login','music'].includes(to))return;if(activeAccountKey&&!state.starterChosen){state.scene='starter';render();return;}if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();if(to==='deck'&&state.scene!=='deck'){deckUpperX=deckUpperY=deckLowerX=deckLowerY=0;deckPreviewId=null;}if(to==='quests'&&state.scene!=='quests'){selectedQuestId=QUESTS.find(q=>questStatus(q.id)==='claimable')?.id||'Q000';questScrollX=null;questScrollY=null;}state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
+  function navigate(to){if(!['menu','deck','shop','quests','duel','login','music'].includes(to))return;
+    if(to!=='duel')stopDuelPlayback();if(activeAccountKey&&!state.starterChosen){state.scene='starter';render();return;}if(to==='login'){logoutLocalAccount();return;}if(!activeAccountKey)return;state.duelPaused=false;if(state.scene==='music'&&to!=='music')stopJukebox();if(state.duel)state.duel.pendingTarget=null;if(to==='duel')ensureBoard();if(to==='deck'&&state.scene!=='deck'){deckUpperX=deckUpperY=deckLowerX=deckLowerY=0;deckPreviewId=null;}if(to==='quests'&&state.scene!=='quests'){selectedQuestId=QUESTS.find(q=>questStatus(q.id)==='claimable')?.id||'Q000';questScrollX=null;questScrollY=null;}state.modal=null;state.scene=to;state.notice='';render();window.scrollTo({top:0,behavior:'instant'});}
   function changeDeck(id,delta){if(!BY_ID[id])return;const current=state.deck[id]||0,rule=cardRule(BY_ID[id]),unlimited=['pillar','tower'].includes(rule?.family);
     if(delta>0&&(current>=(state.inventory[id]||0)||countMap(state.deck)>=60||(!unlimited&&current>=6))){state.notice='Card unavailable, six-copy limit reached, or the deck is full (60).';return;}
     state.deck[id]=Math.max(0,current+delta);state.duel=null;save();}
@@ -10086,11 +10198,14 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(!activeAccountKey&&!['show-register','show-login'].includes(button.dataset.action))return;
     if(button.classList.contains('overlay') && event.target!==button)return;
     const action=button.dataset.action,id=button.dataset.id;
-    if(state.scene==='duel'&&state.duelPaused&&!['pause-resume','pause-reset','pause-main-menu','fullscreen-toggle'].includes(action))return;
+    if(state.scene==='duel'&&state.duelPaused&&!['pause-resume','pause-reset','pause-main-menu','pause-game-speed','fullscreen-toggle'].includes(action))return;
+    if(state.scene==='duel'&&duelPlayback&&!state.duelPaused&&!['pause-open','fullscreen-toggle'].includes(action))return;
     if(state.scene==='duel'&&state.duel?.pendingDiscard&&
-       !['hand-card','pause-resume','pause-reset','pause-main-menu','fullscreen-toggle'].includes(action))return;
+       !['hand-card','pause-resume','pause-reset','pause-main-menu','pause-game-speed','fullscreen-toggle'].includes(action))return;
     switch(action){
+      case 'pause-open':pauseDuel(true);break;
       case 'pause-resume':pauseDuel(false);break;
+      case 'pause-game-speed':if(state.scene==='duel'&&state.duelPaused&&DUEL_SPEED_OPTIONS[id]){duelSpeed=id;render();}break;
       case 'pause-reset':state.duelPaused=false;state.duel=newDuelAgainstCurrentOpponent();navigate('duel');break;
       case 'pause-main-menu':state.duelPaused=false;navigate('menu');break;
       case 'show-register':state=defaultState();state.scene='register';render();break;
@@ -10224,7 +10339,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       if(active?.closest?.('input, textarea, select, [contenteditable="true"], summary, .etg-top-strip'))return;
       e.preventDefault();
       // Don't discard an unfinished spell/ability targeting action by accident.
-      if(!state.modal&&!state.duel?.pendingTarget&&!state.duel?.ended)endTurn();
+      if(!duelPlayback&&!state.modal&&!state.duel?.pendingTarget&&!state.duel?.ended)endTurn();
       return;
     }
     if(e.key==='Escape'){

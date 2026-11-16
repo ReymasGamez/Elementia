@@ -824,7 +824,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{
   .etg-combat-pop {animation-timing-function:linear}
 }
 </style>
-  <title>Elementia — The Return · v21.00</title>
+  <title>Elementia — The Return · v21.01</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -5776,7 +5776,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v21.00 · Ordered Quanta</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v21.01 · Ordered Quanta</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -8447,9 +8447,10 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   // DP4: full turn calculations stay synchronous and deterministic. Only the
   // presentation of their recorded, ordered results is paced.
   const DUEL_SPEED_OPTIONS=Object.freeze({
-    // v21.00: Normal is halfway between the former Slow (560ms / 1.55x)
-    // and former Normal (240ms / 1x). Fast retains its previous timing.
-    normal:Object.freeze({delay:400,effectScale:1.275}),
+    // v21.01: Normal resolves 10% faster than v21.00 (400/1.10 ms).
+    // Scale shimmer and the other presentation timings by the same factor.
+    // Fast is unchanged.
+    normal:Object.freeze({delay:364,effectScale:1.275/1.1}),
     fast:Object.freeze({delay:85,effectScale:.55})
   });
   let duelSpeed='normal';
@@ -8460,7 +8461,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   const combatPopupNodes=new Set();
   const recentCombatSourceRects=new Map();
   function rememberCombatSourceRects(){
-    for(const el of root.querySelectorAll('.etg-creature-lane .etg-slot.occupied[data-side][data-key]')){
+    // Cache both creature frames and each side's weapon socket, so visual
+    // damage still has an anchor if rendering replaces the underlying DOM.
+    for(const el of root.querySelectorAll(
+      '.etg-creature-lane .etg-slot.occupied[data-side][data-key], '+
+      '.etg-equipment-group > .etg-slot:nth-child(2).occupied[data-side][data-key]')){
       const rect=el.getBoundingClientRect();
       if(rect.width>1&&rect.height>1){recentCombatSourceRects.set(el.dataset.side+':'+el.dataset.key,
         {left:rect.left,top:rect.top,width:rect.width,height:rect.height});}
@@ -8471,13 +8476,16 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     combatPopupNodes.clear();
     recentCombatSourceRects.clear();
   }
-  function showCreatureCombatPopup(event){
+  function showCombatPopup(event){
     const popup=event?.popup;
-    if(!popup||event.kind!=='creature'||!Number.isFinite(Number(event.key)))return;
+    if(!popup||!['creature','weapon'].includes(event.kind)||!Number.isFinite(Number(event.key)))return;
     if(popup.kind==='damage'&&!(Number(popup.value)>0))return;
     if(popup.kind!=='damage'&&popup.kind!=='missed')return;
     if(state.scene!=='duel'||state.duelPaused||duelViewEvent!==event)return;
-    const source=Array.from(root.querySelectorAll('.etg-creature-lane .etg-slot.occupied'))
+    const socket=event.kind==='weapon'
+      ?'.etg-equipment-group > .etg-slot:nth-child(2).occupied'
+      :'.etg-creature-lane .etg-slot.occupied';
+    const source=Array.from(root.querySelectorAll(socket))
       .find(el=>el.dataset.side===event.side&&String(el.dataset.key)===String(event.key));
     // A creature may die from attack-triggered retaliation. In that case
     // animate at its previous rendered slot rather than dropping its damage.
@@ -8490,8 +8498,14 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     node.setAttribute('aria-hidden','true');
     node.style.left=Math.round(rect.left+rect.width/2)+'px';
     node.style.top=Math.round(rect.top+rect.height/2)+'px';
-    node.style.fontSize=Math.round(Math.max(popup.kind==='missed'?13:15,
-      Math.min(popup.kind==='missed'?40:56,rect.width*(popup.kind==='missed'?.36:.46))))+'px';
+    // Scale creature damage numerals down by exactly 15% relative to v21.00.
+    // Missed text is unchanged; short weapon sockets get a responsive size.
+    const baseSize=Math.max(popup.kind==='missed'?13:15,
+      Math.min(popup.kind==='missed'?40:56,rect.width*(popup.kind==='missed'?.36:.46)));
+    const size=event.kind==='creature'&&popup.kind==='damage'?baseSize*.85
+      :event.kind==='weapon'?Math.max(11,Math.min(39,rect.width*.40,rect.height*.85))
+      :baseSize;
+    node.style.fontSize=Math.round(size*10)/10+'px';
     node.style.setProperty('--etg-pop-rise',Math.round(rect.height/2+9)+'px');
     node.style.setProperty('--etg-pop-mid-rise',Math.round(rect.height*.39)+'px');
     node.style.setProperty('--etg-pop-duration',Math.max(380,Math.round(DUEL_SPEED_OPTIONS[duelSpeed].delay*1.65))+'ms');
@@ -8546,7 +8560,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     render();
     // The current frame is visible before its transient popup begins. Rendering
     // again never duplicates the popup, nor can it cut its animation short.
-    if(frame.event?.popup)requestAnimationFrame(()=>showCreatureCombatPopup(frame.event));
+    if(frame.event?.popup)requestAnimationFrame(()=>showCombatPopup(frame.event));
     // Read the CURRENT setting for every next step, including mid-replay changes.
     sequence.timer=setTimeout(advanceDuelPlayback,duelPlaybackDelay(frame));
   }
@@ -9489,9 +9503,12 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     phases.push(`${side}:5-shields`);
     ageDefensiveShields(b,steps,side);
     phases.push(`${side}:6-weapons`);
-    resolveWeaponCombat(b,side,steps);
+    const weaponDamage=resolveWeaponCombat(b,side,steps);
     advanceWeaponFreeze(b,side,steps);
     captureTurnFrame(b,{side,kind:'weapon',key:b[side+'Weapon']?.key,
+      // Display actual, post-shield weapon damage over its own equipment slot.
+      // Zero damage, prevented attacks and frozen weapons have no number.
+      popup:weaponDamage>0?{kind:'damage',value:weaponDamage}:null,
       label:`${side==='player'?'Your':'Opponent'} shield and weapon phase`});
     const defender=side==='player'?'enemy':'player';
     if(b[defender+'SacrificeTurns']>0)b[defender+'SacrificeTurns']--;
@@ -10485,7 +10502,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.00-ordered-quanta',isDemo:demo,
+    version:'21.01-combat-pacing',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

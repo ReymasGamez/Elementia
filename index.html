@@ -824,7 +824,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{
   .etg-combat-pop {animation-timing-function:linear}
 }
 </style>
-  <title>Elementia — The Return · v21.01</title>
+  <title>Elementia — The Return · v21.02</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -5776,7 +5776,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         <details class="etg-pause-history"><summary>Turn History <span aria-hidden="true">▾</span></summary>
           <div class="etg-pause-history-list" aria-label="Recorded turns">${b.history.length?`<ol>${b.history.map(line=>`<li>${esc(line)}</li>`).join('')}</ol>`:'<p>No turns recorded yet.</p>'}</div>
         </details>
-        <div class="etg-pause-footer"><span>v21.01 · Ordered Quanta</span><span><kbd>M</kbd> Resume</span></div>
+        <div class="etg-pause-footer"><span>v21.02 · Zone-Ordered Quanta</span><span><kbd>M</kbd> Resume</span></div>
       </section>
     </div>`;
   }
@@ -8453,6 +8453,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     normal:Object.freeze({delay:364,effectScale:1.275/1.1}),
     fast:Object.freeze({delay:85,effectScale:.55})
   });
+  // v21.02: Quanta shimmer presentation alone plays 20% faster on Normal.
+  // Other phases retain v21.01 speeds, and Fast remains unchanged.
+  function quantaPresentationScale(){
+    return DUEL_SPEED_OPTIONS[duelSpeed].effectScale/(duelSpeed==='normal'?1.2:1);
+  }
   let duelSpeed='normal';
   let duelPlayback=null;
   let duelViewFrame=null;
@@ -8534,14 +8539,16 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     snapshot.lastPlacedKey=null;
     duelTurnCapture.frames.push({board:snapshot,event,shimmers,signature});
   }
-  // Every producing resource or creature gets its own visual frame. Hold a
-  // quanta-source frame until the complete 13-step shimmer finishes; otherwise
-  // re-rendering the next producer would cancel the previous card's canvas.
+  // Each permanent-zone stack has one shared visual generation frame,
+  // followed by individual generators in creature battlefield order. Leave
+  // enough time for the complete shimmer before advancing to the next slot.
   function duelPlaybackDelay(frame){
     const speed=DUEL_SPEED_OPTIONS[duelSpeed];
-    return frame?.event?.kind==='quanta-source'&&frame.shimmers.length
-      ?Math.max(speed.delay,Math.ceil(720*speed.effectScale)+40)
-      :speed.delay;
+    if(frame?.event?.kind==='quanta-source'&&frame.shimmers.length){
+      const factor=duelSpeed==='normal'?1.2:1;
+      return Math.max(Math.ceil(speed.delay/factor),Math.ceil((720*speed.effectScale+40)/factor));
+    }
+    return speed.delay;
   }
   function advanceDuelPlayback(){
     const sequence=duelPlayback;
@@ -8846,7 +8853,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       const identity = `${side}:${anchor.dataset.key}:${event.element}`;
       if (seen.has(identity)) continue;
       seen.add(identity);
-      playQuantaGainShimmer(anchor, {element:event.element,duration:720*DUEL_SPEED_OPTIONS[duelSpeed].effectScale});
+      playQuantaGainShimmer(anchor, {element:event.element,duration:720*quantaPresentationScale()});
     }
   }
 
@@ -8883,8 +8890,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const ties=Object.keys(tally).filter(e=>tally[e]===best);
     return ties[Math.floor(Math.random()*ties.length)];
   }
-  // v20.64: Resource production processes STACKS in FIFO order, then each
-  // Pillar/Tower/Pendulum in its stack in FIFO order. Marks produce LAST.
+  // v21.02: Resource production processes permanent-zone sockets in ascending
+  // slot-number order, irrespective of when their contents were played.
+  // All instances within one socket produce during the SAME visual generation
+  // event; each still retains its own sleep state, pendulum mode and quanta.
+  // Creatures follow the established 1–23 attack order; Marks produce LAST.
   function productionForSide(b,side='player'){
     const pool=entropyPool(b,side),before={...pool};
     const permanents=b[side+'Permanents']||[];
@@ -8897,10 +8907,18 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       groups.get(key).push(entry);
     }
     const fifo=(a,z)=>Number.isFinite(a.p.key)&&Number.isFinite(z.p.key)?a.p.key-z.p.key:a.index-z.index;
-    const stacks=[...groups.values()].sort((a,z)=>fifo(a.slice().sort(fifo)[0],z.slice().sort(fifo)[0]));
+    const stackSlot=stack=>Number.isInteger(stack[0]?.p.reserveSlot)
+      ?stack[0].p.reserveSlot:Number.MAX_SAFE_INTEGER;
+    const stacks=[...groups.values()].sort((a,z)=>stackSlot(a)-stackSlot(z)||
+      fifo(a.slice().sort(fifo)[0],z.slice().sort(fifo)[0]));
     const trace=[];
     for(const stack of stacks){
-      for(const {p,card,rule} of stack.sort(fifo)){
+      // Process each physical card's rules once, keeping their original internal
+      // FIFO order. Capture only AFTER the whole socket has generated, so x2/x3
+      // cards visibly shimmer at once and the next socket waits its turn.
+      const beforeStackShimmers=pendingQuantaGainShimmers.length;
+      stack.sort(fifo);
+      for(const {p,card,rule} of stack){
         if(p.sleep){p.sleep=false;trace.push({key:p.key,id:p.id,skipped:true});continue;}
         let element=card.element;
         if(rule.family==='pendulum'){
@@ -8908,14 +8926,13 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
             (side==='player'?state.element:b.enemyMark)||card.element);
           p.mode=p.mode==='assigned'?'majority':'assigned';
         }else if(card.element==='Other')element='Random';
-        // The calculation is unchanged, but the visual replay now records each
-        // physical card separately, even when several share one stacked slot.
-        const beforeShimmer=pendingQuantaGainShimmers.length;
         gainForSide(b,side,element,rule.quantity||1,p);
-        trace.push({key:p.key,id:p.id,element});
-        if(pendingQuantaGainShimmers.length>beforeShimmer)
-          captureTurnFrame(b,{side,kind:'quanta-source',key:p.key,
-            label:`${side==='player'?'Your':'Opponent'} ${card.name} generates quanta`});
+        trace.push({key:p.key,id:p.id,element,slot:p.reserveSlot});
+      }
+      if(pendingQuantaGainShimmers.length>beforeStackShimmers){
+        const {p,card}=stack[0];
+        captureTurnFrame(b,{side,kind:'quanta-source',key:p.key,slot:p.reserveSlot,
+          label:`${side==='player'?'Your':'Opponent'} ${card.name}${stack.length>1?` x${stack.length}`:''} generates quanta`});
       }
     }
     // v21.00: Creature production follows the *same numbered 1–23 battlefield
@@ -10502,7 +10519,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.01-combat-pacing',isDemo:demo,
+    version:'21.02-zone-ordered-quanta',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

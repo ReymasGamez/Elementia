@@ -824,7 +824,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{
   .etg-combat-pop {animation-timing-function:linear}
 }
 </style>
-  <title>Elementia — The Return · v21.02</title>
+  <title>Elementia — The Return · v21.03a</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -4064,6 +4064,34 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
  .deck-preview-picture{width:min(100%,180px);max-height:282px}
 }
 </style>
+<style id="elementia-v21-03-fullart-abilities-and-stats">
+/* Enlarged ability wording; fitted to the existing box by fitElementiaCardRules(). */
+.card-tile.has-aether-frame .aether-authored-description,
+#elementia-hover-inspect .aether-authored-face .aether-authored-description{
+  overflow:hidden!important;line-height:1.17!important;
+  font-size:clamp(9px,5.9cqw,23px)!important;
+}
+.card-tile.has-aether-frame .aether-authored-rule{
+  display:block;font-family:Georgia,serif;font-weight:500;line-height:1.17;
+  overflow-wrap:anywhere;hyphens:auto;
+}
+.card-tile.has-aether-frame .aether-authored-meta{margin-bottom:3px}
+.card-tile .card-rules{font-size:clamp(10px,1.1vw,15px);line-height:1.23;overflow-wrap:anywhere}
+#elementia-hover-inspect .card-bottom{overflow-y:auto}
+/* Overlay belongs to the art portrait, never the ability pane. */
+.card-tile .etg-full-art-atkhp{
+  display:inline-flex;align-items:center;justify-content:center;
+  position:absolute;z-index:9;pointer-events:none;
+  right:5px;bottom:5px;padding:2px 5px;
+  background:rgba(9,16,16,.78);border:1px solid #dec88e9c;border-radius:3px;
+  color:#fff4d2;text-shadow:0 1px 2px #000;
+  font:700 clamp(8px,4.8cqw,20px)/1.15 Georgia,serif;white-space:nowrap;
+}
+.card-tile.has-aether-frame .aether-authored-face>.etg-full-art-atkhp{
+  right:8%;top:58%;bottom:auto;font-size:clamp(8px,5cqw,21px);
+}
+.card-tile .card-art>.etg-full-art-atkhp{bottom:5px;right:5px}
+</style>
 </head>
 <body>
   <!-- Elementia v20.10: fading playable-card light beams -->
@@ -4449,6 +4477,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     OG_BY_CODE[code]=id;OG_ORIGINAL_CARD_ID[code]=id;OG_UNFINISHED.delete(code);
     RULES_BY_CARD[id]=rec.rule;
   }
+  // v21.03: Flesh Spider's Web uses Air quantum (including saved OG cards).
+  for(const code of ['52j']){
+    const id=OG_BY_CODE[code];
+    if(id&&RULES_BY_CARD[id])RULES_BY_CARD[id].activateElement='Air';
+  }
   // Historical token, generated by Aflatoxin (never a collectible Deck/Bazaar card).
   const DEATH_CELL_ID='death-malignant-cell';
   IMPORTED_CARDS.push({id:DEATH_CELL_ID,canonicalId:DEATH_CELL_ID,element:'Other',name:'Malignant Cell',type:'Creature',tier:'Token',symbol:'☣',price:0,review:'Aflatoxin generated token; Infest at end of turn.',artworkUrl:''});
@@ -4753,6 +4786,27 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     'other-relic-upgraded':'Worthless Relic. No effect when cast; sell for Electrum.',
     'other-malignant-cell-upgraded':'Infest: makes a new Malignant Cell each turn. Cannot drown.'
   });
+  // v21.03: approved wording for the specified original Elementia cards.
+  // Apply to the canonical OG code lookup, not only a single card instance.
+  const V2103_CARD_DESCRIPTIONS={
+    '4vq':'This creature paradoxically dies while remaining alive',
+    '6ua':'This creature paradoxically dies while remaining alive',
+    '4vo':'Butterfly Effect: give a creature below 3 ATK Destroy (3 Entropy Quanta): destroy a permanent, once a turn.',
+    '6u8':'Butterfly Effect: give a creature below 3 ATK Destroy (3 Entropy Quanta): destroy a permanent, once a turn.',
+    '52q':'Weapon: Deal 2 damage 1 and poison damage at the end of every turn. Poison damage is cumulative.',
+    '71a':'Weapon: Deal 4 damage and 1 poison damage at the end of every turn. Poison damage is cumulative.',
+    '52j':'Web: 1 Air Quanta to remove Airborne from a target creature.',
+    '52m':'Undead: cannot be poisoned. Dies to Holy Light, Blessing.',
+    '716':'Undead: cannot be poisoned. Dies to Holy Light, Blessing.',
+    '52n':'Every time a creature is killed, Boneyard generates 1 Skeleton.',
+    '52i':'Infect: Sacrifice Virus to inflict poison to a target creature.',
+    '52l':'Shield: Reduce damage by 1. Attacking creatures have a (50% ÷ current HP) chance to die and turn into Skeletons.',
+    '715':'Shield: Reduce damage by 1. Attacking creatures have a (50% ÷ current HP) chance to die and turn into Skeletons.'
+  };
+  for(const [code,description] of Object.entries(V2103_CARD_DESCRIPTIONS)){
+    const id=OG_BY_CODE[code];
+    if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
+  }
   function originalCardText(card){
     return ELEMENTIA_CLASSIC_DESCRIPTIONS[card?.id] || card?.review || "No card text available.";
   }
@@ -5627,7 +5681,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     return '#'+out.map(v=>v.toString(16).padStart(2,'0')).join('');
   }
   function cardCostLabel(card){const cost=cardCost(card);if(cost==null||cost<=0)return '';const pay=paymentElement(card);return `${cost}<span class="etg-element-cost-inline">${elementCostMarkup(pay)}</span>`;}
-  function cardTypeLine(card){const rule=cardRule(card),bits=[card.element,card.type];if(Number.isFinite(rule?.atk))bits.push(`${rule.atk}|${rule.hp||0}`);if(card.tier==='Upgraded')bits.push('Upgraded');return bits.join(' · ');}
+  function cardTypeLine(card){const bits=[card.element,card.type];if(card.tier==='Upgraded')bits.push('Upgraded');return bits.join(' · ');}
   function aetherEffectText(card){
     // Display approved plain-language card behavior rather than internal effect keys.
     return originalCardText(card);
@@ -5641,8 +5695,15 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const url=ELEMENT_ICON_ASSETS[key];
     return `<span class="etg-rule-quantum" role="img" aria-label="${esc(key)} quantum" title="${esc(key)} quantum" style="--etg-rule-quantum-color:${el.color}"><span class="etg-rule-quantum-fallback" aria-hidden="true">${esc(el.symbol)}</span>${url?`<img class="etg-rule-quantum-art" src="${esc(url)}" alt="" aria-hidden="true" onerror="this.remove()">`:''}</span>`;
   }
+  function creatureHasRuleAbility(card){
+    if(card?.type!=='Creature')return true;
+    const r=cardRule(card)||{};
+    return Boolean(r.activate||r.effect||r.generate||r.production||r.entropyActivate||
+      (Array.isArray(r.abilities)&&r.abilities.length));
+  }
   function fullArtAbilityMarkup(card){
     const rule=cardRule(card)||{};
+    if(card?.type==='Creature'&&!creatureHasRuleAbility(card))return '';
     let line=String(aetherEffectText(card)||'');
     // Airborne is now inspected in the live battlefield stats box only. The
     // original description data stays unchanged for rules and card indexing.
@@ -5686,14 +5747,20 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
     return esc(line).replace(/\uE100(\d+)\uE101/g,(_,i)=>fragments[Number(i)]||'');
   }
+  function fullArtAtkHp(card){
+    const r=cardRule(card);
+    if(!Number.isFinite(r?.atk)||!Number.isFinite(r?.hp))return '';
+    return `<span class="etg-full-art-atkhp" aria-label="Attack ${r.atk}, Health ${r.hp}">${r.atk}|${r.hp}</span>`;
+  }
   function cardFace(card){
+    const stats=fullArtAtkHp(card);
     if(card.cardFrameUrl){
       const rule=cardRule(card),cost=rule?.cost;
-      const stats=Number.isFinite(rule?.atk)?` · ${rule.atk}/${rule.hp||0}`:'';
-      return `<span class="card-in aether-authored-face" style="background-image:url('${String(card.cardFrameUrl).replace(/'/g,'%27')}')"><span class="aether-authored-name">${esc(card.name)}</span>${cost>0?`<span class="aether-authored-cost">${cost}</span>`:''}<span class="aether-authored-description"><span class="aether-authored-meta">${esc(card.type)}${stats}</span><span class="aether-authored-rule">${fullArtAbilityMarkup(card)}</span></span></span>`;
+      // The image-backed frame's art box ends above the description pane.
+      return `<span class="card-in aether-authored-face" style="background-image:url('${String(card.cardFrameUrl).replace(/'/g,'%27')}')"><span class="aether-authored-name">${esc(card.name)}</span>${cost>0?`<span class="aether-authored-cost">${cost}</span>`:''}${stats}<span class="aether-authored-description">${card.type==='Creature'?'':`<span class="aether-authored-meta">${esc(card.type)}</span>`}<span class="aether-authored-rule">${fullArtAbilityMarkup(card)}</span></span></span>`;
     }
     const art=card.artworkUrl?`<img src="${esc(card.artworkUrl)}" alt="${esc(card.name)} artwork" onerror="this.remove()">`:'';
-    return `<span class="card-in"><span class="card-header"><span class="card-name">${esc(card.name)}</span>${cardCostLabel(card)?`<span class="card-cost">${cardCostLabel(card)}</span>`:''}</span><span class="card-art">${art}${!card.artworkUrl?`<span class="card-glyph">${esc(card.symbol)}</span><span class="card-art-label">Card Art</span>`:''}${card.tier==='Upgraded'?'<em class="card-up">UP</em>':''}</span><span class="card-bottom"><span class="card-type">${esc(cardTypeLine(card))}</span><span class="card-rules">${fullArtAbilityMarkup(card)}</span></span></span>`;
+    return `<span class="card-in"><span class="card-header"><span class="card-name">${esc(card.name)}</span>${cardCostLabel(card)?`<span class="card-cost">${cardCostLabel(card)}</span>`:''}</span><span class="card-art">${art}${!card.artworkUrl?`<span class="card-glyph">${esc(card.symbol)}</span><span class="card-art-label">Card Art</span>`:''}${card.tier==='Upgraded'?'<em class="card-up">UP</em>':''}${stats}</span><span class="card-bottom"><span class="card-type">${esc(cardTypeLine(card))}</span><span class="card-rules">${fullArtAbilityMarkup(card)}</span></span></span>`;
   }
   function cardTile(card,quantity='',mode='detail',selected=false){
     return `<button type="button" class="card-tile ${card.tier==='Basic'?'is-base-card':''} ${card.cardFrameUrl?'has-aether-frame':''} ${card.cardFrameUrl&&['Air','Darkness','Death','Entropy','Gravity','Life','Earth','Fire','Water','Light','Time'].includes(card.element)||ENTROPY_CODE_TO_ART[card.legacyCode]?'has-elementia-frame frame-'+(ENTROPY_CODE_TO_ART[card.legacyCode]?'entropy':card.element.toLowerCase()):''} ${selected?'selected':''}" style="${theme(card)};--elementia-card-ratio:${card.cardFrameAspect}" data-action="${mode}" data-id="${esc(card.id)}" aria-label="${esc(card.name)} ${esc(card.tier)}, ${esc(card.element)}${quantity!==''?', quantity '+quantity:''}">${cardFace(card)}
@@ -6030,7 +6097,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(state.scene!=='deck'||!card)return;
     deckPreviewId=card.id;
     const target=root.querySelector('#deck-hover-preview');
-    if(target){target.innerHTML=deckEditorPreview(card);applyPillarNumerals(target);}
+    if(target){target.innerHTML=deckEditorPreview(card);applyPillarNumerals(target);fitElementiaCardRules(target);}
   }
   function deckEditorElementIcon(name){
     return name==='Other'?'<span class="bazaar-other-orb" aria-hidden="true"></span>':
@@ -6116,6 +6183,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     root.querySelectorAll('.bazaar-card-row.selected').forEach(row=>row.classList.remove('selected'));
     root.querySelectorAll(`.bazaar-card-row[data-bazaar-card="${CSS.escape(card.id)}"]`).forEach(row=>row.classList.add('selected'));
     applyPillarNumerals(slot);
+    fitElementiaCardRules(slot);
   }
   function renderShop(){
     const element=bazaarElement(),filtered=bazaarCards();
@@ -6305,6 +6373,12 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   }
   function lightSpellEffect(b,caster,r,t){
     const u=t?.unit, side=t?.side;
+    // The Undead trait on both Skeleton tiers is vulnerable to these two spells.
+    const targetCode=BY_ID[u?.id]?.legacyCode;
+    if(u&&['52m','716'].includes(targetCode)&&['lightHoly','lightBlessing'].includes(r.effect)){
+      deathKill(b,side,u,'holy');
+      return `destroyed ${u.name} (Undead)`;
+    }
     switch(r.effect){
       case 'lightHoly':{
         if(!t)return 'no target';
@@ -6880,10 +6954,13 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
     if(r.effect==='skullShield'&&amount>0){
       const val=Math.max(0,amount-1);
-      if(attacker && amount>=2 && Math.random()<.5/Math.max(1,attacker.hp)){
+      // Conversion chance = 50% / attacking creature's CURRENT HP.
+      // Check on physical attacks even if the 1-point reduction blocks all damage.
+      const currentHp=Number(attacker?.hp)||0;
+      if(attacker && currentHp>0 && Math.random()<.5/currentHp){
         const oldSide=attacking,old=attacker;
         deathKill(b,oldSide,old,'skull');
-        const skeleton=makeCreature(b,old.id.endsWith('upgraded')?'death-716':(OG_BY_CODE['52m']||'og-52m'),oldSide);
+        const skeleton=makeCreature(b,BY_ID[old.id]?.tier==='Upgraded'?(OG_BY_CODE['716']||'death-716'):(OG_BY_CODE['52m']||'og-52m'),oldSide);
         if(skeleton){skeleton.boardSlot=old.boardSlot;enterCreature(b,skeleton,oldSide);}
       }
       return val;
@@ -6899,14 +6976,17 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(u.hp<=0)deathKill(b,side,u);
     return hit;
   }
-  function darkPoison(b,side,u,amount=1){u.poison=(u.poison||0)+amount;
+  function darkPoison(b,side,u,amount=1){
+    // Undead are immune: poison neither accumulates nor ticks on Skeletons.
+    if(u?.abilities?.includes('undead')){u.poison=0;return;}
+    u.poison=(u.poison||0)+amount;
     if(b.questActor==='player'&&amount>0){if(side==='enemy')u.questPoisonByPlayer=true;questRecord('creature_poisoned');}
     if(u.abilities?.includes('voodoo')&&u.hp>0){const key=side==='player'?'enemyPoison':'playerPoison';b[key]=(b[key]||0)+amount;}
   }
   function darkVampirize(u){
     u.abilities=(u.abilities||[]).filter(a=>!REMOVABLE_ABILITIES.has(a)&&!['stoneForm','burrow','infection','liquidShadow'].includes(a));
     if(!u.abilities.includes('vampire'))u.abilities.push('vampire');
-    u.poison=(u.poison||0)+1;
+    if(!u.abilities?.includes('undead'))u.poison=(u.poison||0)+1;
   }
   function darkStartPhase(b,steps,actingSide=null){
     // A Devourer turns a single randomly selected enemy quantum into Darkness quanta.
@@ -6935,6 +7015,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     // All poisoned creatures on the acting side take damage AFTER their attack
     // opportunities. Snapshot all losses, then remove every defeated creature once.
     const units=b[side+'Creatures']||[];
+    for(const u of units)if(u.abilities?.includes('undead'))u.poison=0;
     const poisonHits=units.filter(u=>(u.poison||0)>0).map(u=>({u,amount:u.poison}));
     for(const {u,amount} of poisonHits){
       u.hp-=amount;
@@ -9974,6 +10055,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     preview.innerHTML=`<div class="card-tile ${card.tier==='Basic'?'is-base-card':''} ${card.cardFrameUrl?'has-aether-frame':''} ${card.cardFrameUrl&&['Air','Darkness','Death','Entropy','Gravity','Life','Earth','Fire','Water','Light','Time'].includes(card.element)||ENTROPY_CODE_TO_ART[card.legacyCode]?'has-elementia-frame frame-'+(ENTROPY_CODE_TO_ART[card.legacyCode]?'entropy':card.element.toLowerCase()):''}" style="--elementia-card-ratio:${card.cardFrameAspect}">${cardFace(card)}</div>`;
     applyPillarNumerals(preview);
     previewHost.appendChild(preview);hoverPreview=preview;
+    fitElementiaCardRules(preview);
     const creature=hoveringBattleCreature(anchor);
     if(creature){
       const stats=document.createElement('div');
@@ -10277,6 +10359,25 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
 
+  function fitElementiaCardRules(host){
+    if(!host)return;
+    host.querySelectorAll('.aether-authored-face').forEach(face=>{
+      const box=face.querySelector('.aether-authored-description');
+      const text=face.querySelector('.aether-authored-rule');
+      if(!box||!text||!text.textContent.trim())return;
+      // Start noticeably larger than the legacy 4cqw, then shrink only as needed.
+      const width=face.getBoundingClientRect().width;
+      if(width<1)return;
+      let size=Math.min(23,Math.max(8,width*.064));
+      text.style.fontSize=size+'px';
+      text.style.lineHeight='1.17';
+      const min=width>220?9:5.5;
+      while(size>min&&(box.scrollHeight>box.clientHeight+1||text.scrollWidth>box.clientWidth+1)){
+        size=Math.max(min,size-.5);
+        text.style.fontSize=size+'px';
+      }
+    });
+  }
   function render(){
     clearHoverCard();
     document.body.dataset.elementiaDisplay='desktop';
@@ -10290,6 +10391,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     else if(activeAccountKey&&!state.starterChosen&&state.scene!=='starter')state.scene='starter';
     root.innerHTML=state.scene==='login'?renderLogin():state.scene==='register'?renderRegister():state.scene==='starter'?renderStarterSelection():state.scene==='menu'?renderMenu():state.scene==='music'?renderJukebox():state.scene==='deck'?renderDeck():state.scene==='shop'?renderShop():state.scene==='quests'?renderQuests():renderDuel();
     applyPillarNumerals(root);
+    fitElementiaCardRules(root);
     if(state.scene==='deck'){const upper=root.querySelector('#deck-classic-deck-scroll'),lower=root.querySelector('#deck-classic-owned-scroll');if(upper){upper.scrollLeft=deckUpperX;upper.scrollTop=deckUpperY;}if(lower){lower.scrollLeft=deckLowerX;lower.scrollTop=deckLowerY;}}
     if(state.scene==='quests'){const scroller=root.querySelector('#quest-map-scroller');if(scroller){
       const zoom=Number.parseFloat(getComputedStyle(scroller.querySelector('.quest-map')).zoom)||1;
@@ -10519,7 +10621,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.02-zone-ordered-quanta',isDemo:demo,
+    version:'21.03a-skull-shield-hp-formula',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

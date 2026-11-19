@@ -4088,9 +4088,9 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   font:700 clamp(8px,4.8cqw,20px)/1.15 Georgia,serif;white-space:nowrap;
 }
 .card-tile.has-aether-frame .aether-authored-face>.etg-full-art-atkhp{
-  right:6.5%;top:59.5%;bottom:auto;font-size:clamp(8px,5cqw,21px);
+  right:6.5%;top:58.6%;bottom:auto;font-size:clamp(8px,5cqw,21px);
 }
-.card-tile .card-art>.etg-full-art-atkhp{bottom:2px;right:2px}
+.card-tile .card-art>.etg-full-art-atkhp{bottom:6px;right:2px}
 </style>
 </head>
 <body>
@@ -4266,20 +4266,20 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(!r)return '';
     if(r.family==='pillar'||r.family==='tower')return 'Produces 1 Gravity quanta per turn'+(r.playBonus?'; +1 Gravity immediately when played':'')+'.';
     if(r.family==='pendulum')return 'Alternates 1 Gravity quanta and 1 quanta matching your Mark each turn'+(r.playBonus?'; +1 Gravity when played':'')+'.';
-    if(r.effect==='gravityShield')return 'Shield: prevents attacks from creatures with more than 5 HP; Momentum bypasses it.';
-    if(r.effect==='gravityMomentum')return 'Target creature gains +1/+1 and Momentum, bypassing shields.';
-    if(r.effect==='gravityPull')return 'Redirect normal creature attacks against the target’s owner to that creature. Spells, weapons and Momentum bypass.';
-    if(r.effect==='gravityBlackHole')return 'Absorb up to 3 quanta of every element from the opponent; heal 1 HP per quantum removed.';
+    if(r.effect==='gravityShield')return "Shield: Any creature that has more than 5 HP's is unable to reach you";
+    if(r.effect==='gravityMomentum')return 'Enchant target creature with Momentum.';
+    if(r.effect==='gravityPull')return 'Enchant target creature with Gravity Pull.';
+    if(r.effect==='gravityBlackHole')return "Absorb 3 quanta from each element in your opponent's quanta pool. Heal 1 HP per absorbed quantum.";
     if(r.effect==='gravityAcceleration')return 'Replace the target’s activated skill with '+(r.boost===3?'Overdrive (+3 ATK / -1 HP)':'Acceleration (+2 ATK / -1 HP)')+' before each attack.';
-    if(r.abilities?.includes('chimera'))return 'On summon, fuse all friendly creatures: sum current ATK and HP, gain Momentum and Gravity Pull. Does not trigger deaths.';
-    if(r.activate==='gravityPullSelf')return '1 Gravity: activate Gravity Pull on this creature; draw normal creature attacks to it.';
-    if(r.activate==='devour')return '1 Gravity: devour a target creature with less HP, permanently gaining +1/+1.';
+    if(r.abilities?.includes('chimera'))return 'Combine all your creatures in a single one. Gravity pull, momentum.';
+    if(r.activate==='gravityPullSelf')return '1 Gravity: Gains Gravity Pull';
+    if(r.activate==='devour')return '1 Gravity: Devour. Swallow a creature with lesser HP than Otyugh and gain +1/+1';
     if(r.activate==='ablaze')return '1 Fire: gain +2 ATK permanently.';
-    if(r.activate==='blackHole')return '3 Gravity: absorb up to 3 quanta of each enemy element and heal 1 HP per quantum.';
+    if(r.activate==='blackHole')return "3 Gravity: Black Hole. Absorb 3 quanta from each element in your opponent's quanta pool. Heal 1 HP per absorbed quantum.";
     if(r.activate==='catapult')return r.activateCost+' Gravity: sacrifice a friendly creature; damage the enemy hero based on its current HP. Transfer poison; frozen creatures launch harder.';
     if(r.activate==='accretion')return 'Free: destroy a permanent and gain +0/+15. Above 45 HP, transform into a Black Hole card.';
     if(r.abilities?.includes('momentum'))return 'Momentum: physical attacks bypass all shields and Gravity Pull.';
-    if(r.abilities?.includes('salvaging'))return 'Salvaging: recover a friendly permanent destroyed by the opponent.';
+    if(r.abilities?.includes('salvaging'))return "Salvaging: a permanent destroyed by your opponent is returned to your hand.";
     if(r.abilities?.includes('airborne'))return 'Airborne: attacks over Wings.';
     return 'Original creature attack and health.';
   }
@@ -4805,6 +4805,32 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     '715':'Shield: Reduce damage by 1. Attacking creatures have a (50% ÷ current HP) chance to die and turn into Skeletons.'
   };
   for(const [code,description] of Object.entries(V2103_CARD_DESCRIPTIONS)){
+    const id=OG_BY_CODE[code];
+    if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
+  }
+  // v21.04: approved Gravity card wording for basic and upgraded variants.
+  // The full-art rules processor renders typed "N Gravity:" costs as the real Gravity icon.
+  const V2104_GRAVITY_DESCRIPTIONS={
+    '568':"3 Gravity: Black Hole. Absorb 3 quanta from each element in your opponent's quanta pool. Heal 1 HP per absorbed quantum.",
+    '74o':"3 Gravity: Black Hole. Absorb 3 quanta from each element in your opponent's quanta pool. Heal 1 HP per absorbed quantum.",
+    '55m':'1 Gravity: Gains Gravity Pull',
+    '746':'1 Gravity: Gains Gravity Pull',
+    '560':'Combine all your creatures in a single one. Gravity pull, momentum.',
+    '74g':'Combine all your creatures in a single one. Gravity pull, momentum.',
+    '563':'Salvaging: a permanent destroyed by your opponent is returned to your hand.',
+    '74j':'Salvaging: a permanent destroyed by your opponent is returned to your hand.',
+    '55r':'1 Gravity: Devour. Swallow a creature with lesser HP than Otyugh and gain +1/+1',
+    '74b':'1 Gravity: Devour. Swallow a creature with lesser HP than Otyugh and gain +1/+1',
+    '55v':"Absorb 3 quanta from each element in your opponent's quanta pool. Heal 1 HP per absorbed quantum.",
+    '74f':"Absorb 3 quanta from each element in your opponent's quanta pool. Heal 1 HP per absorbed quantum.",
+    '55t':'Enchant target creature with Gravity Pull.',
+    '74d':'Enchant target creature with Gravity Pull.',
+    '55p':"Shield: Any creature that has more than 5 HP's is unable to reach you",
+    '749':"Shield: Any creature that has more than 5 HP's is unable to reach you",
+    '55q':'Enchant target creature with Momentum.',
+    '74a':'Enchant target creature with Momentum.'
+  };
+  for(const [code,description] of Object.entries(V2104_GRAVITY_DESCRIPTIONS)){
     const id=OG_BY_CODE[code];
     if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
   }
@@ -5749,6 +5775,9 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     return esc(line).replace(/\uE100(\d+)\uE101/g,(_,i)=>fragments[Number(i)]||'');
   }
   function fullArtAtkHp(card){
+    // Weapons receive ATK | HP only when animated onto the battlefield as creatures.
+    // Never render the full-art badge on a weapon's normal card artwork.
+    if(card?.type!=='Creature')return '';
     const r=cardRule(card);
     if(!Number.isFinite(r?.atk)||!Number.isFinite(r?.hp))return '';
     return `<span class="etg-full-art-atkhp" aria-label="Attack ${r.atk}, Health ${r.hp}">${r.atk}|${r.hp}</span>`;
@@ -6563,8 +6592,11 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }else{
       b[side+'Permanents']=(b[side+'Permanents']||[]).filter(x=>x!==u);
     }
-    if(side==='player'&&actingSide==='enemy'&&b.hand.length<GAME_RULES.maxHand&&
-      b.playerCreatures.some(x=>x.abilities?.includes('salvaging')))b.hand.push(u.id);
+    if(actingSide===entropyOther(side)&&
+      b[side+'Creatures'].some(x=>x.abilities?.includes('salvaging'))){
+      const hand=side==='player'?b.hand:b.enemyHand;
+      if(hand.length<GAME_RULES.maxHand)hand.push(u.id);
+    }
     refreshDarkAuras(b);
     return true;
   }
@@ -6731,7 +6763,12 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     chimera.hp=others.reduce((n,u)=>n+(u.hp||0),0);
     chimera.maxHp=chimera.hp;
     b[side+'Creatures']=[]; // Fusion is not death, so no Boneyard/Scavenger triggers.
-    chimera.gravityPull=true;refreshDarkAuras(b);
+    // The fusion itself becomes the single Gravity Pull destination and always
+    // retains Momentum, even if the source creature was modified before fusion.
+    if(!chimera.abilities)chimera.abilities=[];
+    if(!chimera.abilities.includes('momentum'))chimera.abilities.push('momentum');
+    gravityAssignPull(b,side,chimera);
+    refreshDarkAuras(b);
     return others.length;
   }
   function gravityAbilityEffect(b,caster,item,r,target){
@@ -10628,7 +10665,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.03a-skull-shield-hp-formula',isDemo:demo,
+    version:'21.04-gravity-audit',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

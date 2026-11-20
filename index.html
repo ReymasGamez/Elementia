@@ -824,7 +824,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{
   .etg-combat-pop {animation-timing-function:linear}
 }
 </style>
-  <title>Elementia — The Return · v21.08</title>
+  <title>Elementia — The Return · v21.09</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -4932,6 +4932,52 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const id=OG_BY_CODE[code];
     if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
   }
+  // v21.09 — Light audit: official wording for Light cards, basic and upgraded.
+  // Numeric elemental costs use the existing in-game symbol renderer.
+  const V2109_LIGHT_DESCRIPTIONS={
+    "5lh": "Weapon: Deal 7 damage per turn. Immaterial.",
+    "7k1": "Weapon: Deal 8 damage per turn. Immaterial.",
+    "5ll": "3 Light: Endow. Gain the target weapon's ability and +X|+2. X is the weapon's attack.",
+    "7k5": "2 Light: Endow. Gain the target weapon's ability and +X|+2. X is the weapon's attack.",
+    "5le": "1 Light: Heal target creature for up to 5 HP.",
+    "7ju": "1 Light: Heal target creature for up to 5 HP.",
+    "5ls": "4 Light: Luciferin. All your creatures without a skill gain Bioluminescence. Heal yourself for up to 10 HP.",
+    "7kc": "3 Light: Luciferin. All your creatures without a skill gain Bioluminescence. Heal yourself for up to 10 HP.",
+    "5lb": "1 Air: Double this creature's ATK this turn.",
+    "7jr": "1 Air: Double this creature's ATK this turn.",
+    "5lf": "Target creature gains +3/+3.",
+    "7jv": "Target creature gains +3/+3.",
+    "5lc": "Heal target creature for up to 10 HP. If the target's element is Death or Darkness, damage is dealt instead.",
+    "7js": "Heal target creature for up to 10 HP. If the target's element is Death or Darkness, damage is dealt instead.",
+    "5lk": "Shield: Physical damage reduced by N. N is the number of your light-emitting creatures. Immaterial.",
+    "7k4": "Shield: Physical damage reduced by N + 1. N is the number of your light-emitting creatures. Immaterial.",
+    "5lj": "All of your creatures without a skill gain Bioluminescence. Heal yourself for up to 10 HP.",
+    "7k3": "All of your creatures without a skill gain Bioluminescence. Heal yourself for up to 10 HP.",
+    "5li": "Heal yourself to maximum health minus 1. This spell consumes all your Light quanta left.",
+    "7k2": "Heal yourself to maximum health minus 1. This spell consumes all your Light quanta left.",
+    "5lg": "Shield: Any Spell Damage is reflected against your opponent. Immaterial.",
+    "7k0": "Shield: Any Spell Damage is reflected against your opponent. Reduce physical damage by 1. Immaterial.",
+    "5lm": "Your quanta pool and your hand can not be altered during your opponent's turn. Heal 4 HP per turn.",
+    "7k6": "Your quanta pool and your hand can not be altered during your opponent's turn. Heal 4 HP per turn.",
+    "5m6": "Add 16 HP to your maximum health, 24 if you have a Mark of Light.",
+    "7km": "Add 16 HP to your maximum health, 24 if you have a Mark of Light."
+};
+  for(const [code,description] of Object.entries(V2109_LIGHT_DESCRIPTIONS)){
+    const id=OG_BY_CODE[code];
+    if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
+  }
+  // Holy Light only targets creatures, never either hero. Keep its Death/Darkness
+  // damage and Skeleton/Elite Skeleton Undead destruction rules intact.
+  for(const code of ['5lc','7js']){
+    const rule=RULES_BY_CARD[OG_BY_CODE[code]];
+    if(rule){rule.targeting='creature';rule.targetSide='either';}
+  }
+  // Immaterial is intrinsic to these shields, as it already is for Emerald/Jade.
+  // Preserve all original upgraded shield reduction values and indestructibility.
+  for(const code of ['5lg','7k0','5lk','7k4']){
+    const rule=RULES_BY_CARD[OG_BY_CODE[code]];
+    if(rule)rule.abilities=[...new Set([...(rule.abilities||[]),'immaterial'])];
+  }
   function originalCardText(card){
     return ELEMENTIA_CLASSIC_DESCRIPTIONS[card?.id] || card?.review || "No card text available.";
   }
@@ -6484,7 +6530,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   function lightReflectHeroTarget(b,caster,r,target){
     if(!target||!['hero','player'].includes(target.kind)||target.side===caster)return target;
     const shield=lightShieldRule(b,target.side);
-    const damaging=['lightning','drainLife','lightHolyDamage','fireBolt','iceBolt','entropyChaosPower','shardSacrifice'];
+    const damaging=['lightning','drainLife','lightHolyDamage','fireBolt','iceBolt','waterIceBolt','entropyChaosPower','shardSacrifice'];
     if(shield?.spellReflect&&damaging.includes(r?.effect))return {...target,side:caster,code:caster+':hero',reflected:true};
     return target;
   }
@@ -6581,7 +6627,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(r.effect==='lightHope'){
       const glowing=(b[defender+'Creatures']||[]).filter(u=>u.abilities?.includes('bioluminescence')).length;
       const equipped=b[defender+'Shield'];
-      block=Number.isFinite(equipped?.hopeBlock)?equipped.hopeBlock:glowing+(r.block||0);
+      block=glowing+(r.block||0); // current light emitters at the moment of each attack
     }else if(['lightSolarShield','lightMirrorShield'].includes(r.effect))block=r.block||0;
     const absorbed=Math.min(Math.max(0,amount),Math.max(0,block));
     if(r.effect==='lightSolarShield'&&absorbed>0)gainForSide(b,defender,'Light',absorbed,b[defender+'Shield']);
@@ -9934,9 +9980,10 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const boneRule=cardRule(card);
     const remainingBones=boneRule?.effect==='boneWall'&&!concealed
       ? Math.max(0,Number.isFinite(entry.bones)?entry.bones:(boneRule.boneCharges??7)) : null;
-    const nativeImmaterialShield=boneRule?.effect==='lifeEmeraldShield'&&card?.type==='Shield';
-    const enchantedBadge=(entry.earthEnchanted||nativeImmaterialShield)&&!concealed&&!creatureSlot
-      ? `<span class="etg-artifact-immaterial" title="${nativeImmaterialShield?'Immaterial: intrinsic Emerald/Jade Shield protection':'Immaterial: protected by Enchant Artifact'}" aria-label="Immaterial permanent">${ruleQuantumIcon('Time')}</span>`:'';
+    const nativeImmaterialShield=card?.type==='Shield'&&['lifeEmeraldShield','lightHope','lightMirrorShield'].includes(boneRule?.effect);
+    const nativeImmaterialWeapon=card?.type==='Weapon'&&boneRule?.abilities?.includes('immaterial');
+    const enchantedBadge=(entry.earthEnchanted||nativeImmaterialShield||nativeImmaterialWeapon)&&!concealed&&!creatureSlot
+      ? `<span class="etg-artifact-immaterial" title="${nativeImmaterialShield||nativeImmaterialWeapon?'Immaterial: intrinsic equipment protection':'Immaterial: protected by Enchant Artifact'}" aria-label="Immaterial permanent">${ruleQuantumIcon('Time')}</span>`:'';
     const boneBadge=remainingBones===null?'':`<span class="bone-shield-count" aria-label="${remainingBones} bone shields remaining">x${remainingBones}</span>`;
     const timerBadge=Number.isFinite(entry.remaining)&&!concealed
       ?`<span class="etg-timed-count" title="${esc(c.name)}: ${entry.remaining}; expires at the following owner turn end after 0" aria-label="${entry.remaining} timer turns remaining">${entry.remaining}</span>`:'';
@@ -10805,7 +10852,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.08-water-audit',isDemo:demo,
+    version:'21.09-light-audit',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({effectiveAbilityCost,playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

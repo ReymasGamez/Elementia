@@ -4329,12 +4329,12 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(['pillar','tower'].includes(r.family))return `Produce 1 ${r.costElement} quanta per turn${r.playBonus?'; gain 1 on play':''}.`;
     if(r.family==='pendulum')return `Alternate producing ${r.costElement} and Mark quanta${r.playBonus?'; gain 1 on play':''}.`;
     const descriptions={
-      fireBolt:'Deal 3 damage per 10 Fire quanta (minimum 3).',fireShield:'Fire Shield: deal 1 damage to attacking creatures.',
-      fireDeflagration:'Destroy a target permanent.',fireRain:'Deal 3 damage to all opposing creatures and remove Cloak.',
+      fireBolt:'Deals 3 + 1 damage for every 10 Fire quanta to a target.',fireShield:'Shield: attacking creatures take 1 damage.',
+      fireDeflagration:'Destroy target Permanent in a Permanent Zone.',fireRain:'Deals 3 damage to every enemy creature. Removes Cloak.',
       fireImmolation:`Sacrifice a friendly creature: generate ${r.fireGain||6} Fire and 1 of every other element.`,
       fireRage:`Target creature gains +${r.amount||5} ATK and loses ${r.amount||5} HP.`,
-      fireFahrenheit:`Deal ${r.damage||4} plus 1 per 5 Fire quanta to enemy hero at each weapon phase.`,
-      fireBravery:'You and your opponent each draw 2 cards (3 with Fire Mark).',
+      fireFahrenheit:`Weapon: Deal ${r.damage||4} + X damages at the end of every turn. X is the number of Fire quanta in your quanta pool, divided by 5.`,
+      fireBravery:'You and your opponent now draw 2 cards at the start of your turns, 3 if you have a Mark of Fire.',
       waterFreeze:`Freeze creature for ${r.duration||3} turns.`,waterIceBolt:'Deal 2 per 10 Water quanta (minimum 2), with a chance to freeze.',
       waterIceShield:`Reduce physical attack damage by ${r.block||1}; 30% chance to freeze attacking creature.`,
       waterPurify:'Remove poison and sacrifice status; gain regeneration of 2 HP per turn (stacking).',
@@ -4349,8 +4349,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       timeReadiness:'Target creature’s ability cost becomes zero; Time creatures may use it twice this turn.'
     };
     if(descriptions[r.effect])return descriptions[r.effect];
-    const active={ablaze:'Gain +2 ATK',growth:'Gain +2/+2',divineShield:'Become untargetable for one turn',
-      fireRage:`Target creature gains +${r.amount||5}/-${r.amount||5}`,fireRebirth:'Transform into Phoenix',
+    const active={ablaze:'Ablaze. Gains +2/0',growth:'Growth. Gains +2/+2',divineShield:'Divine Shield. Gains Immaterial until your next turn',
+      fireRage:`Target creature gains +${r.amount||5}/-${r.amount||5}`,fireRebirth:'Rebirth. Transforms into a Phoenix',
       waterPoison:'Poison the opposing player by 1',waterSteam:'Gain five steam charges (+5 ATK), lose one each turn',
       waterNymph:'Transform a Pillar/Pendulum into its elemental Nymph',waterTsunami:'Destroy up to three Pillars/Pendulums of the selected group',
       waterFreeze:`Freeze target for ${r.duration||3} turns`,waterRelease:'Remove Shard of Patience',
@@ -4868,6 +4868,36 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const rule=RULES_BY_CARD[OG_BY_CODE[code]];
     if(rule)rule.abilities=[...new Set([...(rule.abilities||[]),'immaterial'])];
   }
+  // v21.07 Fire audit. Keep Fire costs represented by the official elemental icon
+  // in full-art previews through the existing fullArtAbilityMarkup converter.
+  const V2107_FIRE_DESCRIPTIONS={
+    '5f7':'Weapon: Deal 4 + X damages at the end of every turn. X is the number of Fire quanta in your quanta pool, divided by 5.',
+    '7dn':'Weapon: Deal 5 + X damages at the end of every turn. X is the number of Fire quanta in your quanta pool, divided by 5.',
+    '5f3':'1 Fire: Ablaze. Gains +2/0',
+    '7dj':'1 Fire: Ablaze. Gains +2/0',
+    '5fa':'1 Earth: Growth. Gains +2/+2',
+    '7dq':'1 Earth: Growth. Gains +2/+2',
+    '5fc':'When Phoenix dies, generate Ash.',
+    '7ds':'When Phoenix dies, generate Ash.',
+    '5fe':'1 Light: Divine Shield. Gains Immaterial until your next turn.',
+    '7du':'1 Light: Divine Shield. Gains Immaterial until your next turn.',
+    '5f6':'Destroy target Permanent in a Permanent Zone.',
+    '7dm':'Destroy target Permanent in a Permanent Zone.',
+    '5f4':'Deals 3 + 1 damage for every 10 Fire quanta to a target.',
+    '7dk':'Deals 3 + 1 damage for every 10 Fire quanta to a target.',
+    '5f5':'Shield: attacking creatures take 1 damage.',
+    '7dl':'Shield: attacking creatures take 1 damage.',
+    '5f8':'Deals 3 damage to every enemy creature. Removes Cloak.',
+    '7do':'Deals 3 damage to every enemy creature. Removes Cloak.',
+    '5fu':'You and your opponent now draw 2 cards at the start of your turns, 3 if you have a Mark of Fire.',
+    '7ee':'You and your opponent now draw 2 cards at the start of your turns, 3 if you have a Mark of Fire.'
+  };
+  for(const [code,description] of Object.entries(V2107_FIRE_DESCRIPTIONS)){
+    const id=OG_BY_CODE[code];
+    if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
+  }
+  ELEMENTIA_CLASSIC_DESCRIPTIONS['fire-ash']='1 Fire: Rebirth. Transforms into a Phoenix.';
+  ELEMENTIA_CLASSIC_DESCRIPTIONS['fire-ash-upgraded']='1 Fire: Rebirth. Transforms into a Phoenix.';
   function originalCardText(card){
     return ELEMENTIA_CLASSIC_DESCRIPTIONS[card?.id] || card?.review || "No card text available.";
   }
@@ -6727,7 +6757,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
           u.frozen=true;u.freezeTurns=Math.max(u.freezeTurns||0,3);}
         break;
       }
-      case 'fireBolt':darkDamageCreature(b,side,u,3*Math.max(1,Math.floor((casterPool.Fire||0)/10)));break;
+      case 'fireBolt':darkDamageCreature(b,side,u,3+Math.floor(Math.max(0,casterPool.Fire||0)/10));break;
       case 'freeze':if(caster==='player'&&!u.frozen&&!u.freezeTurns)questRecord('creature_frozen');u.frozen=true;u.freezeTurns=3;break;
       case 'parallelUniverse':{
         if(mainCount(b,caster)>=GAME_RULES.maxMainBoard){questEffectApplied=false;break;}
@@ -7657,9 +7687,9 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const other=entropyOther(caster),target=t?.unit,owner=t?.side;
     switch(r.effect){
       case 'fireBolt':case 'waterIceBolt':{
-        const element=r.effect==='fireBolt'?'Fire':'Water',perTen=element==='Fire'?3:2;
+        const element=r.effect==='fireBolt'?'Fire':'Water';
         const quantaBefore=(entropyPool(b,caster)[element]||0)+(r.cost||0);
-        const damage=element==='Water'?classicIceBoltDamage(quantaBefore):perTen*(1+Math.floor(quantaBefore/10));
+        const damage=element==='Water'?classicIceBoltDamage(quantaBefore):(3+Math.floor(Math.max(0,quantaBefore)/10));
         const dealt=target?darkDamageCreature(b,owner,target,damage):darkDamageHero(b,owner,damage);
         if(element==='Water'&&Math.random()<classicIceBoltFreezeChance(damage)){
           if(target&&(b[owner+'Creatures']||[]).includes(target))classicFrozen(target,3);
@@ -7670,7 +7700,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         return 'dealt '+dealt+' '+element+' spell damage';
       }
       case 'fireDeflagration':
-        return t&&entropyDestroyPermanent(b,t,caster)?'destroyed permanent':'no valid permanent';
+        return t&&!t.equipment&&(b[t.side+'Permanents']||[]).includes(t.unit)&&entropyDestroyPermanent(b,t,caster)?'destroyed permanent':'no valid permanent in the zone';
       case 'fireRain':{
         darkDispelCloak(b,other);
         const victims=[...(b[other+'Creatures']||[])];
@@ -7692,11 +7722,8 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       }
       case 'fireBravery':{
         const n=(caster==='player'?state.element:b.enemyMark)==='Fire'?3:2;
-        let mine=0,theirs=0;
-        const otherHand=other==='player'?b.hand:b.enemyHand;
-        const draws=Math.min(n,Math.max(0,GAME_RULES.maxHand-otherHand.length));
-        for(let i=0;i<draws;i++){theirs+=classicDraw(b,other)?1:0;mine+=classicDraw(b,caster)?1:0;}
-        return 'drew '+mine+' cards; opponent drew '+theirs;
+        b.fireBraveryDrawCount=Math.max(b.fireBraveryDrawCount||1,n);
+        return 'Shard of Bravery: both players will draw '+b.fireBraveryDrawCount+' cards at the start of future turns';
       }
       case 'waterFreeze':
         if(!target)return 'no target';classicFrozen(target,r.duration||3);return 'froze '+target.name+' for '+(r.duration||3)+' turns';
@@ -7742,7 +7769,14 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   function classicAbilityEffect(b,caster,item,r,t){
     const other=entropyOther(caster);
     switch(r.activate){
-      case 'divineShield':item.divineUntil=b.turn+1;return 'protected '+item.name+' from targeting until next turn';
+      case 'divineShield':{
+        item.divineUntil=b.turn+1;
+        if(!item.abilities?.includes('immaterial')){
+          item.abilities=[...(item.abilities||[]),'immaterial'];
+          item.divineGrantedImmaterial=true;
+        }
+        return item.name+' gained Immaterial until its next turn';
+      }
       case 'fireRebirth':{
         const id=item.id==='fire-ash-upgraded'?(OG_BY_CODE['7ds']||'fire-7ds'):(OG_BY_CODE['5fc']||'fire-5fc');
         return classicTransformCreature(b,caster,item,id)?'Ash reborn as '+BY_ID[id].name:'rebirth unavailable';
@@ -7891,13 +7925,13 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         for(const type of ['Weapon','Shield','Magical']){
           const u=b[side+type];if(!u)continue;
           if(side==='player'&&darkCloakProtected(b,side,u)||u.earthEnchanted)continue;
-          if(r.resourceTarget||['earthEnchantArtifact','earthEarthquake'].includes(r.effect))continue;
+          if(r.resourceTarget||['earthEnchantArtifact','earthEarthquake','fireDeflagration'].includes(r.effect))continue;
           if(lifeProtectedPermanent(b,{kind:'permanent',side,unit:u,equipment:type.toLowerCase()})||u.earthEnchanted)continue;
           choices.push({kind:'permanent',side,unit:u,equipment:type.toLowerCase(),code:side+':'+type.toLowerCase()});
         }
       }else{
         for(const u of b[side+'Creatures']||[]){
-          if(u.burrowed||u.abilities?.includes('immaterial')&&!r.targetImmaterial||u.divineUntil>=b.turn)continue;
+          if(u.burrowed||u.abilities?.includes('immaterial')&&!r.targetImmaterial||u.divineUntil>b.turn)continue;
           if(side==='player'&&darkCloaked(b,'player'))continue;
           if(r.effect==='fractal'&&!BY_ID[u.id])continue;
           if(r.effect==='nightmare'&&!BY_ID[u.id])continue;
@@ -7927,8 +7961,12 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     return true;
   }
   function aiDraw(b){
-    if(b.enemyHand.length>=GAME_RULES.maxHand||!b.enemyLibrary.length)return '';
-    b.enemyHand.push(b.enemyLibrary.shift());return `Level ${b.aiLevel||0} draws a card.`;
+    const requested=Math.max(1,Math.min(3,Math.trunc(b.fireBraveryDrawCount||1)));
+    let drawn=0;
+    for(let i=0;i<requested&&b.enemyHand.length<GAME_RULES.maxHand&&b.enemyLibrary.length;i++){
+      b.enemyHand.push(b.enemyLibrary.shift());drawn++;
+    }
+    return drawn?`Level ${b.aiLevel||0} draws ${drawn} ${drawn===1?'card':'cards'}.`:'';
   }
   function aiBrickPass(b){
     if(b.enemyPlayed)return '';
@@ -8083,7 +8121,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     for(const side of ['player','enemy']){
       if(side==='player'&&darkCloaked(b,'player'))continue;
       for(const u of b[side+'Creatures']||[]){
-        if(u.burrowed||u.abilities?.includes('immaterial')||u.divineUntil>=b.turn)continue;
+        if(u.burrowed||u.abilities?.includes('immaterial')||u.divineUntil>b.turn)continue;
         if(r.activate==='web'&&!u.abilities?.includes('airborne'))continue;
         if(r.activate==='lobotomize'&&!u.abilities?.some(a=>REMOVABLE_ABILITIES.has(a)))continue;
         if(r.activate==='paradox'&&u.atk<=u.hp)continue;
@@ -8194,7 +8232,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   }
   function aiLevelTwoEstimateDamage(b,r){
     if(r?.effect==='waterIceBolt')return classicIceBoltDamage((b.enemyQuanta.Water||0)+(r.cost||0));
-    if(r?.effect==='fireBolt')return 3*(1+Math.floor(((b.enemyQuanta.Fire||0)+(r.cost||0))/10));
+    if(r?.effect==='fireBolt')return 3+Math.floor(((b.enemyQuanta.Fire||0)+(r.cost||0))/10);
     if(r?.effect==='drainLife')return 2+2*Math.floor(((b.enemyQuanta.Darkness||0)+(r.cost||0))/10);
     return Math.max(1,Number(r?.damage??r?.abilityDamage??r?.poison??3));
   }
@@ -8766,7 +8804,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       playerHp:50,enemyHp:50,playerMaxHp:50,enemyMaxHp:50,playerPoison:0,enemyPoison:0,enemyMark:opponent?opponent.mark:aiRandom(ELEMENTS)[0],enemyQuanta:Object.fromEntries(ELEMENTS.map(([name])=>[name,0])),enemyHand,playerCreatures:[],enemyCreatures:[],
       playerPermanents:[],enemyPermanents:[],playerShield:null,enemyShield:null,playerWeapon:null,enemyWeapon:null,playerMagical:null,enemyMagical:null,shieldUnlockTurn:0,enemyShieldUnlockTurn:0,enemySkyBlitz:false,enemyPlayed:false,
       selectedHand:-1,permanentPages:{player:0,enemy:0},permanentGeometryVersion:14,labOpen:false,labCard:'air-wyrm',abilitySource:'',abilityTarget:'',targetChosen:false,pendingTarget:null,enemyLibrary,log:opponent?aiLevel===3?`Level 3 AI — 42 cards, 2 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; 22 main and 20 secondary, dual Pillars/Pendulums, ${opponent.weapon}; 3-turn tactical planning.`:aiLevel===2?`Level 2 AI — 37 cards, 3 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; 18 Mark cards, 1 Quantum Pillar, 1 Other weapon; no rares.`:`Level 1 AI — 60 cards, 4 elements (${opponent.elements.join(', ')}), Mark ${opponent.mark}; ${opponent.rareCount} rare cards.`:'Level 0 AI — 40 random basic cards, including 10 Pillars and no Rares.',
-      history:[],played:false,skyBlitz:false,ended:false,winner:null,nextKey:2,creaturePlacementVersion:23};
+      history:[],played:false,skyBlitz:false,fireBraveryDrawCount:1,ended:false,winner:null,nextKey:2,creaturePlacementVersion:23};
   }
   // v20.82 — A rematch must retain the currently selected opponent difficulty.
   // Never fall through to newDuel()'s Level 0 default when started from pause.
@@ -9136,7 +9174,15 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       .map(([e,n])=>`${e} +${n-before[e]}`).join(', ')||'no quanta gained';
   }
   function production(b){return productionForSide(b,'player');}
-  function drawDuel(b){if(b.hand.length>=GAME_RULES.maxHand)return 'Hand full (8): draw skipped.';if(!b.library.length)return 'Deck empty: no card drawn.';b.hand.push(b.library.shift());questRecord('card_drawn');return `Drew 1 card (${b.library.length} left).`;}
+  function drawDuel(b){
+    const requested=Math.max(1,Math.min(3,Math.trunc(b.fireBraveryDrawCount||1)));
+    let drawn=0;
+    for(let i=0;i<requested&&b.hand.length<GAME_RULES.maxHand&&b.library.length;i++){
+      b.hand.push(b.library.shift());drawn++;questRecord('card_drawn');
+    }
+    if(!drawn)return b.hand.length>=GAME_RULES.maxHand?'Hand full (8): draw skipped.':'Deck empty: no card drawn.';
+    return `Drew ${drawn} ${drawn===1?'card':'cards'} (${b.library.length} left).`;
+  }
   function brickPass(b){if(b.played)return '';
     const eligible=b.library.map((id,i)=>({id,i,c:BY_ID[id]})).filter(x=>['pillar','tower'].includes(cardRule(x.c)?.family));
     if(!eligible.length)return 'No Pillar/Tower available for brick pass.';
@@ -9180,7 +9226,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(r.targeting==='permanent'){
       if(t.kind!=='permanent')return false;
       if(r.resourceTarget&&!isResourcePermanent(BY_ID[t.unit.id]))return false;
-      if(['earthEnchantArtifact','earthEarthquake'].includes(r.effect)&&(t.equipment||!b[t.side+'Permanents'].includes(t.unit)))return false;
+      if(['earthEnchantArtifact','earthEarthquake','fireDeflagration'].includes(r.effect)&&(t.equipment||!b[t.side+'Permanents'].includes(t.unit)))return false;
       if(r.resourceTarget&&r.effect!=='earthEarthquake'&&mainCount(b,t.side)>=GAME_RULES.maxMainBoard)return false;
       if(darkCloakProtected(b,t.side,t.unit)||lifeProtectedPermanent(b,t)||earthArtifactProtected(t))return false;
       return !(r.effect==='steal'&&mainCount(b)>=GAME_RULES.maxMainBoard&&!isResourcePermanent(BY_ID[t.unit.id])&&!t.equipment);
@@ -9190,7 +9236,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(r.effect==='lifeMitosis'&&BY_ID[t.unit.id]?.type==='Weapon')return false;
     if(darkCloaked(b,t.side)&&t.side==='enemy')return false;
     if(r.effect==='nightmare'&&!BY_ID[t.unit.id])return false;
-    if(t.unit.abilities?.includes('immaterial')&&!r.targetImmaterial||t.unit.divineUntil>=b.turn)return false;
+    if(t.unit.abilities?.includes('immaterial')&&!r.targetImmaterial||t.unit.divineUntil>b.turn)return false;
     if(t.unit.burrowed)return false;
     if(darkCloakProtected(b,t.side,t.unit)&&t.side==='enemy')return false;
     return true;}
@@ -9244,7 +9290,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       if(lifeProtectedPermanent(b,target))return 'Emerald/Jade Shield cannot be destroyed.';
       if(earthArtifactProtected(target))return 'Enchant Artifact protects this permanent from targeting.';
       if(!['destroy','accretion','endow'].includes(r.activate)&&!CLASSIC_TARGET_ABILITY_PERMANENT.has(r.activate)&&target.kind!=='creature')return 'Choose a creature target.';
-      if(target.kind==='creature'&&(target.unit.abilities?.includes('immaterial')||target.unit.burrowed||target.unit.divineUntil>=b.turn))return 'That creature is untargetable.';
+      if(target.kind==='creature'&&(target.unit.abilities?.includes('immaterial')||target.unit.burrowed||target.unit.divineUntil>b.turn))return 'That creature is untargetable.';
       if(r.activate==='paradox'&&target.unit.atk<=target.unit.hp)return 'Paradox requires ATK higher than HP.';
       if(r.activate==='devour'&&target.unit.hp>=item.hp)return 'Devour requires target HP below Otyugh HP.';
       if(CLASSIC_TARGET_ABILITY_PERMANENT.has(r.activate)&&!isResourcePermanent(BY_ID[target.unit.id]))return 'Choose a Pillar or Pendulum.';
@@ -9753,6 +9799,13 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     refreshDarkAuras(b);
     if(!b.ended){
       b.turn++;b.played=false;b.enemyPlayed=false;b.selectedHand=-1;
+      // Temporary Seraph Immaterial expires when its next turn begins.
+      for(const who of ['player','enemy'])for(const u of (b[who+'Creatures']||[])){
+        if(Number.isFinite(u.divineUntil)&&u.divineUntil<=b.turn){
+          if(u.divineGrantedImmaterial)u.abilities=(u.abilities||[]).filter(a=>a!=='immaterial');
+          delete u.divineGrantedImmaterial;delete u.divineUntil;
+        }
+      }
       steps.push(drawDuel(b));
       if(b.aiLevel===0||b.aiLevel===1||b.aiLevel===2||b.aiLevel===3){const aiDrawn=aiDraw(b);if(aiDrawn)steps.push(aiDrawn);}
     }else steps.push(b.winner==='player'?'Victory.':'Defeat.');
@@ -10719,7 +10772,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.06a-forest-spirit',isDemo:demo,
+    version:'21.07-fire-audit',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({effectiveAbilityCost,playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

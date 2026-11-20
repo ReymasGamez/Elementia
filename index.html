@@ -824,7 +824,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{
   .etg-combat-pop {animation-timing-function:linear}
 }
 </style>
-  <title>Elementia — The Return · v21.05</title>
+  <title>Elementia — The Return · v21.06</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -4286,18 +4286,18 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   function lifeRuleDescription(r){
     if(r.family==='pillar'||r.family==='tower')return 'Produce one Life quanta per turn'+(r.playBonus?'; gain one Life when played':'')+'.';
     if(r.family==='pendulum')return 'Alternately produce one Life quanta and one quanta of your Mark'+(r.playBonus?'; gain one Life on play':'')+'.';
-    if(r.effect==='lifeHeal')return 'Heal your hero for up to 20 HP.';
-    if(r.effect==='lifeThornShield')return 'Shield: attacking creatures have a 75% chance to gain 1 poison'+(r.block?'; reduce physical attack damage by 1':'')+'.';
-    if(r.effect==='lifeEmeraldShield')return 'Shield: reduce physical attack damage by '+r.block+', reflect targeted hero spells, and cannot be destroyed or stolen.';
-    if(r.effect==='lifeRegenerate')return 'Weapon: '+r.atk+' attack; heal your hero 5 HP every weapon phase, even when an attack is blocked.';
-    if(r.effect==='lifeEmpathicBond')return 'At the end of your turn, heal 1 HP for each friendly creature. Multiple Bonds stack.';
-    if(r.effect==='lifeGratitude')return 'At the end of your turn, heal 3 HP (5 HP if your Mark is Life). Multiple Shards stack.';
+    if(r.effect==='lifeHeal')return 'Heal yourself for up to 20 HP.';
+    if(r.effect==='lifeThornShield')return 'Shield: attacking creatures have a 75% chance to be infected.'+(r.block?' Reduce physical damage by 1.':'');
+    if(r.effect==='lifeEmeraldShield')return 'Reduce incoming physical damage by '+r.block+'. Spell Damage is reflected back to your opponent. Immaterial';
+    if(r.effect==='lifeRegenerate')return 'Weapon: Deal '+r.atk+' damages at the end of every turn. Heal yourself for up to 5 HP.';
+    if(r.effect==='lifeEmpathicBond')return 'Every creature in your possession heals you for 1 HP at the end of your turns.';
+    if(r.effect==='lifeGratitude')return 'Heal yourself for up to 3 HP at the end of your turns, or 5 HP if you have a Mark of Life.';
     if(r.effect==='lifeAdrenaline')return 'Target creature gains Adrenaline: multiple attacks per phase, with damage scaling by ATK.';
-    if(r.effect==='lifeMitosis')return 'Replace target creature’s activated skill with Mitosis, costing Life quanta equal to its summoning cost; clone its original card.';
+    if(r.effect==='lifeMitosis')return 'Target non-weapon creature loses all abilities and gains Mitosis. The skill cost is equal to its card cost.';
     if(r.activate==='photosynthesis')return '1 Light: generate 2 Life quanta. Can be activated repeatedly in the same turn. Airborne.';
     if(r.activate==='growth')return '1 Water: permanently gain +2 ATK / +2 HP. Airborne.';
-    if(r.activate==='adrenaline')return '2 Life: target creature gains Adrenaline (multiple attacks each turn).';
-    if(r.abilities?.includes('venom'))return r.atk+'|'+r.hp+'; inflict +1 cumulative poison on successful attacks. Poisonous.';
+    if(r.activate==='adrenaline')return '2 Life: Enchant target creature with Adrenaline.';
+    if(r.abilities?.includes('venom'))return 'Venom: Add 1 poison damage with each successful attack. Cause poisoning if ingested.';
     return r.abilities?.includes('airborne')?'Airborne.':'Original creature attack and health.';
   }
 
@@ -4833,6 +4833,38 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   for(const [code,description] of Object.entries(V2104_GRAVITY_DESCRIPTIONS)){
     const id=OG_BY_CODE[code];
     if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
+  }
+  // v21.06: Life audit — original card text (basic plus corresponding upgraded cards).
+  // Numeric Life costs are rendered with the in-game Life quantum icon by richRuleText().
+  const V2106_LIFE_DESCRIPTIONS={
+    '5c5':'Weapon: Deal 2 damages at the end of every turn. Heal yourself for up to 5 HP.',
+    '7al':'Weapon: Deal 4 damages at the end of every turn. Heal yourself for up to 5 HP.',
+    '5c8':'Venom: Add 1 poison damage with each successful attack. Cause poisoning if ingested.',
+    '7ao':'Venom: Add 1 poison damage with each successful attack. Cause poisoning if ingested.',
+    '5cg':'2 Life: Enchant target creature with Adrenaline.',
+    '7b0':'2 Life: Enchant target creature with Adrenaline.',
+    '5c4':'Reduce incoming physical damage by 1. Spell Damage is reflected back to your opponent. Immaterial',
+    '7ak':'Reduce incoming physical damage by 2. Spell Damage is reflected back to your opponent. Immaterial',
+    '5c6':'Every creature in your possession heals you for 1 HP at the end of your turns.',
+    '7am':'Every creature in your possession heals you for 1 HP at the end of your turns.',
+    '5c2':'Heal yourself for up to 20 HP.',
+    '7ai':'Heal yourself for up to 20 HP.',
+    '5c9':'Target non-weapon creature loses all abilities and gains Mitosis. The skill cost is equal to its card cost.',
+    '7ap':'Target non-weapon creature loses all abilities and gains Mitosis. The skill cost is equal to its card cost.',
+    '5cq':'Heal yourself for up to 3 HP at the end of your turns, or 5 HP if you have a Mark of Life.',
+    '7ba':'Heal yourself for up to 3 HP at the end of your turns, or 5 HP if you have a Mark of Life.',
+    '5c3':'Shield: attacking creatures have a 75% chance to be infected.',
+    '7aj':'Shield: attacking creatures have a 75% chance to be infected. Reduce physical damage by 1.'
+  };
+  for(const [code,description] of Object.entries(V2106_LIFE_DESCRIPTIONS)){
+    const id=OG_BY_CODE[code];
+    if(id)ELEMENTIA_CLASSIC_DESCRIPTIONS[id]=description;
+  }
+  // Both Emerald Shield and Jade Shield are intrinsically Immaterial equipment.
+  // Their existing destruction/stealing immunity is unchanged.
+  for(const code of ['5c4','7ak']){
+    const rule=RULES_BY_CARD[OG_BY_CODE[code]];
+    if(rule)rule.abilities=[...new Set([...(rule.abilities||[]),'immaterial'])];
   }
   function originalCardText(card){
     return ELEMENTIA_CLASSIC_DESCRIPTIONS[card?.id] || card?.review || "No card text available.";
@@ -6289,9 +6321,13 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(r.effect==='lifeMitosis'){
       const card=BY_ID[unit.id],sourceRule=cardRule(card);
       if(!card||card.type!=='Creature'||!Number.isFinite(sourceRule?.cost))return 'invalid clone source';
-      const previous=entropyActiveRule(unit)?.activate;
-      unit.abilities=(unit.abilities||[]).filter(a=>a!==previous&&a!=='mitosis');
-      unit.abilities.push('mitosis');
+      // Mitosis replaces EVERY former passive or activated skill; do not retain
+      // Airborne, Poisonous, generators, etc. (Existing damage/statuses remain.)
+      unit.abilities=['mitosis'];
+      unit.lifeAdrenaline=false;unit.entropyAdrenaline=false;
+      unit.gravityPull=false;unit.entropyGravityPull=false;
+      unit.dive=false;unit.diveBaseAtk=null;unit.burrowed=false;
+      unit.spellAttack=false;
       unit.entropyActivate='mitosis';unit.entropyActivateCost=sourceRule.cost;
       unit.entropyActivateElement='Life';unit.lifeMitosisId=unit.id;
       return 'gave '+unit.name+' Mitosis ('+sourceRule.cost+' Life)';
@@ -9810,8 +9846,9 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const boneRule=cardRule(card);
     const remainingBones=boneRule?.effect==='boneWall'&&!concealed
       ? Math.max(0,Number.isFinite(entry.bones)?entry.bones:(boneRule.boneCharges??7)) : null;
-    const enchantedBadge=entry.earthEnchanted&&!concealed&&!creatureSlot
-      ? `<span class="etg-artifact-immaterial" title="Immaterial: protected by Enchant Artifact" aria-label="Immaterial permanent">${ruleQuantumIcon('Time')}</span>`:'';
+    const nativeImmaterialShield=boneRule?.effect==='lifeEmeraldShield'&&card?.type==='Shield';
+    const enchantedBadge=(entry.earthEnchanted||nativeImmaterialShield)&&!concealed&&!creatureSlot
+      ? `<span class="etg-artifact-immaterial" title="${nativeImmaterialShield?'Immaterial: intrinsic Emerald/Jade Shield protection':'Immaterial: protected by Enchant Artifact'}" aria-label="Immaterial permanent">${ruleQuantumIcon('Time')}</span>`:'';
     const boneBadge=remainingBones===null?'':`<span class="bone-shield-count" aria-label="${remainingBones} bone shields remaining">x${remainingBones}</span>`;
     const timerBadge=Number.isFinite(entry.remaining)&&!concealed
       ?`<span class="etg-timed-count" title="${esc(c.name)}: ${entry.remaining}; expires at the following owner turn end after 0" aria-label="${entry.remaining} timer turns remaining">${entry.remaining}</span>`:'';
@@ -10680,7 +10717,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.05-earth-audit',isDemo:demo,
+    version:'21.06-life-audit',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
     testRules:Object.freeze({effectiveAbilityCost,playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})

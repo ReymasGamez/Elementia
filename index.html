@@ -824,7 +824,7 @@ body[data-elementia-display="desktop"] .etg-og-hp-with-poison .etg-poison-skull{
   .etg-combat-pop {animation-timing-function:linear}
 }
 </style>
-  <title>Elementia — The Return · v21.09</title>
+  <title>Elementia — The Return · v21.10</title>
 <style id="elementia-player-cleanup">.etg-ability-lab{display:none}body[data-elementia-dev="1"] .etg-ability-lab{display:block}.action-stack .button{min-height:57px;display:flex;align-items:center;justify-content:center;font-size:16px}.page-title p:empty{display:none}.etg-hand-card{min-height:46px}.card-bottom{font-size:11px;line-height:1.25}.detail-row p{font-size:13px}</style><style id="og-starter-v15">.og-starter-block{margin-top:17px;border-top:1px solid #73614280;padding-top:14px}.og-starter-block .button{font-size:15px;padding:13px;min-height:50px}.og-starter-details{margin-top:12px;border:1px solid #826e4d88;border-radius:4px;padding:12px;text-align:left}.og-starter-details summary{cursor:pointer;color:#e9d7a8;font:15px Georgia,serif}.og-starter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 16px;margin-top:14px}.og-starter-row{display:flex;align-items:center;gap:5px;justify-content:space-between;padding:5px 2px;border-bottom:1px solid #c5b68a2e;font:12px Georgia,serif}.og-starter-row span:first-child{flex:1;overflow-wrap:anywhere}.og-starter-qty{color:#f2d78a;white-space:nowrap}.og-starter-pending{font-size:12px;color:#c4a771}.og-starter-legend{margin-top:13px;color:#c2baa6;font:12px Georgia,serif}@media(max-width:420px){.og-starter-grid{grid-template-columns:1fr}}</style><style id="og-starter-v16">.og-starter-block{margin-top:14px;padding-top:13px}.og-starter-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;align-items:start}.og-starter-actions>.button{width:100%;min-height:47px;font-size:13px;padding:9px 7px}.og-starter-actions>.og-starter-details{margin:0;padding:0;min-width:0;border:0;border-radius:0;overflow:visible}.og-starter-actions>.og-starter-details summary.button{width:100%;min-height:47px;display:flex;align-items:center;justify-content:center;line-height:1.2;font-size:13px;padding:9px 7px;list-style:none;text-align:center}.og-starter-actions>.og-starter-details summary.button::-webkit-details-marker{display:none}.og-starter-actions>.og-starter-details[open]{grid-column:1 / -1;grid-row:2;background:linear-gradient(#1a2522,#101717);border:1px solid #826e4d88;padding:9px}.og-starter-actions>.og-starter-details[open] summary.button{margin-bottom:8px}.og-starter-grid{max-height:285px;overflow:auto;overscroll-behavior:contain}.og-starter-row{font-size:12px}.og-starter-legend{margin-top:8px;font-size:11px}@media(max-width:600px){.og-starter-actions{grid-template-columns:1fr 1fr;gap:6px}.og-starter-actions>.button,.og-starter-actions summary.button{font-size:12px!important;min-height:46px!important;padding:7px 4px!important}}@media(max-width:370px){.og-starter-actions{grid-template-columns:1fr}.og-starter-actions>.og-starter-details[open]{grid-row:auto}}</style>
 <style id="elementia-v17-2-display-modes">
 /* v17.2: Mode selection is cosmetic; the default mobile board is unchanged. */
@@ -4978,6 +4978,31 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const rule=RULES_BY_CARD[OG_BY_CODE[code]];
     if(rule)rule.abilities=[...new Set([...(rule.abilities||[]),'immaterial'])];
   }
+  // v21.10 — Air audit. Preserve hidden Ranged and Flying Weapon's conversion logic.
+  Object.assign(ELEMENTIA_CLASSIC_DESCRIPTIONS,{
+    'air-eyes':"Weapon: Deal 5 damage at the end of every turn. 2 Air: Deal 3 damage to target creature.",
+    'air-eyes-upgraded':"Weapon: Deal 7 damage at the end of every turn. 2 Air: Deal 3 damage to target creature.",
+    'air-queen':"1 Life: Generate a Firefly.",
+    'air-queen-upgraded':"1 Life: Generate an Elite Firefly.",
+    'air-wyrm':"2 Air: Double this creature's ATK this turn.",
+    'air-elite-wyrm':"2 Air: Double this creature's ATK this turn.",
+    'air-flying-weapon':"Turn your weapon into a creature.",
+    'air-flying-weapon-upgraded':"Turn your weapon into a creature.",
+    'air-fog':"Shield: The attacking creatures have a 40% chance to miss.",
+    'air-fog-upgraded':"Shield: The attacking creatures have a 40% chance to miss.",
+    'shard-freedom':"Your airborne creatures gain a 25% chance to deal +50% more Damage, ignore shields, and are immaterial if Air.",
+    'shard-freedom-u':"Your airborne creatures gain a 25% chance to deal +50% more Damage, ignore shields, and are immaterial if Air.",
+    'air-unstable-gas':"1 Fire: Ignite. Sacrifice this permanent and deal 20 damage to the opponent and 1 to all creatures on the board.",
+    'air-unstable-gas-upgraded':"1 Fire: Ignite. Sacrifice this permanent and deal 20 damage to the opponent and 1 to all creatures on the board.",
+    'air-wings':"For 5 turns, only flying and/or ranged weapons can damage you.",
+    'air-wings-upgraded':"For 5 turns, only flying and/or ranged weapons can damage you."
+  });
+  // Both versions of Firefly Queen now use 1 Life, summoning the matching Firefly tier.
+  for(const id of ['air-queen','air-queen-upgraded'])RULES_BY_CARD[id].activateCost=1;
+  // Ignite already deals 20 damage to the opponent. Confirm the approved damage
+  // on both tiers without touching unrelated AoE spells or card attack values.
+  for(const id of ['air-unstable-gas','air-unstable-gas-upgraded'])RULES_BY_CARD[id].abilityDamage=20;
+
   function originalCardText(card){
     return ELEMENTIA_CLASSIC_DESCRIPTIONS[card?.id] || card?.review || "No card text available.";
   }
@@ -5895,6 +5920,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
     const fragments=[];
     const insert=(name)=>{const ix=fragments.push(ruleQuantumIcon(name))-1;return '\uE100'+ix+'\uE101';};
+    if(rule.effect==='freedom')line=line.replace(/\bif\s+Air\b/gi,()=> 'if '+insert('Air'));
     // "quantum of Earth", "Earth quantum", "Water quanta".
     line=line.replace(/\bquant(?:um|a)\s+of\s+(Aether|Air|Darkness|Death|Earth|Entropy|Fire|Gravity|Life|Light|Time|Water)\b/gi,
       (_,name)=>insert(name));
@@ -8009,7 +8035,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         }
       }else{
         for(const u of b[side+'Creatures']||[]){
-          if(u.burrowed||u.abilities?.includes('immaterial')&&!r.targetImmaterial||u.divineUntil>b.turn)continue;
+          if(u.burrowed||creatureImmaterial(b,u,side)&&!r.targetImmaterial||u.divineUntil>b.turn)continue;
           if(side==='player'&&darkCloaked(b,'player'))continue;
           if(r.effect==='fractal'&&!BY_ID[u.id])continue;
           if(r.effect==='nightmare'&&!BY_ID[u.id])continue;
@@ -8199,7 +8225,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     for(const side of ['player','enemy']){
       if(side==='player'&&darkCloaked(b,'player'))continue;
       for(const u of b[side+'Creatures']||[]){
-        if(u.burrowed||u.abilities?.includes('immaterial')||u.divineUntil>b.turn)continue;
+        if(u.burrowed||creatureImmaterial(b,u,side)||u.divineUntil>b.turn)continue;
         if(r.activate==='web'&&!u.abilities?.includes('airborne'))continue;
         if(r.activate==='lobotomize'&&!u.abilities?.some(a=>REMOVABLE_ABILITIES.has(a)))continue;
         if(r.activate==='paradox'&&u.atk<=u.hp)continue;
@@ -8260,7 +8286,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         b.enemyPermanents=b.enemyPermanents.filter(p=>p.key!==item.key);
         lightDamageHeroSpell(b,'enemy','player',r.abilityDamage||10);
         for(const side of ['player','enemy'])for(const u of [...b[side+'Creatures']]){
-          if(!u.abilities?.includes('immaterial')&&!u.burrowed&&!u.statuses?.includes('invisible')&&!darkCloaked(b,side))darkDamageCreature(b,side,u,1);
+          darkDamageCreature(b,side,u,1);
         }
         break;
       }
@@ -9277,6 +9303,13 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     return {count,criticalChance:Math.min(1,count*.25),criticalMultiplier:1.5,
       airTargetEvasion:Math.min(1,count*.25)};
   }
+  function airShardImmaterial(b,unit,side='player'){
+    const mark=side==='player'?state.element:b.enemyMark;
+    return !!(b&&unit?.abilities?.includes('airborne')&&mark==='Air'&&shardBonuses(b,side).count>0);
+  }
+  function creatureImmaterial(b,unit,side='player'){
+    return !!(unit?.abilities?.includes('immaterial')||airShardImmaterial(b,unit,side));
+  }
   function spellAttack(unit){return !!(unit?.spellAttack||unit?.abilities?.includes('psion'));}
   // A critical attack from Shard of Freedom bypasses physical-attack shields.
   // Only applies to future/training shields explicitly configured to block physical damage;
@@ -9290,7 +9323,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   function isAirAirborne(unit){return !!(unit?.abilities?.includes('airborne') && BY_ID[unit.id]?.element==='Air');}
   // For current/future opponent targeting, a missed attempt must not damage the unit.
   function targetEvasionTrial(b,unit,side='player',roll=Math.random()){
-    const chance=isAirAirborne(unit)?shardBonuses(b,side).airTargetEvasion:0;
+    const chance=airShardImmaterial(b,unit,side)?1:0;
     return {chance,evaded:chance>0 && roll<chance};
   }
   // Explicit targeting only: never choose a creature for the player.
@@ -9314,7 +9347,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(r.effect==='lifeMitosis'&&BY_ID[t.unit.id]?.type==='Weapon')return false;
     if(darkCloaked(b,t.side)&&t.side==='enemy')return false;
     if(r.effect==='nightmare'&&!BY_ID[t.unit.id])return false;
-    if(t.unit.abilities?.includes('immaterial')&&!r.targetImmaterial||t.unit.divineUntil>b.turn)return false;
+    if(creatureImmaterial(b,t.unit,t.side)&&!r.targetImmaterial||t.unit.divineUntil>b.turn)return false;
     if(t.unit.burrowed)return false;
     if(darkCloakProtected(b,t.side,t.unit)&&t.side==='enemy')return false;
     return true;}
@@ -9368,7 +9401,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       if(lifeProtectedPermanent(b,target))return 'Emerald/Jade Shield cannot be destroyed.';
       if(earthArtifactProtected(target))return 'Enchant Artifact protects this permanent from targeting.';
       if(!['destroy','accretion','endow'].includes(r.activate)&&!CLASSIC_TARGET_ABILITY_PERMANENT.has(r.activate)&&target.kind!=='creature')return 'Choose a creature target.';
-      if(target.kind==='creature'&&(target.unit.abilities?.includes('immaterial')||target.unit.burrowed||target.unit.divineUntil>b.turn))return 'That creature is untargetable.';
+      if(target.kind==='creature'&&(creatureImmaterial(b,target.unit,target.side)||target.unit.burrowed||target.unit.divineUntil>b.turn))return 'That creature is untargetable.';
       if(r.activate==='paradox'&&target.unit.atk<=target.unit.hp)return 'Paradox requires ATK higher than HP.';
       if(r.activate==='devour'&&target.unit.hp>=item.hp)return 'Devour requires target HP below Otyugh HP.';
       if(r.activate==='waterNymph'&&!isResourcePermanent(BY_ID[target.unit.id]))return 'Choose a Pillar or Pendulum.';
@@ -9551,12 +9584,12 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
         lightDamageHeroSpell(b,'player','enemy',r.abilityDamage);
         let affected=0;
         for(const arr of [b.playerCreatures,b.enemyCreatures])for(const unit of arr){
-          if(!unit.abilities?.includes('immaterial')&&!unit.burrowed&&!unit.statuses?.includes('invisible')&&!darkCloaked(b,b.playerCreatures.includes(unit)?'player':'enemy')){darkDamageCreature(b,b.playerCreatures.includes(unit)?'player':'enemy',unit,1);affected++;}
+          {darkDamageCreature(b,b.playerCreatures.includes(unit)?'player':'enemy',unit,1);affected++;}
         }
         b.playerCreatures=b.playerCreatures.filter(x=>x.hp>0);
         b.enemyCreatures=b.enemyCreatures.filter(x=>x.hp>0);
         b.abilitySource='';
-        message=`${c.name}: Ignite sacrifices Unstable Gas, deals ${r.abilityDamage} spell damage to the enemy player and 1 to ${affected} targetable creatures.`;break;
+        message=`${c.name}: Ignite sacrifices Unstable Gas, deals ${r.abilityDamage} spell damage to the enemy player and 1 to ${affected} creatures.`;break;
       }
       case 'queen':{
         const baby=c.tier==='Upgraded'?'air-elite-firefly':'air-firefly',rule=cardRule(BY_ID[baby]);
@@ -9753,7 +9786,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     if(shield){
       const sh=cardRule(BY_ID[shield.id]);
       if(sh?.effect==='dimensionalShield'||sh?.effect==='wingsShield'&&!r.abilities?.includes('ranged'))damage=0;
-      if(sh?.effect==='fogShield'&&Math.random()<.4)damage=0;
+      // Fog Shield misses apply to attacking creatures, not equipped weapons.
       if(sh?.effect==='duskShield'&&Math.random()<.5)damage=0;
     }
     damage=entropyShieldHit(b,opponent,damage,!r.abilities?.includes('momentum'));
@@ -9915,7 +9948,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
   }
   // Each creature always reserves five sockets, in this fixed order. The
   // socket is invisible unless the matching condition is present in game state.
-  function creatureConditionSockets(entry){
+  function creatureConditionSockets(entry,b,side){
     const abilities=new Set(Array.isArray(entry?.abilities)?entry.abilities:[]);
     const poison=Math.max(0,Math.trunc(Number(entry?.poison)||0));
     const states=[
@@ -9923,7 +9956,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
       {name:'Adrenaline',key:'adrenaline',active:!!(entry?.lifeAdrenaline||entry?.entropyAdrenaline),symbol:'✶'},
       {name:'Gravity Pull',key:'gravity-pull',active:!!(entry?.gravityPull||entry?.entropyGravityPull),element:'Gravity'},
       {name:'Poison',key:'poison',active:poison>0,element:'Death',count:poison},
-      {name:'Immaterial',key:'immaterial',active:abilities.has('immaterial'),element:'Time'}
+      {name:'Immaterial',key:'immaterial',active:creatureImmaterial(b,entry,side),element:'Time'}
     ];
     return `<span class="etg-creature-conditions" aria-label="Creature condition indicators">${states.map((v,i)=>{
       const artwork=v.element?ruleQuantumIcon(v.element):`<span aria-hidden="true">${v.symbol}</span>`;
@@ -9991,7 +10024,7 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     const statsText=creature&&!concealed?`<span class="tinycard-stats" aria-label="${entry.atk||0} attack, ${entry.hp||0} health">${entry.atk||0}${creatureSlot?'|':'/'}${entry.hp||0}${entry.dive?' ✧':''}${spellAttack(entry)?' ✦':''}${entry.burrowed?' ⌄':''}</span>`:'';
     const abilityCaption=creatureSlot&&creature&&!concealed?creatureBoardAbility(entry,card):'';
     return `<button type="button" class="etg-slot occupied ${creatureSlot?'og-creature-face':''} ${creatureSlot&&card?.tier==='Basic'?'is-base-creature':''} ${artMarkup?'has-aether-art':''} ${ready?'ability-ready':''} ${targetable?'target-candidate':''} ${isOngoing?'ongoing-permanent':''} ${b.lastPlacedKey===entry.key?'newly-placed':''}" data-action="${action}" data-key="${entry.key??''}" data-side="${side}" data-id="${esc(entry.id)}" ${Number.isInteger(entry.reserveSlot)?`data-resource-slot="${entry.reserveSlot}"`:``} ${card&&!concealed?`data-hover-card="${esc(card.id)}"`:''} style="${styles}" title="${concealed?'Hidden':esc(c.name)}" aria-label="${side} ${esc(label)}: ${concealed?'Hidden':esc(c.name)}${creature?', '+entry.atk+' attack / '+entry.hp+' health':''}${stackCount>1?', '+stackCount+' stacked cards':''}${remainingBones!==null?', '+remainingBones+' bone shields remaining':''}${targetable?', legal target: tap crosshair':''}${ready?', paid ability ready':''}">
-      ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${creatureSlot&&creature&&!concealed?creatureConditionSockets(entry):''}${countText}${boneBadge}${timerBadge}${enchantedBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
+      ${artMarkup}${creatureSlot?`<span class="tinycard-title">${concealed?'Hidden':esc(c.name)}</span>`:''}${artMarkup?'':`<span class="rune">${concealed?'?':boardSymbol(entry)}</span>`}${abilityCaption}${statsText}${creatureSlot&&creature&&!concealed?creatureConditionSockets(entry,b,side):''}${countText}${boneBadge}${timerBadge}${enchantedBadge}${ready?abilityOrbits():''}${targetable?crosshair():''}</button>`;
   }
   function creatureRows(b,side){
     const units=b[side+'Creatures']||[];
@@ -10852,10 +10885,10 @@ body.etg-deck-active #main{max-width:none;width:100%;margin:0;padding:0}
     }
   }
   window.ElementiaInterface = Object.freeze({
-    version:'21.09-light-audit',isDemo:demo,
+    version:'21.10-air-audit',isDemo:demo,
     navigate:scene=>navigate(scene),
     getSnapshot:()=>({scene:state.scene,authenticated:!!activeAccountKey,player:activeAccountKey?state.player:'',mark:activeAccountKey?state.element:null,deck:activeAccountKey?{...state.deck}:{},inventory:activeAccountKey?{...state.inventory}:{},credits:activeAccountKey?state.credits:null,quests:activeAccountKey?JSON.parse(JSON.stringify(state.quests)):null,questStatus:activeAccountKey?Object.fromEntries(QUESTS.map(q=>[q.id,questStatus(q.id)])):null,cards:CARDS.length,duel:activeAccountKey&&state.duel?JSON.parse(JSON.stringify(state.duel)):null}),
-    testRules:Object.freeze({effectiveAbilityCost,playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
+    testRules:Object.freeze({effectiveAbilityCost,playQuantaGainShimmer,QUANTA_COLORS,flushQuantaGainShimmers,gainForSide,getCardByCode:code=>BY_ID[OG_BY_CODE[code]],findCardForTest:(name,tier='Basic')=>CARDS.find(c=>c.name===name&&c.tier===tier),renderBattleSlot,entropyTransform,entropyRandomMutant,entropyApplyMutant,cloneCreatureForParallelUniverse,classicIceBoltDamage,classicIceBoltFreezeChance,originalElementsRarity,bazaarCanBuy,bazaarCards,isClassicRare,earthSpellEffect,earthAbilityEffect,earthPetrifyCreature,earthArtifactProtected,classicSpellEffect,classicAbilityEffect,classicShieldHit,classicBeforeAttack,classicEndPhase,classicFrozen,classicReverse,classicNymphTears,classicDraw,classicTransformCreature,lightSpellEffect,lightAbilityEffect,lightShieldHit,lightEndPhase,lightSanctuaryActive,lightLuciferin,lightEndowTarget,lifeSpellEffect,lifeAbilityEffect,lifeEndPhase,lifeShieldHit,lifeAdrenalineStrikes,lifeReflectHeroSpell,gravityBlackHole,gravitySpellEffect,gravityAbilityEffect,gravityChimeraFusion,gravityRedirect,deathOnKill,deathKill,deathInflictPlague,deathSacrifice,deathResolveSpell,deathShieldHit,isClassicRare,levelZeroDeck,levelOneDeck,levelTwoDeck,levelThreeDeck,levelOneIsRare,aiLevelThreeThreat,aiLevelThreeChooseTarget,aiLevelThreeCardValue,aiLevelThreeBeamPlan,aiLevelThreeAbilityWorth,aiLevelThreeTakeTurn,aiLevelOneTargetAllowed,aiLevelTwoForecast,aiLevelTwoChooseTarget,aiLevelTwoShouldHoldSpell,aiLevelTwoAbilityWorth,aiLevelTwoTakeTurn,aiAbilityTargets,aiCanPay,aiSpend,aiLegalTargets,aiCanPlay,aiPlayCard,aiTakeTurn,aiActivate,aiAbilityReady,aiDraw,aiBrickPass,resolveActingSide,resolvePermanentEffects,killCreatureBatch,discardHandCard,discardAiCard,resolveCreatureCombat,resolveWeaponCombat,resolvePlayerPoison,resolveCreaturePoisonBatch,advancePermanentTimers,advanceCreatureTimers,advanceWeaponFreeze,ownerEndCountdown,orderedCreatureAttackers,creaturePositionNumber,productionForSide,ageDefensiveShields,darkAura,refreshDarkAuras,darkStartPhase,darkEndPhase,darkPoisonPhase,darkDamageHero,darkDamageCreature,darkHeal,createDuel:newDuel,production,brickPass,gain,cardRule,playHand,endTurn,zoneCards,mainCount,abilityEntries,abilityReason,sourceByKey,potentialTarget,tapAbilityCard,chooseFreeCreatureSlot,assignPermanentSlot,addPermanent,legalAbilityTargets,readyToGlow,useAbility,validSpellTarget,legalSpellTargets,isTargetCandidate,selectCrosshairTarget,cancelTarget,shardBonuses,wisdomTarget,targetEvasionTrial,airShardImmaterial,creatureImmaterial,originalCardText,fullArtAbilityMarkup,spellAttack,resolveCreatureStrike,labEnemyTarget,makeCreature,enemyDestroyPermanent,labEnemyDestroy,canAfford,spend,legalSpellTargets,mainCount})
   });
   render();
   prepareUploadedCardPortraits();
